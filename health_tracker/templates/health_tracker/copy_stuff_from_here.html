@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+<!--copy paste the div tags here in your respective templates to make them work-->
+
+{% block body %}
+<div  id="qrcode-generated">
+<!--    this tag will generate the qrcode, the qrcode will be sent from the backend after it's generation-->
+    <img src="data:image/png;base64,{{image}}" alt="Invalid Image">
+</div>
+{% endblock body %}
