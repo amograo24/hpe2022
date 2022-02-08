@@ -8,8 +8,16 @@ from django.core.validators import MinLengthValidator
 class User(AbstractUser):
     # here add wbid
     # wbid=models.CharField(max_length=16,min_length=12,default=None)
+    division_choices = [
+        ('D/HCW/MS', 'Doctor/Health Care Worker/Medical Staff'),
+        ('I/SP', 'Insurance/Health Service Provider'),
+        ('MSh', 'Medical Shop'),
+        ]
+    division=models.CharField(default=None,choices=division_choices,verbose_name="Do any of the following apply to you",blank=True)
     wbid=models.CharField(default=None,verbose_name="Well-Being ID",max_length=16,validators=[MinLengthValidator(12)],unique=True)
     aadharid=models.CharField(default=None,verbose_name="Aadhar ID",max_length=12,validators=[MinLengthValidator(12)],unique=True)
+    reg_no=models.CharField(default=None,verbose_name="Registration No./License ID")
+    department=models.CharField()
     # image field
 
 # class MedWorkerRep(AbstractUser):
