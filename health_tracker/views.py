@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.core.paginator import Paginator
 import time
+from .utils import gen_unique_id
 # Create your views here.
 
 # class NewUser(forms.ModelForm):
@@ -71,6 +72,6 @@ def register(request):
         return render(request, "auctions/register.html")
 
 def test(request):
-    pass
+    return HttpResponse(gen_unique_id(12, 16))
 
 
