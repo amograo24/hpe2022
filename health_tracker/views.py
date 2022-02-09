@@ -68,10 +68,11 @@ def register(request):
             user.save()
             if code.lower()=="nou":
                 aadharid=request.POST['aadharid']
-                wbid=(gen_unique_id(12, 16))
-                person=request.user
-                patient=Patients(aadharid=aadharid,wbid=wbid,person=person)
-                patient.save()
+                gen_unique_id(aadharid, request.user)
+                # wbid=(gen_unique_id(12, 16))
+                # person=request.user
+                # patient=Patients(aadharid=aadharid,wbid=wbid,person=person)
+                # patient.save()
             elif code.lower()=='hcw-i-sp-msh':
                 reg_no=request.POST['reg_no']
                 hcwvid=(gen_unique_id(12, 16)) # kushal gotta make one here
