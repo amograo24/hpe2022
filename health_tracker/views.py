@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http40
 from django.shortcuts import render
 from django.urls import reverse
 from django import forms
-from .models import User #,MedWorkerRep
+from .models import User, MedWorkerRep, Patients 
 import datetime
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -67,9 +67,18 @@ def register(request):
             user = User.objects.create_user(username, email, password)
             user.save()
             if code.lower()=="nou":
-                pass
+                aadharid=request.POST['aadharid']
+                wbid=(gen_unique_id(12, 16))
+                person=request.user
+                patient=Patients(aadharid=aadharid,wbid=wbid,person=person)
+                patient.save()
             elif code.lower()=='hcw-i-sp-msh':
-                pass
+                reg_no=request.POST['reg_no']
+                hcwvid=(gen_unique_id(12, 16)) # kushal gotta make one here
+                account=request.user
+                department=request.POST['department']
+                medworkerrep=MedWorkerRep(reg_no=reg_no,hcwvid=hcwvid,account=account,department=department)
+                medworkerrep.save()
         except IntegrityError:
             return render(request, "auctions/register.html", {
                 "message": "Username already taken."
