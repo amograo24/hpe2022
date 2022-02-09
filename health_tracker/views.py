@@ -47,7 +47,12 @@ def register(request):
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
-        
+        code=request.POST["code"]
+
+        if code not in ['NoU','HCW-I-SP-MSh']:
+            return render(request, "health_tracker/register.html", {
+                "message": "An error occured, please fill the form again."
+            })
         # Ensure password matches confirmation
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
@@ -59,8 +64,11 @@ def register(request):
         # Attempt to create new user
         try:
             user = User.objects.create_user(username, email, password)
-            user_watchlist=WatchList.objects.create(user=user)
             user.save()
+            if code.lower()=="nou":
+                pass
+            elif code.lower()=='hcw-i-sp-msh':
+                pass
         except IntegrityError:
             return render(request, "auctions/register.html", {
                 "message": "Username already taken."
