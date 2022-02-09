@@ -25,7 +25,7 @@ class MedWorkerRep(models.Model):
     # division=models.CharField(default=None,max_length=20,choices=division_choices,verbose_name="Do any of the following apply to you",blank=True)
     department=models.CharField(default=None,max_length=100,null=True) #give choices
     reg_no=models.CharField(default=None,max_length=20,verbose_name="Registration No./License ID")
-    hcwvid=models.CharField(default=None,max_length=10,verbose_name="Health Care Worker/Vendor ID",unique=True)
+    hcwvid=models.CharField(default=None,max_length=11,verbose_name="Health Care Worker/Vendor ID",unique=True)
     account=models.ForeignKey(User,on_delete=models.CASCADE,related_name="account",default=None)
     # customers=models.ManyToManyField(Patients,blank=True,related_name='customers')
     def __str__(self):

@@ -1,0 +1,46 @@
+{% extends "online_edu/layout.html" %}
+{% block title %}Register{% endblock %}
+{% block body %}
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+    <div>
+        <div>
+            <h3>Health Tracker</h3>
+            <h1>Register</h1>
+        </div>
+    </div> 
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+        <h4>Username:</h4>
+        <div>
+            <input autofocus type="text" name="username" placeholder="Username">
+        </div>
+        <h4>Email Address:</h4>
+        <div>
+            <input type="email" name="email" placeholder="Email Address">
+        </div>
+        <h4>Choose only if any of the following apply to you:</h4>
+        <div>
+            <select name="c">
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="opel">Opel</option>
+                <option value="audi">Audi</option>
+            </select>
+        </div>
+        <h4>Password:</h4>
+        <div>
+            <input type="password" name="password" placeholder="Password">
+        </div>
+        <h4>Confirm Password:</h4>
+        <div>
+            <input type="password" name="confirmation" placeholder="Confirm Password">
+        </div>
+        <input type="submit" value="Register">
+    </form>
+
+    <p>Already have an account? <a href="{% url 'login' %}">Log In here.</a></p>
+
+{% endblock %}
