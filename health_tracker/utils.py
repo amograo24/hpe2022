@@ -17,4 +17,4 @@ def gen_unique_id(lower: int, upper: int) -> str:
 
 
 if __name__ == "__main__":
-    print(gen_unique_id(5, 10))
+    print(gen_unique_id(12, 16))
