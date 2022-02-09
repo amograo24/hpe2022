@@ -9,6 +9,7 @@ from django.core.validators import MinLengthValidator
 class User(AbstractUser):
     # here add wbid
     # wbid=models.CharField(max_length=16,min_length=12,default=None)
+    full_name = models.CharField(default=None, max_length=200, verbose_name="Full Name")
     division_choices = [
         ('D/HCW/MS', 'Doctor/Health Care Worker/Medical Staff'),
         ('I/SP', 'Insurance/Health Service Provider'),

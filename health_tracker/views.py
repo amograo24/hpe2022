@@ -4,7 +4,8 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http40
 from django.shortcuts import render
 from django.urls import reverse
 from django import forms
-from .models import User, MedWorkerRep, Patients 
+from .models import User, MedWorkerRep, Patients
+from django.contrib.admin.widgets import AdminDateWidget
 import datetime
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -24,17 +25,17 @@ class RegisterForm(forms.Form):
     # first_name = forms.CharField(label='First Name', max_length=100, required=True)
     # last_name = forms.CharField(label='Last Name', max_length=100, required=True)
     email = forms.EmailField(label='Email', required=True)
-    dob = forms.DateField(label='Date of Birth', widget=forms.SelectDateWidget(years=years), required=True)
+    # dob = forms.DateField(label='Date of Birth', widget=AdminDateWidget(), required=True)
     password = forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
     confirm_password = forms.CharField(label='Confirm Password', widget=forms.PasswordInput, required=True)
-    division = forms.ChoiceField(label="Choose any of the following that apply to you", division_choices = [
+    division = forms.ChoiceField(label="Choose any of the following that apply to you", choices=[
         ('D/HCW/MS', 'Doctor/Health Care Worker/Medical Staff'),
         ('I/SP', 'Insurance/Health Service Provider'),
         ('MSh', 'Medical Shop'),
         ('NoU','None of the Above')
         ], required=True)
-    reg_no = forms.CharField(max_length=20, label='Address', required=True)
-    aadharid = forms.CharField(max_length=12, label='City', required=True)
+    reg_no = forms.CharField(max_length=20, label='Registration no.', required=True)
+    aadharid = forms.CharField(max_length=12, label='Aadhar ID', required=True)
     department = forms.CharField(max_length=100)
 
 class LoginForm(forms.Form):
@@ -73,7 +74,7 @@ def logout_view(request):
     return HttpResponseRedirect(reverse("index"))
 
 def register(request):
-    if request.method="POST":
+    if request.method=="POST":
         form=RegisterForm(request.POST)
         if form.is_valid():
             username=form.cleaned_data['username']
@@ -81,30 +82,32 @@ def register(request):
             # first_name=form.cleaned_data['first_name']
             # last_name=form.cleaned_data['last_name']
             email=form.cleaned_data['email']
-            dob=form.cleaned_data['dob']
+            # dob=form.cleaned_data['dob']
             password=form.cleaned_data['password']
             confirm_password=form.cleaned_data['confirm_password']
             division=form.cleaned_data['division']
 
             if password != confirm_password:
                 return render(request, "health_tracker/register.html", {
-                    "form":form
+                    "form":form,
                     "message": "Passwords must match."
             })
             try:
-                user = User.objects.create_user(username, full_name, email, password, dob, division)
+                user = User.objects.create_user(username, email, password, full_name=full_name,
+                                                division=division)
                 user.save()
                 if division.lower()=="nou" or division.lower()==None:
                     aadharid=form.cleaned_data['aadharid']
-                    gen_unique_id(aadharid, request.user)
+                    print(request.user.pk, request.user, request.user.username)
+                    gen_unique_id(aadharid, user)
                 elif division.lower() in ['d/hcw/ms','i/sp','msh']:
                     reg_no=form.cleaned_data['reg_no']
                     dept=form.cleaned_data['department']
-                    get_hcw_vid(reg_no, dept, request.user)
+                    get_hcw_vid(reg_no, dept, user)
             
             except IntegrityError:
                 return render(request, "health_tracker/register.html", {
-                    "form":form
+                    "form":form,
                     "message": "Username already taken."
             })
             login(request, user)
