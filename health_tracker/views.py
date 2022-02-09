@@ -19,7 +19,10 @@ from .utils import gen_unique_id, get_hcw_vid
 #         fields=[]
 
 class RegisterForm(forms.Form):
-    name = forms.CharField(label='Name', max_length=100, required=True)
+    username = forms.CharField(label='Username', max_length=200, required=True)
+    full_name = forms.CharField(label='Full Name', max_length=200, required=True)
+    # first_name = forms.CharField(label='First Name', max_length=100, required=True)
+    # last_name = forms.CharField(label='Last Name', max_length=100, required=True)
     email = forms.EmailField(label='Email', required=True)
     dob = forms.DateField(label='Date of Birth', widget=forms.SelectDateWidget(years=years), required=True)
     password = forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
@@ -33,6 +36,10 @@ class RegisterForm(forms.Form):
     reg_no = forms.CharField(max_length=20, label='Address', required=True)
     aadharid = forms.CharField(max_length=12, label='City', required=True)
     department = forms.CharField(max_length=100)
+
+class LoginForm(forms.Form):
+    pass
+
 
 # class NewUser(forms.ModelForm):
 #     class Meta:
@@ -69,7 +76,10 @@ def register(request):
     if request.method="POST":
         form=RegisterForm(request.POST)
         if form.is_valid():
-            name=form.cleaned_data['name']
+            username=form.cleaned_data['username']
+            full_name=form.cleaned_data['full_name']
+            # first_name=form.cleaned_data['first_name']
+            # last_name=form.cleaned_data['last_name']
             email=form.cleaned_data['email']
             dob=form.cleaned_data['dob']
             password=form.cleaned_data['password']
@@ -82,7 +92,7 @@ def register(request):
                     "message": "Passwords must match."
             })
             try:
-                user = User.objects.create_user(username, email, password, dob, division)
+                user = User.objects.create_user(username, full_name, email, password, dob, division)
                 user.save()
                 if division.lower()=="nou" or division.lower()==None:
                     aadharid=form.cleaned_data['aadharid']
