@@ -88,7 +88,6 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
+
 def test(request):
-    return HttpResponse(gen_unique_id(12, 16))
-
-
+    return HttpResponse("200 OK")
