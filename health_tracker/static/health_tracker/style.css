@@ -3,6 +3,18 @@
     margin: 0px;
 }
 
-form input{
+form input[type=text], input[type=email], input[type=password], input[type=number]{
+    transition-duration: 1s;
     display: block;
+    border: none;
+    background-color: none;
+    border-bottom: 3px solid navy;
+    min-width: 20vw;
+    outline: none;
+}
+
+form input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=number]:focus{
+    transition-duration: 1s;
+    border-bottom: 3px solid red;
+    min-width: 35vw;
 }
