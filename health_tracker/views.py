@@ -21,7 +21,7 @@ from django.core.validators import MinLengthValidator
 #         fields=[]
 
 class RegisterForm(forms.Form): # add min lengths, etc
-    username = forms.CharField(label='Username', max_length=200, required=True)
+    # username = forms.CharField(label='Username', max_length=200, required=True)
     division = forms.ChoiceField(label="Choose any of the following that apply to you", choices=[
         ('D/HCW/MS', 'Doctor/Health Care Worker/Medical Staff'),
         ('I/SP', 'Insurance/Health Service Provider'),
@@ -80,7 +80,7 @@ def register(request):
     if request.method=="POST":
         form=RegisterForm(request.POST)
         if form.is_valid():
-            username=form.cleaned_data['username']
+            # username=form.cleaned_data['username']
             full_name=form.cleaned_data['full_name']
             # first_name=form.cleaned_data['first_name']
             # last_name=form.cleaned_data['last_name']
