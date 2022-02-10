@@ -12,6 +12,7 @@ import json
 from django.core.paginator import Paginator
 import time
 from .utils import gen_unique_id, get_hcw_vid
+from django.core.validators import MinLengthValidator
 # Create your views here.
 
 # class Register(forms.ModelForm):
@@ -35,7 +36,7 @@ class RegisterForm(forms.Form): # add min lengths, etc
         ('NoU','None of the Above')
         ], required=True)
     reg_no = forms.CharField(max_length=20, label='Registration no.', required=True)
-    aadharid = forms.CharField(max_length=12, label='Aadhar ID', required=True)
+    aadharid = forms.CharField(max_length=12, label='Aadhar ID', required=True, widget=forms.TextInput(attrs={"type":"number"}),validators=[MinLengthValidator(12)])
     department = forms.CharField(max_length=100)
 
 class LoginForm(forms.Form):
