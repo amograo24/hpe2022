@@ -96,8 +96,9 @@ def register(request):
                     "message": "Passwords must match."
             })
             try:
-                user = gen_unique_id(email=email, password=password)   # Creating the user here
+               # Creating the user here
                 if division.lower()=="nou" or division.lower()==None:
+                    user = gen_unique_id(email=email, password=password)
                     aadharid=form.cleaned_data['aadharid']
                     if len(aadharid)!=12 or aadharid.isnumeric()==False:
                         return render(request, "health_tracker/register.html",{
@@ -114,11 +115,13 @@ def register(request):
                     Patients(aadharid=aadharid, full_name=full_name, wbid=user.username, person=user).save()
 
                 elif division.lower() in ['d/hcw/ms','i/sp','msh']:
+                    user = get_hcw_vid(email=email, password=password)
                     reg_no=form.cleaned_data['reg_no']
                     dept=form.cleaned_data['department']
-                    get_hcw_vid(reg_no, dept, user)
+                    MedWorkerRep(reg_no=reg_no,department=dept,full_com_name=full_name, hcwvid=user.username, account=user).save()
 
-            except IntegrityError:
+            except IntegrityError as e:
+                print(e)
                 return render(request, "health_tracker/register.html", {
                     "form":form,
                     "message": "Username already taken."

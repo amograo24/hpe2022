@@ -25,15 +25,17 @@ def gen_unique_id(email: str, password: str, lower: int = 12, upper: int = 16) -
     return user
 
 
-def get_hcw_vid(reg_no: str, dept: str, account: User):
+def get_hcw_vid(email:str, password: str):
     hcw_vid = uuid.uuid4()
     hcw_vid = str(hcw_vid)[:10]
-    while MedWorkerRep.objects.filter(hcwvid=hcw_vid):
+    while User.objects.filter(username=hcw_vid):
         hcw_vid = uuid.uuid4()
         hcw_vid = str(hcw_vid)[:10]
-    mwr = MedWorkerRep(department=dept, reg_no=reg_no, account=account, hcwvid=hcw_vid)
-    mwr.save()
-    return hcw_vid
+    user = User.objects.create_user(username=hcw_vid,
+                                    password=password,
+                                    email=email)
+    user.save()
+    return user
 
 
 if __name__ == "__main__":
