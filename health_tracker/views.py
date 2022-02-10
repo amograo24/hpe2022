@@ -157,7 +157,22 @@ def myprofile(request):
             "non_patient":['d/hcw/ms','i/sp','msh']
         })
     else:
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("login"))
+
+# def other_profile(request,id):
+    # if request.user.is_authenticated:
+    #     if request.user==id:
+    #       return HttpResponseRedirect(reverse("myprofile"))
+    #     if Patients.objects.filter(wbid=id):
+    #         pass
+    #     elif MedWorkerRep.objects.filter(hcwvid=id):
+    #         pass
+    #     else:
+    #         raise Http404(f"'{category_name}' category does not exist!") 
+    # else:
+    #     return HttpResponseRedirect(reverse("login"))
+
+
 
 # def register(request):
 #     if request.method == "POST":
