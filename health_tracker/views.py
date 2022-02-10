@@ -19,7 +19,7 @@ from .utils import gen_unique_id, get_hcw_vid
 #         model=User
 #         fields=[]
 
-class RegisterForm(forms.Form):
+class RegisterForm(forms.Form): # add min lengths, etc
     username = forms.CharField(label='Username', max_length=200, required=True)
     full_name = forms.CharField(label='Full Name', max_length=200, required=True)
     # first_name = forms.CharField(label='First Name', max_length=100, required=True)
@@ -74,6 +74,7 @@ def logout_view(request):
     return HttpResponseRedirect(reverse("index"))
 
 def register(request):
+    # verify aadhar number is inputted, etc
     if request.method=="POST":
         form=RegisterForm(request.POST)
         if form.is_valid():
@@ -93,11 +94,21 @@ def register(request):
                     "message": "Passwords must match."
             })
             try:
-                user = User.objects.create_user(username, email, password, full_name=full_name,
-                                                division=division)
+                user = User.objects.create_user(username, email, password, full_name=full_name,division=division)
                 user.save()
                 if division.lower()=="nou" or division.lower()==None:
                     aadharid=form.cleaned_data['aadharid']
+                    if len(aadharid)!=12 or aadharid.isnumeric()==False:
+                        return render(request, "health_tracker/register.html",{
+                            "form":form,
+                            "message":"Your Aadhar ID must have only 12 digits!"
+                        })
+                    # what if aadhar id already exisits?
+                    if Patients.objects.filter(aadharid=aadharid): #is this correct?
+                        return render(request, "health_tracker/register.html",{
+                            "form":form,
+                            "message":"An account with this Aadhar ID already exists!"
+                        })
                     print(request.user.pk, request.user, request.user.username)
                     gen_unique_id(aadharid, user)
                 elif division.lower() in ['d/hcw/ms','i/sp','msh']:

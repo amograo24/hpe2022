@@ -15,7 +15,7 @@ def gen_unique_id(aadharid: str, person: User, lower: int = 12, upper: int = 16)
     _len = random.randint(lower, upper)
     digits = "0123456789"
     code = "".join([random.choice(digits) for _ in range(_len)])
-    while Patients.objects.filter(wbid=code):
+    while Patients.objects.filter(wbid=code): #what does this return?
         code = "".join([random.choice(digits) for _ in range(_len)])
 
     patient = Patients(wbid=code, aadharid=aadharid, person=person)
