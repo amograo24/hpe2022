@@ -22,6 +22,12 @@ from django.core.validators import MinLengthValidator
 
 class RegisterForm(forms.Form): # add min lengths, etc
     username = forms.CharField(label='Username', max_length=200, required=True)
+    division = forms.ChoiceField(label="Choose any of the following that apply to you", choices=[
+        ('D/HCW/MS', 'Doctor/Health Care Worker/Medical Staff'),
+        ('I/SP', 'Insurance/Health Service Provider'),
+        ('MSh', 'Medical Shop'),
+        ('NoU','None of the Above')
+        ], required=True)
     full_name = forms.CharField(label='Full Name', max_length=200, required=True)
     # first_name = forms.CharField(label='First Name', max_length=100, required=True)
     # last_name = forms.CharField(label='Last Name', max_length=100, required=True)
@@ -29,15 +35,10 @@ class RegisterForm(forms.Form): # add min lengths, etc
     # dob = forms.DateField(label='Date of Birth', widget=AdminDateWidget(), required=True)
     password = forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
     confirm_password = forms.CharField(label='Confirm Password', widget=forms.PasswordInput, required=True)
-    division = forms.ChoiceField(label="Choose any of the following that apply to you", choices=[
-        ('D/HCW/MS', 'Doctor/Health Care Worker/Medical Staff'),
-        ('I/SP', 'Insurance/Health Service Provider'),
-        ('MSh', 'Medical Shop'),
-        ('NoU','None of the Above')
-        ], required=True)
+
     reg_no = forms.CharField(max_length=20, label='Registration no.', required=True)
     aadharid = forms.CharField(max_length=12, label='Aadhar ID', required=True, widget=forms.TextInput(attrs={"type":"number"}),validators=[MinLengthValidator(12)])
-    department = forms.CharField(max_length=100)
+    department = forms.CharField(max_length=100, required=False)
 
 class LoginForm(forms.Form):
     pass
@@ -95,8 +96,7 @@ def register(request):
                     "message": "Passwords must match."
             })
             try:
-                user = User.objects.create_user(username, email, password, full_name=full_name,division=division)
-                user.save()
+                user = gen_unique_id(email=email, password=password)   # Creating the user here
                 if division.lower()=="nou" or division.lower()==None:
                     aadharid=form.cleaned_data['aadharid']
                     if len(aadharid)!=12 or aadharid.isnumeric()==False:
@@ -111,12 +111,13 @@ def register(request):
                             "message":"An account with this Aadhar ID already exists!"
                         })
                     print(request.user.pk, request.user, request.user.username)
-                    gen_unique_id(aadharid, user)
+                    Patients(aadharid=aadharid, full_name=full_name, wbid=user.username, person=user).save()
+
                 elif division.lower() in ['d/hcw/ms','i/sp','msh']:
                     reg_no=form.cleaned_data['reg_no']
                     dept=form.cleaned_data['department']
                     get_hcw_vid(reg_no, dept, user)
-            
+
             except IntegrityError:
                 return render(request, "health_tracker/register.html", {
                     "form":form,
