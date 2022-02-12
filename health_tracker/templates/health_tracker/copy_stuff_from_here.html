@@ -5,14 +5,41 @@
 {% block body %}
 {% csrf_token %}
 <button id="test">test</button>
+<button id="test2">check</button>
 <script>
+
+
+    function handle_rec()
+    {
+        let token = $("input[name='csrfmiddlewaretoken']").val()
+        let header = {"X-CSRFToken": token}
+        let payload = JSON.stringify({type: "receive"})
+        let content = {
+            method: "POST", headers: header, body: payload
+        }
+        let request = fetch("{% url 'notifications' %}", content)
+        request.then((data) => {console.log(data);})
+    }
+
+    function handle_send()
+    {
+        let token = $("input[name='csrfmiddlewaretoken']").val()
+        let header = {"X-CSRFToken": token}
+        let payload = JSON.stringify({to: "2545358385363300", as: "{{ division }}", type: "send"})
+        let content = 
+        {
+            method: "POST",
+            headers: header,
+            body: payload
+        }
+        let request = fetch("{% url 'notifications' %}", content)
+
+    }
+
     $(document).ready(()=>{
-        var token = $("input[name='csrfmiddlewaretoken']").val()
-        var header = {"X-CSRFToken": token}
-        var payload = JSON.stringify({to: "2421703474677903", as: "{{ division }}"})
-        $("#test").click(()=>{
-            request = fetch("{% url 'notifications' %}", {method: "POST" , headers: header, body: payload})
-        })
+        $("#test").click(handle_send)
+        $("#test2").click(handle_rec)
     })
+
 </script>
 {% endblock body %}
