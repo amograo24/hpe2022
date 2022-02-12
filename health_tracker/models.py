@@ -24,8 +24,8 @@ class User(AbstractUser):
     # image field
 
 class Notification(models.Model):
-    sender = models.CharField(max_length=200, verbose_name="Sender's Name")
-    receiver = models.CharField(max_length=16, verbose_name="Receiver's Name")
+    sender = models.ForeignKey(User,on_delete=models.CASCADE,related_name="sender",default=None,verbose_name="Sender")
+    receiver = models.ForeignKey(User,on_delete=models.CASCADE,related_name="receiver",default=None,verbose_name="Receiver")
     content = models.CharField(max_length=200, verbose_name="Message Content")
 
 class MedWorkerRep(models.Model):
