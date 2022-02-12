@@ -40,9 +40,6 @@ class LoginForm(forms.Form):
     password=forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
 
 
-def index(request):
-    return render(request,"health_tracker/index.html")
-
 def login_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('index'))
@@ -140,24 +137,44 @@ def register(request):
     })
 
 
-def myprofile(request):
+# def myprofile(request):
+#     if request.user.is_authenticated:
+#         user_type=request.user
+#         if Patients.objects.filter(wbid=request.user):
+#             user=Patients.objects.get(wbid=request.user)
+#         elif MedWorkerRep.objects.filter(hcwvid=request.user):
+#             user=MedWorkerRep.objects.get(hcwbid=request.user)
+#         print(user_type.division)
+#         print(user)
+#         # print(user.division)
+#         return render(request,"health_tracker/myprofile.html",{
+#             "image":return_qr_code(request.user),
+#             "user":user,
+#             "user_type":user_type,
+#             "non_patient":['d/hcw/ms','i/sp','msh']
+#         })
+#     else:
+#         return HttpResponseRedirect(reverse("login"))
+
+def index(request):
     if request.user.is_authenticated:
-        user_type=request.user
-        if Patients.objects.filter(wbid=request.user):
-            user=Patients.objects.get(wbid=request.user)
-        elif MedWorkerRep.objects.filter(hcwvid=request.user):
-            user=MedWorkerRep.objects.get(hcwbid=request.user)
-        print(user_type.division)
-        print(user)
-        # print(user.division)
+        user=User.objects.get(username=request.user)
+        user_type=user.division.lower()
+        image=None
+        if user_type=='nou':
+            user=Patients.objects.get(person=user)
+            image=return_qr_code(request.user)
+        elif user_type in ['d/hcw/ms','i/sp','msh']:
+            user=MedWorkerRep.objects.get(account=user)   
+
         return render(request,"health_tracker/myprofile.html",{
-            "image":return_qr_code(request.user),
+            "image":image,
             "user":user,
-            "user_type":user_type,
-            "non_patient":['d/hcw/ms','i/sp','msh']
+            "nou":user_type=='nou',
+            "non_nou":user_type in ['d/hcw/ms','i/sp','msh']
         })
     else:
-        return HttpResponseRedirect(reverse("login"))
+        return render(request,"health_tracker/index.html")
 
 # def other_profile(request,id):
     # if request.user.is_authenticated:

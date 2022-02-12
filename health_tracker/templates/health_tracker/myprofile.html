@@ -9,21 +9,23 @@
             <h1>Menu</h1>
         </div>
     </div> 
-        {% if user_type.division == 'NoU' %}
+        {% if nou %}
             <h3>Full Name: {{user.full_name}}</h3>
-            <h3>Well-Being ID: {{user.wbid}}</h3>
+            <h3>Email: {{user.person.email}}</h3>
+            <h3>Well-Being ID: {{user.person.username}}</h3>
             <h3>Aadhar ID: {{user.aadharid}}</h3>
-        {% elif user_type.division in non_patient %}
-            <h3>{% if user.division == 'd/hcw/ms' %} Full Name: {% else %} Company Name: {% endif %}</h3>
-            <h3>Health Care Worker/Vendor ID: {{user.hcwvid}}</h3>
+            <div  id="qrcode-generated">
+                <!--    this tag will generate the qrcode, the qrcode will be sent from the backend after it's generation-->
+                    <img src="data:image/png;base64,{{image}}" alt="Invalid Image">
+            </div>
+        {% elif non_nou %}
+            <h3>{% if user.account.division.lower == 'd/hcw/ms' %} Full Name: {% else %} Company Name: {% endif %} {{user.full_com_name}}</h3>
+            <h3>Email: {{user.account.email}}</h3>
+            <h3>Health Care Worker/Vendor ID: {{user.account.username}}</h3>
             <h3>Registration No./License No.: {{user.reg_no}}</h3>
-            {% if user.division == 'd/hcw/ms' %}<h3>Department: {{user.department}}</h3>{% endif %}
+            {% if user.account.division.lower == 'd/hcw/ms' %}<h3>Department: {{user.department}}</h3>{% endif %}
         {% endif %}
-        <h3>Email: {{user_type.email}}</h3>
-        <div  id="qrcode-generated">
-            <!--    this tag will generate the qrcode, the qrcode will be sent from the backend after it's generation-->
-                <img src="data:image/png;base64,{{image}}" alt="Invalid Image">
-        </div>
+
 
 {% endblock %}
 
