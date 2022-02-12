@@ -181,7 +181,7 @@ def other_profile(request,id):
         if request.user==id:
             return HttpResponseRedirect(reverse("index"))
         viewer=User.objects.get(username=request.user)
-        viewer_type=User.division.lower()
+        viewer_type=viewer.division.lower()
         try:
             profile=User.objects.get(username=id)
             profile_type=profile.division.lower()
