@@ -176,6 +176,49 @@ def index(request):
     else:
         return render(request,"health_tracker/index.html")
 
+def other_profile(request,id):
+    if request.user.is_authenticated:
+        if request.user==id:
+            return HttpResponseRedirect(reverse("index"))
+        viewer=User.objects.get(username=request.user)
+        viewer_type=User.division.lower()
+        try:
+            profile=User.objects.get(username=id)
+            profile_type=profile.division.lower()
+        except User.DoesNotExist:
+            return HttpResponseRedirect(reverse("index"))
+        if viewer_type==profile_type: # make it more secure
+            return HttpResponseRedirect(reverse("index"))
+        if viewer_type in ['d/hcw/ms','i/sp','msh'] and profile_type in ['d/hcw/ms','i/sp','msh']:
+            return HttpResponseRedirect(reverse("index"))
+        if profile_type=='nou':
+            profile=Patients.objects.get(person=profile)
+            viewer=MedWorkerRep.objects.get(account=viewer)
+            if viewer in profile.hcw_v.all():
+                if viewer_type=='d/hcw/ms':
+                    # show all documents of profile
+                    pass
+                elif viewer_type=='i/sp':
+                    # show all documents of profile uploaded by this i/sp
+                    pass
+                elif viewer_type=='msh':
+                    # show all documents of profile uploaded by this msh
+                    pass
+            else:
+                return HttpResponseRedirect(reverse("index"))
+        elif profile_type in ['d/hcw/ms','i/sp','msh']:
+            profile=MedWorkerRep.objects.get(account=profile)
+            viewer=Patients.object.get(person=viewer)
+            if profile in viewer.hcw_v.all():
+                #show all documents uploaded by profile of viewer
+                pass
+            else:
+                return HttpResponseRedirect(reverse("index"))
+    else:
+        return HttpResponseRedirect(reverse("index"))
+
+
+
 # def other_profile(request,id):
     # if request.user.is_authenticated:
     #     if request.user==id:
