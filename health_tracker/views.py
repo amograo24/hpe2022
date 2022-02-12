@@ -287,23 +287,48 @@ def notifications(request):
 
         if request.user.is_authenticated:
             body = json.loads(request.body)
-            receiver_id = body['to']
-            sender_division = body['as']
-            if request.user.division.lower() != sender_division:
-                return HttpResponse("Forgery")
-            if len(request.user.username) != 12:  # This implies that user is a normal user
-                print("Nou")
-                sender = Patients(wbid=request.user.username)
-            else:
-                sender = MedWorkerRep(hcwvid=request.user.username)
+            if body['type'] == "send":
+                receiver_id = body['to']
+                sender_division = body['as']
+                payload = "approval"
+                if request.user.division.lower() != sender_division.lower():
+                    return HttpResponse("Forgery")
+                if len(request.user.username) != 12:  # This implies that user is a normal user
+                    print("Nou")
+                    sender = User.objects.get(username=request.user.username)
+                    receiver = User.objects.get(username=receiver_id)
+                    notification = Notification(sender=sender, receiver=receiver, content=payload)
+                    notification.save()
+                    sender = Patients.objects.get(person=sender)
+                    receiver = MedWorkerRep.objects.get(account=receiver)
+                else:
+                    # We can use division logic here, ill do it later. First ill finish doctor logic
+                    sender = User.objects.get(username=request.user.username)
+                    receiver = User.objects.get(username=receiver_id)
+                    notification = Notification(sender=sender, receiver=receiver, content=payload)
+                    notification.save()
+                    sender = MedWorkerRep.objects.get(account=sender)
+                    receiver = Patients.objects.get(person=receiver)
 
+                receiver.notifications.add(notification)
+                receiver.save()
 
-            return HttpResponse("Nice")
+                return HttpResponse("Nice")
+            elif body['type'] == "receive":
+                if request.user.division.lower() != "nou":
+                    raise NotImplementedError("Will do this after implementing for nou")
+                else:
+                    patient = Patients.objects.get(person=User.objects.get(username=request.user))
+                    notifs = patient.notifications
+                    for n in notifs.all():
+                        print(n.content, n.sender, n.receiver)
+                    return HttpResponse("Works So far")
+
         else:
             print("Not authenticated")
             return HttpResponse("Nice")
 
 
 def test(request):
-    ctx = {"division": request.user.division}
+    ctx = {"division": request.user.division, "my_id": request.user.username}
     return render(request, "health_tracker/copy_stuff_from_here.html", context=ctx)
