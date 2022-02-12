@@ -237,6 +237,7 @@ def notifications(request):
             else:
                 sender = MedWorkerRep(hcwvid=request.user.username)
 
+
             return HttpResponse("Nice")
         else:
             print("Not authenticated")
