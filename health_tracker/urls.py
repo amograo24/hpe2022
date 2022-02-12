@@ -10,5 +10,6 @@ urlpatterns = [
     # path("myprofile",views.myprofile, name="myprofile"),
     path("notifications", views.notifications, name="notifications"),
     path("",views.index,name="index"),
-    path("user/<str:id>",views.other_profile,name="other_profile")
+    path("user/<str:id>",views.other_profile,name="other_profile"),
+    path("upload",views.upload_file,name="upload_file")
 ]

@@ -13,13 +13,9 @@ from django.core.paginator import Paginator
 import time
 from .utils import gen_unique_id, get_hcw_vid, return_qr_code
 from django.core.validators import MinLengthValidator
-from django.core.files.storage import FileSystemStorage
+from django.core.files.storage import FileSystemStorage,default_storage
 # Create your views here.
 
-# class Register(forms.ModelForm):
-#     class Meta:
-#         model=User
-#         fields=[]
 
 class RegisterForm(forms.Form):
     division = forms.ChoiceField(label="Choose any of the following that apply to you", choices=[
@@ -40,20 +36,30 @@ class LoginForm(forms.Form):
     username=forms.CharField(label="WB ID/HCWV ID",max_length=16, validators=[MinLengthValidator(11)])
     password=forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
 
+class UploadDoc(forms.Form):
+    document=forms.FileField(label="Select a file",help_text="Upload")
 
-def file_upload(request):
+def upload_file(request):
     if request.method == "POST":
-        request_file = request.FILES['document'] if 'document' in request.FILES else None
-    if request_file:
-            # save attached file
- 
-            # create a new instance of FileSystemStorage
-        fs = FileSystemStorage()
-        file = fs.save(request_file.name, request_file)
-            # the fileurl variable now contains the url to the file. This can be used to serve the file when needed.
-        fileurl = fs.url(file)
- 
-    return render(request, "health_tracker/file_upload.html")
+        form=UploadDoc(request.POST,request.FILES)
+        print("Outside",request.FILES)
+        if form.is_valid():
+            # document=form.cleaned_data
+        # request_file = request.FILES['document'] if 'document' in request.FILES else None
+            print(request.FILES)
+            print(request_file,"\n",dir(request_file))
+                    # save attached file
+        
+                    # create a new instance of FileSystemStorage
+            fs = FileSystemStorage()
+            file = fs.save(request_file.name, request_file)
+                # the fileurl variable now contains the url to the file. This can be used to serve the file when needed.
+            fileurl = fs.url(file)
+            print(fileurl)
+
+    return render(request, "health_tracker/file_upload.html",{
+        "form":UploadDoc()
+    })
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -152,24 +158,6 @@ def register(request):
     })
 
 
-# def myprofile(request):
-#     if request.user.is_authenticated:
-#         user_type=request.user
-#         if Patients.objects.filter(wbid=request.user):
-#             user=Patients.objects.get(wbid=request.user)
-#         elif MedWorkerRep.objects.filter(hcwvid=request.user):
-#             user=MedWorkerRep.objects.get(hcwbid=request.user)
-#         print(user_type.division)
-#         print(user)
-#         # print(user.division)
-#         return render(request,"health_tracker/myprofile.html",{
-#             "image":return_qr_code(request.user),
-#             "user":user,
-#             "user_type":user_type,
-#             "non_patient":['d/hcw/ms','i/sp','msh']
-#         })
-#     else:
-#         return HttpResponseRedirect(reverse("login"))
 
 def index(request):
     if request.user.is_authenticated:
@@ -233,69 +221,6 @@ def other_profile(request,id):
         return HttpResponseRedirect(reverse("index"))
 
 
-
-# def other_profile(request,id):
-    # if request.user.is_authenticated:
-    #     if request.user==id:
-    #       return HttpResponseRedirect(reverse("myprofile"))
-    #     if Patients.objects.filter(wbid=id):
-    #         pass
-    #     elif MedWorkerRep.objects.filter(hcwvid=id):
-    #         pass
-    #     else:
-    #         raise Http404(f"'{category_name}' category does not exist!") 
-    # else:
-    #     return HttpResponseRedirect(reverse("login"))
-
-
-
-# def register(request):
-#     if request.method == "POST":
-#         username = request.POST["username"]
-#         email = request.POST["email"]
-#         division=request.POST["division"]
-
-#         if division not in ['NoU','D/HCW/MS','I/SP','MSh']:
-#             return render(request, "health_tracker/register.html", {
-#                 "message": "An error occured, please fill the form again."
-#             })
-#         # Ensure password matches confirmation
-#         password = request.POST["password"]
-#         confirmation = request.POST["confirmation"]
-#         if password != confirmation:
-#             return render(request, "health_tracker/register.html", {
-#                 "message": "Passwords must match."
-#             })
-
-#         # Attempt to create new user
-#         try:
-#             user = User.objects.create_user(username, email, password,)
-#             user.save()
-#             if division.lower()=="nou" or division.lower()==None:
-#                 aadharid=request.POST['aadharid']
-#                 gen_unique_id(aadharid, request.user)
-#                 # wbid=(gen_unique_id(12, 16))
-#                 # person=request.user
-#                 # patient=Patients(aadharid=aadharid,wbid=wbid,person=person)
-#                 # patient.save()
-#             elif division.lower() in ['d/hcw/ms','i/sp','msh']:
-#                 reg_no=request.POST['reg_no']
-#                 hcwvid=(gen_unique_id(12, 16)) # kushal gotta make one here
-#                 account=request.user
-#                 department=request.POST['department']
-#                 medworkerrep=MedWorkerRep(reg_no=reg_no,hcwvid=hcwvid,account=account,department=department)
-#                 medworkerrep.save()
-#         except IntegrityError:
-#             return render(request, "health_tracker/register.html", {
-#                 "form":form,
-#                 "message": "Username already taken."
-#             })
-#         login(request, user)
-#         return HttpResponseRedirect(reverse("index"))
-#     else:
-#         return render(request, "health_tracker/register.html",{
-#             "form":form
-#         })
 
 def notifications(request):
     if request.method == "POST":

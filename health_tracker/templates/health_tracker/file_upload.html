@@ -1,0 +1,27 @@
+{% extends "health_tracker/layout.html" %}
+{% load static %}
+{% block title %}Upload File{% endblock %}
+{% block body %}
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+    <div>
+        <div>
+            <h3>Health Tracker</h3>
+            <h1>Upload File</h1>
+        </div>
+    </div> 
+    <form method = 'POST' action="{% url 'upload_file' %}">
+
+        {% csrf_token %}
+        {{form}}
+    <!--Below is our main file upload input -->
+        <!-- <input type = "file" name = 'document'> -->
+        <button type = "submit">Upload</button>
+    </form>
+
+{% endblock %}
+
+{% block script %}
+{% endblock script %}
