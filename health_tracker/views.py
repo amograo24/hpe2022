@@ -13,6 +13,7 @@ from django.core.paginator import Paginator
 import time
 from .utils import gen_unique_id, get_hcw_vid, return_qr_code
 from django.core.validators import MinLengthValidator
+from django.core.files.storage import FileSystemStorage
 # Create your views here.
 
 # class Register(forms.ModelForm):
@@ -39,6 +40,20 @@ class LoginForm(forms.Form):
     username=forms.CharField(label="WB ID/HCWV ID",max_length=16, validators=[MinLengthValidator(11)])
     password=forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
 
+
+def file_upload(request):
+    if request.method == "POST":
+        request_file = request.FILES['document'] if 'document' in request.FILES else None
+    if request_file:
+            # save attached file
+ 
+            # create a new instance of FileSystemStorage
+        fs = FileSystemStorage()
+        file = fs.save(request_file.name, request_file)
+            # the fileurl variable now contains the url to the file. This can be used to serve the file when needed.
+        fileurl = fs.url(file)
+ 
+    return render(request, "health_tracker/file_upload.html")
 
 def login_view(request):
     if request.user.is_authenticated:

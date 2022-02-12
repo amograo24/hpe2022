@@ -58,6 +58,12 @@ class Patients(models.Model):
     
     class Meta:
         verbose_name_plural='Patients'
+
+class Files(models.Model):
+    uploader=models.ForeignKey(MedWorkerRep,on_delete=models.CASCADE,related_name="uploader",default=None,verbose_name="Uploaded By")
+    recipent=models.ForeignKey(Patients,on_delete=models.CASCADE,related_name="recipent",default=None,verbose_name="Recipent")
+    file=models.FileField()
+
 # class MedWorkerRep(AbstractUser):
 #     # type of the dude and stuff
 #     division_choices = [
