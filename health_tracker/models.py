@@ -60,3 +60,9 @@ class Patients(models.Model):
 #     reg_no=models.CharField(default=None,verbose_name="Registration No./License ID")
 #     patients_customers=models.ManyToManyField(User,blank=True,related_name="patients_customers",verbose_name="Patients/Customers")
 #     pass
+
+
+class Notification(models.Model):
+    sender = models.CharField(max_length=200, verbose_name="Sender's Name")
+    receiver = models.CharField(max_length=16, verbose_name="Receiver's Name")
+    content = models.CharField(max_length=200, verbose_name="Message Content")

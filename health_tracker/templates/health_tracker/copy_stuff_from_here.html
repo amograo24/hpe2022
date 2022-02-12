@@ -3,8 +3,16 @@
 <!--copy paste the div tags here in your respective templates to make them work-->
 
 {% block body %}
-<div  id="qrcode-generated">
-<!--    this tag will generate the qrcode, the qrcode will be sent from the backend after it's generation-->
-    <img src="data:image/png;base64,{{image}}" alt="Invalid Image">
-</div>
+{% csrf_token %}
+<button id="test">test</button>
+<script>
+    $(document).ready(()=>{
+        var token = $("input[name='csrfmiddlewaretoken']").val()
+        var header = {"X-CSRFToken": token}
+        var payload = JSON.stringify({to: "2421703474677903", as: "{{ division }}"})
+        $("#test").click(()=>{
+            request = fetch("{% url 'notifications' %}", {method: "POST" , headers: header, body: payload})
+        })
+    })
+</script>
 {% endblock body %}

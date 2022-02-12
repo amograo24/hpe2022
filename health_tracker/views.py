@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http40
 from django.shortcuts import render
 from django.urls import reverse
 from django import forms
-from .models import User, MedWorkerRep, Patients
+from .models import User, MedWorkerRep, Patients, Notification
 from django.contrib.admin.widgets import AdminDateWidget
 import datetime
 from django.views.decorators.csrf import csrf_exempt
@@ -119,7 +119,7 @@ def register(request):
                     Patients(aadharid=aadharid, full_name=full_name, wbid=user.username, person=user).save()
 
                 elif division.lower() in ['d/hcw/ms','i/sp','msh']:
-                    user = get_hcw_vid(email=email, password=password)
+                    user = get_hcw_vid(email=email, password=password, division=division)
                     reg_no=form.cleaned_data['reg_no']
                     dept=form.cleaned_data['department']
                     MedWorkerRep(reg_no=reg_no,department=dept,full_com_name=full_name, hcwvid=user.username, account=user).save()
@@ -222,6 +222,27 @@ def myprofile(request):
 #             "form":form
 #         })
 
+def notifications(request):
+    if request.method == "POST":
+
+        if request.user.is_authenticated:
+            body = json.loads(request.body)
+            receiver_id = body['to']
+            sender_division = body['as']
+            if request.user.division.lower() != sender_division:
+                return HttpResponse("Forgery")
+            if len(request.user.username) != 12:  # This implies that user is a normal user
+                print("Nou")
+                sender = Patients(wbid=request.user.username)
+            else:
+                sender = MedWorkerRep(hcwvid=request.user.username)
+
+            return HttpResponse("Nice")
+        else:
+            print("Not authenticated")
+            return HttpResponse("Nice")
+
 
 def test(request):
-    return HttpResponse("200 OK")
+    ctx = {"division": request.user.division}
+    return render(request, "health_tracker/copy_stuff_from_here.html", context=ctx)
