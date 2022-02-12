@@ -48,7 +48,7 @@ class MedWorkerRep(models.Model):
 class Patients(models.Model):
     full_name=models.CharField(default=None, max_length=200, verbose_name="Full Name")
     person=models.ForeignKey(User,on_delete=models.CASCADE,related_name="person",default=None)
-    wbid=models.CharField(default=None,verbose_name="Well-Being ID",max_length=16,validators=[MinLengthValidator(12)],unique=True)
+    wbid=models.CharField(default=None,verbose_name="Well-Being ID",max_length=16,validators=[MinLengthValidator(16)],unique=True)
     aadharid=models.CharField(default=None,verbose_name="Aadhar ID",max_length=12,validators=[MinLengthValidator(12)],unique=True)
     hcw_v=models.ManyToManyField(MedWorkerRep,blank=True,related_name='hcw_v')
     notifications = models.ManyToManyField(Notification, related_name="p_notifs", blank=True)
