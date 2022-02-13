@@ -3,17 +3,16 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404
 from django.shortcuts import render
 from django.urls import reverse
-from django import forms
+from .utils import gen_unique_id, get_hcw_vid, return_qr_code
+from .forms import RegisterForm, LoginForm
 from .models import User, MedWorkerRep, Patients, Notification
+import json
 from django.contrib.admin.widgets import AdminDateWidget
 import datetime
 from django.views.decorators.csrf import csrf_exempt
-import json
 from django.core.paginator import Paginator
 import time
-from .utils import gen_unique_id, get_hcw_vid, return_qr_code
-from .forms import RegisterForm, LoginForm
-from django.core.files.storage import FileSystemStorage,default_storage
+from django.core.files.storage import FileSystemStorage, default_storage
 
 
 def upload_file(request):
@@ -178,7 +177,6 @@ def other_profile(request,id):
                 return HttpResponseRedirect(reverse("index"))
     else:
         return HttpResponseRedirect(reverse("index"))
-
 
 
 def notifications(request):
