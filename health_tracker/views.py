@@ -235,3 +235,7 @@ def notifications(request):
 def test(request):
     ctx = {"division": request.user.division, "my_id": request.user.username}
     return render(request, "health_tracker/copy_stuff_from_here.html", context=ctx)
+
+
+def test_forms(request):
+    return HttpResponse("Testing File uploads")
