@@ -12,7 +12,7 @@ import json
 from django.core.paginator import Paginator
 import time
 from .utils import gen_unique_id, get_hcw_vid, return_qr_code
-from .forms import RegisterForm, LoginForm, UploadDoc
+from .forms import RegisterForm, LoginForm
 from django.core.files.storage import FileSystemStorage,default_storage
 
 
