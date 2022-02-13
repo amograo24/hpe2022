@@ -3,6 +3,11 @@
 
 {% block body %}
 <h1>Upload file</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="kushurox">
+    <button type="submit">Upload</button>
 
+</form>
 
 {% endblock body %}

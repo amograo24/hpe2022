@@ -238,4 +238,10 @@ def test(request):
 
 
 def test_forms(request):
-    return HttpResponse("Testing File uploads")
+    ctx = {}
+
+    if request.method == "POST":
+        uploaded_file = request.FILES['kushurox']
+        print(uploaded_file.name, uploaded_file.size)
+
+    return render(request, "health_tracker/forms_test.html", context=ctx)
