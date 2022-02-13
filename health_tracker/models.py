@@ -6,22 +6,15 @@ from django.core.validators import MinLengthValidator
 
 # make a "profile" table?
 
+
 class User(AbstractUser):
-    # here add wbid
-    # wbid=models.CharField(max_length=16,min_length=12,default=None)
-    # full_name = models.CharField(default=None, max_length=200, verbose_name="Full Name",null=True,blank=True)
     division_choices = [
         ('D/HCW/MS', 'Doctor/Health Care Worker/Medical Staff'),
         ('I/SP', 'Insurance/Health Service Provider'),
         ('MSh', 'Medical Shop'),
-        ('NoU','Normal User')
+        ('NoU', 'Normal User')
         ]
     division=models.CharField(default='NoU',max_length=20,choices=division_choices,verbose_name="Division",null=True,blank=True)
-    # wbid=models.CharField(default=None,verbose_name="Well-Being ID",max_length=16,validators=[MinLengthValidator(12)],unique=True)
-    # aadharid=models.CharField(default=None,verbose_name="Aadhar ID",max_length=12,validators=[MinLengthValidator(12)],unique=True)
-    # reg_no=models.CharField(default=None,max_length=20,verbose_name="Registration No./License ID")
-    # department=models.CharField(default=None,max_length=100)
-    # image field
 
 class Notification(models.Model):
     sender = models.ForeignKey(User,on_delete=models.CASCADE,related_name="sender",default=None,verbose_name="Sender")
@@ -44,7 +37,6 @@ class MedWorkerRep(models.Model):
         verbose_name_plural='Medical Workers/Insurance Representives/Pharmaceutical Shops'
 
 
-
 class Patients(models.Model):
     full_name=models.CharField(default=None, max_length=200, verbose_name="Full Name")
     person=models.ForeignKey(User,on_delete=models.CASCADE,related_name="person",default=None)
@@ -59,19 +51,8 @@ class Patients(models.Model):
     class Meta:
         verbose_name_plural='Patients'
 
+
 class Files(models.Model):
     uploader=models.ForeignKey(MedWorkerRep,on_delete=models.CASCADE,related_name="uploader",default=None,verbose_name="Uploaded By")
     recipent=models.ForeignKey(Patients,on_delete=models.CASCADE,related_name="recipent",default=None,verbose_name="Recipent")
     file=models.FileField()
-
-# class MedWorkerRep(AbstractUser):
-#     # type of the dude and stuff
-#     division_choices = [
-#         ('D/HCW/MS', 'Doctor/Health Care Worker/Medical Staff'),
-#         ('I/SP', 'Insurance/Health Service Provider'),
-#         ('MSh', 'Medical Shop'),
-#         ]
-#     division=models.CharField(default=None,choices=division_choices,verbose_name="Sector")
-#     reg_no=models.CharField(default=None,verbose_name="Registration No./License ID")
-#     patients_customers=models.ManyToManyField(User,blank=True,related_name="patients_customers",verbose_name="Patients/Customers")
-#     pass

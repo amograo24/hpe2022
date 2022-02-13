@@ -3,51 +3,22 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404
 from django.shortcuts import render
 from django.urls import reverse
-from django import forms
+from .utils import gen_unique_id, get_hcw_vid, return_qr_code
+from .forms import RegisterForm, LoginForm
 from .models import User, MedWorkerRep, Patients, Notification
+import json
+from django.core.files.storage import FileSystemStorage
 from django.contrib.admin.widgets import AdminDateWidget
 import datetime
 from django.views.decorators.csrf import csrf_exempt
-import json
 from django.core.paginator import Paginator
 import time
-from .utils import gen_unique_id, get_hcw_vid, return_qr_code
-from django.core.validators import MinLengthValidator
-from django.core.files.storage import FileSystemStorage,default_storage
-# Create your views here.
 
+# TODO Upload File View - kushurox
 
-class RegisterForm(forms.Form):
-    division = forms.ChoiceField(label="Choose any of the following that apply to you", choices=[
-        ('D/HCW/MS', 'Doctor/Health Care Worker/Medical Staff'),
-        ('I/SP', 'Insurance/Health Service Provider'),
-        ('MSh', 'Medical Shop'),
-        ('NoU','None of the Above')
-        ], required=True)
-    full_name = forms.CharField(label='Full Name', max_length=200, required=True)
-    email = forms.EmailField(label='Email', required=True)
-    password = forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
-    confirm_password = forms.CharField(label='Confirm Password', widget=forms.PasswordInput, required=True)
-    reg_no = forms.CharField(max_length=20, label='Registration no.', required=True)
-    aadharid = forms.CharField(max_length=12, label='Aadhar ID', required=True, widget=forms.TextInput(attrs={"type":"number"}),validators=[MinLengthValidator(12)])
-    department = forms.CharField(max_length=100, required=False)
-
-class LoginForm(forms.Form):
-    username=forms.CharField(label="WB ID/HCWV ID",max_length=16, validators=[MinLengthValidator(11)])
-    password=forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
-
-class UploadDoc(forms.Form):
-    document=forms.FileField(label="Select a file",help_text="Upload")
 
 def upload_file(request):
-    if request.method == "POST":
-        form=UploadDoc(request.POST,request.FILES)
-        print("Outside",request.FILES)
-        if form.is_valid():
-            pass
-    return render(request, "health_tracker/file_upload.html",{
-        "form":UploadDoc()
-    })
+    return HttpResponse("Not Implemented Yet")
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -146,7 +117,6 @@ def register(request):
     })
 
 
-
 def index(request):
     if request.user.is_authenticated:
         user=User.objects.get(username=request.user)
@@ -166,6 +136,7 @@ def index(request):
         })
     else:
         return render(request,"health_tracker/index.html")
+
 
 def other_profile(request,id):
     if request.user.is_authenticated:
@@ -208,6 +179,7 @@ def other_profile(request,id):
     else:
         return HttpResponseRedirect(reverse("index"))
 
+# TODO Notification API - kushurox
 
 
 def notifications(request):
@@ -256,7 +228,22 @@ def notifications(request):
             print("Not authenticated")
             return HttpResponse("Nice")
 
+# TODO Test view - kushurox
+
 
 def test(request):
     ctx = {"division": request.user.division, "my_id": request.user.username}
     return render(request, "health_tracker/copy_stuff_from_here.html", context=ctx)
+
+
+def test_forms(request):
+    ctx = {}
+    if request.method == "POST":
+
+        uploaded_file = request.FILES.get('kushurox')
+
+        if request.user.is_authenticated and uploaded_file:
+            fs = FileSystemStorage()
+            f = fs.save(f"{request.user.username}/{uploaded_file.name}", uploaded_file)
+
+    return render(request, "health_tracker/forms_test.html", context=ctx)
