@@ -7,12 +7,12 @@ from .utils import gen_unique_id, get_hcw_vid, return_qr_code
 from .forms import RegisterForm, LoginForm
 from .models import User, MedWorkerRep, Patients, Notification
 import json
+from django.core.files.storage import FileSystemStorage
 from django.contrib.admin.widgets import AdminDateWidget
 import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 import time
-from django.core.files.storage import FileSystemStorage, default_storage
 
 # TODO Upload File View - kushurox
 
@@ -118,7 +118,6 @@ def register(request):
     })
 
 
-
 def index(request):
     if request.user.is_authenticated:
         user=User.objects.get(username=request.user)
@@ -138,6 +137,7 @@ def index(request):
         })
     else:
         return render(request,"health_tracker/index.html")
+
 
 def other_profile(request,id):
     if request.user.is_authenticated:
@@ -239,9 +239,12 @@ def test(request):
 
 def test_forms(request):
     ctx = {}
-
     if request.method == "POST":
-        uploaded_file = request.FILES['kushurox']
-        print(uploaded_file.name, uploaded_file.size)
+
+        uploaded_file = request.FILES.get('kushurox')
+
+        if request.user.is_authenticated and uploaded_file:
+            fs = FileSystemStorage()
+            f = fs.save(f"{request.user.username}/{uploaded_file.name}", uploaded_file)
 
     return render(request, "health_tracker/forms_test.html", context=ctx)
