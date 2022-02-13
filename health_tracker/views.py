@@ -12,54 +12,13 @@ import json
 from django.core.paginator import Paginator
 import time
 from .utils import gen_unique_id, get_hcw_vid, return_qr_code
-from django.core.validators import MinLengthValidator
+from .forms import RegisterForm, LoginForm, UploadDoc
 from django.core.files.storage import FileSystemStorage,default_storage
-# Create your views here.
 
-
-class RegisterForm(forms.Form):
-    division = forms.ChoiceField(label="Choose any of the following that apply to you", choices=[
-        ('D/HCW/MS', 'Doctor/Health Care Worker/Medical Staff'),
-        ('I/SP', 'Insurance/Health Service Provider'),
-        ('MSh', 'Medical Shop'),
-        ('NoU','None of the Above')
-        ], required=True)
-    full_name = forms.CharField(label='Full Name', max_length=200, required=True)
-    email = forms.EmailField(label='Email', required=True)
-    password = forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
-    confirm_password = forms.CharField(label='Confirm Password', widget=forms.PasswordInput, required=True)
-    reg_no = forms.CharField(max_length=20, label='Registration no.', required=True)
-    aadharid = forms.CharField(max_length=12, label='Aadhar ID', required=True, widget=forms.TextInput(attrs={"type":"number"}),validators=[MinLengthValidator(12)])
-    department = forms.CharField(max_length=100, required=False)
-
-class LoginForm(forms.Form):
-    username=forms.CharField(label="WB ID/HCWV ID",max_length=16, validators=[MinLengthValidator(11)])
-    password=forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
-
-class UploadDoc(forms.Form):
-    document=forms.FileField(label="Select a file",help_text="Upload")
 
 def upload_file(request):
-    if request.method == "POST":
-        form=UploadDoc(request.POST,request.FILES)
-        print("Outside",request.FILES)
-        if form.is_valid():
-            # document=form.cleaned_data
-        # request_file = request.FILES['document'] if 'document' in request.FILES else None
-            print(request.FILES)
-            print(request_file,"\n",dir(request_file))
-                    # save attached file
-        
-                    # create a new instance of FileSystemStorage
-            fs = FileSystemStorage()
-            file = fs.save(request_file.name, request_file)
-                # the fileurl variable now contains the url to the file. This can be used to serve the file when needed.
-            fileurl = fs.url(file)
-            print(fileurl)
+    return HttpResponse("Not Implemented Yet")
 
-    return render(request, "health_tracker/file_upload.html",{
-        "form":UploadDoc()
-    })
 
 def login_view(request):
     if request.user.is_authenticated:
