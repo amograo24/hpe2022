@@ -44,19 +44,7 @@ def upload_file(request):
         form=UploadDoc(request.POST,request.FILES)
         print("Outside",request.FILES)
         if form.is_valid():
-            # document=form.cleaned_data
-        # request_file = request.FILES['document'] if 'document' in request.FILES else None
-            print(request.FILES)
-            print(request_file,"\n",dir(request_file))
-                    # save attached file
-        
-                    # create a new instance of FileSystemStorage
-            fs = FileSystemStorage()
-            file = fs.save(request_file.name, request_file)
-                # the fileurl variable now contains the url to the file. This can be used to serve the file when needed.
-            fileurl = fs.url(file)
-            print(fileurl)
-
+            pass
     return render(request, "health_tracker/file_upload.html",{
         "form":UploadDoc()
     })
