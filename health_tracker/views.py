@@ -14,6 +14,8 @@ from django.core.paginator import Paginator
 import time
 from django.core.files.storage import FileSystemStorage, default_storage
 
+# TODO Upload File View - kushurox
+
 
 def upload_file(request):
     return HttpResponse("Not Implemented Yet")
@@ -178,6 +180,8 @@ def other_profile(request,id):
     else:
         return HttpResponseRedirect(reverse("index"))
 
+# TODO Notification API - kushurox
+
 
 def notifications(request):
     if request.method == "POST":
@@ -224,6 +228,8 @@ def notifications(request):
         else:
             print("Not authenticated")
             return HttpResponse("Nice")
+
+# TODO Test view - kushurox
 
 
 def test(request):
