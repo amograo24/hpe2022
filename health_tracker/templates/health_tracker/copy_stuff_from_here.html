@@ -4,11 +4,23 @@
 
 {% block body %}
 {% csrf_token %}
+<input type="text" id="target_user">
 <button id="test">test</button>
 <button id="test2">check</button>
+<div class="container" id="notifs">
+
+</div>
+
 <script>
 
 
+    function handle_json(data)
+    {
+        for(var row of data)
+        {
+            $('#notifs').html(`<li>${row.sender} Sent A Letter of ${row.content}</li>`)
+        }
+    }
     function handle_rec()
     {
         let token = $("input[name='csrfmiddlewaretoken']").val()
@@ -18,14 +30,20 @@
             method: "POST", headers: header, body: payload
         }
         let request = fetch("{% url 'notifications' %}", content)
-        request.then((data) => {console.log(data);})
+        request.then((data) => {data.json().then(handle_json)})
     }
 
     function handle_send()
     {
         let token = $("input[name='csrfmiddlewaretoken']").val()
         let header = {"X-CSRFToken": token}
-        let payload = JSON.stringify({to: "2545358385363300", as: "{{ division }}", type: "send"})
+        let whom = $('#target_user').val()
+        if(whom.length == 0)
+        {
+            alert('Whom to send?')
+            return
+        }
+        let payload = JSON.stringify({to: whom, as: "{{ division }}", type: "send"})
         let content = 
         {
             method: "POST",

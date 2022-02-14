@@ -220,9 +220,15 @@ def notifications(request):
                 else:
                     patient = Patients.objects.get(person=User.objects.get(username=request.user))
                     notifs = patient.notifications
+                    all_notifs = []
+                    serialized_data = {}
                     for n in notifs.all():
-                        print(n.content, n.sender, n.receiver)
-                    return HttpResponse("Works So far")
+                        serialized_data['content'] = n.content
+                        serialized_data['sender'] = n.sender.username
+                        serialized_data['receiver'] = n.receiver.username
+                        all_notifs.append(serialized_data)
+
+                    return JsonResponse(all_notifs, content_type="json", safe=False)
 
         else:
             print("Not authenticated")
