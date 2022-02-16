@@ -23,3 +23,14 @@ class LoginForm(forms.Form):
     username = forms.CharField(label="WB ID/HCWV ID", max_length=16, validators=[MinLengthValidator(11)])
     password = forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
 
+# class UploadDocForm(forms.Form):
+#     patient = forms.CharField(max_length=16,label="Patient's WBID",required=True,widget=forms.TextInput(attrs={"type":"number"}),validators=[MinLengthValidator(16)])
+#     vendor_name = form.CharField(max_length=200,label="Name of person uploading this document",required=False)
+
+class UploadDocForm(forms.Form):
+    patient = forms.CharField(max_length=16,label="Patient's WBID",required=True,widget=forms.TextInput(attrs={"type":"number"}),validators=[MinLengthValidator(16)])
+    vendor_name = form.CharField(max_length=200,label="Name of person uploading this document",required=False)
+    file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}),required=True)
+
+
+

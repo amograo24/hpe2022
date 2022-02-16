@@ -12,13 +12,15 @@
             <h1>Upload File</h1>
         </div>
     </div> 
-    <form method = 'POST' action="{% url 'upload_file' %}">
-
+    <form method='POST' action="{% url 'upload_file' %}" enctype="multipart/form-data">
         {% csrf_token %}
-        {{form}}
-    <!--Below is our main file upload input -->
-        <!-- <input type = "file" name = 'document'> -->
-        <button type = "submit">Upload</button>
+        <label for="document">Upload Document</label>
+        <input type="file" name ='document'>
+        <label for="wbid">Patient's WBID</label>
+        <input type="number" name="wbid" required>
+        <label for="vendor">Name of person uploading this document</label>
+        <input type="text" name="vendor"></input>
+        <button type="submit">Upload</button>
     </form>
 
 {% endblock %}

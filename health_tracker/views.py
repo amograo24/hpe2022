@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http40
 from django.shortcuts import render
 from django.urls import reverse
 from .utils import gen_unique_id, get_hcw_vid, return_qr_code
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm, UploadDocForm
 from .models import User, MedWorkerRep, Patients, Notification
 import json
 from django.core.files.storage import FileSystemStorage
@@ -18,7 +18,48 @@ import time
 
 
 def upload_file(request):
-    return HttpResponse("Not Implemented Yet")
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    # elif request.user.is_authenticated:
+    user=User.objects.get(username=request.user)
+    user_type=user.division.lower()
+    if user_type not in ['d/hcw/ms','i/sp','msh']:
+        return HttpResponseRedirect(reverse("index"))
+    ctx = {}
+    if request.method == "POST":
+        # uploaded_file=request.FILES.get('document')
+        form=UploadDocForm(request.POST)
+        files=request.FILES.getlist('file_field')
+        if form.is_valid():
+            patient=form.cleaned_data['patient']
+            # check if patient exists, and whether he is related to doctor
+            vendor_name=form.cleaned_data['vendor_name']
+            for file in files:
+                fs = FileSystemStorage()
+                f = fs.save(f"{patient.user.username}/{uploaded_file.name}", uploaded_file)
+
+    return render(request, "health_tracker/forms_test.html", context=ctx)
+
+# def upload_file(request):
+#     if not request.user.is_authenticated:
+#         return HttpResponseRedirect(reverse("login"))
+#     # elif request.user.is_authenticated:
+#     user=User.objects.get(username=request.user)
+#     user_type=user.division.lower()
+#     if user_type not in ['d/hcw/ms','i/sp','msh']:
+#         return HttpResponseRedirect(reverse("index"))
+#     ctx = {}
+#     if request.method == "POST":
+#         uploaded_file=request.FILES.get('document')
+#         form=UploadDocForm(request.POST)
+#         if form.is_valid() and uploaded_file:
+#             patient=form.cleaned_data['patient']
+            
+#             fs = FileSystemStorage()
+#             f = fs.save(f"{request.user.username}/{uploaded_file.name}", uploaded_file)
+
+#     return render(request, "health_tracker/forms_test.html", context=ctx)
+    # return HttpResponse("Not Implemented Yet")
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -99,6 +140,13 @@ def register(request):
                     user = get_hcw_vid(email=email, password=password, division=division)
                     reg_no=form.cleaned_data['reg_no']
                     dept=form.cleaned_data['department']
+                    ## new:
+                    if division.lower()=='d/hcw/ms':
+                        if dept.strip()=='':
+                            return render(request, "health_tracker/register.html",{
+                                "form":form,
+                                "message":"You must enter a department name!"
+                            })   
                     MedWorkerRep(reg_no=reg_no,department=dept,full_com_name=full_name, hcwvid=user.username, account=user).save()
 
             except IntegrityError:
@@ -247,3 +295,4 @@ def test_forms(request):
             f = fs.save(f"{request.user.username}/{uploaded_file.name}", uploaded_file)
 
     return render(request, "health_tracker/forms_test.html", context=ctx)
+#validation if the patient exists, if so then save the file on patient's name
