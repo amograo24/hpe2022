@@ -14,11 +14,45 @@
 <script>
 
 
+    function approve(btn)
+    {
+        let receiver_id = $(btn).attr('class')
+        let sender_id = $(btn).attr('id')
+        console.log(receiver_id);
+        let token = $("input[name='csrfmiddlewaretoken']").val()
+        let header = {"X-CSRFToken": token}
+        let payload = JSON.stringify({type: "approval", authorised: sender_id, approver: receiver_id, status: "yes"})
+        let content = {
+            method: "POST", headers: header, body: payload
+        }
+        let request = fetch("{% url 'notifications' %}", content)
+
+    }
+    function reject(btn)
+    {
+        let receiver_id = $(btn).attr('class')
+        let sender_id = $(btn).attr('id')
+        console.log(receiver_id);
+        let token = $("input[name='csrfmiddlewaretoken']").val()
+        let header = {"X-CSRFToken": token}
+        let payload = JSON.stringify({type: "approval", authorised: sender_id, approver: receiver_id, status:"no"})
+        let content = {
+            method: "POST", headers: header, body: payload
+        }
+        let request = fetch("{% url 'notifications' %}", content)
+
+    }
     function handle_json(data)
     {
-        for(var row of data)
+        $('#notifs').html("")
+        for(let row of data)
         {
-            $('#notifs').html(`<li>${row.sender} Sent A Letter of ${row.content}</li>`)
+            let notif_html = `
+                <li>${row.sender} Sent A Letter of ${row.content}</li>
+                <button onclick=approve(this) id='${row.sender}' class='${row.receiver}'>Approve</button>
+                <button onclick=reject(this) id='${row.sender}' class='${row.receiver}'>Reject</button>
+                            `
+            $('#notifs').append(notif_html)
         }
     }
     function handle_rec()
@@ -56,7 +90,7 @@
 
     $(document).ready(()=>{
         $("#test").click(handle_send)
-        $("#test2").click(handle_rec)
+        setInterval(handle_rec, 10000)
     })
 
 </script>
