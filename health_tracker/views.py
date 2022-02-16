@@ -30,15 +30,27 @@ def upload_file(request):
         # uploaded_file=request.FILES.get('document')
         form=UploadDocForm(request.POST)
         files=request.FILES.getlist('file_field')
-        if form.is_valid():
+        print("files",files)
+        if form.is_valid() and files:
             patient=form.cleaned_data['patient']
+            patient=Patients.objects.get(wbid=patient)
             # check if patient exists, and whether he is related to doctor
             vendor_name=form.cleaned_data['vendor_name']
+            # files=request.FILES.getlist('file_field')
+            print(request.FILES)
             for file in files:
                 fs = FileSystemStorage()
-                f = fs.save(f"{patient.user.username}/{uploaded_file.name}", uploaded_file)
+                f = fs.save(f"{patient.person.username}/{file.name}", file)
+                print(f)
+        else:
+            return render(request,"health_tracker/file_upload.html", {
+                "message":"You must upload atleast 1 file!",
+                "form":form
+            }) 
 
-    return render(request, "health_tracker/forms_test.html", context=ctx)
+    return render(request, "health_tracker/file_upload.html",{
+        "form":UploadDocForm()
+    })
 
 # def upload_file(request):
 #     if not request.user.is_authenticated:
@@ -86,10 +98,9 @@ def login_view(request):
             return render(request,"health_tracker/login.html", {
                 "form":form
             })
-    else:
-        return render(request, "health_tracker/login.html",{
-            "form":LoginForm()
-        })
+    return render(request, "health_tracker/login.html",{
+        "form":LoginForm()
+    })
 
 def logout_view(request):
     logout(request)
