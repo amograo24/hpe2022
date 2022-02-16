@@ -263,14 +263,40 @@ def notifications(request):
 
                 return HttpResponse("Nice")
             elif body['type'] == "receive":
+                print(request.user.division.lower())
                 if request.user.division.lower() != "nou":
                     raise NotImplementedError("Will do this after implementing for nou")
                 else:
                     patient = Patients.objects.get(person=User.objects.get(username=request.user))
                     notifs = patient.notifications
+                    all_notifs = []
+                    serialized_data = {}
                     for n in notifs.all():
-                        print(n.content, n.sender, n.receiver)
-                    return HttpResponse("Works So far")
+                        serialized_data['content'] = n.content
+                        serialized_data['sender'] = n.sender.username
+                        serialized_data['receiver'] = n.receiver.username
+                        all_notifs.append(serialized_data)
+
+                    return JsonResponse(all_notifs, content_type="json", safe=False)
+            elif body['type'] == "approval":
+                approver = body['approver']
+                authorised = body['authorised']
+                if request.user.username.lower() != approver.lower():
+                    return HttpResponse("Forgery")
+
+                sender = User.objects.get(username=authorised)
+                receiver = User.objects.get(username=approver)
+                p_receiver = Patients.objects.get(person=receiver)
+                mwr_sender = MedWorkerRep.objects.get(account=sender)
+                notifs = Notification.objects.filter(sender=sender, receiver=receiver)
+                if body['status'] == "yes":
+                    print("Yes")
+                    p_receiver.hcw_v.add(mwr_sender)
+                for n in notifs:
+                    p_receiver.notifications.remove(n)
+                    n.delete()
+                return HttpResponse("Received")
+
 
         else:
             print("Not authenticated")
