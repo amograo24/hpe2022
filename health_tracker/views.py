@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404, FileResponse
 from django.shortcuts import render
 from django.urls import reverse
 from .utils import gen_unique_id, get_hcw_vid, return_qr_code
@@ -8,6 +8,8 @@ from .forms import RegisterForm, LoginForm, UploadDocForm
 from .models import User, MedWorkerRep, Patients, Notification
 import json
 from django.core.files.storage import FileSystemStorage
+import base64
+import mimetypes
 from django.contrib.admin.widgets import AdminDateWidget
 import datetime
 from django.views.decorators.csrf import csrf_exempt
@@ -321,15 +323,17 @@ def test(request):
     return render(request, "health_tracker/copy_stuff_from_here.html", context=ctx)
 
 
-def test_forms(request):
-    ctx = {}
-    if request.method == "POST":
+def view_files(request, wbid):
+    return render(request, "health_tracker/view_files.html")
 
-        uploaded_file = request.FILES.get('kushurox')
 
-        if request.user.is_authenticated and uploaded_file:
-            fs = FileSystemStorage()
-            f = fs.save(f"{request.user.username}/{uploaded_file.name}", uploaded_file)
+def get_file(request, wbid):
+    url = 'mydocs/2247890331333889/lab.pdf'
+    fp = open(url, "rb")
+    data = fp.read()
+    mime_type = mimetypes.MimeTypes().guess_type(url)
+    ctx = {'image': base64.b64encode(data).decode('utf-8'), 'mt': mime_type[0]}
+    return render(request, 'health_tracker/file_rendering.html', ctx)
 
-    return render(request, "health_tracker/forms_test.html", context=ctx)
-#validation if the patient exists, if so then save the file on patient's name
+
+# validation if the patient exists, if so then save the file on patient's name

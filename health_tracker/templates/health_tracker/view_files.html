@@ -1,0 +1,49 @@
+{% extends 'health_tracker/layout.html' %}
+
+
+{% block styling %}
+<style>
+    *{
+        background-color: white;
+    }
+    iframe{
+        width: 100vw;
+        height: 100vh;
+        frame-border: 0;
+
+    }
+</style>
+{% endblock styling %}
+
+
+{% block body %}
+<iframe src="" id="image"></iframe>
+{% endblock body %}
+
+{% block script %}
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-analytics.js";
+  import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-storage.js";
+
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCWobf9X9C5QHlQ3J-49qpbTIaPuGo8XZg",
+    authDomain: "healthtracker-b2b7e.firebaseapp.com",
+    projectId: "healthtracker-b2b7e",
+    storageBucket: "healthtracker-b2b7e.appspot.com",
+    messagingSenderId: "829546207887",
+    appId: "1:829546207887:web:0bc1d5622e7123c124eefa",
+    measurementId: "G-JN8NMYYMMZ"
+  };
+
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const storage = getStorage(app)
+  getDownloadURL(ref(storage, 'lab manual(activity-3).pdf')).then((url)=>{
+    $("#image").attr("src", url)
+
+  })
+</script>
+{% endblock script %}
