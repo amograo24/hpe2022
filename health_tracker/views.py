@@ -14,8 +14,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 import time
 
-# TODO Upload File View - kushurox
 
+
+# def test2(request):
+#     return render(request,"health_tracker/test2.html",{
+#         "file":'/media/7977790201256379/Atomic_Physics.pdf'
+#     })
 
 def upload_file(request):
     if not request.user.is_authenticated:
@@ -191,7 +195,8 @@ def index(request):
             "image":image,
             "user":user,
             "nou":user_type=='nou',
-            "non_nou":user_type in ['d/hcw/ms','i/sp','msh']
+            "non_nou":user_type in ['d/hcw/ms','i/sp','msh'],
+            # "file":'media/7977790201256379/Atomic_Physics.pdf'
         })
     else:
         return render(request,"health_tracker/index.html")
