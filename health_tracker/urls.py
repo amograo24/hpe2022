@@ -12,5 +12,6 @@ urlpatterns = [
     path("",views.index,name="index"),
     path("user/<str:id>",views.other_profile,name="other_profile"),
     path("upload",views.upload_file,name="upload_file"),
-    path("test_forms", views.test_forms, name="test_forms")
+    path("test_forms", views.test_forms, name="test_forms"),
+    # path("media/<str:id>/<str:name>",views.test2,name="mediaa")
 ]

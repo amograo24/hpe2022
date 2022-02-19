@@ -14,12 +14,26 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 import time
 
+import os
+from django.conf import settings
+from django.templatetags.static import static
 
 
-# def test2(request):
-#     return render(request,"health_tracker/test2.html",{
-#         "file":'/media/7977790201256379/Atomic_Physics.pdf'
-#     })
+
+# def test2(request,id,name):
+#     if not request.user.is_authenticated:
+#         return HttpResponseRedirect(reverse("login"))
+#     else:
+#         # path = settings.MEDIA_ROOT
+#         # doc_list = os.listdir(path + f'{id}/{name}')
+#         # os.path.join(settings.MEDIA_ROOT,f'{id}/{name}')
+#         print(os.path.join(settings.MEDIA_ROOT,f'{id}\{name}'))
+#         # print(static(f'{id}/{name}',document_root=settings.MEDIA_ROOT))
+#         # context = {'docs' : doc_list}
+#         return render(request, "health_tracker/test2.html")
+#     # return render(request,"health_tracker/test2.html",{
+#     #     "file":'/media/7977790201256379/Atomic_Physics.pdf'
+#     # })
 
 def upload_file(request):
     if not request.user.is_authenticated:
