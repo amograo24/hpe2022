@@ -1,0 +1,6 @@
+{% extends "health_tracker/layout.html" %}
+{% block title %}{{wbid}}{% endblock %}
+{% block body %}
+<!-- <iframe src="data:{{mt}};base64,{{file}}" style="height:100vh;width:100vw;"></iframe> -->
+<img src="data:{{mt}};base64,{{file}}">
+{% endblock body %}
