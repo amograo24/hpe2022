@@ -1,0 +1,7 @@
+{% extends "health_tracker/layout.html" %}
+
+
+{% block body %}
+<embed src="data:{{mt}};base64,{{image}}" style="height:100vh;width:100vw;">
+<!--<img src="data:{{mt}};base64,{{image}}">-->
+{% endblock body %}
