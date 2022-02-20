@@ -344,6 +344,7 @@ def view_files(request, wbid):
 def file_page(request,wbid,name):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
+    # check if the file thing is being shown to the correct ppl
     file = open(f'media/{wbid}/{name}', 'rb')
     response = FileResponse(file)
     return response
