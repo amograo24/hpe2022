@@ -1,11 +1,34 @@
 {% extends "health_tracker/layout.html" %}
+
 {% block title %}{{wbid}}{% endblock %}
+
+
 {% block body %}
-<!-- <iframe src="data:{{mt}};base64,{{file}}" style="height:100vh;width:100vw;"></iframe>
-<img src="data:{{mt}};base64,{{file}}"> -->
-<!-- <embed src="data:{{mt}};base64,{{file}}" type="image/jpg"> -->
-<!-- <object data="data:{{mt}};base64,{{file}}" type="image/jpg"> -->
-<embed src="data:{{mt}};base64,{{file}}" type="image/jpg" style="height: 100vh; width: 100vw;">
-<!-- </object> -->
-<!-- <embed src="data:{{mt}};base64,{{file}}" type="application/pdf"> -->
+
+{% csrf_token %}
+
+<div id="files">
+
+</div>
+
+<script>
+
+    function handleBlob(blobResponse)
+    {
+        const imageObjectURL = URL.createObjectURL(blobResponse)
+        const code = `<img src=${imageObjectURL}>`
+        $('#files').prepend(code)
+    }
+
+    function main()
+    {
+        let token = $("input[name='csrfmiddlewaretoken']").val()
+        let url = "/get_file/{{ wbid }}/{{ name }}"
+        let header = {'X-CSRFToken': token}
+        let request = fetch(url, {method: "POST", headers: header})
+        request.then(resp => resp.blob()).then(handleBlob)
+    }
+    $(document).ready(main)
+</script>
+
 {% endblock body %}

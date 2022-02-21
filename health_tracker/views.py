@@ -153,7 +153,7 @@ def register(request):
                             "form":form,
                             "message":"Your Aadhar ID must have only 12 digits!"
                         })
-                    # what if aadhar id already exists?
+                    # what if aadhar id already exisits?
                     if Patients.objects.filter(aadharid=aadharid): #is this correct?
                         return render(request, "health_tracker/register.html",{
                             "form":form,
@@ -344,20 +344,6 @@ def view_files(request, wbid):
 def file_page(request,wbid,name):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
-    user=User.objects.get(username=request.user)
-    if not Patients.objects.filter(person=user):
-        return HttpResponseRedirect(reverse("index"))
-    # user=User.objects.get(username=request.user)
-    if user.division.lower=='nou' and user.username!=wbid:
-        return HttpResponseRedirect(reverse("index"))
-    if user.username==wbid:
-        if not os.path.exists(f'media/{wbid}/{name}'):
-            raise Http404(f"'{name}' doesn't exist!")
-    else:
-        
-        #check if he is in the many to many
-            # return HttpResponseRedirect(revese("index"))
-
     # check if the file thing is being shown to the correct ppl
     file = open(f'media/{wbid}/{name}', 'rb')
     response = FileResponse(file)
@@ -374,33 +360,12 @@ def file_page(request,wbid,name):
     # })
     # def send_file(response):
 
+
 def get_file(request, wbid, name):
-    url=f'media/{wbid}/{name}'
-    # fp=open(url, "r")
-    fp=open(url, "rb")
-    data=fp.read()
-    print(len(data))
-    # data=data[:2000]
-    # print(len(data))
-    # print(bytes(data,'utf-8'))
-    # pages=data.split("//")
-    # data=pages[0]
-    mime_type = mimetypes.MimeTypes().guess_type(url)
-    return render(request,"health_tracker/file_page.html",{
-        "file":base64.b64encode(data).decode('utf-8'),
-        # "file":base64.b64encode(bytes(data,'utf-8')).decode('utf-8'),
-        # "file":data.decode('utf-8'),
-        "mt":mime_type[0],
-        "wbid":wbid
-    })
-    # return HttpResponseRedirect(reverse('index'))
-
-    # url = 'mydocs/2247890331333889/lab.pdf'
-    # fp = open(url, "rb")
-    # data = fp.read()
-    # mime_type = mimetypes.MimeTypes().guess_type(url)
-    # ctx = {'image': base64.b64encode(data).decode('utf-8'), 'mt': mime_type[0]}
-    # return render(request, 'health_tracker/file_rendering.html', ctx)
-
+    if request.method == "POST":
+        file = open(f'media/{wbid}/{name}', 'rb')
+        return FileResponse(file)
+    ctx = {"wbid": wbid, "name": name}
+    return render(request, 'health_tracker/file_page.html', ctx)
 
 # validation if the patient exists, if so then save the file on patient's name
