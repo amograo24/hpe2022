@@ -15,7 +15,7 @@ import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 import time
-
+import os
 
 # def test2(request,id,name):
 #     if not request.user.is_authenticated:
@@ -342,8 +342,36 @@ def view_files(request, wbid):
 
 
 def file_page(request,wbid,name):
-    if not request.user.is_authenticated:
+    # check if the wbid exists
+    # check if the viewer if authorised to view
+    # check if file exists
+    if not request.user.is_authenticated: #if dude not logged in
         return HttpResponseRedirect(reverse("login"))
+    viewer=User.objects.get(username=request.user) #viewer
+
+    if not User.objects.filter(username=wbid): #if the wbid doesn't exits
+        return HttpResponseRedirect(reverse("index"))
+    profile=User.objects.get(username=wbid) #wbid
+
+    if profile.division.lower()!='nou': # if the wbid is not equal to a normal user
+        return HttpResponseRedirect(reverse("index"))
+    profile=Patients.objects.get(person=profile) # get the patient of the wbid
+
+    if viewer.division.lower() not in ['d/hcw/ms','i/sp','msh'] and viewer!=profile.person: # if viewer is basically a normal user and if the viewer is not the profile
+        return HttpResponseRedirect(reverse("index"))
+
+    if viewer==profile.person: #if the viewer is the wbid (profile)
+        if not os.path.exists(f'media/{wbid}/{name}'):
+            raise Http404(f"'{name}' doesn't exist!")
+    else:
+        if viewer.division.lower() in ['d/hcw/ms','i/sp','msh']:
+            vendor=MedWorkerRep.objects.get(account=viewer)
+            if vendor in profile.hcw_v.all():
+                if not os.path.exists(f'media/{wbid}/{name}'):
+                    raise Http404(f"'{name}' doesn't exist!") 
+            else:
+                return HttpResponseRedirect(reverse("index"))
+        
     # check if the file thing is being shown to the correct ppl
     file = open(f'media/{wbid}/{name}', 'rb')
     response = FileResponse(file)
