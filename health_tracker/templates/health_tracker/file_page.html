@@ -17,6 +17,7 @@
     {
         const imageObjectURL = URL.createObjectURL(blobResponse)
         const code = `<img src=${imageObjectURL}>`
+        // const code = `<embed src=${imageObjectURL}></embed>`
         $('#files').prepend(code)
     }
 
