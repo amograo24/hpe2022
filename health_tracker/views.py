@@ -153,7 +153,7 @@ def register(request):
                             "form":form,
                             "message":"Your Aadhar ID must have only 12 digits!"
                         })
-                    # what if aadhar id already exisits?
+                    # what if aadhar id already exists?
                     if Patients.objects.filter(aadharid=aadharid): #is this correct?
                         return render(request, "health_tracker/register.html",{
                             "form":form,
@@ -344,6 +344,20 @@ def view_files(request, wbid):
 def file_page(request,wbid,name):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
+    user=User.objects.get(username=request.user)
+    if not Patients.objects.filter(person=user):
+        return HttpResponseRedirect(reverse("index"))
+    # user=User.objects.get(username=request.user)
+    if user.division.lower=='nou' and user.username!=wbid:
+        return HttpResponseRedirect(reverse("index"))
+    if user.username==wbid:
+        if not os.path.exists(f'media/{wbid}/{name}'):
+            raise Http404(f"'{name}' doesn't exist!")
+    else:
+        
+        #check if he is in the many to many
+            # return HttpResponseRedirect(revese("index"))
+
     # check if the file thing is being shown to the correct ppl
     file = open(f'media/{wbid}/{name}', 'rb')
     response = FileResponse(file)
@@ -365,6 +379,9 @@ def get_file(request, wbid, name):
     # fp=open(url, "r")
     fp=open(url, "rb")
     data=fp.read()
+    print(len(data))
+    # data=data[:2000]
+    # print(len(data))
     # print(bytes(data,'utf-8'))
     # pages=data.split("//")
     # data=pages[0]
