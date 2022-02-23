@@ -14,7 +14,6 @@ urlpatterns = [
     path("upload",views.upload_file,name="upload_file"),
     # path("test_forms", views.test_forms, name="test_forms"),
     path("media/<str:wbid>/<str:name>",views.file_page,name="file_page"),
-    path("view_files/<str:wbid>", views.view_files, name="view_files"),
     path('get_file/<str:wbid>/<str:name>', views.get_file, name="get_file"),
     # path("media")
 ]
