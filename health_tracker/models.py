@@ -55,4 +55,5 @@ class Patients(models.Model):
 class Files(models.Model):
     uploader=models.ForeignKey(MedWorkerRep,on_delete=models.CASCADE,related_name="uploader",default=None,verbose_name="Uploaded By")
     recipent=models.ForeignKey(Patients,on_delete=models.CASCADE,related_name="recipent",default=None,verbose_name="Recipent")
-    file=models.FileField()
+    tags=models.CharField(default=None,blank=True,null=True,verbose_name="Tags/Keywords",max_length=200)
+    file=models.FileField(default=None,unique=True,verbose_name="File Path")
