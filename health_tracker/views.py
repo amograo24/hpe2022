@@ -8,6 +8,8 @@ from .forms import RegisterForm, LoginForm, UploadDocForm
 from .models import User, MedWorkerRep, Patients, Notification
 import json
 from django.core.files.storage import FileSystemStorage
+import io
+from fitz import fitz
 import base64
 import mimetypes
 from django.contrib.admin.widgets import AdminDateWidget
@@ -387,8 +389,10 @@ def file_page(request,wbid,name):
 
 def get_file(request, wbid, name):
     if request.method == "POST":
-        file = open(f'media/{wbid}/{name}', 'rb')
-        return FileResponse(file)
+        pdf_file = fitz.open(f"media/{wbid}/{name}")
+        f = io.BytesIO(pdf_file.load_page(0).get_pixmap().tobytes())
+        f.name = "nice.png"
+        return FileResponse(f)
     ctx = {"wbid": wbid, "name": name}
     return render(request, 'health_tracker/file_page.html', ctx)
 
