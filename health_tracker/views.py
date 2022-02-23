@@ -337,10 +337,6 @@ def test(request):
     return render(request, "health_tracker/copy_stuff_from_here.html", context=ctx)
 
 
-def view_files(request, wbid):
-    return render(request, "health_tracker/view_files.html")
-
-
 def file_page(request,wbid,name):
     # check if the wbid exists
     # check if the viewer if authorised to view

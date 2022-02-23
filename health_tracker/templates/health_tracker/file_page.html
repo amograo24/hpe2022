@@ -8,7 +8,7 @@
 {% csrf_token %}
 
 <div id="files">
-
+    <a href="#">Download</a>
 </div>
 
 <script>
@@ -16,8 +16,8 @@
     function handleBlob(blobResponse)
     {
         const imageObjectURL = URL.createObjectURL(blobResponse)
-        const code = `<img src=${imageObjectURL}>`
-        // const code = `<embed src=${imageObjectURL}></embed>`
+        $("a").attr("href", imageObjectURL)
+        const code = `<img src=${imageObjectURL}></img>`
         $('#files').prepend(code)
     }
 
