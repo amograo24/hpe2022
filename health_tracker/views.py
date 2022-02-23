@@ -19,20 +19,6 @@ from django.core.paginator import Paginator
 import time
 import os
 
-# def test2(request,id,name):
-#     if not request.user.is_authenticated:
-#         return HttpResponseRedirect(reverse("login"))
-#     else:
-#         # path = settings.MEDIA_ROOT
-#         # doc_list = os.listdir(path + f'{id}/{name}')
-#         # os.path.join(settings.MEDIA_ROOT,f'{id}/{name}')
-#         print(os.path.join(settings.MEDIA_ROOT,f'{id}\{name}'))
-#         # print(static(f'{id}/{name}',document_root=settings.MEDIA_ROOT))
-#         # context = {'docs' : doc_list}
-#         return render(request, "health_tracker/test2.html")
-#     # return render(request,"health_tracker/test2.html",{
-#     #     "file":'/media/7977790201256379/Atomic_Physics.pdf'
-#     # })
 
 def upload_file(request):
     if not request.user.is_authenticated:
@@ -88,26 +74,6 @@ def upload_file(request):
         "form":UploadDocForm()
     })
 
-# def upload_file(request):
-#     if not request.user.is_authenticated:
-#         return HttpResponseRedirect(reverse("login"))
-#     # elif request.user.is_authenticated:
-#     user=User.objects.get(username=request.user)
-#     user_type=user.division.lower()
-#     if user_type not in ['d/hcw/ms','i/sp','msh']:
-#         return HttpResponseRedirect(reverse("index"))
-#     ctx = {}
-#     if request.method == "POST":
-#         uploaded_file=request.FILES.get('document')
-#         form=UploadDocForm(request.POST)
-#         if form.is_valid() and uploaded_file:
-#             patient=form.cleaned_data['patient']
-            
-#             fs = FileSystemStorage()
-#             f = fs.save(f"{request.user.username}/{uploaded_file.name}", uploaded_file)
-
-#     return render(request, "health_tracker/forms_test.html", context=ctx)
-    # return HttpResponse("Not Implemented Yet")
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -289,7 +255,7 @@ def notifications(request):
                 payload = "approval"
                 if request.user.division.lower() != sender_division.lower():
                     return HttpResponse("Forgery")
-                if len(request.user.username) != 12:  # This implies that user is a normal user
+                if len(request.user.username) != 12:  # This implies that user is a normal user or instead ==16
                     print("Nou")
                     sender = User.objects.get(username=request.user.username)
                     receiver = User.objects.get(username=receiver_id)
