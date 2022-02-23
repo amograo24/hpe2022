@@ -222,7 +222,7 @@ def other_profile(request,id):
                 if viewer_type=='d/hcw/ms':
                     # show all documents of profile
                     pass
-                elif viewer_type=='i/sp':
+                elif viewer_type=='i/sp': #no need two two types na.
                     # show all documents of profile uploaded by this i/sp
                     pass
                 elif viewer_type=='msh':
@@ -232,7 +232,7 @@ def other_profile(request,id):
                 return HttpResponseRedirect(reverse("index"))
         elif profile_type in ['d/hcw/ms','i/sp','msh']:
             profile=MedWorkerRep.objects.get(account=profile)
-            viewer=Patients.object.get(person=viewer)
+            viewer=Patients.objects.get(person=viewer)
             if profile in viewer.hcw_v.all():
                 #show all documents uploaded by profile of viewer
                 pass
@@ -265,7 +265,7 @@ def notifications(request):
                     receiver = MedWorkerRep.objects.get(account=receiver)
                 else:
                     # We can use division logic here, ill do it later. First ill finish doctor logic
-                    sender = User.objects.get(username=request.user.username)
+                    sender = User.objects.get(username=request.user.username) # remove username
                     receiver = User.objects.get(username=receiver_id)
                     notification = Notification(sender=sender, receiver=receiver, content=payload)
                     notification.save()
