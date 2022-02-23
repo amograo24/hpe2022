@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from .utils import gen_unique_id, get_hcw_vid, return_qr_code
 from .forms import RegisterForm, LoginForm, UploadDocForm
-from .models import User, MedWorkerRep, Patients, Notification
+from .models import User, MedWorkerRep, Patients, Notification, Files
 import json
 from django.core.files.storage import FileSystemStorage
 import io
@@ -38,9 +38,9 @@ def upload_file(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     # elif request.user.is_authenticated:
-    user=User.objects.get(username=request.user)
-    user_type=user.division.lower()
-    if user_type not in ['d/hcw/ms','i/sp','msh']:
+    uploader=User.objects.get(username=request.user)
+    uploader_type=uploader.division.lower()
+    if uploader_type not in ['d/hcw/ms','i/sp','msh']:
         return HttpResponseRedirect(reverse("index"))
     ctx = {}
     if request.method == "POST":
@@ -49,15 +49,34 @@ def upload_file(request):
         files=request.FILES.getlist('file_field')
         print("files",files)
         if form.is_valid() and files:
+            uploader=MedWorkerRep.objects.get(account=uploader)
             patient=form.cleaned_data['patient']
-            patient=Patients.objects.get(wbid=patient)
+            try:
+                patient=Patients.objects.get(wbid=patient)
+                if uploader not in patient.hcw_v.all():
+                    return render(request,"health_tracker/file_upload.html", {
+                        "message":f"The Patient/Customer with the WBID '{patient.person.username}' has not yet authorized you to upload documents to their profile!",
+                        "form":form
+                    }) 
+            except Patients.DoesNotExist:
+                return render(request,"health_tracker/file_upload.html", {
+                    "message":f"No Patient/Customer with the WBID '{patient}' exists!",
+                    "form":form
+                }) 
             # check if patient exists, and whether he is related to doctor
             vendor_name=form.cleaned_data['vendor_name']
+            tags=form.cleaned_data['tags']
             # files=request.FILES.getlist('file_field')
             print(request.FILES)
             for file in files:
                 fs = FileSystemStorage()
                 f = fs.save(f"{patient.person.username}/{file.name}", file)
+                # if request.user
+                if uploader in patient.hcw_v.all():
+                    if uploader_type=='d/hcw/ms':
+                        Files(uploader=uploader,recipent=patient,file=f,tags=tags).save()
+                    elif uploader_type in ['i/sp','msh']:
+                        Files(uploader=uploader,recipent=patient,file=f,vendor_name=vendor_name,tags=tags).save()
                 print(f)
         else:
             return render(request,"health_tracker/file_upload.html", {

@@ -57,3 +57,7 @@ class Files(models.Model):
     recipent=models.ForeignKey(Patients,on_delete=models.CASCADE,related_name="recipent",default=None,verbose_name="Recipent")
     tags=models.CharField(default=None,blank=True,null=True,verbose_name="Tags/Keywords",max_length=200)
     file=models.FileField(default=None,unique=True,verbose_name="File Path")
+    vendor_name=models.CharField(default=None,blank=True,null=True,verbose_name="Name of person uploading this documen",max_length=200)
+
+    def __str__(self):
+        return f"{self.file}"
