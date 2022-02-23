@@ -387,12 +387,18 @@ def file_page(request,wbid,name):
     # def send_file(response):
 
 
-def get_file(request, wbid, name):
+def get_file(request, wbid, name: str):
     if request.method == "POST":
-        pdf_file = fitz.open(f"media/{wbid}/{name}")
-        f = io.BytesIO(pdf_file.load_page(0).get_pixmap().tobytes())
-        f.name = "nice.png"
-        return FileResponse(f)
+        ext = name[name.rfind(".")+1:]
+        if ext == "pdf":
+            pdf_file = fitz.open(f"media/{wbid}/{name}")
+            f = io.BytesIO(pdf_file.load_page(0).get_pixmap().tobytes())
+            f.name = "nice.png"
+            return FileResponse(f)
+        else:
+            f = open(f"media/{wbid}/{name}", "rb")
+            return FileResponse(f)
+
     ctx = {"wbid": wbid, "name": name}
     return render(request, 'health_tracker/file_page.html', ctx)
 
