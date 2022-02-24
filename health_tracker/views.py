@@ -199,6 +199,21 @@ def index(request):
     else:
         return render(request,"health_tracker/index.html")
 
+def myfiles(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    user=User.objects.get(username=request.user)
+    if user.division.lower()=='nou':
+        user=Patients.objects.get(person=user)
+        files=Files.objects.filter(recipent=user)[::-1]
+        # file_names=[]
+        # for file in files:
+
+        print(list(files)) # error
+        return render(request,"health_tracker/myfiles.html",{
+            "files":files
+        })
+    # return render("health_tracker/myfiles.html")
 
 def other_profile(request,id):
     if request.user.is_authenticated:
@@ -378,7 +393,7 @@ def get_file(request, wbid, name: str):
         if ext == "pdf":
             pdf_file = fitz.open(f"media/{wbid}/{name}")
             f = io.BytesIO(pdf_file.load_page(0).get_pixmap().tobytes())
-            f.name = "nice.png"
+            f.name = f"{name}.png"
             return FileResponse(f)
         else:
             f = open(f"media/{wbid}/{name}", "rb")

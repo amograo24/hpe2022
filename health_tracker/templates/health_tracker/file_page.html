@@ -17,7 +17,7 @@
     {
         const imageObjectURL = URL.createObjectURL(blobResponse)
         $("a").attr("href", imageObjectURL)
-        const code = `<img src="${imageObjectURL}"></embed>`
+        const code = `<img src="${imageObjectURL}">`
         $('#files').prepend(code)
     }
 
