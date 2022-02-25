@@ -41,8 +41,10 @@ def upload_file(request):
             uploader=MedWorkerRep.objects.get(account=uploader)
             patient=form.cleaned_data['patient']
             try:
-                time_condition = (timezone.now() - uploader.date_of_approval) > datetime.timedelta(minutes=5)
                 patient=Patients.objects.get(wbid=patient)
+                notification=Notification.objects.filter(sender=uploader.account,receiver=patient.person).order_by('-date_of_approval')
+                if notification:
+                    time_condition = (timezone.now() - notification[0].date_of_approval) > datetime.timedelta(minutes=5)
                 if uploader not in patient.hcw_v.all():
                     return render(request,"health_tracker/file_upload.html", {
                         "message":f"The Patient/Customer with the WBID '{patient.person.username}' has not yet authorized you to upload documents to their profile!",
@@ -69,10 +71,12 @@ def upload_file(request):
                 for file in files:
                     fs = FileSystemStorage()
                     f = fs.save(f"{patient.person.username}/{file.name.replace(' ','_')}", file)
-                        if uploader_type=='d/hcw/ms':
-                            Files(uploader=uploader,recipent=patient,file=f,tags=tags,date=timezone.now()).save()
-                        elif uploader_type in ['i/sp','msh']:
-                            Files(uploader=uploader,recipent=patient,file=f,vendor_name=vendor_name,tags=tags,date=timezone.now()).save()
+                    if uploader_type=='d/hcw/ms':
+                        Files(uploader=uploader,recipent=patient,file=f,tags=tags,date=timezone.now()).save()
+                    elif uploader_type in ['i/sp','msh']:
+                        Files(uploader=uploader,recipent=patient,file=f,vendor_name=vendor_name,tags=tags,date=timezone.now()).save()
+                        patient.hcw_v.remove(uploader)
+                        patient.save()
                     print(f)
         else:
             return render(request,"health_tracker/file_upload.html", {
@@ -279,7 +283,7 @@ def notifications(request):
                 payload = "approval"
                 if request.user.division.lower() != sender_division.lower():
                     return HttpResponse("Forgery")
-                if len(request.user.username) != 12:  # This implies that user is a normal user or instead ==16
+                if len(request.user.username) == 16:  # This implies that user is a normal user or instead ==16
                     print("Nou")
                     sender = User.objects.get(username=request.user.username)
                     receiver = User.objects.get(username=receiver_id)
@@ -307,14 +311,16 @@ def notifications(request):
 
                 else:
                     patient = Patients.objects.get(person=User.objects.get(username=request.user))
-                    notifs = patient.notifications
+                    # notifs = patient.notifications
+                    notification=Notification.objects.filter(receiver=patient.person).order_by('-date_of_approval')[0]
                     all_notifs = []
                     serialized_data = {}
-                    for n in notifs.all():
-                        serialized_data['content'] = n.content
-                        serialized_data['sender'] = n.sender.username
-                        serialized_data['receiver'] = n.receiver.username
-                        all_notifs.append(serialized_data)
+                    # for n in notifs.all():
+                    serialized_data['content'] = notification.content
+                    serialized_data['sender'] = notification.sender.username
+                    serialized_data['receiver'] = notification.receiver.username
+                    serialized_data['doc']=notification.date_of_approval
+                    all_notifs.append(serialized_data)
 
                     return JsonResponse(all_notifs, content_type="json", safe=False)
             elif body['type'] == "approval":
@@ -327,15 +333,14 @@ def notifications(request):
                 receiver = User.objects.get(username=approver)
                 p_receiver = Patients.objects.get(person=receiver)
                 mwr_sender = MedWorkerRep.objects.get(account=sender)
-                notifs = Notification.objects.filter(sender=sender, receiver=receiver)
+                notifs = Notification.objects.filter(sender=sender, receiver=receiver).order_by('-date_of_approval')
                 if body['status'] == "yes":
                     print("Yes")
-                    mwr_sender.date_of_approval = timezone.now()
+                    notif_obj=notifs[0]
+                    notif_obj.date_of_approval = timezone.now()
+                    notif_obj.save()
                     p_receiver.hcw_v.add(mwr_sender)
                     mwr_sender.save()
-                for n in notifs:
-                    p_receiver.notifications.remove(n)
-                    n.delete()
                 return HttpResponse("Received")
 
 
