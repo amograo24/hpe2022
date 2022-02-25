@@ -8,7 +8,7 @@
       {% for file in files %}
          <div class="file_card">
             {% csrf_token %}
-            <div class="inside_file_card"><a style="text-decoration: none;" href="media/{{file.file}}">
+            <div class="inside_file_card"><a style="text-decoration: none;" href="/media/{{file.file}}">
             <!-- <a href="{#% url 'file_page' file.recipent file.file %#}">kk</a> -->
                <div>
                   <img width="100%" class="img_class" id="img{{file.id}}" data-image="{{file.file}}">
