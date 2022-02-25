@@ -58,6 +58,7 @@ def upload_file(request):
                 fs = FileSystemStorage()
                 f = fs.save(f"{patient.person.username}/{file.name.replace(' ','_')}", file)
                 # if request.user
+                print(file.size)
                 if file.size>614400:
                     return render(request,"health_tracker/file_upload.html", {
                         "message":"File Size too big!",

@@ -27,4 +27,9 @@
 {% endblock %}
 
 {% block script %}
+<script>
+    let file_field=document.querySelector('#id_file_field')
+    file_field.addEventListener('change',console.log(file_field.files))
+    // console.log(file_field.files)
+</script>
 {% endblock script %}
