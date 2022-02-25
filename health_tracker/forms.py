@@ -30,7 +30,7 @@ class LoginForm(forms.Form):
 class UploadDocForm(forms.Form):
     patient = forms.CharField(max_length=16,label="Patient's WBID",required=True,widget=forms.TextInput(attrs={"type":"number"}),validators=[MinLengthValidator(16)])
     vendor_name = forms.CharField(max_length=200,label="Name of person uploading this document",required=True)
-    file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}),required=False)
+    file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}),required=False,max_upload_size=5242880)
     tags = forms.CharField(max_length=200,label="Tags/Keywords",required=False)
 
 

@@ -56,7 +56,7 @@ def upload_file(request):
             print(request.FILES)
             for file in files:
                 fs = FileSystemStorage()
-                f = fs.save(f"{patient.person.username}/{file.name}", file)
+                f = fs.save(f"{patient.person.username}/{file.name.replace(' ','_')}", file)
                 # if request.user
                 if uploader in patient.hcw_v.all():
                     if uploader_type=='d/hcw/ms':
