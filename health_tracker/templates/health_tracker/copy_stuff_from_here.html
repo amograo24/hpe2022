@@ -63,7 +63,7 @@
             method: "POST", headers: header, body: payload
         }
         let request = fetch("{% url 'notifications' %}", content)
-        request.then((data) => {data.json().then(handle_json)})
+        request.then((data) => {data.json().then(handle_json).catch(err => null)})
     }
 
     function handle_send()

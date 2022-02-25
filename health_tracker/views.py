@@ -1,3 +1,6 @@
+import datetime
+
+import django
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404, FileResponse
@@ -10,10 +13,10 @@ import json
 from django.core.files.storage import FileSystemStorage
 import io
 from fitz import fitz
+from django.utils import timezone
 import base64
 import mimetypes
 from django.contrib.admin.widgets import AdminDateWidget
-import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 import time
@@ -38,8 +41,9 @@ def upload_file(request):
             uploader=MedWorkerRep.objects.get(account=uploader)
             patient=form.cleaned_data['patient']
             try:
+                condition = (timezone.now() - uploader.date_of_approval) > datetime.timedelta(minutes=5)
                 patient=Patients.objects.get(wbid=patient)
-                if uploader not in patient.hcw_v.all():
+                if uploader not in patient.hcw_v.all() or condition:
                     return render(request,"health_tracker/file_upload.html", {
                         "message":f"The Patient/Customer with the WBID '{patient.person.username}' has not yet authorized you to upload documents to their profile!",
                         "form":form
@@ -66,9 +70,9 @@ def upload_file(request):
                     }) 
                 if uploader in patient.hcw_v.all():
                     if uploader_type=='d/hcw/ms':
-                        Files(uploader=uploader,recipent=patient,file=f,tags=tags,date=datetime.datetime.now()).save()
+                        Files(uploader=uploader,recipent=patient,file=f,tags=tags,date=timezone.now()).save()
                     elif uploader_type in ['i/sp','msh']:
-                        Files(uploader=uploader,recipent=patient,file=f,vendor_name=vendor_name,tags=tags,date=datetime.datetime.now()).save()
+                        Files(uploader=uploader,recipent=patient,file=f,vendor_name=vendor_name,tags=tags,date=timezone.now()).save()
                 print(f)
         else:
             return render(request,"health_tracker/file_upload.html", {
@@ -267,7 +271,6 @@ def other_profile(request,id):
 
 def notifications(request):
     if request.method == "POST":
-
         if request.user.is_authenticated:
             body = json.loads(request.body)
             if body['type'] == "send":
@@ -295,12 +298,13 @@ def notifications(request):
 
                 receiver.notifications.add(notification)
                 receiver.save()
-
                 return HttpResponse("Nice")
+
             elif body['type'] == "receive":
                 print(request.user.division.lower())
                 if request.user.division.lower() != "nou":
-                    raise NotImplementedError("Will do this after implementing for nou")
+                    return JsonResponse({"no": "no"})
+
                 else:
                     patient = Patients.objects.get(person=User.objects.get(username=request.user))
                     notifs = patient.notifications
@@ -326,7 +330,9 @@ def notifications(request):
                 notifs = Notification.objects.filter(sender=sender, receiver=receiver)
                 if body['status'] == "yes":
                     print("Yes")
+                    mwr_sender.date_of_approval = timezone.now()
                     p_receiver.hcw_v.add(mwr_sender)
+                    mwr_sender.save()
                 for n in notifs:
                     p_receiver.notifications.remove(n)
                     n.delete()
