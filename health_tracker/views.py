@@ -41,9 +41,9 @@ def upload_file(request):
             uploader=MedWorkerRep.objects.get(account=uploader)
             patient=form.cleaned_data['patient']
             try:
-                condition = (timezone.now() - uploader.date_of_approval) > datetime.timedelta(minutes=5)
+                time_condition = (timezone.now() - uploader.date_of_approval) > datetime.timedelta(minutes=5)
                 patient=Patients.objects.get(wbid=patient)
-                if uploader not in patient.hcw_v.all() or condition:
+                if uploader not in patient.hcw_v.all():
                     return render(request,"health_tracker/file_upload.html", {
                         "message":f"The Patient/Customer with the WBID '{patient.person.username}' has not yet authorized you to upload documents to their profile!",
                         "form":form
@@ -58,22 +58,22 @@ def upload_file(request):
             tags=form.cleaned_data['tags']
             # files=request.FILES.getlist('file_field')
             print(request.FILES)
-            for file in files:
-                fs = FileSystemStorage()
-                f = fs.save(f"{patient.person.username}/{file.name.replace(' ','_')}", file)
-                # if request.user
-                print(file.size)
-                if file.size>614400:
-                    return render(request,"health_tracker/file_upload.html", {
-                        "message":"File Size too big!",
-                        "form":form
-                    }) 
-                if uploader in patient.hcw_v.all():
-                    if uploader_type=='d/hcw/ms':
-                        Files(uploader=uploader,recipent=patient,file=f,tags=tags,date=timezone.now()).save()
-                    elif uploader_type in ['i/sp','msh']:
-                        Files(uploader=uploader,recipent=patient,file=f,vendor_name=vendor_name,tags=tags,date=timezone.now()).save()
-                print(f)
+            if uploader_type in ['i/sp','msh'] and uploader in patient.hcw_v.all() and time_condition:  # if uploader is med shop/insurance and if in the patient's approves list, and the time has exceeded
+                patient.hcw_v.remove(uploader)
+                patient.save()
+                return render(request,"health_tracker/file_upload.html",{
+                    "message":f"Uploading time has exceeded more than 5 minutes! Resend a request to '{patient.person.username}-{patient.full_name}'!",
+                    "form":form
+                })
+            elif uploader in patient.hcw_v.all():
+                for file in files:
+                    fs = FileSystemStorage()
+                    f = fs.save(f"{patient.person.username}/{file.name.replace(' ','_')}", file)
+                        if uploader_type=='d/hcw/ms':
+                            Files(uploader=uploader,recipent=patient,file=f,tags=tags,date=timezone.now()).save()
+                        elif uploader_type in ['i/sp','msh']:
+                            Files(uploader=uploader,recipent=patient,file=f,vendor_name=vendor_name,tags=tags,date=timezone.now()).save()
+                    print(f)
         else:
             return render(request,"health_tracker/file_upload.html", {
                 "message":"You must upload atleast 1 file!",
