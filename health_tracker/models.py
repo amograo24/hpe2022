@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinLengthValidator
-import datetime
+from django.utils import timezone
 
 
 # from .models import Patients
@@ -37,7 +37,7 @@ class MedWorkerRep(models.Model):
                               verbose_name="Health Care Worker/Vendor ID", unique=True)
     account = models.ForeignKey(User, on_delete=models.CASCADE, related_name="account", default=None)
     notifications = models.ManyToManyField(Notification, related_name="mwr_notifs", blank=True)
-    date_of_approval = models.DateTimeField(default=datetime.datetime.now())
+    date_of_approval = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return f"{self.account}"
 
@@ -71,7 +71,7 @@ class Files(models.Model):
     file = models.FileField(default=None, unique=True, verbose_name="File Path")
     vendor_name = models.CharField(default=None, blank=True, null=True,
                                    verbose_name="Name of person uploading this documen", max_length=200)
-    date = models.DateTimeField(default=datetime.datetime.now())
+    date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"{self.file}"

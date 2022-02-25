@@ -1,3 +1,4 @@
+import django
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404, FileResponse
@@ -10,6 +11,7 @@ import json
 from django.core.files.storage import FileSystemStorage
 import io
 from fitz import fitz
+from django.utils import timezone
 import base64
 import mimetypes
 from django.contrib.admin.widgets import AdminDateWidget
@@ -261,7 +263,6 @@ def other_profile(request,id):
 
 def notifications(request):
     if request.method == "POST":
-
         if request.user.is_authenticated:
             body = json.loads(request.body)
             if body['type'] == "send":
@@ -289,12 +290,13 @@ def notifications(request):
 
                 receiver.notifications.add(notification)
                 receiver.save()
-
                 return HttpResponse("Nice")
+
             elif body['type'] == "receive":
                 print(request.user.division.lower())
                 if request.user.division.lower() != "nou":
-                    raise NotImplementedError("Will do this after implementing for nou")
+                    return JsonResponse({"no": "no"})
+
                 else:
                     patient = Patients.objects.get(person=User.objects.get(username=request.user))
                     notifs = patient.notifications
@@ -320,7 +322,9 @@ def notifications(request):
                 notifs = Notification.objects.filter(sender=sender, receiver=receiver)
                 if body['status'] == "yes":
                     print("Yes")
+                    mwr_sender.date_of_approval = timezone.now()
                     p_receiver.hcw_v.add(mwr_sender)
+                    mwr_sender.save()
                 for n in notifs:
                     p_receiver.notifications.remove(n)
                     n.delete()
