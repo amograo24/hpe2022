@@ -1,3 +1,5 @@
+import datetime
+
 import django
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
@@ -15,7 +17,6 @@ from django.utils import timezone
 import base64
 import mimetypes
 from django.contrib.admin.widgets import AdminDateWidget
-import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 import time
@@ -40,8 +41,9 @@ def upload_file(request):
             uploader=MedWorkerRep.objects.get(account=uploader)
             patient=form.cleaned_data['patient']
             try:
+                condition = (timezone.now() - uploader.date_of_approval) > datetime.timedelta(minutes=5)
                 patient=Patients.objects.get(wbid=patient)
-                if uploader not in patient.hcw_v.all():
+                if uploader not in patient.hcw_v.all() or condition:
                     return render(request,"health_tracker/file_upload.html", {
                         "message":f"The Patient/Customer with the WBID '{patient.person.username}' has not yet authorized you to upload documents to their profile!",
                         "form":form
@@ -62,9 +64,9 @@ def upload_file(request):
                 # if request.user
                 if uploader in patient.hcw_v.all():
                     if uploader_type=='d/hcw/ms':
-                        Files(uploader=uploader,recipent=patient,file=f,tags=tags,date=datetime.datetime.now()).save()
+                        Files(uploader=uploader,recipent=patient,file=f,tags=tags,date=timezone.now()).save()
                     elif uploader_type in ['i/sp','msh']:
-                        Files(uploader=uploader,recipent=patient,file=f,vendor_name=vendor_name,tags=tags,date=datetime.datetime.now()).save()
+                        Files(uploader=uploader,recipent=patient,file=f,vendor_name=vendor_name,tags=tags,date=timezone.now()).save()
                 print(f)
         else:
             return render(request,"health_tracker/file_upload.html", {
