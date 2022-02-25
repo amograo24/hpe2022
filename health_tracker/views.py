@@ -240,35 +240,87 @@ def other_profile(request,id):
             profile_type=profile.division.lower()
         except User.DoesNotExist:
             return HttpResponseRedirect(reverse("index"))
-        if viewer_type==profile_type: # make it more secure
-            return HttpResponseRedirect(reverse("index"))
-        if viewer_type in ['d/hcw/ms','i/sp','msh'] and profile_type in ['d/hcw/ms','i/sp','msh']:
+        # if viewer_type==profile_type: # make it more secure (basically nou=nou or d=d or sp=sp or msh = msh)
+        #     return HttpResponseRedirect(reverse("index"))
+        # if viewer_type in ['d/hcw/ms','i/sp','msh'] and profile_type in ['d/hcw/ms','i/sp','msh']:
+        #     return HttpResponseRedirect(reverse("index"))
+        if (viewer_type=='nou' and profile_type=='nou') or (viewer_type in ['d/hcw/ms','i/sp','msh'] and profile_type in ['d/hcw/ms','i/sp','msh']):
             return HttpResponseRedirect(reverse("index"))
         if profile_type=='nou':
             profile=Patients.objects.get(person=profile)
             viewer=MedWorkerRep.objects.get(account=viewer)
-            if viewer in profile.hcw_v.all():
-                if viewer_type=='d/hcw/ms':
-                    # show all documents of profile
-                    pass
-                elif viewer_type=='i/sp': #no need two two types na.
-                    # show all documents of profile uploaded by this i/sp
-                    pass
-                elif viewer_type=='msh':
-                    # show all documents of profile uploaded by this msh
-                    pass
-            else:
-                return HttpResponseRedirect(reverse("index"))
+            # if viewer in profile.hcw_v.all(): # even if not in, it should show na? basically filtered. # like only for registered doctor it should show all, for doctors who were deleted, only their uploaded files
+            # if viewer_type in ['i/sp','msh']:
+            files=Files.objects.filter(uploader=viewer,recipent=profile)
+            # if viewer_type!='d/hcw/ms':
+            #     if Files.objects.filter(uploader=viewer,recipent=profile):
+            #         files=Files.objects.filter(uploader=viewer,recipent=profile)
+            #         # IMP PRESCRIPTIONS
+            #         # return render(request,"health_tracker/other_profile.html",{
+            #         #     "files":files
+            #         # })
+            #     else:
+            #         return HttpResponseRedirect(reverse("index"))
+            # # if viewer_type=='d/hcw/ms':
+            # elif viewer_type='d/hcw/ms':
+            #     if viewer in profile.hcw_v.all():
+            #         files=Files.objects.filter(recipent=profile)
+            #     else:
+            #         if Files.objects.filter(uploader=viewer,recipent=profile):
+            #             files=Files.objects.filter(uploader=viewer,recipent=profile)
+            #         else:
+            #             return HttpResponseRedirect(reverse("index"))
+            # return render(request,"health_tracker/other_profile.html",{
+            #     "files":files
+            # })
+            if viewer_type!='d/hcw/ms':
+                print(files, not files)
+                if not files:
+                    return HttpResponse(reverse("index"))
+            elif viewer_type=='d/hcw/ms':
+                if viewer in profile.hcw_v.all():
+                    files=Files.objects.filter(recipent=profile)
+                else:
+                    if not files:
+                        return HttpResponseRedirect(reverse("index"))
+            return render(request,"health_tracker/other_profile.html",{
+                "files":files
+            })
+                # show all documents of profile
+            #     pass
+            # elif viewer_type=='i/sp': #no need two two types na.
+            #     # show all documents of profile uploaded by this i/sp
+            #     pass
+            # elif viewer_type=='msh':
+            #     # show all documents of profile uploaded by this msh
+            #     pass
+            # else:
+            #     return HttpResponseRedirect(reverse("index"))
         elif profile_type in ['d/hcw/ms','i/sp','msh']:
             profile=MedWorkerRep.objects.get(account=profile)
             viewer=Patients.objects.get(person=viewer)
-            if profile in viewer.hcw_v.all():
-                #show all documents uploaded by profile of viewer
-                pass
-            else:
+            files=Files.objects.filter(uploader=profile,recipent=viewer)
+
+            # if profile in viewer.hcw_v.all():
+            #     if not files:
+
+            # if not files:
+            #     if profile not in viewer.hcw_v.all():
+            #         return HttpResponseRedirect(reverse("index"))
+            if not files and profile not in viewer.hcw_v.all():
                 return HttpResponseRedirect(reverse("index"))
+            else:
+                return render(request,"health_tracker/other_profile.html",{
+                    "files":files
+                })
+                
+            # if profile in viewer.hcw_v.all():
+            #     #show all documents uploaded by profile of viewer
+            #     pass
+            # else:
+            #     return HttpResponseRedirect(reverse("index"))
     else:
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("login"))
 
 # TODO Notification API - kushurox
 
@@ -379,13 +431,19 @@ def file_page(request,wbid,name):
         if not os.path.exists(f'media/{wbid}/{name}'):
             raise Http404(f"'{name}' doesn't exist!")
     else:
+        ###### Major Security Risk: Since the temporary user is a part of profile.hcw_v.all() he can view stuff. Also if he ain't in the thing, but he is the one who uplaoded the doc, he should be able to see
         if viewer.division.lower() in ['d/hcw/ms','i/sp','msh']:
             vendor=MedWorkerRep.objects.get(account=viewer)
             if vendor in profile.hcw_v.all():
                 if not os.path.exists(f'media/{wbid}/{name}'):
                     raise Http404(f"'{name}' doesn't exist!") 
+                elif os.path.exists(f'media/{wbid}/{name}'):
+                    file=Files.objects.get(file=f'{wbid}/{name}')
+                    if file.uploader!=vendor and viewer.division.lower()!='d/hcw/ms': # if the person who uploaded the file is not the vendor and if the vendor is not a doctor => intruder
+                        return HttpResponseRedirect(reverse("index"))
             else:
-                return HttpResponseRedirect(reverse("index"))
+                if (os.path.exists(f'media/{wbid}/{name}') and Files.objects.get(file=f'{wbid}/{name}').uploader!=vendor) or (not os.path.exists(f'media/{wbid}/{name}')):
+                    return HttpResponseRedirect(reverse("index"))
         
     # check if the file thing is being shown to the correct ppl
     file = open(f'media/{wbid}/{name}', 'rb')

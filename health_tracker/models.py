@@ -65,6 +65,7 @@ class Files(models.Model):
     file = models.FileField(default=None, unique=True, verbose_name="File Path")
     vendor_name = models.CharField(default=None, blank=True, null=True, verbose_name="Name of person uploading this document", max_length=200)
     date = models.DateTimeField(default=timezone.now)
+    # remarks and type
 
     def __str__(self):
         return f"{self.file}"
