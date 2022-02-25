@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinLengthValidator
+import datetime
 # from .models import Patients
 # Create your models here.
 
@@ -58,6 +59,6 @@ class Files(models.Model):
     tags=models.CharField(default=None,blank=True,null=True,verbose_name="Tags/Keywords",max_length=200)
     file=models.FileField(default=None,unique=True,verbose_name="File Path")
     vendor_name=models.CharField(default=None,blank=True,null=True,verbose_name="Name of person uploading this documen",max_length=200)
-
+    date=models.DateTimeField(default=datetime.datetime.now())
     def __str__(self):
         return f"{self.file}"

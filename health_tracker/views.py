@@ -60,9 +60,9 @@ def upload_file(request):
                 # if request.user
                 if uploader in patient.hcw_v.all():
                     if uploader_type=='d/hcw/ms':
-                        Files(uploader=uploader,recipent=patient,file=f,tags=tags).save()
+                        Files(uploader=uploader,recipent=patient,file=f,tags=tags,date=datetime.datetime.now()).save()
                     elif uploader_type in ['i/sp','msh']:
-                        Files(uploader=uploader,recipent=patient,file=f,vendor_name=vendor_name,tags=tags).save()
+                        Files(uploader=uploader,recipent=patient,file=f,vendor_name=vendor_name,tags=tags,date=datetime.datetime.now()).save()
                 print(f)
         else:
             return render(request,"health_tracker/file_upload.html", {
