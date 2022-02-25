@@ -12,7 +12,7 @@
             <h1>Upload File</h1>
         </div>
     </div> 
-    <form method='POST' action="{% url 'upload_file' %}" enctype="multipart/form-data">
+    <form method='POST' action="{% url 'upload_file' %}" enctype="multipart/form-data" id="upload-form">
         {% csrf_token %}
         {{form}}
         <!-- <label for="document">Upload Document</label>
@@ -28,8 +28,20 @@
 
 {% block script %}
 <script>
-    let file_field=document.querySelector('#id_file_field')
-    file_field.addEventListener('change',console.log(file_field.files))
-    // console.log(file_field.files)
+    function main()
+    {
+        $("#upload-form").on("submit", function() {
+            for(file of $("#id_file_field").prop("files"))
+            {
+                let size = file.size/(1000000)
+                if(size > 50)
+                {
+                    alert("file as big as my cock")
+                    return false;
+                 }
+            }
+        })
+    }
+    $(document).ready(main)
 </script>
 {% endblock script %}
