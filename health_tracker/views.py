@@ -276,7 +276,7 @@ def other_profile(request,id):
             if viewer_type!='d/hcw/ms':
                 print(files, not files)
                 if not files:
-                    return HttpResponse(reverse("index"))
+                    return HttpResponseRedirect(reverse("index"))
             elif viewer_type=='d/hcw/ms':
                 if viewer in profile.hcw_v.all():
                     files=Files.objects.filter(recipent=profile)
@@ -284,7 +284,11 @@ def other_profile(request,id):
                     if not files:
                         return HttpResponseRedirect(reverse("index"))
             return render(request,"health_tracker/other_profile.html",{
-                "files":files
+                "files":files,
+                "viewer_doctor_type":viewer_type=='d/hcw/ms',
+                "profile_type":profile_type,
+                "profile":profile,
+                "viewer":viewer
             })
                 # show all documents of profile
             #     pass
@@ -311,7 +315,11 @@ def other_profile(request,id):
                 return HttpResponseRedirect(reverse("index"))
             else:
                 return render(request,"health_tracker/other_profile.html",{
-                    "files":files
+                    "files":files,
+                    "profile_doctor_type":profile_type=='d/hcw/ms',
+                    "profile_type":profile_type,
+                    "profile":profile,
+                    "viewer":viewer                    
                 })
                 
             # if profile in viewer.hcw_v.all():
