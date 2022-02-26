@@ -58,8 +58,8 @@ class Patients(models.Model):
         verbose_name_plural = 'Patients'
 
 
-class Files(models.Model):
-    uploader = models.ForeignKey(MedWorkerRep, on_delete=models.CASCADE, related_name="uploader", default=None, verbose_name="Uploaded By")
+class Files(models.Model): #SET('Deleted User')
+    uploader = models.ForeignKey(MedWorkerRep, on_delete=models.SET_NULL,null=True, related_name="uploader", default=None, verbose_name="Uploaded By")
     recipent = models.ForeignKey(Patients, on_delete=models.CASCADE, related_name="recipent", default=None, verbose_name="Recipent")
     tags = models.CharField(default=None, blank=True, null=True, verbose_name="Tags/Keywords", max_length=200)
     file = models.FileField(default=None, unique=True, verbose_name="File Path")
@@ -69,3 +69,7 @@ class Files(models.Model):
 
     def __str__(self):
         return f"{self.file}"
+
+class HealthStatus(models.Model):
+    patient=models.ForeignKey(Patients,on_delete=models.CASCADE,related_name="patient",verbose_name="Patient",default=None)
+    # lcb=models.ForeignKey(MedWorkerRep,on_delete=models.CASCADE,related)
