@@ -72,4 +72,18 @@ class Files(models.Model): #SET('Deleted User')
 
 class HealthStatus(models.Model):
     patient=models.ForeignKey(Patients,on_delete=models.CASCADE,related_name="patient",verbose_name="Patient",default=None)
+    last_updated_by=models.ForeignKey(MedWorkerRep,on_delete=models.SET_NULL,null=True,blank=True,related_name="last_updated_by",verbose_name="Last Updated By")
+    last_updated=models.DateTimeField(default=timezone.now)
     # lcb=models.ForeignKey(MedWorkerRep,on_delete=models.CASCADE,related)
+
+    def __str__(self):
+        return f"{self.patient}"
+
+class HealthValue(models.Model):
+    health_status=models.ForeignKey(HealthStatus,on_delete=models.CASCADE,related_name='health_status',verbose_name='Health Status',default=None)
+    health_condition=models.CharField(default=None,verbose_name="Health Condition",max_length=100)
+    maximum_value=models.IntegerField(default=None,verbose_name="Maximum Value",null=True,blank=True)
+    minimum_value=models.IntegerField(default=None,verbose_name="Minimum Value",null=True,blank=True)
+    patient_value=models.IntegerField(default=None,verbose_name="Patient's Value")
+
+     

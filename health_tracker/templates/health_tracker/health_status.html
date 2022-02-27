@@ -1,0 +1,8 @@
+{% extends "health_tracker/layout.html" %}
+{% block body %}
+    <form method="POST" action="{% url 'health' wbid %}">
+        {% csrf_token %}
+        {{formset}}
+        <input type="submit">
+    </form>
+{% endblock %}

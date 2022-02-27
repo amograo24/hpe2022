@@ -8,7 +8,8 @@ from django.shortcuts import render
 from django.urls import reverse
 from .utils import gen_unique_id, get_hcw_vid, return_qr_code
 from .forms import RegisterForm, LoginForm, UploadDocForm
-from .models import User, MedWorkerRep, Patients, Notification, Files
+from .models import User, MedWorkerRep, Patients, Notification, Files, HealthStatus, HealthValue
+from django.forms import modelformset_factory, inlineformset_factory
 import json
 from django.core.files.storage import FileSystemStorage
 import io
@@ -22,6 +23,24 @@ from django.core.paginator import Paginator
 import time
 import os
 
+
+def health_status(request,wbid):
+    user=User.objects.get(username=wbid)
+    patient=Patients.objects.get(person=user)
+    health_status=HealthStatus.objects.get(patient=patient)
+    HealthValueFormset=inlineformset_factory(HealthStatus,HealthValue,fields=('health_status','health_condition','maximum_value','minimum_value','patient_value'))
+    if request.method=='POST':
+        formset=HealthValueFormset(request.POST,instance=health_status)
+        if formset.is_valid():
+            formset.save()
+            health_status.last_updated_by=MedWorkerRep.objects.get(account=User.objects.get(username=request.user))
+            health_status.last_updated=timezone.now()
+            health_status.save()
+            return HttpResponseRedirect(reverse("index"))
+    return render(request,"health_tracker/health_status.html",{
+        "formset":HealthValueFormset(instance=health_status),
+        "wbid":wbid
+    })
 
 def upload_file(request):
     if not request.user.is_authenticated:
@@ -217,16 +236,23 @@ def myfiles(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     user=User.objects.get(username=request.user)
+    files=None
     if user.division.lower()=='nou':
         user=Patients.objects.get(person=user)
         files=Files.objects.filter(recipent=user)[::-1]
         # file_names=[]
         # for file in files:
-
         print(list(files)) # error
         return render(request,"health_tracker/myfiles.html",{
             "files":files
         })
+    # elif user.division.lower() in ['d/hcw/ms','i/sp','msh']:
+    #     user=MedWorkerRep.objects.get(account=user)
+    #     files=Files.objects.filter(uploader=user)[::-1]
+    #     print(list(files)
+    # return render(request,"health_tracker/myfiles.html",{
+    #     "files":files
+    # })
     # return render("health_tracker/myfiles.html")
 
 def other_profile(request,id):

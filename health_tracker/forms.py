@@ -1,5 +1,6 @@
 from django import forms
 from django.core.validators import MinLengthValidator
+from .models import HealthStatus,HealthValue
 
 
 class RegisterForm(forms.Form):
@@ -32,6 +33,11 @@ class UploadDocForm(forms.Form):
     vendor_name = forms.CharField(max_length=200,label="Name of person uploading this document",required=True)
     file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}),required=False)
     tags = forms.CharField(max_length=200,label="Tags/Keywords",required=False)
+
+# class CreateHealthStatus(forms.ModelForm):
+#     class Meta:
+#         model=HealthStatus
+#         fields=['patient','health_status','health_condition','maximum_value','minimum_value','patient_value']
 
 
 

@@ -16,5 +16,6 @@ urlpatterns = [
     path("media/<str:wbid>/<str:name>",views.file_page,name="file_page"),
     path('get_file/<str:wbid>/<str:name>', views.get_file, name="get_file"),
     path("myfiles",views.myfiles,name="myfiles"),
+    path("health/<str:wbid>",views.health_status,name="health")
     # path("media")
 ]
