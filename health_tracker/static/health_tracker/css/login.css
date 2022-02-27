@@ -23,8 +23,8 @@
   height: 100vh;
   background: #e74c3c
     url(https://images.unsplash.com/photo-1576091160501-bbe57469278b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80);
-    filter: blur(2px) brightness(0.75);
-background-size: cover;
+  filter: blur(2px) brightness(0.75);
+  background-size: cover;
   background-position: center;
 }
 
@@ -95,6 +95,35 @@ input[type="number"] {
   line-height: 40px;
   border: 1px solid #ccc;
   border-bottom: 3px solid navy;
+  min-width: 30vw;
+  padding-left: 8px;
+  font-size: 1em;
+  margin-bottom: 2rem;
+  margin-top: 0.5rem;
+  outline: none;
+}
+
+.left form input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus {
+  transition-duration: 1s;
+  border-bottom: 3px solid red;
+  min-width: 30vw;
+}
+
+.left form input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"] {
+  transition-duration: 1s;
+  display: block;
+  border: none;
+  background-color: none;
+  border-radius: 6px;
+  line-height: 40px;
+  border: 1px solid #ccc;
+  border-bottom: 3px solid lightpink;
   min-width: 30vw;
   padding-left: 8px;
   font-size: 1em;
@@ -201,6 +230,6 @@ form input[type="submit"]:hover {
   color: pink;
 }
 
-p{
-    margin-top: 1rem;
+p {
+  margin-top: 1rem;
 }
