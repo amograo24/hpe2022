@@ -69,8 +69,7 @@ def upload_file(request):
                 if notification:
                     time_condition = (timezone.now(
                     ) - notification[0].date_of_approval) > datetime.timedelta(minutes=5)
-                # TODO Avaneesh: The if condition is not working cause the patient.hcw_v.all() QuerySet is empty. So it always shows Patient has not authorized.
-                if uploader not in patient.hcw_v.all():
+               if uploader not in patient.hcw_v.all():
                     return render(request, "health_tracker/file_upload.html", {
                         "message": f"The Patient/Customer with the WBID '{patient.person.username}' has not yet authorized you to upload documents to their profile!",
                         "form": form
