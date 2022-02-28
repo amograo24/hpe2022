@@ -24,14 +24,14 @@ import time
 import os
 
 
-def health_status(request, wbid):
-    user = User.objects.get(username=wbid)
-    patient = Patients.objects.get(person=user)
-    health_status = HealthStatus.objects.get(patient=patient)
-    HealthValueFormset = inlineformset_factory(HealthStatus, HealthValue, fields=(
-        'health_status', 'health_condition', 'maximum_value', 'minimum_value', 'patient_value'))
-    if request.method == 'POST':
-        formset = HealthValueFormset(request.POST, instance=health_status)
+def health_status(request,wbid):
+    # do security part, creation and testing even while registering.
+    user=User.objects.get(username=wbid)
+    patient=Patients.objects.get(person=user)
+    health_status=HealthStatus.objects.get(patient=patient)
+    HealthValueFormset=inlineformset_factory(HealthStatus,HealthValue,fields=('health_status','health_condition','maximum_value','minimum_value','patient_value'))
+    if request.method=='POST':
+        formset=HealthValueFormset(request.POST,instance=health_status)
         if formset.is_valid():
             formset.save()
             health_status.last_updated_by = MedWorkerRep.objects.get(
@@ -193,23 +193,21 @@ def register(request):
                             "message": "An account with this Aadhar ID already exists!"
                         })
                     print(request.user.pk, request.user, request.user.username)
-                    Patients(aadharid=aadharid, full_name=full_name,
-                             wbid=user.username, person=user).save()
+                    Patients(aadharid=aadharid, full_name=full_name, wbid=user.username, person=user).save()
+                    HealthStatus(patient=Patients.objects.get(person=user,aadharid=aadharid)).save()
 
-                elif division.lower() in ['d/hcw/ms', 'i/sp', 'msh']:
-                    user = get_hcw_vid(
-                        email=email, password=password, division=division)
-                    reg_no = form.cleaned_data['reg_no']
-                    dept = form.cleaned_data['department']
-                    # new:
-                    if division.lower() == 'd/hcw/ms':
-                        if dept.strip() == '':
-                            return render(request, "health_tracker/register.html", {
-                                "form": form,
-                                "message": "You must enter a department name!"
-                            })
-                    MedWorkerRep(reg_no=reg_no, department=dept, full_com_name=full_name,
-                                 hcwvid=user.username, account=user).save()
+                elif division.lower() in ['d/hcw/ms','i/sp','msh']:
+                    user = get_hcw_vid(email=email, password=password, division=division)
+                    reg_no=form.cleaned_data['reg_no']
+                    dept=form.cleaned_data['department']
+                    ## new:
+                    if division.lower()=='d/hcw/ms':
+                        if dept.strip()=='':
+                            return render(request, "health_tracker/register.html",{
+                                "form":form,
+                                "message":"You must enter a department name!"
+                            })   
+                    MedWorkerRep(reg_no=reg_no,department=dept,full_com_name=full_name, hcwvid=user.username, account=user).save()
 
             except IntegrityError:
                 return render(request, "health_tracker/register.html", {
