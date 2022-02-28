@@ -1,0 +1,113 @@
+{% extends "health_tracker/layout.html" %}
+{% load static %}
+{% block body %}
+{% csrf_token %}
+<div id="current">
+
+</div>
+<div id="prev">
+
+</div>
+<div id="send">
+    <input id="target_user" type="text">
+    <button id="send_msg">Ask For Approval</button>
+    <script>
+        function handle_send()
+        {
+            let token = $("input[name='csrfmiddlewaretoken']").val()
+            let header = {"X-CSRFToken": token}
+            let whom = $('#target_user').val()
+            if(whom.length == 0)
+            {
+                alert('Whom to send?')
+                return
+            }
+            let payload = JSON.stringify({to: whom, as: "{{ division }}", type: "send"})
+            let content =
+            {
+                method: "POST",
+                headers: header,
+                body: payload
+            }
+            let request = fetch("{% url 'notifications' %}", content)
+
+        }
+    </script>
+</div>
+<script>
+    function approve(btn)
+        {
+            let receiver_id = $(btn).attr('class').split(" ")[0]
+            let sender_id = $(btn).attr('id')
+            console.log(receiver_id);
+            let token = $("input[name='csrfmiddlewaretoken']").val()
+            let header = {"X-CSRFToken": token}
+            let payload = JSON.stringify({type: "approval", authorised: sender_id, approver: receiver_id, status: "yes"})
+            let content = {
+                method: "POST", headers: header, body: payload
+            }
+            let request = fetch("{% url 'notifications' %}", content)
+
+        }
+    function reject(btn)
+        {
+            let receiver_id = $(btn).attr('class')
+            let sender_id = $(btn).attr('id')
+            console.log(receiver_id);
+            let token = $("input[name='csrfmiddlewaretoken']").val()
+            let header = {"X-CSRFToken": token}
+            let payload = JSON.stringify({type: "approval", authorised: sender_id, approver: receiver_id, status:"no"})
+            let content = {
+                method: "POST", headers: header, body: payload
+            }
+            let request = fetch("{% url 'notifications' %}", content)
+
+        }
+    function handle_json(data)
+        {
+            $('#current').html("")
+            $("#prev").html("")
+            for(let row of data)
+            {
+                if(row.content == "approved")
+                {
+                    let notif_html = `
+                    <li>${row.sender} Sent A Letter of ${row.content} on  ${row.doc}</li>
+                                `
+                    $("#prev").append(notif_html)
+                }
+                else
+                {
+                    let notif_html = `
+                    <li>${row.sender} Sent A Letter of ${row.content} on  ${row.doc}</li>
+                    <button onclick=approve(this) id='${row.sender}' class='${row.receiver} notification'>Approve</button>
+                    <button onclick=reject(this) id='${row.sender}' class='${row.receiver} notification'>Reject</button>
+                                `
+                    $('#current').append(notif_html)
+                }
+            }
+        }
+    function handle_rec()
+        {
+            console.log(1)
+            let token = $("input[name='csrfmiddlewaretoken']").val()
+            let header = {"X-CSRFToken": token}
+            let payload = JSON.stringify({type: "receive"})
+            let content = {
+                method: "POST", headers: header, body: payload
+            }
+            let request = fetch("{% url 'notifications' %}", content)
+            request.then((data) => {data.json().then(handle_json).catch(err => null)})
+        }
+    $(document).ready(()=>{
+        handle_rec()
+        $("#send_msg").click(handle_send)
+        setInterval(handle_rec, 3000)
+    })
+</script>
+{% endblock body %}
+
+
+{% block styling %}
+<link rel="stylesheet" href="{% static 'health_tracker/css/notifs.css' %}">
+{% endblock %}
