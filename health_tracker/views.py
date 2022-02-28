@@ -25,6 +25,7 @@ import os
 
 
 def health_status(request,wbid):
+    # do security part, creation and testing even while registering.
     user=User.objects.get(username=wbid)
     patient=Patients.objects.get(person=user)
     health_status=HealthStatus.objects.get(patient=patient)
@@ -181,6 +182,7 @@ def register(request):
                         })
                     print(request.user.pk, request.user, request.user.username)
                     Patients(aadharid=aadharid, full_name=full_name, wbid=user.username, person=user).save()
+                    HealthStatus(patient=Patients.objects.get(person=user,aadharid=aadharid)).save()
 
                 elif division.lower() in ['d/hcw/ms','i/sp','msh']:
                     user = get_hcw_vid(email=email, password=password, division=division)
