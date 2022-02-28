@@ -37,8 +37,6 @@ w3lib==1.22.0
 websockets==10.1
 Werkzeug==2.0.3
 zipp==3.7.0
-(web-dev) Kushi@Kushurox hpe2022 % clear
-(web-dev) Kushi@Kushurox hpe2022 % python3 -m pip freeze
 appdirs==1.4.4
 asgiref==3.4.1
 beautifulsoup4==4.10.0

@@ -1,7 +1,11 @@
 {% extends "health_tracker/layout.html" %}
 {% load static %}
+{% block styling %}
+<link rel="stylesheet" href="{% static 'health_tracker/css/register.css' %}">
+{% endblock %}
 {% block title %}Register{% endblock %}
 {% block body %}
+    <h1 hidden>{% csrf_token %}</h1>
     <div class="color-bg" id="particles-js"></div> 
         <svg height="100vh" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" xmlns:vectornator="http://vectornator.io" version="1.1" viewBox="0 0 319.7 1439.36">
         <g id="Layer 1" vectornator:layerName="Layer 1">
@@ -28,6 +32,6 @@
 {% endblock %}
 
 {% block script %}
-<script src="{% static 'health_tracker/main.js' %}"></script>
-<script src="{% static 'health_tracker/register.js' %}"></script>
+<script src="{% static 'health_tracker/js/register/main.js' %}"></script>
+<script src="{% static 'health_tracker/js/register/register.js' %}"></script>
 {% endblock script %}
