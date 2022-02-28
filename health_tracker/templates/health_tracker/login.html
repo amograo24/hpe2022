@@ -1,25 +1,44 @@
 {% extends "health_tracker/layout.html" %}
 {% load static %}
 {% block title %}Login{% endblock %}
+{% block styling %}
+<link rel="stylesheet" href="{% static 'health_tracker/css/login.css' %}">
+{% endblock %}
 {% block body %}
 
     {% if message %}
         <div>{{ message }}</div>
     {% endif %}
-    <div>
-        <div>
-            <h3>Health Tracker</h3>
-            <h1>Login</h1>
+    <div class="back">
+        <div class="backLeft"></div>
+        <div class="backRight"></div>
+    </div>
+    <div id="slideBox">
+        <div class="topLayer">
+            <div class="right">
+                <h1 class="title">Patient Login</h1>
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    {{form}}
+                    <input type="submit" value="Login">
+                </form>
+                <button id="goRight">Are you a health care worker?</button>
+                <p>Don't have an account yet? <a href="{% url 'register' %}">Register here.</a></p>
+            </div>
+            <div class="left">
+                <h1 class="title">Health Worker Login</h1>
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    {{form}}
+                    <input type="submit" value="Login">
+                </form>
+                <button id="goLeft">Are you a patient?</button>
+                <p>Don't have an account yet? <a href="{% url 'register' %}">Register here.</a></p>
+            </div>
         </div>
-    </div> 
-    <form action="{% url 'login' %}" method="POST">
-        {% csrf_token %}
-        {{form}}
-        <input type="submit" value="Register">
-    </form>
-    <p>Don't have an account yet? <a href="{% url 'register' %}">Register here.</a></p>
-
+    </div>
 {% endblock %}
 
 {% block script %}
+<script src="{% static 'health_tracker/js/login/login.js' %}"></script>
 {% endblock script %}
