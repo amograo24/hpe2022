@@ -24,18 +24,44 @@ import time
 import os
 
 
-def health_status(request,wbid):
-    # do security part, creation and testing even while registering.
-    user=User.objects.get(username=wbid)
-    patient=Patients.objects.get(person=user)
-    health_status=HealthStatus.objects.get(patient=patient)
-    HealthValueFormset=inlineformset_factory(HealthStatus,HealthValue,fields=('health_status','health_condition','maximum_value','minimum_value','patient_value'))
-    if request.method=='POST':
-        formset=HealthValueFormset(request.POST,instance=health_status)
+def health_status(request, wbid):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    updater=User.objects.get(username=request.user)
+    updater_type=updater.division.lower()
+    if updater_type!='d/hcw/ms':
+        return HttpResponseRedirect(reverse("login"))
+    try:
+        profile = User.objects.get(username=wbid)
+        profile_type = profile.division.lower()
+    except User.DoesNotExist:
+        message=None
+        if updater_type=='d/hcw/ms':
+            message=f"Patient with the WBID '{wbid}' doesn't exist! Check your patients' list to update the Health Status Card for your patients."
+        return render(request,"health_tracker/health_status.html",{
+            "message":message,
+            "udne":User.DoesNotExist
+        })    
+    if profile_type!='nou':
+        return render(request,"health_tracker/health_status.html",{
+            "message":f"'{profile}' is not a patient! You can update/create Health Status Cards only for patients!",
+            "nap":profile_type!='nou'
+        })   
+    
+    patient = Patients.objects.get(person=profile)
+    updater=MedWorkerRep.objects.get(account=updater)
+    if updater not in patient.hcw_v.all():
+        return render(request,"health_tracker/health_status.html",{
+            "message":f"Patient with the '{wbid}' has not authorised you to update/create their Health Status Card!",
+            "updater_not_auth":updater not in patient.hcw_v.all()
+        })
+    health_status = HealthStatus.objects.get(patient=patient)
+    HealthValueFormset = inlineformset_factory(HealthStatus, HealthValue, fields=('health_status', 'health_condition', 'maximum_value', 'minimum_value', 'patient_value'))
+    if request.method == 'POST':
+        formset = HealthValueFormset(request.POST, instance=health_status)
         if formset.is_valid():
             formset.save()
-            health_status.last_updated_by = MedWorkerRep.objects.get(
-                account=User.objects.get(username=request.user))
+            health_status.last_updated_by = updater
             health_status.last_updated = timezone.now()
             health_status.save()
             return HttpResponseRedirect(reverse("index"))
@@ -99,11 +125,9 @@ def upload_file(request):
                     f = fs.save(
                         f"{patient.person.username}/{file.name.replace(' ','_')}", file)
                     if uploader_type == 'd/hcw/ms':
-                        Files(uploader=uploader, recipent=patient,
-                              file=f, tags=tags, date=timezone.now()).save()
+                        Files(uploader=uploader, recipent=patient, file=f, tags=tags, date=timezone.now()).save()
                     elif uploader_type in ['i/sp', 'msh']:
-                        Files(uploader=uploader, recipent=patient, file=f,
-                              vendor_name=vendor_name, tags=tags, date=timezone.now()).save()
+                        Files(uploader=uploader, recipent=patient, file=f, vendor_name=vendor_name, tags=tags, date=timezone.now()).save()
                         patient.hcw_v.remove(uploader)
                         patient.save()
                     print(f)

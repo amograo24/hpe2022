@@ -1,8 +1,12 @@
 {% extends "health_tracker/layout.html" %}
 {% block body %}
-    <form method="POST" action="{% url 'health' wbid %}">
-        {% csrf_token %}
-        {{formset}}
-        <input type="submit">
-    </form>
+    {% if udne or nap or updater_not_auth %}
+        <h3>{{message}}</h3>
+    {% else %}
+        <form method="POST" action="{% url 'health' wbid %}">
+            {% csrf_token %}
+            {{formset}}
+            <input type="submit">
+        </form>
+    {% endif %}
 {% endblock %}
