@@ -1,0 +1,74 @@
+body {
+  background-color: lightpink;
+  color: navy;
+}
+
+.title {
+  text-align: center;
+  font-family: 'IBM Plex Sans';
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+}
+
+.row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  width: 100vw;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.file_card {
+  width: 25%;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-radius: 0.5rem;
+  padding: 0;
+}
+
+.inside_file_card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.inside_file_card a {
+  width: 100%;
+}
+
+.inside_file_card h5 {
+  text-align: center;
+  margin-top: 2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  word-break: break-all;
+}
+
+.inside_file_card h6 {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.files_container__img-card {
+  height: 250px;
+  width: 100%;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  background-size: cover;
+  background-position: center;
+}
+/*# sourceMappingURL=files.css.map */
