@@ -221,18 +221,18 @@ def register(request):
                     Patients(aadharid=aadharid, full_name=full_name, wbid=user.username, person=user).save()
                     HealthStatus(patient=Patients.objects.get(person=user,aadharid=aadharid)).save()
 
-                elif division.lower() in ['d/hcw/ms', 'i/sp', 'msh']:
+                elif division.lower() in ['d/hcw/ms','i/sp','msh']:
                     user = get_hcw_vid(email=email, password=password, division=division)
-                    reg_no = form.cleaned_data['reg_no']
-                    dept = form.cleaned_data['department']
-                    # new:
-                    if division.lower() == 'd/hcw/ms':
-                        if dept.strip() == '':
-                            return render(request, "health_tracker/register.html", {
-                                "form": form,
-                                "message": "You must enter a department name!"
-                            })
-                    MedWorkerRep(reg_no=reg_no, department=dept, full_com_name=full_name,hcwvid=user.username, account=user).save()
+                    reg_no=form.cleaned_data['reg_no']
+                    dept=form.cleaned_data['department']
+                    ## new:
+                    if division.lower()=='d/hcw/ms':
+                        if dept.strip()=='':
+                            return render(request, "health_tracker/register.html",{
+                                "form":form,
+                                "message":"You must enter a department name!"
+                            })   
+                    MedWorkerRep(reg_no=reg_no,department=dept,full_com_name=full_name, hcwvid=user.username, account=user).save()
 
             except IntegrityError:
                 return render(request, "health_tracker/register.html", {
