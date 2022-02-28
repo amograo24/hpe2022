@@ -61,8 +61,7 @@ def health_status(request, wbid):
         formset = HealthValueFormset(request.POST, instance=health_status)
         if formset.is_valid():
             formset.save()
-            health_status.last_updated_by = MedWorkerRep.objects.get(
-                account=User.objects.get(username=request.user))
+            health_status.last_updated_by = updater
             health_status.last_updated = timezone.now()
             health_status.save()
             return HttpResponseRedirect(reverse("index"))
