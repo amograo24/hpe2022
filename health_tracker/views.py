@@ -25,11 +25,38 @@ import os
 
 
 def health_status(request, wbid):
-    user = User.objects.get(username=wbid)
-    patient = Patients.objects.get(person=user)
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    updater=User.objects.get(username=request.user)
+    updater_type=updater.division.lower()
+    if updater_type!='d/hcw/ms':
+        return HttpResponseRedirect(reverse("login"))
+    try:
+        profile = User.objects.get(username=wbid)
+        profile_type = profile.division.lower()
+    except User.DoesNotExist:
+        message=None
+        if updater_type=='d/hcw/ms':
+            message=f"Patient with the WBID '{wbid}' doesn't exist! Check your patients' list to update the Health Status Card for your patients."
+        return render(request,"health_tracker/health_status.html",{
+            "message":message,
+            "udne":User.DoesNotExist
+        })    
+    if profile_type!='nou':
+        return render(request,"health_tracker/health_status.html",{
+            "message":f"'{profile}' is not a patient! You can update/create Health Status Cards only for patients!",
+            "nap":profile_type!='nou'
+        })   
+    
+    patient = Patients.objects.get(person=profile)
+    updater=MedWorkerRep.objects.get(account=updater)
+    if updater not in patient.hcw_v.all():
+        return render(request,"health_tracker/health_status.html",{
+            "message":f"Patient with the '{wbid}' has not authorised you to update/create their Health Status Card!",
+            "updater_not_auth":updater not in patient.hcw_v.all()
+        })
     health_status = HealthStatus.objects.get(patient=patient)
-    HealthValueFormset = inlineformset_factory(HealthStatus, HealthValue, fields=(
-        'health_status', 'health_condition', 'maximum_value', 'minimum_value', 'patient_value'))
+    HealthValueFormset = inlineformset_factory(HealthStatus, HealthValue, fields=('health_status', 'health_condition', 'maximum_value', 'minimum_value', 'patient_value'))
     if request.method == 'POST':
         formset = HealthValueFormset(request.POST, instance=health_status)
         if formset.is_valid():
@@ -99,11 +126,9 @@ def upload_file(request):
                     f = fs.save(
                         f"{patient.person.username}/{file.name.replace(' ','_')}", file)
                     if uploader_type == 'd/hcw/ms':
-                        Files(uploader=uploader, recipent=patient,
-                              file=f, tags=tags, date=timezone.now()).save()
+                        Files(uploader=uploader, recipent=patient, file=f, tags=tags, date=timezone.now()).save()
                     elif uploader_type in ['i/sp', 'msh']:
-                        Files(uploader=uploader, recipent=patient, file=f,
-                              vendor_name=vendor_name, tags=tags, date=timezone.now()).save()
+                        Files(uploader=uploader, recipent=patient, file=f, vendor_name=vendor_name, tags=tags, date=timezone.now()).save()
                         patient.hcw_v.remove(uploader)
                         patient.save()
                     print(f)
@@ -193,12 +218,11 @@ def register(request):
                             "message": "An account with this Aadhar ID already exists!"
                         })
                     print(request.user.pk, request.user, request.user.username)
-                    Patients(aadharid=aadharid, full_name=full_name,
-                             wbid=user.username, person=user).save()
+                    Patients(aadharid=aadharid, full_name=full_name, wbid=user.username, person=user).save()
+                    HealthStatus(patient=Patients.objects.get(person=user,aadharid=aadharid)).save()
 
                 elif division.lower() in ['d/hcw/ms', 'i/sp', 'msh']:
-                    user = get_hcw_vid(
-                        email=email, password=password, division=division)
+                    user = get_hcw_vid(email=email, password=password, division=division)
                     reg_no = form.cleaned_data['reg_no']
                     dept = form.cleaned_data['department']
                     # new:
@@ -208,8 +232,7 @@ def register(request):
                                 "form": form,
                                 "message": "You must enter a department name!"
                             })
-                    MedWorkerRep(reg_no=reg_no, department=dept, full_com_name=full_name,
-                                 hcwvid=user.username, account=user).save()
+                    MedWorkerRep(reg_no=reg_no, department=dept, full_com_name=full_name,hcwvid=user.username, account=user).save()
 
             except IntegrityError:
                 return render(request, "health_tracker/register.html", {
