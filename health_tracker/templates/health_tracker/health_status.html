@@ -6,7 +6,7 @@
         <form method="POST" action="{% url 'health' wbid %}">
             {% csrf_token %}
             {{formset}}
-            <input type="submit">
+            <input type="submit" value="Submit">
         </form>
     {% endif %}
 {% endblock %}
