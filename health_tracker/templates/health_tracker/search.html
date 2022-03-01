@@ -1,0 +1,100 @@
+{% extends "health_tracker/layout.html" %}
+{% block title %}Search Results{% endblock %}
+{% block body %}
+    <!-- Check with avaneesh regarding phone view when file previews are shown, like it becomes very cramped. Instead of 3 files in one row, why not one in phone view?-->
+    {% if empty %}
+        <h3>No files or doctors/insurance representatives/medical shops/labs are associated with '{{search_entry}}'!</h3>
+    {% else %}
+        {% if associated_people %}
+            {% if user_type == 'nou' %}
+                <h1>Doctors/Insurance Representatives/Medical Shops/Labs associated with '{{search_entry}}'</h1>
+            {% else %}
+                <h1>Patients/Customers associated with '{{search_entry}}'</h1>
+            {% endif %}
+            {% for person in associated_people %}
+                {% if user_type == 'nou' %}
+                    <a href="{% url 'other_profile' person.account.username  %}">{{person.full_com_name}}-{{person.account.username}}</a>
+                {% else %}
+                    <a href="{% url 'other_profile' person.person.username %}">{{person.full_name}}-{{person.person.username}}</a>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% if related_files %}
+            <h1>Files associated with '{{search_entry}}'</h1>
+            <div id="files_container">
+                <div class="row">
+                {% for file in realted_files %}
+                    <div class="file_card">
+                        {% csrf_token %}
+                        <div class="inside_file_card">
+                            <a style="text-decoration: none;" href="/media/{{file.file}}">
+                        <!-- <a href="{#% url 'file_page' file.recipent file.file %#}">kk</a> -->
+                            <div class="files_container__img-card img_class" id="img{{file.id}}" data-image="{{file.file}}">
+                            </div>
+                            <div class="files_container__content">
+                                <h5 class="file_name_class" id="file{{file.id}}" data-name={{file.file}}>{{file.file}}</h5>
+                                <!-- <a href="media/{{file.file}}"><h1 class="file_name_class" id="file{{file.id}}" data-name={{file.file}}>{{file.file}}</h1></a> -->
+                                {% if user_type == 'nou' %}
+                                    <h6>Uploaded By: {% if file.uploader %} {{file.uploader.full_com_name}} {% else %} Deleted_User {% endif %}</h6>
+                                {% else %}
+                                    <h6>Patient/Customer: {{file.recipent.full_name}} ({{file.recipent.person.username}})</h6>
+                                {% endif %}
+                                <h6>Uploaded On: {{file.date}}</h6>
+                            </div> 
+                            </a>
+                        </div>
+                    <!-- <h1>{{file.tags|slice:"2:"}}</h1> -->
+                    </div>
+                    {% if forloop.counter|divisibleby:3 %}
+                        </div>
+                        <div class="row">
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+{% endblock %}
+{% block script %}
+   <script>
+      // document.addEventListener('DOMContentLoaded',FilePathToString);
+      let file_name_class = document.querySelectorAll('.file_name_class')
+      let file_name_array=[...file_name_class]
+      file_name_array.forEach(element => {
+         FilePathToString(element.id.slice(4),element.getAttribute("data-name"))
+      })
+      function FilePathToString(id,file) {
+         let path_name=String(`${file}`)
+         let file_name=path_name.split("/").slice(-1)[0]
+         document.querySelector(`#file${id}`).innerHTML=`${file_name}`;
+      }
+      
+   </script>
+   <script>
+      let img_class=document.querySelectorAll('.img_class')
+      let img_class_array=[...img_class]
+      img_class_array.forEach(element => {
+         main(element.id.slice(3),element.getAttribute("data-image"))
+      })
+
+      function handleBlob(blobResponse,id)
+      {
+         const imageObjectURL = URL.createObjectURL(blobResponse)
+         // $("a").attr("href", imageObjectURL)
+         // const code = `<img src="${imageObjectURL}">`
+         // $('#files').prepend(code)
+         document.querySelector(`#img${id}`).style.backgroundImage=`url(${imageObjectURL})`
+      }
+
+      function main(id,file_path)
+      {
+         let token = $("input[name='csrfmiddlewaretoken']").val()
+         // let url = "/get_file/{{ wbid }}/{{ name }}"
+         let url = `/get_file/${file_path}`
+         let header = {'X-CSRFToken': token}
+         let request = fetch(url, {method: "POST", headers: header})
+         // request.then(resp => resp.blob()).then(handleBlob)
+         request.then(resp => resp.blob())
+         .then((blobResponse) => {this.handleBlob(blobResponse,`${id}`)} )
+      }
+      $(document).ready(main)
+   </script>
+{% endblock %}

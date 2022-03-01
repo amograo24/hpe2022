@@ -17,6 +17,7 @@ urlpatterns = [
     path('get_file/<str:wbid>/<str:name>', views.get_file, name="get_file"),
     path("myfiles", views.myfiles, name="myfiles"),
     path("health/<str:wbid>", views.health_status, name="health"),
-    path("auth_messages", views.notification_page, name="notifs-page")
+    path("auth_messages", views.notification_page, name="notifs-page"), #approval messages
+    path("search",views.search,name="search")
     # path("media")
 ]

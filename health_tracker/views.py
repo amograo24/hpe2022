@@ -24,7 +24,52 @@ import time
 import os
 
 def search(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(revrse("login"))
     search_entry=request.GET.get('q','')
+    user=User.objects.get(username=request.user)
+    files=None
+    user_type=user.division.lower()
+    if user_type=='nou':
+        user=Patients.objects.get(person=user)
+        files=Files.objects.filter(recipent=user)
+        # associated_people=user.hcw_v.all()
+    else:
+        user=MedWorkerRep.objects.get(account=user)
+        files=Files.objects.filter(uploader=user)
+    associated_people=user.hcw_v.all()
+    related_files=[]
+    associated_people_list=[]
+    # temp_associated_people_list=[]
+    
+    for person in associated_people:
+        if user_type=='nou':
+            if search_entry.lower() in [person.account.username.lower(),person.full_com_name.lower(),person.reg_no.lower(),person.department.lower()]:
+                associated_people_list.append(person)
+        else:
+            if search_entry.lower() in [person.person.username.lower(),person.full_name.lower(),person.aadharid.lower()]:
+                associated_people_list.append(person)
+    for file in files:
+        # uploader=file.uploader.account
+        # if search_entry in str(file.file).lower() or search_entry in file.tags.lower() or search:
+        if search_entry.lower() in [str(file.file).lower(),file.recipent.full_name.lower(),file.uploader.full_com_name.lower(),file.recipent.person.username.lower(),file.uploader.account.username.lower(),file.vendor_name.lower(),file.tags.lower()]:
+            related_files.append(file)
+            if user_type=='nou':
+                if file.uploader not in associated_people_list:
+                    associated_people_list.append(file.uploader)
+            else:
+                if file.recipent not in associated_people_list:
+                    associated_people_list.append(file.recipent)
+    return render(request,"health_tracker/search.html",{
+        "associated_people":associated_people_list,
+        "related_files":related_files,
+        "empty":not associated_people_list and not related_files,
+        "search_entry":search_entry,
+        "user_type":user_type
+    })
+        # if search_entry in []
+    # for person in associated_people:
+    #     if search_entry in person
     # for ref
     # all_courses=Course.objects.all()
     # all_notes=Notes.objects.all()
@@ -512,6 +557,7 @@ def file_page(request, wbid, name):
                     raise Http404(f"'{name}' doesn't exist!")
                 elif os.path.exists(f'media/{wbid}/{name}'):
                     file = Files.objects.get(file=f'{wbid}/{name}')
+                    # print(file.file,str(file.file).lower())
                     # if the person who uploaded the file is not the vendor and if the vendor is not a doctor => intruder
                     if file.uploader != vendor and viewer.division.lower() != 'd/hcw/ms':
                         return HttpResponseRedirect(reverse("index"))
