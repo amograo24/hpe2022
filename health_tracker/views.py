@@ -338,39 +338,14 @@ def other_profile(request, id):
             profile_type = profile.division.lower()
         except User.DoesNotExist:
             return HttpResponseRedirect(reverse("index"))
-        # if viewer_type==profile_type: # make it more secure (basically nou=nou or d=d or sp=sp or msh = msh)
-        #     return HttpResponseRedirect(reverse("index"))
-        # if viewer_type in ['d/hcw/ms','i/sp','msh'] and profile_type in ['d/hcw/ms','i/sp','msh']:
-        #     return HttpResponseRedirect(reverse("index"))
         if (viewer_type == 'nou' and profile_type == 'nou') or (viewer_type in ['d/hcw/ms', 'i/sp', 'msh'] and profile_type in ['d/hcw/ms', 'i/sp', 'msh']):
             return HttpResponseRedirect(reverse("index"))
         if profile_type == 'nou':
             profile = Patients.objects.get(person=profile)
             viewer = MedWorkerRep.objects.get(account=viewer)
-            # if viewer in profile.hcw_v.all(): # even if not in, it should show na? basically filtered. # like only for registered doctor it should show all, for doctors who were deleted, only their uploaded files
-            # if viewer_type in ['i/sp','msh']:
+            # if viewer in profile.hcw_v.all(): # even if not in, it should show na? basically filtered. # like only for
+            # registered doctor it should show all, for doctors who were deleted, only their uploaded files
             files = Files.objects.filter(uploader=viewer, recipent=profile)
-            # if viewer_type!='d/hcw/ms':
-            #     if Files.objects.filter(uploader=viewer,recipent=profile):
-            #         files=Files.objects.filter(uploader=viewer,recipent=profile)
-            #         # IMP PRESCRIPTIONS
-            #         # return render(request,"health_tracker/other_profile.html",{
-            #         #     "files":files
-            #         # })
-            #     else:
-            #         return HttpResponseRedirect(reverse("index"))
-            # # if viewer_type=='d/hcw/ms':
-            # elif viewer_type='d/hcw/ms':
-            #     if viewer in profile.hcw_v.all():
-            #         files=Files.objects.filter(recipent=profile)
-            #     else:
-            #         if Files.objects.filter(uploader=viewer,recipent=profile):
-            #             files=Files.objects.filter(uploader=viewer,recipent=profile)
-            #         else:
-            #             return HttpResponseRedirect(reverse("index"))
-            # return render(request,"health_tracker/other_profile.html",{
-            #     "files":files
-            # })
             if viewer_type != 'd/hcw/ms':
                 print(files, not files)
                 if not files:
@@ -388,27 +363,11 @@ def other_profile(request, id):
                 "profile": profile,
                 "viewer": viewer
             })
-            # show all documents of profile
-            #     pass
-            # elif viewer_type=='i/sp': #no need two two types na.
-            #     # show all documents of profile uploaded by this i/sp
-            #     pass
-            # elif viewer_type=='msh':
-            #     # show all documents of profile uploaded by this msh
-            #     pass
-            # else:
-            #     return HttpResponseRedirect(reverse("index"))
         elif profile_type in ['d/hcw/ms', 'i/sp', 'msh']:
             profile = MedWorkerRep.objects.get(account=profile)
             viewer = Patients.objects.get(person=viewer)
             files = Files.objects.filter(uploader=profile, recipent=viewer)
 
-            # if profile in viewer.hcw_v.all():
-            #     if not files:
-
-            # if not files:
-            #     if profile not in viewer.hcw_v.all():
-            #         return HttpResponseRedirect(reverse("index"))
             if not files and profile not in viewer.hcw_v.all():
                 return HttpResponseRedirect(reverse("index"))
             else:
@@ -419,12 +378,6 @@ def other_profile(request, id):
                     "profile": profile,
                     "viewer": viewer
                 })
-
-            # if profile in viewer.hcw_v.all():
-            #     #show all documents uploaded by profile of viewer
-            #     pass
-            # else:
-            #     return HttpResponseRedirect(reverse("index"))
     else:
         return HttpResponseRedirect(reverse("login"))
 
@@ -435,15 +388,17 @@ def notifications(request):
     if request.method == "POST":
         if request.user.is_authenticated:
             body = json.loads(request.body)
+
             if body['type'] == "send":
                 receiver_id = body['to']
                 sender_division = body['as']
                 payload = "approval"
+
                 if request.user.division.lower() != sender_division.lower():
+                    print(1)
                     return HttpResponse("Forgery")
-                # This implies that user is a normal user or instead ==16
+
                 if len(request.user.username) == 16:
-                    print("Nou")
                     sender = User.objects.get(username=request.user.username)
                     receiver = User.objects.get(username=receiver_id)
                     notification = Notification(
@@ -464,29 +419,32 @@ def notifications(request):
 
                 receiver.notifications.add(notification)
                 receiver.save()
-                return HttpResponse("Nice")
+                return HttpResponse("Saved Info")
 
             elif body['type'] == "receive":
-                print(request.user.division.lower())
                 if request.user.division.lower() != "nou":
                     return JsonResponse({"no": "no"})
 
                 else:
                     patient = Patients.objects.get(
                         person=User.objects.get(username=request.user))
-                    # notifs = patient.notifications
                     notification = Notification.objects.filter(
-                        receiver=patient.person).order_by('-date_of_approval')[0]
+                        receiver=patient.person)
+                    if notification:
+                        notification = notification.order_by('-date_of_approval')[0]
+                    else:
+                        return JsonResponse([], content_type="json", safe=False)
+                    print(notification)
                     all_notifs = []
-                    serialized_data = {}
-                    # for n in notifs.all():
-                    serialized_data['content'] = notification.content
-                    serialized_data['sender'] = notification.sender.username
-                    serialized_data['receiver'] = notification.receiver.username
-                    serialized_data['doc'] = notification.date_of_approval
+                    serialized_data = {
+                        'content': notification.content,
+                        'sender': notification.sender.username,
+                        'receiver': notification.receiver.username,
+                        'doc': notification.date_of_approval
+                    }
                     all_notifs.append(serialized_data)
-
                     return JsonResponse(all_notifs, content_type="json", safe=False)
+
             elif body['type'] == "approval":
                 approver = body['approver']
                 authorised = body['authorised']
@@ -502,6 +460,7 @@ def notifications(request):
                 if body['status'] == "yes":
                     print("Yes")
                     notif_obj = notifs[0]
+                    notif_obj.content = "approved"
                     notif_obj.date_of_approval = timezone.now()
                     notif_obj.save()
                     p_receiver.hcw_v.add(mwr_sender)
@@ -564,17 +523,6 @@ def file_page(request, wbid, name):
     file = open(f'media/{wbid}/{name}', 'rb')
     response = FileResponse(file)
     return response
-    # check if file exists
-    # url=f'media/{wbid}/{name}'
-    # fp=open(url,'rb')
-    # data=fp.read()
-    # mime_type = mimetypes.MimeTypes().guess_type(url)
-    # return render(request,"health_tracker/file_page.html",{
-    #     "file":base64.b64encode(data).decode('utf-8'),
-    #     "mt":mime_type[0],
-    #     "wbid":wbid
-    # })
-    # def send_file(response):
 
 
 def get_file(request, wbid, name: str):
@@ -592,4 +540,9 @@ def get_file(request, wbid, name: str):
     ctx = {"wbid": wbid, "name": name}
     return render(request, 'health_tracker/file_page.html', ctx)
 
-# validation if the patient exists, if so then save the file on patient's name
+
+def notification_page(request):
+    ctx = {
+        "division": request.user.division
+    }
+    return render(request, "health_tracker/notifs.html", ctx)
