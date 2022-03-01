@@ -37,12 +37,14 @@ def search(request):
     else:
         user=MedWorkerRep.objects.get(account=user)
         files=Files.objects.filter(uploader=user)
+    print(files)
     associated_people=user.hcw_v.all()
     related_files=[]
     associated_people_list=[]
     # temp_associated_people_list=[]
     
     for person in associated_people:
+        # check for dept
         if user_type=='nou':
             if search_entry.lower() in [person.account.username.lower(),person.full_com_name.lower(),person.reg_no.lower(),person.department.lower()]:
                 associated_people_list.append(person)
@@ -50,6 +52,15 @@ def search(request):
             if search_entry.lower() in [person.person.username.lower(),person.full_name.lower(),person.aadharid.lower()]:
                 associated_people_list.append(person)
     for file in files:
+        # check for tags, and the uploader, and vendor name. Ex tags it will show class str even if nothing exists. so do file.tags.strip(" ")
+        print( not file.tags)
+        print(file.tags)
+        print(type(file.tags))
+        print(file.tags==None)
+        print('#########')
+        print(file.vendor_name)
+        print(type(file.vendor_name))
+        print(file.vendor_name==None)
         # uploader=file.uploader.account
         # if search_entry in str(file.file).lower() or search_entry in file.tags.lower() or search:
         if search_entry.lower() in [str(file.file).lower(),file.recipent.full_name.lower(),file.uploader.full_com_name.lower(),file.recipent.person.username.lower(),file.uploader.account.username.lower(),file.vendor_name.lower(),file.tags.lower()]:
