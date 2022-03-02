@@ -118,38 +118,6 @@ def search(request):
         "search_entry":search_entry,
         "user_type":user_type
     })
-        # if search_entry in []
-    # for person in associated_people:
-    #     if search_entry in person
-    # for ref
-    # all_courses=Course.objects.all()
-    # all_notes=Notes.objects.all()
-    # all_lecturers=User.objects.filter(lecturer=True)
-    # related_courses=[]
-    # all_categories=Category.objects.all()
-    # for category in all_categories:
-    #     if search_entry.lower() in category.category_name.lower():
-    #         for course in Course.objects.filter(course_category=category):
-    #             related_courses.append(course)
-    #         for note in Notes.objects.filter(category=category):
-    #             related_courses.append(note.course)
-
-    # for course in all_courses:
-    #     if search_entry.lower() in course.course_name.lower():
-    #         related_courses.append(course)
-    # for note in all_notes:
-    #     if search_entry.lower() in note.additional_category.lower() or search_entry.lower() in note.title.lower():
-    #         related_courses.append(note.course)
-
-    # for lecturer in all_lecturers:
-    #     if search_entry.lower() in lecturer.username.lower():
-    #         for course in Course.objects.filter(creator=lecturer):
-    #             related_courses.append(course)
-
-    # return render(request,"online_edu/search.html",{
-    #     "related_courses":set(related_courses),
-    #     "search_entry":search_entry
-    # })
 
 def health_status(request, wbid):
     if not request.user.is_authenticated:
