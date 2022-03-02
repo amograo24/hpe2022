@@ -37,7 +37,7 @@ def search(request):
     else:
         user=MedWorkerRep.objects.get(account=user)
         files=Files.objects.filter(uploader=user)
-    print(files)
+    print("files",files)
     associated_people=user.hcw_v.all()
     related_files=[]
     associated_people_list=[]
@@ -46,31 +46,71 @@ def search(request):
     for person in associated_people:
         # check for dept
         if user_type=='nou':
-            if search_entry.lower() in [person.account.username.lower(),person.full_com_name.lower(),person.reg_no.lower(),person.department.lower()]:
-                associated_people_list.append(person)
+            check_list=[person.account.username.lower(),person.full_com_name.lower(),person.reg_no.lower()]
+            if not (person.department==None or not person.department.strip(' ')):
+                check_list.append(person.department.lower())
+            for i in check_list:
+                if search_entry.lower() in i:
+                    # print(search_entry.lower(),i)
+                    associated_people_list.append(person)
+                    break
+                # else:
+                #     print(i,False)
         else:
-            if search_entry.lower() in [person.person.username.lower(),person.full_name.lower(),person.aadharid.lower()]:
-                associated_people_list.append(person)
+            check_list=[person.person.username.lower(),person.full_name.lower(),person.aadharid.lower()]
+            # print(check_list)
+            for i in check_list:
+                if search_entry.lower() in i:
+                    # print(search_entry.lower(),i)
+                    associated_people_list.append(person)
+                    break
+                # else:
+                #     print(i,False)
+    print("associated_people_list",associated_people_list)
     for file in files:
         # check for tags, and the uploader, and vendor name. Ex tags it will show class str even if nothing exists. so do file.tags.strip(" ")
-        print( not file.tags)
-        print(file.tags)
-        print(type(file.tags))
-        print(file.tags==None)
-        print('#########')
-        print(file.vendor_name)
-        print(type(file.vendor_name))
-        print(file.vendor_name==None)
+        check_list=[str(file.file).lower(),file.recipent.full_name.lower(),file.recipent.person.username.lower()]
+
+        if file.uploader: 
+            check_list.extend([file.uploader.full_com_name.lower(),file.uploader.account.username.lower()])
+        # if file.vendor_name or file.vendor_name.strip(" "):
+        if not (file.vendor_name==None or not file.vendor_name.strip(' ')):
+            check_list.append(file.vendor_name.lower())
+        # if file.tags or file.tags.strip(" "):
+        if not (file.tags==None or not file.tags.strip(' ')):
+            check_list.append(file.tags.lower())
+        # print( not file.tags)
+        # print(file.tags)
+        # print(type(file.tags))
+        # print(file.tags==None)
+        # print('#########')
+        # print(file.vendor_name)
+        # print(type(file.vendor_name))
+        # print(file.vendor_name==None)
         # uploader=file.uploader.account
         # if search_entry in str(file.file).lower() or search_entry in file.tags.lower() or search:
-        if search_entry.lower() in [str(file.file).lower(),file.recipent.full_name.lower(),file.uploader.full_com_name.lower(),file.recipent.person.username.lower(),file.uploader.account.username.lower(),file.vendor_name.lower(),file.tags.lower()]:
-            related_files.append(file)
-            if user_type=='nou':
-                if file.uploader not in associated_people_list:
-                    associated_people_list.append(file.uploader)
-            else:
-                if file.recipent not in associated_people_list:
-                    associated_people_list.append(file.recipent)
+        # if search_entry.lower() in [str(file.file).lower(),file.recipent.full_name.lower(),file.uploader.full_com_name.lower(),file.recipent.person.username.lower(),file.uploader.account.username.lower(),file.vendor_name.lower(),file.tags.lower()]:
+        for i in check_list:
+            if search_entry.lower() in i:
+                related_files.append(file)
+                # break
+                if user_type=='nou':
+                    if file.uploader and file.uploader not in associated_people_list:
+                        associated_people_list.append(file.uploader)
+                else:
+                    if file.recipent not in associated_people_list:
+                        associated_people_list.append(file.recipent)       
+                        break    
+        # if search_entry.lower() in check_list:
+        #     related_files.append(file)
+        #     if user_type=='nou':
+        #         if file.uploader not in associated_people_list:
+        #             associated_people_list.append(file.uploader)
+        #     else:
+        #         if file.recipent not in associated_people_list:
+        #             associated_people_list.append(file.recipent)
+    print(related_files)
+    print(associated_people_list)
     return render(request,"health_tracker/search.html",{
         "associated_people":associated_people_list,
         "related_files":related_files,
@@ -401,14 +441,14 @@ def other_profile(request, id):
             viewer = MedWorkerRep.objects.get(account=viewer)
             # if viewer in profile.hcw_v.all(): # even if not in, it should show na? basically filtered. # like only for
             # registered doctor it should show all, for doctors who were deleted, only their uploaded files
-            files = Files.objects.filter(uploader=viewer, recipent=profile)
+            files = Files.objects.filter(uploader=viewer, recipent=profile).order_by('-date')
             if viewer_type != 'd/hcw/ms':
                 print(files, not files)
                 if not files:
                     return HttpResponseRedirect(reverse("index"))
             elif viewer_type == 'd/hcw/ms':
                 if viewer in profile.hcw_v.all():
-                    files = Files.objects.filter(recipent=profile)
+                    files = Files.objects.filter(recipent=profile).order_by('-date')
                 else:
                     if not files:
                         return HttpResponseRedirect(reverse("index"))
