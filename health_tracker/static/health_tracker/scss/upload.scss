@@ -63,6 +63,7 @@ body{
         font-size: 1.2em;
         line-height: 48px;
         cursor: pointer;
+        color: $text-color-dark;
         transition: 500ms ease-in-out all;
 
         &:hover{
@@ -75,7 +76,7 @@ body{
     body{
         overflow-x: hidden;
     }
-    
+
     #upload-form{
         margin-bottom: 5rem;
 

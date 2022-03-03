@@ -1,7 +1,11 @@
 @import 'variables';
 
 a{
-    color: navy;
+    color: $secondary-color;
+
+    &:hover{
+        color: darken($secondary-color, 10%);
+    }
 }
 
 form input[type=text], input[type=email], input[type=password], input[type=number]{
@@ -12,7 +16,7 @@ form input[type=text], input[type=email], input[type=password], input[type=numbe
     border-radius: 6px;
     line-height: 40px;
     border: 1px solid #ccc;
-    border-bottom: 3px solid navy;
+    border-bottom: 3px solid $secondary-color;
     min-width: 30vw;
     padding-left: 8px;
     font-size: 1em;
@@ -24,6 +28,8 @@ form input[type=text], input[type=email], input[type=password], input[type=numbe
 label{
     margin-bottom: 4px;
     max-width: 30vw;
+    color: $secondary-color;
+    font-size: 1.2em;
 }
 
 form input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=number]:focus{
@@ -40,7 +46,7 @@ select{
     border-radius: 4px;
     height: 40px;
     border: 1px solid #ccc;
-    border-bottom: 3px solid navy;
+    border-bottom: 3px solid $secondary-color;
     width: 30vw;
     margin-bottom: 2rem;
     margin-top: 0.5rem;
@@ -60,13 +66,15 @@ svg{
     position: fixed;
     right: 0px;
     top: 0px;
-    background-color: navy;
+    background-color: #cb9800;
     width: 40vw;
     height: 100vh;
 }
 
 body{
-    background-color: lightpink;
+    background-color: $background-color-dark;
+    color: #fff;
+    overflow-x: hidden;
 }
 
 .form-main{
@@ -78,7 +86,7 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: lightpink;
+    background-color: $background-color-dark;
 }
 
 .title-div{
@@ -88,7 +96,7 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: lightpink;
+    color: $secondary-color;
     margin-bottom: 3rem;
 }
 
@@ -99,7 +107,7 @@ body{
     margin-top: 1rem;
     outline: none;
     border: none;
-    background-color: navy;
+    background-color: $secondary-color;
     padding-top: 2px;
     padding-bottom: 2px;
     color: white;
@@ -108,7 +116,7 @@ body{
 }
 
 .register-btn:hover{
-    background-color: red;
+    background-color: darken($secondary-color, 10%);
 }
 
 @media screen and (max-width: 992px){

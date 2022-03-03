@@ -1,5 +1,9 @@
 a {
-  color: navy;
+  color: #FFC107;
+}
+
+a:hover {
+  color: #d39e00;
 }
 
 form input[type=text], input[type=email], input[type=password], input[type=number] {
@@ -11,7 +15,7 @@ form input[type=text], input[type=email], input[type=password], input[type=numbe
   border-radius: 6px;
   line-height: 40px;
   border: 1px solid #ccc;
-  border-bottom: 3px solid navy;
+  border-bottom: 3px solid #FFC107;
   min-width: 30vw;
   padding-left: 8px;
   font-size: 1em;
@@ -23,6 +27,8 @@ form input[type=text], input[type=email], input[type=password], input[type=numbe
 label {
   margin-bottom: 4px;
   max-width: 30vw;
+  color: #FFC107;
+  font-size: 1.2em;
 }
 
 form input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=number]:focus {
@@ -41,7 +47,7 @@ select {
   border-radius: 4px;
   height: 40px;
   border: 1px solid #ccc;
-  border-bottom: 3px solid navy;
+  border-bottom: 3px solid #FFC107;
   width: 30vw;
   margin-bottom: 2rem;
   margin-top: 0.5rem;
@@ -62,13 +68,15 @@ svg {
   position: fixed;
   right: 0px;
   top: 0px;
-  background-color: navy;
+  background-color: #cb9800;
   width: 40vw;
   height: 100vh;
 }
 
 body {
-  background-color: lightpink;
+  background-color: #141A26;
+  color: #fff;
+  overflow-x: hidden;
 }
 
 .form-main {
@@ -89,7 +97,7 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background-color: lightpink;
+  background-color: #141A26;
 }
 
 .title-div {
@@ -108,7 +116,7 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background-color: lightpink;
+  color: #FFC107;
   margin-bottom: 3rem;
 }
 
@@ -120,7 +128,7 @@ body {
   margin-top: 1rem;
   outline: none;
   border: none;
-  background-color: navy;
+  background-color: #FFC107;
   padding-top: 2px;
   padding-bottom: 2px;
   color: white;
@@ -129,7 +137,7 @@ body {
 }
 
 .register-btn:hover {
-  background-color: red;
+  background-color: #d39e00;
 }
 
 @media screen and (max-width: 992px) {

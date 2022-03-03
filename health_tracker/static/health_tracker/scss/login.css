@@ -55,7 +55,7 @@
 .left {
   width: 50%;
   height: 100%;
-  background-color: #141A26;
+  background-color: #1760BF;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -76,7 +76,7 @@
 
 .left label {
   color: #FFC107;
-  font-size: 1.5em;
+  font-size: 1.25em;
 }
 
 .left form input[type="text"],
@@ -155,7 +155,7 @@
 .right {
   width: 50%;
   height: 100%;
-  background-color: #1760BF;
+  background-color: #141A26;
   right: 0;
   display: -webkit-box;
   display: -ms-flexbox;
