@@ -61,7 +61,7 @@
 .right {
   width: 50%;
   height: 100%;
-  background-color: lightpink;
+  background-color: #E9DAC1;
   right: 0;
   display: flex;
   flex-direction: column;
@@ -160,10 +160,10 @@ form input[type="submit"] {
   margin-top: 2rem;
   outline: none;
   border: none;
-  background-color: lightpink;
+  background-color: #54BAB9;
   border-radius: 0.5rem;
   line-height: 40px;
-  border: 2px solid navy;
+  border: 2px solid #54BAB9;
   min-width: 30vw;
   padding-left: 8px;
   margin-bottom: 1rem;
