@@ -3,6 +3,9 @@
     {% if udne or nap or updater_not_auth %}
         <h3>{{message}}</h3>
     {% else %}
+        {% if message %}
+            <h3>{{message}}</h3>
+        {% endif %}
         <form method="POST" action="{% url 'health' wbid %}">
             {% csrf_token %}
             {{formset}}

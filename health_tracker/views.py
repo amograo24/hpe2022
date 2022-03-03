@@ -135,11 +135,13 @@ def health_status(request, wbid):
             message=f"Patient with the WBID '{wbid}' doesn't exist! Check your patients' list to update the Health Status Card for your patients."
         return render(request,"health_tracker/health_status.html",{
             "message":message,
+            "wbid":wbid,
             "udne":User.DoesNotExist
         })    
     if profile_type!='nou':
         return render(request,"health_tracker/health_status.html",{
             "message":f"'{profile}' is not a patient! You can update/create Health Status Cards only for patients!",
+            "wbid":wbid,
             "nap":profile_type!='nou'
         })   
     
@@ -148,6 +150,7 @@ def health_status(request, wbid):
     if updater not in patient.hcw_v.all():
         return render(request,"health_tracker/health_status.html",{
             "message":f"Patient with the '{wbid}' has not authorised you to update/create their Health Status Card!",
+            "wbid":wbid,
             "updater_not_auth":updater not in patient.hcw_v.all()
         })
     health_status = HealthStatus.objects.get(patient=patient)
@@ -155,11 +158,27 @@ def health_status(request, wbid):
     if request.method == 'POST':
         formset = HealthValueFormset(request.POST, instance=health_status)
         if formset.is_valid():
+            for i in formset:
+                print(i.cleaned_data.get('maximum_value'))
+                data=i.cleaned_data
+                if (data.get('maximum_value') and data.get('minimum_value')) and data.get('maximum_value')<data.get('minimum_value'):
+                    return render(request,"health_tracker/health_status.html",{
+                        "formset":formset,
+                        "wbid":wbid,
+                        "message":f"The minimum value cannot be greater than the maximum value for '{data.get('health_condition')}'!"
+                    })
+            # print(formset.maximum_value,formset.minimum_value)
             formset.save()
             health_status.last_updated_by = updater
             health_status.last_updated = timezone.now()
             health_status.save()
             return HttpResponseRedirect(reverse("index")) # return to patient's thingie
+        else:
+            return render(request,"health_tracker/health_status.html",{
+                "formset":formset,
+                "wbid":wbid,
+                # "message":"The Health Condition Field and the Patient's value Field cannot be empty!"
+            })
     return render(request, "health_tracker/health_status.html", {
         "formset": HealthValueFormset(instance=health_status),
         "wbid": wbid
@@ -372,15 +391,23 @@ def myfiles(request):
         return HttpResponseRedirect(reverse("login"))
     user = User.objects.get(username=request.user)
     files = None
-    if user.division.lower() == 'nou':
+    user_type=user.division.lower()
+    if user_type == 'nou':
         user = Patients.objects.get(person=user)
         files = Files.objects.filter(recipent=user)[::-1]
         # file_names=[]
         # for file in files:
-        print(list(files))  # error
-        return render(request, "health_tracker/myfiles.html", {
-            "files": files
-        })
+        # print(list(files))  # error
+        # return render(request, "health_tracker/myfiles.html", {
+        #     "files": files
+        # })
+    else:
+        user=MedWorkerRep.objects.get(account=user)
+        files=Files.objects.filter(uploader=user)[::-1]
+    return render(request, "health_tracker/myfiles.html", {
+        "files": files,
+        "user_type":user_type
+    })
     # elif user.division.lower() in ['d/hcw/ms','i/sp','msh']:
     #     user=MedWorkerRep.objects.get(account=user)
     #     files=Files.objects.filter(uploader=user)[::-1]
