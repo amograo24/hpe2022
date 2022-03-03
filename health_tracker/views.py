@@ -617,6 +617,37 @@ def test(request):
     return render(request, "health_tracker/copy_stuff_from_here.html", context=ctx)
 
 
+def delete_file(request,wbid,name):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    user=User.objects.get(username=request.user)
+    if user.division.lower=='nou':
+        return HttpResponseRedirect(reverse("myfiles"))
+    # if not User.objects.filter(username=wbid):
+    #     return HttpResponseRedirect(reverse("index"))
+    if not File.objects.filter(file=f"{wbid}/{name}"):
+        return HttpResponseRedirect(reverse("myfiles"))
+    else:
+        file=File.objects.get(file=f"{wbid}/{name}")
+        if file.uploader.account==user:
+            if request.method=="POST":
+                data=json.loads(request.body)
+                if data['to_delete']=="yes":
+                    # file.delete()
+                    os.remove(f"media/{wbid}/{name}")
+                    file.delete()
+                    return JsonResponse({'status':200})
+        else:
+            return JsonResponse({'status':Forgery})
+    # lecturer=User.objects.get(username=lecturer)
+    # course_filter=Course.objects.filter(creator=lecturer)
+    # course=course_filter.get(course_name=course)
+    # if request.method=="POST":
+    #     data = json.loads(request.body)
+    #     if data['to_delete']=="yes":
+    #         course.delete()
+    #         return JsonResponse({'status':200})
+
 def file_page(request, wbid, name):
     # check if the wbid exists
     # check if the viewer if authorised to view
