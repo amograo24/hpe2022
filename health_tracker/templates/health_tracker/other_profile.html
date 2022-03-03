@@ -83,9 +83,18 @@
       })})
 
       function DeleteFile(id,filename,to_delete) {
-         fetch(`/delete_file/${file.file}`,{
+         fetch(`/delete_file/${filename}`,{
             method:"POST",
-            header:{'X-CSRFToken':'kk'}
+            header:{'X-CSRFToken':'kk'}, //csrf token
+            body:JSON.stringify({
+               to_delete:to_delete // who is the logged in dude?
+            })
+         })
+         .then(response => response.JSON)
+         .then(data => {
+            if (data.status==200) {
+               location.reload()
+            }
          })
       }
    </script>
