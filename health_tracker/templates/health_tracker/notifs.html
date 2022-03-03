@@ -3,37 +3,43 @@
 {% block body %}
 {% csrf_token %}
 <div id="current">
+    <ul id="current-msg">
 
+    </ul>
 </div>
 <div id="prev">
+    <ul id="prev-msg">
 
+    </ul>
 </div>
-<div id="send">
-    <input id="target_user" type="text">
-    <button id="send_msg">Ask For Approval</button>
-    <script>
-        function handle_send()
-        {
-            let token = $("input[name='csrfmiddlewaretoken']").val()
-            let header = {"X-CSRFToken": token}
-            let whom = $('#target_user').val()
-            if(whom.length == 0)
+{% if division.lower != "nou"  %}
+    <div id="send">
+        <input id="target_user" type="text" placeholder="Enter Wbid here">
+        <button id="send_msg">Ask For Approval</button>
+        <script>
+            function handle_send()
             {
-                alert('Whom to send?')
-                return
-            }
-            let payload = JSON.stringify({to: whom, as: "{{ division }}", type: "send"})
-            let content =
-            {
-                method: "POST",
-                headers: header,
-                body: payload
-            }
-            let request = fetch("{% url 'notifications' %}", content)
+                let token = $("input[name='csrfmiddlewaretoken']").val()
+                let header = {"X-CSRFToken": token}
+                let whom = $('#target_user').val()
+                if(whom.length == 0)
+                {
+                    alert('Whom to send?')
+                    return
+                }
+                let payload = JSON.stringify({to: whom, as: "{{ division }}", type: "send"})
+                let content =
+                {
+                    method: "POST",
+                    headers: header,
+                    body: payload
+                }
+                let request = fetch("{% url 'notifications' %}", content)
 
-        }
-    </script>
-</div>
+            }
+        </script>
+    </div>
+{% endif %}
 <script>
     function approve(btn)
         {
@@ -47,11 +53,12 @@
                 method: "POST", headers: header, body: payload
             }
             let request = fetch("{% url 'notifications' %}", content)
+            request.then(data => {handle_rec()})
 
         }
     function reject(btn)
         {
-            let receiver_id = $(btn).attr('class')
+            let receiver_id = $(btn).attr('class').split(" ")[0]
             let sender_id = $(btn).attr('id')
             console.log(receiver_id);
             let token = $("input[name='csrfmiddlewaretoken']").val()
@@ -61,20 +68,21 @@
                 method: "POST", headers: header, body: payload
             }
             let request = fetch("{% url 'notifications' %}", content)
+            request.then(data => {handle_rec()})
 
         }
     function handle_json(data)
         {
-            $('#current').html("")
-            $("#prev").html("")
+            $('#current-msg').html("")
+            $("#prev-msg").html("")
             for(let row of data)
             {
-                if(row.content == "approved")
+                if(row.content == "approved" || row.content == "rejected")
                 {
                     let notif_html = `
-                    <li>${row.sender} Sent A Letter of ${row.content} on  ${row.doc}</li>
+                    <li>${row.receiver} ${row.content} A Letter from ${row.sender} on ${row.doc}</li>
                                 `
-                    $("#prev").append(notif_html)
+                    $("#prev-msg").append(notif_html)
                 }
                 else
                 {
@@ -83,7 +91,7 @@
                     <button onclick=approve(this) id='${row.sender}' class='${row.receiver} notification'>Approve</button>
                     <button onclick=reject(this) id='${row.sender}' class='${row.receiver} notification'>Reject</button>
                                 `
-                    $('#current').append(notif_html)
+                    $('#current-msg').append(notif_html)
                 }
             }
         }
