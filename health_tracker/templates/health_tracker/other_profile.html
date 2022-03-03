@@ -12,17 +12,17 @@
             <h1 class="title">No files to display.</h1>
          {% endif %}
       {% else %}
-         <h1>Files uploaded by you on {{profile.full_name}}'s profile.</h1>
+         <h1 class="title">Files uploaded by you on {{profile.full_name}}'s profile.</h1>
       {% endif %}
    {% else %}
       {% if profile in viewer.hcw_v.all %}
          {% if files %}
-            <h1>All files uploaded by {{profile.full_com_name}} on your profile:</h1>
+            <h1 class="title">All files uploaded by {{profile.full_com_name}} on your profile:</h1>
          {% else %}
-            <h1>{{profile.full_com_name}} has not yet uploaded any files on your profile.</h1>
+            <h1 class="title">{{profile.full_com_name}} has not yet uploaded any files on your profile.</h1>
          {% endif %}
       {% else %}
-         <h1>Files uploaded by {{profile.full_com_name}} on your profile:</h1>
+         <h1 class="title">Files uploaded by {{profile.full_com_name}} on your profile:</h1>
       {% endif %}
    {% endif %}
    <div id="files_container">
