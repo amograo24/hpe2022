@@ -480,60 +480,93 @@ def notifications(request):
         if request.user.is_authenticated:
             body = json.loads(request.body)
 
-            if body['type'] == "send":
+            if body['type'] == "send" and len(request.user.username) != 16:
                 receiver_id = body['to']
                 sender_division = body['as']
                 payload = "approval"
 
                 if request.user.division.lower() != sender_division.lower():
-                    print(1)
                     return HttpResponse("Forgery")
 
-                if len(request.user.username) == 16:
-                    sender = User.objects.get(username=request.user.username)
-                    receiver = User.objects.get(username=receiver_id)
-                    notification = Notification(
-                        sender=sender, receiver=receiver, content=payload)
-                    notification.save()
-                    sender = Patients.objects.get(person=sender)
-                    receiver = MedWorkerRep.objects.get(account=receiver)
+                if request.user.username == receiver_id:
+                    return HttpResponse("Cannot invite yourself")
+
+                sender = User.objects.filter(
+                    username=request.user.username)  # remove username
+                if sender:
+                    sender = sender[0]
                 else:
-                    # We can use division logic here, ill do it later. First ill finish doctor logic
-                    sender = User.objects.get(
-                        username=request.user.username)  # remove username
-                    receiver = User.objects.get(username=receiver_id)
-                    notification = Notification(
-                        sender=sender, receiver=receiver, content=payload)
-                    notification.save()
-                    sender = MedWorkerRep.objects.get(account=sender)
-                    receiver = Patients.objects.get(person=receiver)
+                    return HttpResponse("User not found")
+
+                receiver = User.objects.filter(username=receiver_id)
+
+                if receiver:
+                    receiver = receiver[0]
+                else:
+                    return HttpResponse("User not found")
+
+                if sender.division == receiver.division:
+                    return HttpResponse("Cannot send to another doctor")
+
+                sender = MedWorkerRep.objects.get(account=sender)
+                receiver = Patients.objects.get(person=receiver)
+
+                if sender in receiver.hcw_v.all():
+                    return HttpResponse("Already in User's list")
+
+                notification = Notification(
+                    sender=sender, receiver=receiver, content=payload)
+
+                notification.save()
 
                 receiver.notifications.add(notification)
                 receiver.save()
-                return HttpResponse("Saved Info")
 
             elif body['type'] == "receive":
+
                 if request.user.division.lower() != "nou":
-                    return JsonResponse({"no": "no"})
+                    mwr = MedWorkerRep.objects.get(
+                        account=User.objects.get(username=request.user))
+                    notifications = Notification.objects.filter(
+                        receiver=mwr.account)
+                    if notifications:
+                        notifications = notifications.order_by('-date_of_approval')
+                    else:
+                        return JsonResponse([], content_type="json", safe=False)
+
+                    all_notifs = []
+                    for notification in notifications:
+                        serialized_data = {
+                            'content': notification.content,
+                            'sender': notification.sender.username,
+                            'receiver': notification.receiver.username,
+                            'doc': f"{notification.date_of_approval.date()}"
+                        }
+                        all_notifs.append(serialized_data)
+                    return JsonResponse(all_notifs, content_type="json", safe=False)
 
                 else:
                     patient = Patients.objects.get(
                         person=User.objects.get(username=request.user))
-                    notification = Notification.objects.filter(
+                    notifications = Notification.objects.filter(
                         receiver=patient.person)
-                    if notification:
-                        notification = notification.order_by('-date_of_approval')[0]
+                    if notifications:
+                        notifications = notifications.order_by('-date_of_approval')
                     else:
                         return JsonResponse([], content_type="json", safe=False)
-                    print(notification)
+
                     all_notifs = []
-                    serialized_data = {
-                        'content': notification.content,
-                        'sender': notification.sender.username,
-                        'receiver': notification.receiver.username,
-                        'doc': notification.date_of_approval
-                    }
-                    all_notifs.append(serialized_data)
+                    for notification in notifications:
+                        serialized_data = {
+                            'content': notification.content,
+                            'sender': notification.sender.username,
+                            'receiver': notification.receiver.username,
+                            'doc': f"{notification.date_of_approval.date()}, "
+                                   f"{notification.date_of_approval.time().hour}:"
+                                   f"{notification.date_of_approval.time().minute}:"
+                                   f"{notification.date_of_approval.time().second}"
+                        }
+                        all_notifs.append(serialized_data)
                     return JsonResponse(all_notifs, content_type="json", safe=False)
 
             elif body['type'] == "approval":
@@ -556,8 +589,22 @@ def notifications(request):
                     notif_obj.save()
                     p_receiver.hcw_v.add(mwr_sender)
                     mwr_sender.save()
-                return HttpResponse("Received")
 
+                    new_notif = Notification(sender=receiver, receiver=sender, content="approved")
+                    new_notif.save()
+
+                else:
+                    print("No")
+                    notif_obj = notifs[0]
+                    notif_obj.content = "rejected"
+                    notif_obj.date_of_approval = timezone.now()
+                    notif_obj.save()
+
+                    new_notif = Notification(sender=receiver, receiver=sender, content="rejected")
+                    new_notif.save()
+
+                return HttpResponse("Received")
+            return HttpResponse("Saved Info")
         else:
             print("Not authenticated")
             return HttpResponse("Nice")
