@@ -618,20 +618,23 @@ def test(request):
 
 
 def delete_file(request,wbid,name):
+    print(wbid,name)
+    print(request.body)
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     user=User.objects.get(username=request.user)
-    if user.division.lower=='nou':
+    if user.division.lower()=='nou':
         return HttpResponseRedirect(reverse("myfiles"))
     # if not User.objects.filter(username=wbid):
     #     return HttpResponseRedirect(reverse("index"))
-    if not File.objects.filter(file=f"{wbid}/{name}"):
+    if not Files.objects.filter(file=f"{wbid}/{name}"):
         return HttpResponseRedirect(reverse("myfiles"))
     else:
-        file=File.objects.get(file=f"{wbid}/{name}")
+        file=Files.objects.get(file=f"{wbid}/{name}")
         if file.uploader.account==user:
             if request.method=="POST":
                 data=json.loads(request.body)
+                print(data)
                 if data['to_delete']=="yes":
                     # file.delete()
                     os.remove(f"media/{wbid}/{name}")

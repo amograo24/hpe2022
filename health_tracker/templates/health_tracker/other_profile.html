@@ -88,14 +88,14 @@
       function DeleteFile(id,filename,to_delete) {
          fetch(`/delete_file/${filename}`,{
             method:"POST",
-            header:{'X-CSRFToken':document.querySelector('input[name="csrfmiddlewaretoken"]').value }, //csrf token getAttribute('content')
+            headers:{'X-CSRFToken':document.querySelector('input[name="csrfmiddlewaretoken"]').value }, //csrf token getAttribute('content')
             body:JSON.stringify({
                to_delete:to_delete // who is the logged in dude?
             })
          })
-         .then(response => response.JSON)
+         .then(response => response.json())
          .then(data => {
-            if (data.status==200) {
+            if (data.status===200) {
                location.reload()
             }
          })
