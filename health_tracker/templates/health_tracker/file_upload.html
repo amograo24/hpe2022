@@ -1,15 +1,19 @@
 {% extends "health_tracker/layout.html" %}
 {% load static %}
 {% block title %}Upload File{% endblock %}
+{% block styling %}
+<link rel="stylesheet" href="{% static 'health_tracker/scss/upload.css' %}">
+{% endblock %}
 {% block body %}
 
     {% if message %}
-        <div>{{ message }}</div>
+        <script>
+            alert("{{ message }}");
+        </script>
     {% endif %}
     <div>
         <div>
-            <h3>Health Tracker</h3>
-            <h1>Upload File</h1>
+            <h1 class="title">Upload File</h1>
         </div>
     </div> 
     <form method='POST' action="{% url 'upload_file' %}" enctype="multipart/form-data" id="upload-form">

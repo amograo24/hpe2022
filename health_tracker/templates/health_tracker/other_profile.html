@@ -43,7 +43,7 @@
                   </a>
                   {% if file.uploader.account == request.user %}
                      <button type="button" class="delete_file" data-pos="{{forloop.counter}}">Delete</button>
-                     <div class="delete_file_modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+                     <div class="delete_file_modal" tabindex="-1" data-pos="{{forloop.counter}}" aria-labelledby="ModalLabel" aria-hidden="true">
                         <div class="modal_dialog">
                            <div class="modal_content">
                               <div class="modal_header">
@@ -54,7 +54,7 @@
                                  <p class="modal-filename" data-name="{{file.file}}">"{{file.file}}"?</p>
                               </div>
                               <div class="modal_footer">
-                                 <button type="button" class="delete_file_cancel" data-position="{{forloop.counter}}">Cancel</button>
+                                 <button type="button" class="delete_file_cancel" data-pos="{{forloop.counter}}">Cancel</button>
                                  <button type="button" class="delete_file_main" data-filename="{{file.file}}" id="delete_file_main{{file.id}}">Delete</button>
                               </div>
                            </div>
@@ -73,8 +73,13 @@
       delete_file_btn.forEach(button => {
          button.addEventListener('click', (e) => {
             e.preventDefault();
-            let modal = document.querySelectorAll('.delete_file_modal')[button.getAttribute('data-pos')-1];
-            modal.style.display = 'block';
+            let elearray = [...document.querySelectorAll('.delete_file_modal')];
+            // console.log(elearray);
+            for(let i = 0; i < elearray.length; i++){
+               if(elearray[i].dataset.pos == button.dataset.pos){
+                  elearray[i].style.display = 'block';
+               }
+            }
          });
       });
 
@@ -82,10 +87,16 @@
       cancel_file_btn.forEach(button => {
          button.addEventListener('click', (e) => {
             e.preventDefault();
-            let modal = document.querySelectorAll('.delete_file_modal')[button.getAttribute('data-position')-1];
-            modal.style.display = 'none';
+            let elearray = [...document.querySelectorAll('.delete_file_modal')];
+            // console.log(elearray);
+            for(let i = 0; i < elearray.length; i++){
+               if(elearray[i].dataset.pos == button.dataset.pos){
+                  elearray[i].style.display = 'none';
+               }
+            }
          });
       });
+
       let delete_file_main_class = document.querySelectorAll('.delete_file_main')
       delete_file_main_class.forEach(button => {button.addEventListener('click',event => {
          let id=event.target.id.split('delete_file_main')[1]
@@ -93,7 +104,7 @@
          let to_delete="yes"
 
          DeleteFile(id,file_name,to_delete)
-         console.log(document.querySelector('input[name="csrfmiddlewaretoken"]').value)
+         // console.log(document.querySelector('input[name="csrfmiddlewaretoken"]').value)
       })})
 
       function DeleteFile(id,filename,to_delete) {
@@ -121,7 +132,7 @@
       })
 
       let file_name_modal = document.querySelectorAll('.modal-filename')
-      console.log(file_name_modal)
+      // console.log(file_name_modal)
       let file_name_main=[...file_name_modal]
       file_name_main.forEach(element => {
          element.innerHTML = String(`${element.getAttribute('data-name')}`).split("/").slice(-1)[0];

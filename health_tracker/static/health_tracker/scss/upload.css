@@ -1,0 +1,100 @@
+body {
+  background-color: #141A26;
+  color: #FFC107;
+}
+
+.title {
+  text-align: center;
+  font-size: 2.5em;
+  margin-bottom: 3rem;
+  margin-top: 5rem;
+}
+
+#upload-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100vw;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 0px;
+  margin: 0px;
+}
+
+#upload-form label {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: left;
+  width: 31%;
+  margin-top: 1rem;
+}
+
+#upload-form input[type="text"],
+#upload-form input[type="email"],
+#upload-form input[type="password"],
+#upload-form input[type="number"] {
+  -webkit-transition-duration: 1s;
+          transition-duration: 1s;
+  display: block;
+  border: none;
+  background-color: none;
+  border-radius: 6px;
+  line-height: 40px;
+  border: 1px solid #ccc;
+  border-bottom: 3px solid #FFC107;
+  padding-left: 8px;
+  font-size: 1em;
+  margin-top: 0.5rem;
+  outline: none;
+}
+
+#upload-form input {
+  margin-bottom: 2rem;
+  text-align: left;
+  width: 30%;
+}
+
+#upload-form button {
+  margin-top: 2rem;
+  width: 30%;
+  background-color: #FFC107;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.2em;
+  line-height: 48px;
+  cursor: pointer;
+  -webkit-transition: 500ms ease-in-out all;
+  transition: 500ms ease-in-out all;
+}
+
+#upload-form button:hover {
+  background-color: #d39e00;
+}
+
+@media screen and (max-width: 1124px) {
+  body {
+    overflow-x: hidden;
+  }
+  #upload-form {
+    margin-bottom: 5rem;
+  }
+  #upload-form input {
+    width: 80%;
+  }
+  #upload-form label {
+    width: 80%;
+  }
+  #upload-form button {
+    width: 80%;
+  }
+}
+/*# sourceMappingURL=upload.css.map */
