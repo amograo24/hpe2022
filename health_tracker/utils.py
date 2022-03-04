@@ -28,10 +28,10 @@ def gen_unique_id(email: str, password: str) -> User:
 
 def get_hcw_vid(email:str, password: str, division: str):
     hcw_vid = uuid.uuid4()
-    hcw_vid = str(hcw_vid)[:12]
+    hcw_vid = str(hcw_vid)[:11]
     while User.objects.filter(username=hcw_vid):
         hcw_vid = uuid.uuid4()
-        hcw_vid = str(hcw_vid)[:12]
+        hcw_vid = str(hcw_vid)[:11]
     user = User.objects.create_user(username=hcw_vid,
                                     password=password,
                                     email=email,
