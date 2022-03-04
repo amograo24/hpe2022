@@ -1,4 +1,7 @@
 {% extends "health_tracker/layout.html" %}
+{% load static %}
+{% block title %}Health Status | {{wbid}}{% endblock %}
+{% block styling %}<link href="{% static 'health_tracker/css/health_status.css' %}" rel="stylesheet">{% endblock %}
 {% block body %}
     {% if udne or nap or updater_not_auth %}
         <h3>{{message}}</h3>
@@ -8,16 +11,10 @@
         {% endif %}
         <form method="POST" action="{% url 'health' wbid %}">
             {% csrf_token %}
-            {{formset}}
-            <!-- {% for form in formset %} -->
-                <!-- <div>{{form}}</div> -->
-                <!-- {% for field in form %}
-                    <div>{{field}}</div>
-                    <script>
-                        console.log(`{{field}}`)
-                    </script>
-                {% endfor %}
-            {% endfor %} -->
+            {% for form in formset %}
+                <div>{{form}}</div>
+                <hr>
+            {% endfor %}
             <input type="submit" value="Submit">
         </form>
     {% endif %}
