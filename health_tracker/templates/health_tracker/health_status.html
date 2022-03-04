@@ -9,7 +9,29 @@
         <form method="POST" action="{% url 'health' wbid %}">
             {% csrf_token %}
             {{formset}}
+            <!-- {% for form in formset %} -->
+                <!-- <div>{{form}}</div> -->
+                <!-- {% for field in form %}
+                    <div>{{field}}</div>
+                    <script>
+                        console.log(`{{field}}`)
+                    </script>
+                {% endfor %}
+            {% endfor %} -->
             <input type="submit" value="Submit">
         </form>
     {% endif %}
+{% endblock %}
+{% block script %}
+<script>
+    let health_condition_labels = document.querySelectorAll('label[for$="health_condition"]')
+    // let health_condition_inputs = document.querySelectorAll('input[name$="health_condition"]')
+    let health_condition_labels_array=[...health_condition_labels]
+    health_condition_labels.forEach(element => {
+        // element.class='health_labels'
+        let index = health_condition_labels_array.indexOf(element)+1
+        element.innerHTML=`Health Condition ${index}:`
+        console.log(element)
+    })
+</script>
 {% endblock %}

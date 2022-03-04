@@ -154,7 +154,7 @@ def health_status(request, wbid):
             "updater_not_auth":updater not in patient.hcw_v.all()
         })
     health_status = HealthStatus.objects.get(patient=patient)
-    HealthValueFormset = inlineformset_factory(HealthStatus, HealthValue, fields=('health_status', 'health_condition', 'maximum_value', 'minimum_value', 'patient_value'))
+    HealthValueFormset = inlineformset_factory(HealthStatus, HealthValue, fields=('health_status', 'health_condition', 'maximum_value', 'minimum_value', 'patient_value'),extra=3)
     if request.method == 'POST':
         formset = HealthValueFormset(request.POST, instance=health_status)
         if formset.is_valid():
@@ -631,7 +631,7 @@ def delete_file(request,wbid,name):
         return HttpResponseRedirect(reverse("myfiles"))
     else:
         file=Files.objects.get(file=f"{wbid}/{name}")
-        if file.uploader.account==user:
+        if file.uploader and file.uploader.account==user:
             if request.method=="POST":
                 data=json.loads(request.body)
                 print(data)
@@ -641,7 +641,8 @@ def delete_file(request,wbid,name):
                     file.delete()
                     return JsonResponse({'status':200})
         else:
-            return JsonResponse({'status':Forgery})
+            # return JsonResponse({'status':"Forgery"})
+            return HttpResponse('<h1>Forgery! You can only delete the files you have uploaded!</h1>')
     # lecturer=User.objects.get(username=lecturer)
     # course_filter=Course.objects.filter(creator=lecturer)
     # course=course_filter.get(course_name=course)
