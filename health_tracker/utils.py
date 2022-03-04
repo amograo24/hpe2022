@@ -40,5 +40,11 @@ def get_hcw_vid(email:str, password: str, division: str):
     return user
 
 
+# TODO kushurox: Do file ext checks here before saving
+def is_valid_file(file: str) -> bool:
+    print(file, str(file))
+    return False
+
+
 if __name__ == "__main__":
     print(str(uuid.uuid4())[:12])

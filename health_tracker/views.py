@@ -6,7 +6,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404, FileResponse
 from django.shortcuts import render
 from django.urls import reverse
-from .utils import gen_unique_id, get_hcw_vid, return_qr_code
+from .utils import gen_unique_id, get_hcw_vid, return_qr_code, is_valid_file
 from .forms import RegisterForm, LoginForm, UploadDocForm
 from .models import User, MedWorkerRep, Patients, Notification, Files, HealthStatus, HealthValue
 from django.forms import modelformset_factory, inlineformset_factory
@@ -198,10 +198,13 @@ def upload_file(request):
         # uploaded_file=request.FILES.get('document')
         form = UploadDocForm(request.POST)
         files = request.FILES.getlist('file_field')
-        print("files", files)
         if form.is_valid() and files:
             uploader = MedWorkerRep.objects.get(account=uploader)
             patient = form.cleaned_data['patient']
+
+            for file in files:
+                is_valid_file(file)
+
             try:
                 patient = Patients.objects.get(wbid=patient)
                 notification = Notification.objects.filter(
@@ -223,8 +226,6 @@ def upload_file(request):
             # check if patient exists, and whether he is related to doctor
             vendor_name = form.cleaned_data['vendor_name']
             tags = form.cleaned_data['tags']
-            # files=request.FILES.getlist('file_field')
-            print(request.FILES)
             # if uploader is med shop/insurance and if in the patient's approves list, and the time has exceeded
             if uploader_type in ['i/sp', 'msh'] and uploader in patient.hcw_v.all() and time_condition:
                 patient.hcw_v.remove(uploader)
@@ -244,7 +245,6 @@ def upload_file(request):
                         Files(uploader=uploader, recipent=patient, file=f, vendor_name=vendor_name, tags=tags, date=timezone.now()).save()
                         patient.hcw_v.remove(uploader)
                         patient.save()
-                    print(f)
         else:
             return render(request, "health_tracker/file_upload.html", {
                 "message": "You must upload atleast 1 file!",
@@ -486,16 +486,20 @@ def notifications(request):
                 payload = "approval"
 
                 if request.user.division.lower() != sender_division.lower():
+                    print("Forgery")
                     return HttpResponse("Forgery")
 
                 if request.user.username == receiver_id:
+                    print("self invite")
                     return HttpResponse("Cannot invite yourself")
 
                 sender = User.objects.filter(
                     username=request.user.username)  # remove username
+
                 if sender:
                     sender = sender[0]
                 else:
+                    print("User not found")
                     return HttpResponse("User not found")
 
                 receiver = User.objects.filter(username=receiver_id)
@@ -503,19 +507,22 @@ def notifications(request):
                 if receiver:
                     receiver = receiver[0]
                 else:
+                    print("User not found")
                     return HttpResponse("User not found")
 
                 if sender.division == receiver.division:
+                    print("Cannot send to another Doctor")
                     return HttpResponse("Cannot send to another doctor")
 
                 sender = MedWorkerRep.objects.get(account=sender)
                 receiver = Patients.objects.get(person=receiver)
 
                 if sender in receiver.hcw_v.all():
+                    print("Already in User List")
                     return HttpResponse("Already in User's list")
 
                 notification = Notification(
-                    sender=sender, receiver=receiver, content=payload)
+                    sender=sender.account, receiver=receiver.person, content=payload)
 
                 notification.save()
 
@@ -639,7 +646,7 @@ def delete_file(request,wbid,name):
                     # file.delete()
                     os.remove(f"media/{wbid}/{name}")
                     file.delete()
-                    return JsonResponse({'status':200})
+                    return JsonResponse({'status': 200})
         else:
             # return JsonResponse({'status':"Forgery"})
             return HttpResponse('<h1>Forgery! You can only delete the files you have uploaded!</h1>')
@@ -677,7 +684,8 @@ def file_page(request, wbid, name):
         if not os.path.exists(f'media/{wbid}/{name}'):
             raise Http404(f"'{name}' doesn't exist!")
     else:
-        # Major Security Risk: Since the temporary user is a part of profile.hcw_v.all() he can view stuff. Also if he ain't in the thing, but he is the one who uplaoded the doc, he should be able to see
+        # Major Security Risk: Since the temporary user is a part of profile.hcw_v.all() he can view stuff. Also if
+        # he ain't in the thing, but he is the one who uploaded the doc, he should be able to see
         if viewer.division.lower() in ['d/hcw/ms', 'i/sp', 'msh']:
             vendor = MedWorkerRep.objects.get(account=viewer)
             if vendor in profile.hcw_v.all():

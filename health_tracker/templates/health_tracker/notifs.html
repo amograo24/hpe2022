@@ -19,6 +19,7 @@
         <script>
             function handle_send()
             {
+                console.log(1)
                 let token = $("input[name='csrfmiddlewaretoken']").val()
                 let header = {"X-CSRFToken": token}
                 let whom = $('#target_user').val()
@@ -109,7 +110,9 @@
         }
     $(document).ready(()=>{
         handle_rec()
-        $("#send_msg").click(handle_send)
+        {% if division.lower != "nou" %}
+            $("#send_msg").click(handle_send)
+        {% endif %}
         setInterval(handle_rec, 3000)
     })
 </script>
