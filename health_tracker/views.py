@@ -728,3 +728,36 @@ def notification_page(request):
         "division": request.user.division
     }
     return render(request, "health_tracker/notifs.html", ctx)
+
+def mydoctors_vendors(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    user=User.objects.get(username=request.user)
+    if user.division.lower()!='nou':
+        return HttpResponseRedirect(reverse("mypatients_customers"))
+    patient=Patients.objects.get(person=user)
+    files=Files.objects.filter(recipent=patient)
+    authorized_doctors=[]
+    other_doctors=[]
+    insurance_service_providers=[]
+    medical_shops_labs=[]
+    for doctor in patient.hcw_v.all():
+        if doctor.account.division.lower()=='d/hcw/ms':
+            authorized_doctors.append(doctor)
+    
+    for file in files:
+        if file.uploader and file.uploader not in patient.hcw_v.all():
+            vendor_type=file.uploader.account.division.lower()
+            if vendor_type=='d/hcw/ms':
+                other_doctors.append(file.uploader)
+            elif vendor_type=='i/sp':
+                insurance_service_providers.append(file.uploader)
+            elif vendor_type=='msh':
+                medical_shops_labs.append(file.uploader)
+    
+    return render(request,"health_tracker/mydoctors_vendors.html",{
+        "authorized_doctors":authorized_doctors,
+        "other_doctors":other_doctors,
+        "insurance_service_providers":insurance_service_providers,
+        "medical_shops_labs":medical_shops_labs
+    })
