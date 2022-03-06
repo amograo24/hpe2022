@@ -59,12 +59,22 @@ class Patients(models.Model):
 
 
 class Files(models.Model): #SET('Deleted User')
+    file_type_choices = [
+        ('PRSCN', 'Prescription'),
+        ('S/T', 'Schedule/Timetable'),
+        ('HR/TR', 'Health Report/Test Report'),
+        ('INVCE', 'Invoice'),
+        ('OP','Operative Report'),
+        ('DS','Discharge Summary'),
+        ('MSC','Miscellaneous')
+    ]    
     uploader = models.ForeignKey(MedWorkerRep, on_delete=models.SET_NULL,null=True, related_name="uploader", default=None, verbose_name="Uploaded By")
     recipent = models.ForeignKey(Patients, on_delete=models.CASCADE, related_name="recipent", default=None, verbose_name="Recipent")
     tags = models.CharField(default=None, blank=True, null=True, verbose_name="Tags/Keywords", max_length=200)
     file = models.FileField(default=None, unique=True, verbose_name="File Path")
     vendor_name = models.CharField(default=None, blank=True, null=True, verbose_name="Name of person uploading this document", max_length=200)
     date = models.DateTimeField(default=timezone.now)
+    file_type = models.CharField(default='MSC', max_length=20, choices=file_type_choices, verbose_name="File Type")
     # remarks and type
 
     def __str__(self):

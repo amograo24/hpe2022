@@ -69,8 +69,25 @@ def search(request):
     print("associated_people_list",associated_people_list)
     for file in files:
         # check for tags, and the uploader, and vendor name. Ex tags it will show class str even if nothing exists. so do file.tags.strip(" ")
-        check_list=[str(file.file).lower(),file.recipent.full_name.lower(),file.recipent.person.username.lower()]
-
+        # check_list=[str(file.file).lower(),file.recipent.full_name.lower(),file.recipent.person.username.lower(),file.file_type.lower(),"presctiption","schedule/timetable","health report/test report","invoice","operative report","discharge summary","miscellaneous"]
+        # file_category={'PRSCN':'','S/T':'','':'','':'','':'','':'','':''}
+        file_type_choices = [
+            ('PRSCN', 'Prescription'),
+            ('S/T', 'Schedule/Timetable'),
+            ('HR/TR', 'Health Report/Test Report'),
+            ('INVCE', 'Invoice'),
+            ('OP','Operative Report'),
+            ('DS','Discharge Summary'),
+            ('MSC','Miscellaneous')
+        ] 
+        file_category=dict(file_type_choices)[file.file_type]
+        # if file.file_type=='PRSCN':
+        #     file_category='Presctiption'
+        # elif file.file_type=='S/T':
+        #     file_category='Schedule/Timetable'
+        # elif file
+            
+        check_list=[str(file.file).lower(),file.recipent.full_name.lower(),file.recipent.person.username.lower(),file.file_type.lower(),file_category.lower()]
         if file.uploader: 
             check_list.extend([file.uploader.full_com_name.lower(),file.uploader.account.username.lower()])
         # if file.vendor_name or file.vendor_name.strip(" "):
@@ -225,6 +242,7 @@ def upload_file(request):
                 })
             # check if patient exists, and whether he is related to doctor
             vendor_name = form.cleaned_data['vendor_name']
+            file_type=form.cleaned_data['file_type']
             tags = form.cleaned_data['tags']
             # if uploader is med shop/insurance and if in the patient's approves list, and the time has exceeded
             if uploader_type in ['i/sp', 'msh'] and uploader in patient.hcw_v.all() and time_condition:
@@ -240,9 +258,9 @@ def upload_file(request):
                     f = fs.save(
                         f"{patient.person.username}/{file.name.replace(' ','_')}", file)
                     if uploader_type == 'd/hcw/ms':
-                        Files(uploader=uploader, recipent=patient, file=f, tags=tags, date=timezone.now()).save()
+                        Files(uploader=uploader, recipent=patient, file=f, file_type=file_type, tags=tags, date=timezone.now()).save()
                     elif uploader_type in ['i/sp', 'msh']:
-                        Files(uploader=uploader, recipent=patient, file=f, vendor_name=vendor_name, tags=tags, date=timezone.now()).save()
+                        Files(uploader=uploader, recipent=patient, file=f, file_type=file_type, vendor_name=vendor_name, tags=tags, date=timezone.now()).save()
                         patient.hcw_v.remove(uploader)
                         patient.save()
         else:
