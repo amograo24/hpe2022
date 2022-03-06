@@ -6,7 +6,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404, FileResponse
 from django.shortcuts import render
 from django.urls import reverse
-from .utils import gen_unique_id, get_hcw_vid, return_qr_code, is_valid_file
+from .utils import gen_unique_id, get_hcw_vid, return_qr_code, is_valid_file, sort_files, filter_files
 from .forms import RegisterForm, LoginForm, UploadDocForm
 from .models import User, MedWorkerRep, Patients, Notification, Files, HealthStatus, HealthValue
 from django.forms import modelformset_factory, inlineformset_factory
@@ -220,7 +220,8 @@ def upload_file(request):
             patient = form.cleaned_data['patient']
 
             for file in files:
-                is_valid_file(file)
+                if not is_valid_file(file):
+                    files.remove(file)
 
             try:
                 patient = Patients.objects.get(wbid=patient)
@@ -405,35 +406,28 @@ def index(request):
 
 
 def myfiles(request):
+    print(request.POST)
+    sort_method = request.POST.get('sort') or "def"
+    filter_method = request.POST.get("filter") or "def"
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     user = User.objects.get(username=request.user)
     files = None
-    user_type=user.division.lower()
+    user_type = user.division.lower()
     if user_type == 'nou':
         user = Patients.objects.get(person=user)
         files = Files.objects.filter(recipent=user)[::-1]
-        # file_names=[]
-        # for file in files:
-        # print(list(files))  # error
-        # return render(request, "health_tracker/myfiles.html", {
-        #     "files": files
-        # })
+
     else:
-        user=MedWorkerRep.objects.get(account=user)
-        files=Files.objects.filter(uploader=user)[::-1]
+        user = MedWorkerRep.objects.get(account=user)
+        files = Files.objects.filter(uploader=user)[::-1]
+
+    files = filter_files(files, filter_method)
+    files = sort_files(files, sort_method)
     return render(request, "health_tracker/myfiles.html", {
         "files": files,
-        "user_type":user_type
+        "user_type": user_type
     })
-    # elif user.division.lower() in ['d/hcw/ms','i/sp','msh']:
-    #     user=MedWorkerRep.objects.get(account=user)
-    #     files=Files.objects.filter(uploader=user)[::-1]
-    #     print(list(files)
-    # return render(request,"health_tracker/myfiles.html",{
-    #     "files":files
-    # })
-    # return render("health_tracker/myfiles.html")
 
 
 def other_profile(request, id):

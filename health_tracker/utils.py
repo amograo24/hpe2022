@@ -42,8 +42,41 @@ def get_hcw_vid(email:str, password: str, division: str):
 
 # TODO kushurox: Do file ext checks here before saving
 def is_valid_file(file: str) -> bool:
-    print(file, str(file))
-    return False
+    approved = ["docx", "pdf", "jpg", "jpeg", "png", "pptx", "ppt", "xlsx", "xls"]
+    if "." not in file:
+        return False
+
+    f_ext = file[file.rfind(".")+1:]
+    if f_ext not in approved:
+        return False
+
+    return True
+
+
+def filter_files(files: list, mode: str) -> list:
+    if mode == "def":
+        return files
+    return [f for f in files if f.file_type == mode]
+
+
+def sort_files(files: list, mode: str) -> list:
+    if mode == "def":
+        return files
+
+    elif mode == "ft":
+
+        exts = {f.file_type: [] for f in files}
+        for file in files:
+            exts[file.file_type].append(file)
+        nfs = []
+        for v in exts.values():
+            nfs.extend(v)
+        return nfs
+
+    elif mode == "az":
+        fs = [f for f in files]
+        return sorted(fs, key=lambda x: str(x))
+
 
 
 if __name__ == "__main__":
