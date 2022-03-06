@@ -19,6 +19,7 @@ urlpatterns = [
     path("health/<str:wbid>", views.health_status, name="health"),
     path("auth_messages", views.notification_page, name="notifs-page"), #approval messages
     path("search",views.search,name="search"),
-    path("delete_file/<str:wbid>/<str:name>",views.delete_file,name="delete_file")
+    path("delete_file/<str:wbid>/<str:name>",views.delete_file,name="delete_file"),
+    path("mydoctors_vendors",views.mydoctors_vendors,name="mydoctors_vendors")
     # path("media")
 ]
