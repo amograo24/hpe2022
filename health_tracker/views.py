@@ -792,4 +792,11 @@ def mypatients_customers(request):
     return render(request,"health_tracker/mypatients_customers.html",{
         "patients_customers":patients_customers
     })
-
+def edit_file(request,wbid,file_name):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    # if not File.objects.filter(file=f'{wbid}/{file_name}'):
+    #     return render(request,"health_tracker/edit_file.html",{
+    #         "message":"File doesn't"
+    #     })
+    # pass
