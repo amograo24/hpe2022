@@ -4,8 +4,6 @@
     <form action="{% url 'edit_file' wbid file_name %}" method="POST">
         {% csrf_token %}
         {{form}}
+        <input type="submit" value="Save">
     </form>
-    <input type="submit" value="Save">
-{% endif %}
-
 {% endblock %}

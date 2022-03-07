@@ -834,17 +834,18 @@ def edit_file(request,wbid,file_name):
     # if no files, then it redirects. So basically, if files exist, then
     file=Files.objects.get(file=f'{wbid}/{file_name}',uploader=editor,recipent=profile)
 
-    form0=EditFileForm()
-    form0.fields['tags']=file.tags # what if it is null?
-    form0.fields['vendor_name']=file.vendor_name # what if it is null?
-    form0.fields['file_type']=file.file_type
+    form0=EditFileForm(initial={'tags':file.tags,'vendor_name':file.vendor_name,'file_type':file.file_type})
+    # print(form0(initial={'tags':file.tags}))
+    # form0.fields['tags']=file.tags # what if it is null?
+    # form0.fields['vendor_name']=file.vendor_name # what if it is null?
+    # form0.fields['file_type']=file.file_type
     if request.method=="POST":
         form=EditFileForm(request.POST)
         if form.is_valid():
             # tags=form.cleaned_data['tags']
             # vendor_name=form.cleaned_data['vendor_name']
             # file_type=form.cleaned_data['file_type']
-
+            print(form.cleaned_data)
             file.tags=form.cleaned_data['tags']
             file.vendor_name=form.cleaned_data['vendor_name']
             file.file_type=form.cleaned_data['file_type']
@@ -855,7 +856,7 @@ def edit_file(request,wbid,file_name):
                 "wbid":wbid,
                 "file_name":file_name
             })
-    return render(request."health_tracker/edit_file.html",{
+    return render(request,"health_tracker/edit_file.html",{
         "form":form0,
         "wbid":wbid,
         "file_name":file_name

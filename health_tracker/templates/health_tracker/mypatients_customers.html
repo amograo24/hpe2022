@@ -5,7 +5,7 @@
     <h1>Patients/Customers</h1>
     {% for person in patients_customers %}
         <a href="{% url 'other_profile' person.person.username %}">{{person.full_name}} ({{person.person.username}})</a>
-    {% endfor %}]
+    {% endfor %}
 {% endif %}
 
 {% endblock %}
