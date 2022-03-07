@@ -1,5 +1,11 @@
 @import "variables";
 
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body{
     background-color: $background-color-dark;
     color: $secondary-color;
@@ -172,13 +178,55 @@ body{
     }
 }
 
-.action-btns{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 290px;
+.patient-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 300px);
+    grid-row-gap: 2rem;
+    grid-column-gap: 4rem;
+    justify-content: center;
+    width: 90%;
+    margin: 0 auto;
+    list-style: none;
+    margin-bottom: 4rem;
 
-    button{
-        width: 40%;
+    &__patient-div{
+        width: 300px;
+        border: 2px solid $secondary-color;
+        border-radius: 0.5rem;
+        background-color: lighten($background-color-dark, 10%);
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding-bottom: 1rem;
+    }
+
+    &__patient-link{
+        width: 300px;
+        text-decoration: none;
+        color: $secondary-color;
+        text-align: center;
+        transition: all ease-in-out 500ms;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 60px;
+
+        p{
+            width: 260px;
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+    
+        &:hover{
+            background-color: $secondary-color;
+            color: $background-color-dark;
+        }
     }
 }
