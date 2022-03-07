@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http40
 from django.shortcuts import render
 from django.urls import reverse
 from .utils import gen_unique_id, get_hcw_vid, return_qr_code, is_valid_file, sort_files, filter_files
-from .forms import RegisterForm, LoginForm, UploadDocForm
+from .forms import RegisterForm, LoginForm, UploadDocForm, EditFileForm
 from .models import User, MedWorkerRep, Patients, Notification, Files, HealthStatus, HealthValue
 from django.forms import modelformset_factory, inlineformset_factory
 import json
@@ -776,7 +776,7 @@ def mydoctors_vendors(request):
 def mypatients_customers(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
-    user=User.objects.get(username=user)
+    user=User.objects.get(username=request.user)
     if user.division.lower()=='nou':
         return HttpResponseRedirect(reverse("mypatients_customers"))
     vendor=MedWorkerRep.objects.get(account=user)
@@ -793,10 +793,61 @@ def mypatients_customers(request):
         "patients_customers":patients_customers
     })
 def edit_file(request,wbid,file_name):
-    if not request.user.is_authenticated:
+    ##############################################
+    if not request.user.is_authenticated:  # if user not authenticated
         return HttpResponseRedirect(reverse("login"))
-    # if not File.objects.filter(file=f'{wbid}/{file_name}'):
-    #     return render(request,"health_tracker/edit_file.html",{
-    #         "message":"File doesn't"
-    #     })
-    # pass
+    editor=User.objects.get(username=request.user)
+    # editor_type=editor.division.lower()
+    if editor.division.lower()=='nou':
+        return HttpResponseRedirect(reverse("file_page",args=[wbid,file_name])) # it will do by itself na?
+    if not User.objects.filter(username=wbid): # if the wbid doesn't exist
+        # if editor_type=='nou':
+        #     return HttpResponseRedirect(reverse("mydoctors_vendors"))
+        # else:
+        return HttpResponseRedirect(reverse("mypatients_customers"))
+    profile=User.objects.get(username=wbid)
+
+    # if editor.division.lower()=='nou':
+    #     return HttpResponseRedirect(reverse("file_page",args=[wbid,file_name]))
+
+    if profile.division.lower() != 'nou': # if the wbid is not a normal user, ie /hcwvid/file_name
+        return HttpResponseRedirect(reverse("index"))
+    profile=Patients.objects.get(person=profile)
+    
+    editor=MedWorkerRep.objects.get(account=editor)
+    # check if file path exists. If it exists, then we have to check if the uploader is the editor, if so give access, else redirect
+    files=Files.objects.filter(uploader=editor,recipent=profile) #/1/haha, /1/kaka
+    if not files:
+        return HttpResponseRedirect(reverse("other_profile",args=[wbid]))
+    if not os.path.exists(f'media/{wbid}/{file_name}'): # basically if the doctor and patient are related, it should tell them that the filename doesn't exist na
+        # if not os.path.exists(f'media/{wbid}/{name}'):
+        raise Http404(f"'{file_name}' doesn't exist!")
+    # if no files, then it redirects. So basically, if files exist, then
+    file=Files.objects.get(file=f'{wbid}/{file_name}',uploader=editor,recipent=profile)
+
+    form0=EditFileForm()
+    form0.fields['tags']=file.tags # what if it is null?
+    form0.fields['vendor_name']=file.vendor_name # what if it is null?
+    form0.fields['file_type']=file.file_type
+    if request.method=="POST":
+        form=EditFileForm(request.POST)
+        if form.is_valid():
+            # tags=form.cleaned_data['tags']
+            # vendor_name=form.cleaned_data['vendor_name']
+            # file_type=form.cleaned_data['file_type']
+
+            file.tags=form.cleaned_data['tags']
+            file.vendor_name=form.cleaned_data['vendor_name']
+            file.file_type=form.cleaned_data['file_type']
+            file.save()
+        else:
+            return render(request,"health_tracker/edit_file.html",{
+                "form":form,
+                "wbid":wbid,
+                "file_name":file_name
+            })
+    return render(request."health_tracker/edit_file.html",{
+        "form":form0,
+        "wbid":wbid,
+        "file_name":file_name
+    })

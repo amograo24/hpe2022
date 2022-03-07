@@ -1,6 +1,8 @@
 from django import forms
 from django.core.validators import MinLengthValidator
-from .models import HealthStatus,HealthValue
+# from .models import HealthStatus,HealthValue,Files
+from .models import Files
+
 
 
 class RegisterForm(forms.Form):
@@ -42,6 +44,11 @@ class UploadDocForm(forms.Form):
         ('MSC','Miscellaneous')
     ], required=True)
     tags = forms.CharField(max_length=200,label="Tags/Keywords",required=False)
+
+class EditFileForm(forms.ModelForm):
+    class Meta:
+        model=Files
+        fields=['tags','vendor_name','file_type']
     # file_type = forms.CharField
 
 # class CreateHealthStatus(forms.ModelForm):
