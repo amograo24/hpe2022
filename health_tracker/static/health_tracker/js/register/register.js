@@ -47,6 +47,7 @@ function main()
     $('label[for="id_aadharid"]').hide()
     $("#id_department").prop('required',true)
     $("#id_division").change(check_type)
+    check_type(1)
 
 }
 

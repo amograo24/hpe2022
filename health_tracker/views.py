@@ -1,5 +1,4 @@
 import datetime
-
 import django
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
@@ -23,9 +22,10 @@ from django.core.paginator import Paginator
 import time
 import os
 
+
 def search(request):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect(revrse("login"))
+        return HttpResponseRedirect(reverse("login"))
     search_entry=request.GET.get('q','')
     user=User.objects.get(username=request.user)
     files=None
@@ -773,10 +773,12 @@ def mydoctors_vendors(request):
         "insurance_service_providers":insurance_service_providers,
         "medical_shops_labs":medical_shops_labs
     })
+
+
 def mypatients_customers(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
-    user=User.objects.get(username=user)
+    user=User.objects.get(username=request.user)
     if user.division.lower()=='nou':
         return HttpResponseRedirect(reverse("mypatients_customers"))
     vendor=MedWorkerRep.objects.get(account=user)
@@ -792,6 +794,8 @@ def mypatients_customers(request):
     return render(request,"health_tracker/mypatients_customers.html",{
         "patients_customers":patients_customers
     })
+
+
 def edit_file(request,wbid,file_name):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))

@@ -78,6 +78,5 @@ def sort_files(files: list, mode: str) -> list:
         return sorted(fs, key=lambda x: str(x))
 
 
-
 if __name__ == "__main__":
     print(str(uuid.uuid4())[:12])
