@@ -773,3 +773,23 @@ def mydoctors_vendors(request):
         "insurance_service_providers":insurance_service_providers,
         "medical_shops_labs":medical_shops_labs
     })
+def mypatients_customers(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    user=User.objects.get(username=user)
+    if user.division.lower()=='nou':
+        return HttpResponseRedirect(reverse("mypatients_customers"))
+    vendor=MedWorkerRep.objects.get(account=user)
+    patients_customers=[]
+    files=Files.objects.filter(uploader=vendor)
+    # customers=[]    
+    # if venoder.account.division.lower()=='d/hcw/ms':
+    for patient in vendor.hcw_v.all():
+        patients_customers.append(patient)
+    for file in files:
+        if file.recipent not in patients_customers:
+            patients_customers.append(file.recipent)
+    return render(request,"health_tracker/mypatients_customers.html",{
+        "patients_customers":patients_customers
+    })
+

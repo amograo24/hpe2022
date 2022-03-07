@@ -1,0 +1,10 @@
+{% extends "health_tracker/layout.html" %}
+{% block title %}My Patients/Customers{% endblock %}
+{% block body %}
+{% if patients_customers %}
+    <h1>Patients/Customers</h1>
+    {% for person in patients_customers %}
+        <a href="{% url 'other_profile' person.person.username %}">{{person.full_name}} ({{person.person.username}})</a>
+    {% endfor %}
+
+{% endblock %}
