@@ -115,12 +115,37 @@ body{
     }
 }
 
+.delete_patient_modal{
+    display: none;
+}
+
+.delete_patient{
+    width: 90%;
+    outline: none;
+    border: none;
+    background-color: $secondary-color;
+    border-radius: 0.5rem;
+    line-height: 40px;
+    border: 2px solid $secondary-color;
+    padding-left: 8px;
+    font-size: 1em;
+    margin-top: 1rem;
+    transition: all ease-in-out 500ms;
+
+    &:hover{
+        background-color: darken($secondary-color, 10%);
+        border: 2px solid darken($secondary-color, 10%);
+    }
+}
+
 .modal_header{
     padding-top: 2rem;
     padding-bottom: 1rem;
+
     .modal_title{
         margin: 0;
         padding: 0;
+        text-align: center;
     }
 }
 
@@ -228,12 +253,17 @@ body{
             white-space: nowrap;
             margin: 0;
             text-overflow: ellipsis;
+            font-weight: bold;
+            font-size: 1.2em;
             text-align: center;
         }
     
         &:hover{
-            background-color: $secondary-color;
-            color: $background-color-dark;
+            color: darken($secondary-color, 20%);
         }
+    }
+
+    button{
+        margin-top: 0;
     }
 }
