@@ -1,5 +1,11 @@
 @import "variables";
 
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body{
     background-color: $background-color-dark;
     color: $secondary-color;
@@ -10,6 +16,13 @@ body{
     text-align: center;
     font-family: 'IBM Plex Sans';
     margin-top: 2rem;
+    margin-bottom: 4rem;
+}
+
+.empty{
+    text-align: center;
+    font-family: 'IBM Plex Sans';
+    margin-top: 4rem;
     margin-bottom: 4rem;
 }
 
@@ -102,12 +115,37 @@ body{
     }
 }
 
+.delete_patient_modal{
+    display: none;
+}
+
+.delete_patient{
+    width: 90%;
+    outline: none;
+    border: none;
+    background-color: $secondary-color;
+    border-radius: 0.5rem;
+    line-height: 40px;
+    border: 2px solid $secondary-color;
+    padding-left: 8px;
+    font-size: 1em;
+    margin-top: 1rem;
+    transition: all ease-in-out 500ms;
+
+    &:hover{
+        background-color: darken($secondary-color, 10%);
+        border: 2px solid darken($secondary-color, 10%);
+    }
+}
+
 .modal_header{
     padding-top: 2rem;
     padding-bottom: 1rem;
+
     .modal_title{
         margin: 0;
         padding: 0;
+        text-align: center;
     }
 }
 
@@ -172,13 +210,60 @@ body{
     }
 }
 
-.action-btns{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 290px;
+.patient-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 300px);
+    grid-row-gap: 2rem;
+    grid-column-gap: 4rem;
+    justify-content: center;
+    width: 90%;
+    margin: 0 auto;
+    list-style: none;
+    margin-bottom: 4rem;
+
+    &__patient-div{
+        width: 300px;
+        border: 2px solid $secondary-color;
+        border-radius: 0.5rem;
+        background-color: lighten($background-color-dark, 10%);
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding-bottom: 1rem;
+    }
+
+    &__patient-link{
+        width: 300px;
+        text-decoration: none;
+        color: $secondary-color;
+        text-align: center;
+        transition: all ease-in-out 500ms;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 60px;
+
+        p{
+            width: 260px;
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0;
+            text-overflow: ellipsis;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-align: center;
+        }
+    
+        &:hover{
+            color: darken($secondary-color, 20%);
+        }
+    }
 
     button{
-        width: 40%;
+        margin-top: 0;
     }
 }

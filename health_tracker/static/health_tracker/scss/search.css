@@ -1,3 +1,10 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
 body {
   background-color: #141A26;
   color: #FFC107;
@@ -8,6 +15,13 @@ body {
   text-align: center;
   font-family: 'IBM Plex Sans';
   margin-top: 2rem;
+  margin-bottom: 4rem;
+}
+
+.empty {
+  text-align: center;
+  font-family: 'IBM Plex Sans';
+  margin-top: 4rem;
   margin-bottom: 4rem;
 }
 
@@ -112,6 +126,30 @@ body {
   border: 2px solid #d39e00;
 }
 
+.delete_patient_modal {
+  display: none;
+}
+
+.delete_patient {
+  width: 90%;
+  outline: none;
+  border: none;
+  background-color: #FFC107;
+  border-radius: 0.5rem;
+  line-height: 40px;
+  border: 2px solid #FFC107;
+  padding-left: 8px;
+  font-size: 1em;
+  margin-top: 1rem;
+  -webkit-transition: all ease-in-out 500ms;
+  transition: all ease-in-out 500ms;
+}
+
+.delete_patient:hover {
+  background-color: #d39e00;
+  border: 2px solid #d39e00;
+}
+
 .modal_header {
   padding-top: 2rem;
   padding-bottom: 1rem;
@@ -120,6 +158,7 @@ body {
 .modal_header .modal_title {
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 
 .modal-body {
@@ -196,19 +235,81 @@ body {
   border: 2px solid #990000;
 }
 
-.action-btns {
+.patient-container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (300px)[auto-fit];
+      grid-template-columns: repeat(auto-fit, 300px);
+  grid-row-gap: 2rem;
+  grid-column-gap: 4rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 90%;
+  margin: 0 auto;
+  list-style: none;
+  margin-bottom: 4rem;
+}
+
+.patient-container__patient-div {
+  width: 300px;
+  border: 2px solid #FFC107;
+  border-radius: 0.5rem;
+  background-color: #263147;
+  padding: 0;
+  margin: 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  width: 290px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding-bottom: 1rem;
 }
 
-.action-btns button {
-  width: 40%;
+.patient-container__patient-link {
+  width: 300px;
+  text-decoration: none;
+  color: #FFC107;
+  text-align: center;
+  -webkit-transition: all ease-in-out 500ms;
+  transition: all ease-in-out 500ms;
+  margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 60px;
 }
-/*# sourceMappingURL=files.css.map */
+
+.patient-container__patient-link p {
+  width: 260px;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 0;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.patient-container__patient-link:hover {
+  color: #a07800;
+}
+
+.patient-container button {
+  margin-top: 0;
+}
+/*# sourceMappingURL=search.css.map */

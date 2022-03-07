@@ -1,106 +1,276 @@
 {% extends "health_tracker/layout.html" %}
 {% load static %}
 {% block title %}Search Results{% endblock %}
-{% block styling %}<link href="{% static 'health_tracker/css/myfiles.css' %}" rel="stylesheet">{% endblock %}
+{% block styling %}<link href="{% static 'health_tracker/scss/search.css' %}" rel="stylesheet">{% endblock %}
 {% block body %}
     <!-- Check with avaneesh regarding phone view when file previews are shown, like it becomes very cramped. Instead of 3 files in one row, why not one in phone view?-->
     {% if empty %}
-        <h3>No files or doctors/insurance representatives/medical shops/labs are associated with '{{search_entry}}'!</h3>
+        <h3 class="empty">No files or doctors/insurance representatives/medical shops/labs are associated with '{{search_entry}}'!</h3>
     {% else %}
         {% if associated_people %}
             {% if user_type == 'nou' %}
-                <h1>Doctors/Insurance Representatives/Medical Shops/Labs associated with '{{search_entry}}'</h1>
+                <h1 class="title">Doctors/Insurance Representatives/Medical Shops/Labs associated with '{{search_entry}}'</h1>
             {% else %}
-                <h1>Patients/Customers associated with '{{search_entry}}'</h1>
+                <h1 class="title">Patients/Customers associated with '{{search_entry}}'</h1>
             {% endif %}
-            {% for person in associated_people %}
-                {% if user_type == 'nou' %}
-                    {% if person %}
-                        <a href="{% url 'other_profile' person.account.username  %}">{{person.full_com_name}}-{{person.account.username}}</a>
-                    {% endif %}
-                {% else %}
-                    <a href="{% url 'other_profile' person.person.username %}">{{person.full_name}}-{{person.person.username}}</a>
-                {% endif %}
-            {% endfor %}
+            <div class="patient-container">
+                {% for person in associated_people %}
+                    {% if user_type == 'nou' %}
+                        {% if person %}
+                        <div class="patient-container__patient-div">
+                            <a href="{% url 'other_profile' person.account.username  %}" class="patient-container__patient-link"><p>{{person.full_com_name}}-{{person.account.username}}</p></a>
+                            <button type="button" class="delete_patient" data-pos="{{forloop.counter}}">Delete</button>
+                            <div class="delete_patient_modal" tabindex="-1" data-pos="{{forloop.counter}}" aria-labelledby="ModalLabel" aria-hidden="true">
+                               <div class="modal_dialog">
+                                  <div class="modal_content">
+                                     <div class="modal_header">
+                                        <h5 class="modal_title">Delete Course</h5>
+                                     </div>
+                                     <div class="modal-body">
+                                        <p>Are you sure you want to delete</p>
+                                        <p class="modal-filename" data-name="{{person.name}}">"{{person.full_com_name}}-{{person.account.username}}"?</p>
+                                     </div>
+                                     <div class="modal_footer">
+                                        <button type="button" class="delete_patient_cancel" data-pos="{{forloop.counter}}">Cancel</button>
+                                        <button type="button" class="delete_patient_main" data-filename="{{file.file}}" id="delete_file_main{{file.id}}">Delete</button>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="patient-container__patient-div">
+                            <a href="{% url 'other_profile' person.person.username %}" class="patient-container__patient-link"><p>{{person.full_name}}-{{person.person.username}}</p></a>
+                            <button type="button" class="delete_patient" data-pos="{{forloop.counter}}B">Delete</button>
+                            <div class="delete_patient_modal" tabindex="-1" data-pos="{{forloop.counter}}B" aria-labelledby="ModalLabel" aria-hidden="true">
+                                <div class="modal_dialog">
+                                   <div class="modal_content">
+                                      <div class="modal_header">
+                                         <h5 class="modal_title">Delete Course</h5>
+                                      </div>
+                                      <div class="modal-body">
+                                         <p>Are you sure you want to delete</p>
+                                         <p class="modal-filename" data-wbid="{{person.person.username}}">"{{person.full_name}}-{{person.person.username}}"?</p>
+                                      </div>
+                                      <div class="modal_footer">
+                                         <button type="button" class="delete_patient_cancel" data-pos="{{forloop.counter}}B">Cancel</button>
+                                         <button type="button" class="delete_patient_main" data-filename="{{file.file}}" id="delete_file_main{{file.id}}B">Delete</button>
+                                      </div>
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+                       {% endif %}
+                {% endfor %}
+            </div>
         {% endif %}
         {% if related_files %}
-            <h1>Files associated with '{{search_entry}}'</h1>
+            <h1 class="title">Files associated with '{{search_entry}}'</h1>
             <div id="files_container">
-                <div class="row">
                 {% for file in related_files %}
-                    <div class="file_card">
-                        {% csrf_token %}
-                        <div class="inside_file_card">
-                            <a style="text-decoration: none;" href="/media/{{file.file}}">
-                        <!-- <a href="{#% url 'file_page' file.recipent file.file %#}">kk</a> -->
+                   <div class="file_card">
+                      {% csrf_token %}
+                      <div class="inside_file_card">
+                         <a style="text-decoration: none;" href="/media/{{file.file}}">
+                      <!-- <a href="{#% url 'file_page' file.recipent file.file %#}">kk</a> -->
                             <div class="files_container__img-card img_class" id="img{{file.id}}" data-image="{{file.file}}">
                             </div>
                             <div class="files_container__content">
-                                <h5 class="file_name_class" id="file{{file.id}}" data-name={{file.file}}>{{file.file}}</h5>
-                                <!-- <a href="media/{{file.file}}"><h1 class="file_name_class" id="file{{file.id}}" data-name={{file.file}}>{{file.file}}</h1></a> -->
-                                {% if user_type == 'nou' %}
-                                    <h6>Uploaded By: {% if file.uploader %} {{file.uploader.full_com_name}} {% else %} Deleted_User {% endif %}</h6>
-                                {% else %}
-                                    <h6>Patient/Customer: {{file.recipent.full_name}} ({{file.recipent.person.username}})</h6>
-                                {% endif %}
-                                <h6>Uploaded On: {{file.date}}</h6>
+                               <h5 class="file_name_class" id="file{{file.id}}" data-name={{file.file}}>{{file.file}}</h5>
+                               <!-- <a href="media/{{file.file}}"><h1 class="file_name_class" id="file{{file.id}}" data-name={{file.file}}>{{file.file}}</h1></a> -->
+                               <h6>Uploaded By: {% if file.uploader %} {{file.uploader.full_com_name}} {% else %} Deleted_User {% endif %}</h6>
+                               <h6>Uploaded On: {{file.date}}</h6>
                             </div> 
-                            </a>
-                        </div>
-                    <!-- <h1>{{file.tags|slice:"2:"}}</h1> -->
-                    </div>
-                    {% if forloop.counter|divisibleby:3 %}
-                        </div>
-                        <div class="row">
-                    {% endif %}
+                         </a>
+                         {% if file.uploader.account == request.user %}
+                            <button type="button" class="delete_file" data-pos="{{forloop.counter}}">Delete</button>
+                            <div class="delete_file_modal" tabindex="-1" data-pos="{{forloop.counter}}" aria-labelledby="ModalLabel" aria-hidden="true">
+                               <div class="modal_dialog">
+                                  <div class="modal_content">
+                                     <div class="modal_header">
+                                        <h5 class="modal_title">Delete Course</h5>
+                                     </div>
+                                     <div class="modal-body">
+                                        <p>Are you sure you want to delete</p>
+                                        <p class="modal-filename" data-name="{{file.file}}">"{{file.file}}"?</p>
+                                     </div>
+                                     <div class="modal_footer">
+                                        <button type="button" class="delete_file_cancel" data-pos="{{forloop.counter}}">Cancel</button>
+                                        <button type="button" class="delete_file_main" data-filename="{{file.file}}" id="delete_file_main{{file.id}}">Delete</button>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                         {% endif %}                              
+                      </div>
+                   <!-- <h1>{{file.tags|slice:"2:"}}</h1> -->
+                   </div>
                 {% endfor %}
-                </div>
             </div>
         {% endif %}
     {% endif %}
 {% endblock %}
 {% block script %}
-   <script>
-      // document.addEventListener('DOMContentLoaded',FilePathToString);
-      let file_name_class = document.querySelectorAll('.file_name_class')
-      let file_name_array=[...file_name_class]
-      file_name_array.forEach(element => {
-         FilePathToString(element.id.slice(4),element.getAttribute("data-name"))
-      })
-      function FilePathToString(id,file) {
-         let path_name=String(`${file}`)
-         let file_name=path_name.split("/").slice(-1)[0]
-         document.querySelector(`#file${id}`).innerHTML=`${file_name}`;
-      }
-      
-   </script>
-   <script>
-      let img_class=document.querySelectorAll('.img_class')
-      let img_class_array=[...img_class]
-      img_class_array.forEach(element => {
-         main(element.id.slice(3),element.getAttribute("data-image"))
-      })
+<script>
+    let delete_patient_btn = document.querySelectorAll('.delete_patient');
+    delete_patient_btn.forEach(button => {
+       button.addEventListener('click', (e) => {
+          e.preventDefault();
+          let elearray = [...document.querySelectorAll('.delete_patient_modal')];
+          // console.log(elearray);
+          for(let i = 0; i < elearray.length; i++){
+             if(elearray[i].dataset.pos == button.dataset.pos){
+                elearray[i].style.display = 'block';
+             }
+          }
+       });
+    });
 
-      function handleBlob(blobResponse,id)
-      {
-         const imageObjectURL = URL.createObjectURL(blobResponse)
-         // $("a").attr("href", imageObjectURL)
-         // const code = `<img src="${imageObjectURL}">`
-         // $('#files').prepend(code)
-         document.querySelector(`#img${id}`).style.backgroundImage=`url(${imageObjectURL})`
-      }
+    let cancel_patient_btn = document.querySelectorAll('.delete_patient_cancel');
+    cancel_patient_btn.forEach(button => {
+       button.addEventListener('click', (e) => {
+          e.preventDefault();
+          let elearray = [...document.querySelectorAll('.delete_patient_modal')];
+          // console.log(elearray);
+          for(let i = 0; i < elearray.length; i++){
+             if(elearray[i].dataset.pos == button.dataset.pos){
+                elearray[i].style.display = 'none';
+             }
+          }
+       });
+    });
 
-      function main(id,file_path)
-      {
-         let token = $("input[name='csrfmiddlewaretoken']").val()
-         // let url = "/get_file/{{ wbid }}/{{ name }}"
-         let url = `/get_file/${file_path}`
-         let header = {'X-CSRFToken': token}
-         let request = fetch(url, {method: "POST", headers: header})
-         // request.then(resp => resp.blob()).then(handleBlob)
-         request.then(resp => resp.blob())
-         .then((blobResponse) => {this.handleBlob(blobResponse,`${id}`)} )
-      }
-      $(document).ready(main)
-   </script>
+    // TODO Amog change code here to delete patient
+    let delete_patient_class = document.querySelectorAll('.delete_patient_main')
+    delete_patient_class.forEach(button => {button.addEventListener('click',event => {
+       let id=event.target.id.split('delete_file_main')[1]
+       let file_name=button.getAttribute("data-filename")
+       let to_delete="yes"
+
+       DeletePatient(id,file_name,to_delete)
+       // console.log(document.querySelector('input[name="csrfmiddlewaretoken"]').value)
+    })})
+
+    function DeletePatient(id,filename,to_delete) {
+       fetch(`/delete_file/${filename}`,{
+          method:"POST",
+          headers:{'X-CSRFToken':document.querySelector('input[name="csrfmiddlewaretoken"]').value }, //csrf token getAttribute('content')
+          body:JSON.stringify({
+             to_delete:to_delete // who is the logged in dude?
+          })
+       })
+       .then(response => response.json())
+       .then(data => {
+          if (data.status===200) {
+             location.reload()
+          }
+       })
+    }
+</script>
+<script>
+    let delete_file_btn = document.querySelectorAll('.delete_file');
+    delete_file_btn.forEach(button => {
+       button.addEventListener('click', (e) => {
+          e.preventDefault();
+          let elearray = [...document.querySelectorAll('.delete_file_modal')];
+          // console.log(elearray);
+          for(let i = 0; i < elearray.length; i++){
+             if(elearray[i].dataset.pos == button.dataset.pos){
+                elearray[i].style.display = 'block';
+             }
+          }
+       });
+    });
+
+    let cancel_file_btn = document.querySelectorAll('.delete_file_cancel');
+    cancel_file_btn.forEach(button => {
+       button.addEventListener('click', (e) => {
+          e.preventDefault();
+          let elearray = [...document.querySelectorAll('.delete_file_modal')];
+          // console.log(elearray);
+          for(let i = 0; i < elearray.length; i++){
+             if(elearray[i].dataset.pos == button.dataset.pos){
+                elearray[i].style.display = 'none';
+             }
+          }
+       });
+    });
+
+    let delete_file_main_class = document.querySelectorAll('.delete_file_main')
+    delete_file_main_class.forEach(button => {button.addEventListener('click',event => {
+       let id=event.target.id.split('delete_file_main')[1]
+       let file_name=button.getAttribute("data-filename")
+       let to_delete="yes"
+
+       DeleteFile(id,file_name,to_delete)
+       // console.log(document.querySelector('input[name="csrfmiddlewaretoken"]').value)
+    })})
+
+    function DeleteFile(id,filename,to_delete) {
+       fetch(`/delete_file/${filename}`,{
+          method:"POST",
+          headers:{'X-CSRFToken':document.querySelector('input[name="csrfmiddlewaretoken"]').value }, //csrf token getAttribute('content')
+          body:JSON.stringify({
+             to_delete:to_delete // who is the logged in dude?
+          })
+       })
+       .then(response => response.json())
+       .then(data => {
+          if (data.status===200) {
+             location.reload()
+          }
+       })
+    }
+</script>
+ <script>
+    // document.addEventListener('DOMContentLoaded',FilePathToString);
+    let file_name_class = document.querySelectorAll('.file_name_class')
+    let file_name_array=[...file_name_class]
+    file_name_array.forEach(element => {
+       FilePathToString(element.id.slice(4),element.getAttribute("data-name"))
+    })
+
+    let file_name_modal = document.querySelectorAll('.modal-filename')
+    // console.log(file_name_modal)
+    let file_name_main=[...file_name_modal]
+    file_name_main.forEach(element => {
+       element.innerHTML = String(`${element.getAttribute('data-name')}`).split("/").slice(-1)[0];
+    })
+    function FilePathToString(id,file) {
+       let path_name=String(`${file}`)
+       let file_name=path_name.split("/").slice(-1)[0]
+       document.querySelector(`#file${id}`).innerHTML=`${file_name}`;
+    }
+    
+ </script>
+ <script>
+    let img_class=document.querySelectorAll('.img_class')
+    let img_class_array=[...img_class]
+    img_class_array.forEach(element => {
+       main(element.id.slice(3),element.getAttribute("data-image"))
+    })
+
+    function handleBlob(blobResponse,id)
+    {
+       const imageObjectURL = URL.createObjectURL(blobResponse)
+       // $("a").attr("href", imageObjectURL)
+       // const code = `<img src="${imageObjectURL}">`
+       // $('#files').prepend(code)
+       document.querySelector(`#img${id}`).style.backgroundImage=`url(${imageObjectURL})`
+    }
+
+    function main(id,file_path)
+    {
+       let token = $("input[name='csrfmiddlewaretoken']").val()
+       // let url = "/get_file/{{ wbid }}/{{ name }}"
+       let url = `/get_file/${file_path}`
+       let header = {'X-CSRFToken': token}
+       let request = fetch(url, {method: "POST", headers: header})
+       // request.then(resp => resp.blob()).then(handleBlob)
+       request.then(resp => resp.blob())
+       .then((blobResponse) => {this.handleBlob(blobResponse,`${id}`)} )
+    }
+    $(document).ready(main)
+ </script>
 {% endblock %}

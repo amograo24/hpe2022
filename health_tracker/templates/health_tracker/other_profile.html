@@ -42,12 +42,15 @@
                      </div> 
                   </a>
                   {% if file.uploader.account == request.user %}
-                     <button type="button" class="delete_file" data-pos="{{forloop.counter}}">Delete</button>
+                     <div class="action-btns">
+                        <button type="button" class="delete_file" data-pos="{{forloop.counter}}">Delete</button>
+                        <button type="button" class="delete_file" data-pos="{{forloop.counter}}">Edit</button>
+                     </div>
                      <div class="delete_file_modal" tabindex="-1" data-pos="{{forloop.counter}}" aria-labelledby="ModalLabel" aria-hidden="true">
                         <div class="modal_dialog">
                            <div class="modal_content">
                               <div class="modal_header">
-                                 <h5 class="modal_title">Delete Course</h5>
+                                 <h5 class="modal_title">Delete File</h5>
                               </div>
                               <div class="modal-body">
                                  <p>Are you sure you want to delete</p>
