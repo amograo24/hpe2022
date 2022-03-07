@@ -1,5 +1,4 @@
 import datetime
-
 import django
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
@@ -23,9 +22,10 @@ from django.core.paginator import Paginator
 import time
 import os
 
+
 def search(request):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect(revrse("login"))
+        return HttpResponseRedirect(reverse("login"))
     search_entry=request.GET.get('q','')
     user=User.objects.get(username=request.user)
     files=None
@@ -234,12 +234,14 @@ def upload_file(request):
                 if uploader not in patient.hcw_v.all():
                     return render(request, "health_tracker/file_upload.html", {
                         "message": f"The Patient/Customer with the WBID {patient.person.username} has not yet authorized you to upload documents to their profile!",
-                        "form": form
+                        "form": form,
+                        "division": request.user.division
                     })
             except Patients.DoesNotExist:
                 return render(request, "health_tracker/file_upload.html", {
                     "message": f"No Patient/Customer with the WBID '{patient}' exists!",
-                    "form": form
+                    "form": form,
+                    "division": request.user.division
                 })
             # check if patient exists, and whether he is related to doctor
             vendor_name = form.cleaned_data['vendor_name']
@@ -251,7 +253,8 @@ def upload_file(request):
                 patient.save()
                 return render(request, "health_tracker/file_upload.html", {
                     "message": f"Uploading time has exceeded more than 5 minutes! Resend a request to '{patient.person.username}-{patient.full_name}'!",
-                    "form": form
+                    "form": form,
+                    "division": request.user.division
                 })
             elif uploader in patient.hcw_v.all():
                 for file in files:
@@ -267,11 +270,13 @@ def upload_file(request):
         else:
             return render(request, "health_tracker/file_upload.html", {
                 "message": "You must upload atleast 1 file!",
-                "form": form
+                "form": form,
+                "division": request.user.division
             })
 
     return render(request, "health_tracker/file_upload.html", {
-        "form": UploadDocForm()
+        "form": UploadDocForm(),
+        "division": request.user.division
     })
 
 
@@ -773,6 +778,8 @@ def mydoctors_vendors(request):
         "insurance_service_providers":insurance_service_providers,
         "medical_shops_labs":medical_shops_labs
     })
+
+
 def mypatients_customers(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -792,6 +799,8 @@ def mypatients_customers(request):
     return render(request,"health_tracker/mypatients_customers.html",{
         "patients_customers":patients_customers
     })
+
+
 def edit_file(request,wbid,file_name):
     ##############################################
     if not request.user.is_authenticated:  # if user not authenticated
