@@ -19,12 +19,6 @@
     <form method='POST' action="{% url 'upload_file' %}" enctype="multipart/form-data" id="upload-form">
         {% csrf_token %}
         {{form}}
-        <!-- <label for="document">Upload Document</label>
-        <input type="file" name ='document'>
-        <label for="wbid">Patient's WBID</label>
-        <input type="number" name="wbid" required>
-        <label for="vendor">Name of person uploading this document</label>
-        <input type="text" name="vendor"></input>-->
         <button type="submit">Upload</button>
     </form>
 
@@ -34,6 +28,12 @@
 <script>
     function main()
     {
+        if("{{ division }}" == "D/HCW/MS")
+        {
+            $("#id_vendor_name").hide()
+            $("#id_vendor_name").val("doctor")
+            $('label[for="id_vendor_name"]').hide()
+        }
         $("#upload-form").on("submit", function() {
             for(file of $("#id_file_field").prop("files"))
             {
