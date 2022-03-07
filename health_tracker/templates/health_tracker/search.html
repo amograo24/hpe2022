@@ -5,13 +5,13 @@
 {% block body %}
     <!-- Check with avaneesh regarding phone view when file previews are shown, like it becomes very cramped. Instead of 3 files in one row, why not one in phone view?-->
     {% if empty %}
-        <h3>No files or doctors/insurance representatives/medical shops/labs are associated with '{{search_entry}}'!</h3>
+        <h3 class="empty">No files or doctors/insurance representatives/medical shops/labs are associated with '{{search_entry}}'!</h3>
     {% else %}
         {% if associated_people %}
             {% if user_type == 'nou' %}
-                <h1>Doctors/Insurance Representatives/Medical Shops/Labs associated with '{{search_entry}}'</h1>
+                <h1 class="title">Doctors/Insurance Representatives/Medical Shops/Labs associated with '{{search_entry}}'</h1>
             {% else %}
-                <h1>Patients/Customers associated with '{{search_entry}}'</h1>
+                <h1 class="title">Patients/Customers associated with '{{search_entry}}'</h1>
             {% endif %}
             <div class="patient-container">
                 {% for person in associated_people %}
@@ -66,7 +66,7 @@
             </div>
         {% endif %}
         {% if related_files %}
-            <h1>Files associated with '{{search_entry}}'</h1>
+            <h1 class="title">Files associated with '{{search_entry}}'</h1>
             <div id="files_container">
                 {% for file in related_files %}
                    <div class="file_card">

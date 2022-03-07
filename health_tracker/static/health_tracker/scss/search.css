@@ -18,6 +18,13 @@ body {
   margin-bottom: 4rem;
 }
 
+.empty {
+  text-align: center;
+  font-family: 'IBM Plex Sans';
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}
+
 #files_container {
   display: -ms-grid;
   display: grid;
