@@ -18,17 +18,17 @@
                     {% if user_type == 'nou' %}
                         {% if person %}
                         <div class="patient-container__patient-div">
-                            <a href="{% url 'other_profile' person.account.username  %}" class="patient-container__patient-link"><p>{{person.full_com_name}}-{{person.account.username}}</p></a>
+                            <a href="{% url 'other_profile' person.account.username  %}" class="patient-container__patient-link"><p>{{person.full_com_name}} ({{person.account.username}})</p></a>
                             <button type="button" class="delete_patient" data-pos="{{forloop.counter}}">Delete</button>
                             <div class="delete_patient_modal" tabindex="-1" data-pos="{{forloop.counter}}" aria-labelledby="ModalLabel" aria-hidden="true">
                                <div class="modal_dialog">
                                   <div class="modal_content">
                                      <div class="modal_header">
-                                        <h5 class="modal_title">Delete Course</h5>
+                                        <h5 class="modal_title">Delete File</h5>
                                      </div>
                                      <div class="modal-body">
                                         <p>Are you sure you want to delete</p>
-                                        <p class="modal-filename" data-name="{{person.name}}">"{{person.full_com_name}}-{{person.account.username}}"?</p>
+                                        <p class="modal-filename" data-name="{{person.name}}">"{{person.full_com_name}} ({{person.account.username}})"?</p>
                                      </div>
                                      <div class="modal_footer">
                                         <button type="button" class="delete_patient_cancel" data-pos="{{forloop.counter}}">Cancel</button>
@@ -47,11 +47,11 @@
                                 <div class="modal_dialog">
                                    <div class="modal_content">
                                       <div class="modal_header">
-                                         <h5 class="modal_title">Delete Course</h5>
+                                         <h5 class="modal_title">Delete File</h5>
                                       </div>
                                       <div class="modal-body">
                                          <p>Are you sure you want to delete</p>
-                                         <p class="modal-filename" data-wbid="{{person.person.username}}">"{{person.full_name}}-{{person.person.username}}"?</p>
+                                         <p class="modal-filename" data-wbid="{{person.person.username}}">"{{person.full_name}} ({{person.person.username}})"?</p>
                                       </div>
                                       <div class="modal_footer">
                                          <button type="button" class="delete_patient_cancel" data-pos="{{forloop.counter}}B">Cancel</button>
