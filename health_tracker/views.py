@@ -41,7 +41,6 @@ def search(request):
     associated_people=user.hcw_v.all()
     related_files=[]
     associated_people_list=[]
-    # temp_associated_people_list=[]
     
     for person in associated_people:
         # check for dept
@@ -51,26 +50,18 @@ def search(request):
                 check_list.append(person.department.lower())
             for i in check_list:
                 if search_entry.lower() in i:
-                    # print(search_entry.lower(),i)
                     associated_people_list.append(person)
                     break
-                # else:
-                #     print(i,False)
         else:
             check_list=[person.person.username.lower(),person.full_name.lower(),person.aadharid.lower()]
-            # print(check_list)
             for i in check_list:
                 if search_entry.lower() in i:
-                    # print(search_entry.lower(),i)
                     associated_people_list.append(person)
                     break
-                # else:
-                #     print(i,False)
     print("associated_people_list",associated_people_list)
     for file in files:
         # check for tags, and the uploader, and vendor name. Ex tags it will show class str even if nothing exists. so do file.tags.strip(" ")
         # check_list=[str(file.file).lower(),file.recipent.full_name.lower(),file.recipent.person.username.lower(),file.file_type.lower(),"presctiption","schedule/timetable","health report/test report","invoice","operative report","discharge summary","miscellaneous"]
-        # file_category={'PRSCN':'','S/T':'','':'','':'','':'','':'','':''}
         file_type_choices = [
             ('PRSCN', 'Prescription'),
             ('S/T', 'Schedule/Timetable'),
@@ -81,51 +72,24 @@ def search(request):
             ('MSC','Miscellaneous')
         ] 
         file_category=dict(file_type_choices)[file.file_type]
-        # if file.file_type=='PRSCN':
-        #     file_category='Presctiption'
-        # elif file.file_type=='S/T':
-        #     file_category='Schedule/Timetable'
-        # elif file
             
         check_list=[str(file.file).lower(),file.recipent.full_name.lower(),file.recipent.person.username.lower(),file.file_type.lower(),file_category.lower()]
         if file.uploader: 
             check_list.extend([file.uploader.full_com_name.lower(),file.uploader.account.username.lower()])
-        # if file.vendor_name or file.vendor_name.strip(" "):
         if not (file.vendor_name==None or not file.vendor_name.strip(' ')):
             check_list.append(file.vendor_name.lower())
-        # if file.tags or file.tags.strip(" "):
         if not (file.tags==None or not file.tags.strip(' ')):
             check_list.append(file.tags.lower())
-        # print( not file.tags)
-        # print(file.tags)
-        # print(type(file.tags))
-        # print(file.tags==None)
-        # print('#########')
-        # print(file.vendor_name)
-        # print(type(file.vendor_name))
-        # print(file.vendor_name==None)
-        # uploader=file.uploader.account
-        # if search_entry in str(file.file).lower() or search_entry in file.tags.lower() or search:
-        # if search_entry.lower() in [str(file.file).lower(),file.recipent.full_name.lower(),file.uploader.full_com_name.lower(),file.recipent.person.username.lower(),file.uploader.account.username.lower(),file.vendor_name.lower(),file.tags.lower()]:
         for i in check_list:
             if search_entry.lower() in i:
                 related_files.append(file)
-                # break
                 if user_type=='nou':
                     if file.uploader and file.uploader not in associated_people_list:
                         associated_people_list.append(file.uploader)
                 else:
                     if file.recipent not in associated_people_list:
                         associated_people_list.append(file.recipent)       
-                        break    
-        # if search_entry.lower() in check_list:
-        #     related_files.append(file)
-        #     if user_type=='nou':
-        #         if file.uploader not in associated_people_list:
-        #             associated_people_list.append(file.uploader)
-        #     else:
-        #         if file.recipent not in associated_people_list:
-        #             associated_people_list.append(file.recipent)
+                        break
     print(related_files)
     print(associated_people_list)
     return render(request,"health_tracker/search.html",{
@@ -156,45 +120,54 @@ def health_status_function(request, wbid):
             "wbid":wbid,
             "udne":User.DoesNotExist
         })    
-    if profile_type!='nou':
-        return render(request,"health_tracker/health_status.html",{
-            "message":f"'{profile}' is not a patient! You can update/create Health Status Cards only for patients!",
-            "wbid":wbid,
-            "nap":profile_type!='nou'
+    if profile_type != 'nou':
+        print("Bug Trigger 2")
+        return render(request, "health_tracker/health_status.html",{
+            "message": f"'{profile}' is not a patient! You can update/create Health Status Cards only for patients!",
+            "wbid": wbid,
+            "nap": profile_type != 'nou'
         })   
     
     patient = Patients.objects.get(person=profile)
     updater=MedWorkerRep.objects.get(account=updater)
     if updater not in patient.hcw_v.all():
-        return render(request,"health_tracker/health_status.html",{
-            "message":f"Patient with the '{wbid}' has not authorised you to update/create their Health Status Card!",
-            "wbid":wbid,
-            "updater_not_auth":updater not in patient.hcw_v.all()
+        print("Bug Trigger!")
+        return render(request, "health_tracker/health_status.html",{
+            "message": f"Patient with the '{wbid}' has not authorised you to update/create their Health Status Card!",
+            "wbid": wbid,
+            "updater_not_auth": updater not in patient.hcw_v.all(),
         })
+
     health_status = HealthStatus.objects.get(patient=patient)
-    HealthValueFormset = inlineformset_factory(HealthStatus, HealthValue, fields=('health_status', 'health_condition', 'maximum_value', 'minimum_value', 'patient_value'),extra=3)
+    HealthValueFormset = inlineformset_factory(HealthStatus, HealthValue, fields=('health_status', 'health_condition',
+                                                                                  'maximum_value', 'minimum_value',
+                                                                                  'patient_value'), extra=3)
     if request.method == 'POST':
+        # print(request.POST)
         formset = HealthValueFormset(request.POST, instance=health_status)
+        print(formset.errors, formset)
         if formset.is_valid():
             for i in formset:
+                print("FormsetLoop Running")
                 print(i.cleaned_data.get('maximum_value'))
-                data=i.cleaned_data
+                data = i.cleaned_data
                 if (data.get('maximum_value') and data.get('minimum_value')) and data.get('maximum_value')<data.get('minimum_value'):
-                    return render(request,"health_tracker/health_status.html",{
-                        "formset":formset,
-                        "wbid":wbid,
-                        "message":f"The minimum value cannot be greater than the maximum value for '{data.get('health_condition')}'!"
+                    return render(request, "health_tracker/health_status.html", {
+                        "formset": formset,
+                        "wbid": wbid,
+                        "message": f"The minimum value cannot be greater than the maximum value for '{data.get('health_condition')}'!"
                     })
             # print(formset.maximum_value,formset.minimum_value)
             formset.save()
             health_status.last_updated_by = updater
             health_status.last_updated = timezone.now()
             health_status.save()
-            return HttpResponseRedirect(reverse("index")) # return to patient's thingie
+            return HttpResponseRedirect(reverse("index"))  # return to patient's thingie
         else:
+            formset = HealthValueFormset(instance=health_status)
             return render(request,"health_tracker/health_status.html",{
-                "formset":formset,
-                "wbid":wbid,
+                "formset": formset,
+                "wbid": wbid,
                 # "message":"The Health Condition Field and the Patient's value Field cannot be empty!"
             })
     return render(request, "health_tracker/health_status.html", {
