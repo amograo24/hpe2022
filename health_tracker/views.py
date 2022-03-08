@@ -761,16 +761,17 @@ def mydoctors_vendors(request):
     medical_shops_labs=[]
     for doctor in patient.hcw_v.all():
         if doctor.account.division.lower()=='d/hcw/ms':
-            authorized_doctors.append(doctor)
+            if doctor not in authorized_doctors:
+                authorized_doctors.append(doctor)
     
     for file in files:
         if file.uploader and file.uploader not in patient.hcw_v.all():
             vendor_type=file.uploader.account.division.lower()
-            if vendor_type=='d/hcw/ms':
+            if vendor_type=='d/hcw/ms' and file.uploader not in other_doctors:
                 other_doctors.append(file.uploader)
-            elif vendor_type=='i/sp':
+            elif vendor_type=='i/sp' and file.uploader not in insurance_service_providers:
                 insurance_service_providers.append(file.uploader)
-            elif vendor_type=='msh':
+            elif vendor_type=='msh' and file.uploader not in medical_shops_labs:
                 medical_shops_labs.append(file.uploader)
     
     return render(request,"health_tracker/mydoctors_vendors.html",{
@@ -879,18 +880,34 @@ def remove_patient_vendor(request,id):
             return HttpResponseRedirect(reverse("index"))
         user_type=user.division.lower()
         profile_type=profile.division.lower()
-        if user_type=='nou' and prof
-
-        file=Files.objects.get(file=f"{wbid}/{name}")
-        if file.uploader and file.uploader.account==user:
-            if request.method=="POST":
-                data=json.loads(request.body)
-                print(data)
-                if data['to_delete']=="yes":
-                    # file.delete()
-                    os.remove(f"media/{wbid}/{name}")
-                    file.delete()
-                    return JsonResponse({'status': 200})
+        if user_type=='nou' and profile_type!='nou':
+            user=Patients.objects.get(person=user)
+            profile=MedWorkerRep.objects.get(account=profile)
+            if profile in user.hcw_v.all():
+                 if request.method=="POST":
+                    data=json.loads(request.body)
+                    print(data)
+                    if data['to_delete']=="yes":
+                        user.hcw_v.remove(profile)
+                        return JsonResponse({'status': 200})
+            else:
+                if Files.objects.filter(uploader=profile,recipent=user):
+                    return HttpResponse(f"<h1>{profile.full_com_name} ({profile.account.username}) has already been removed!</h1>")
+                return HttpResponseRedirect(reverse("mydoctors_vendors"))
+        elif user_type!='nou' and profile_type=='nou':
+            user=MedWorkerRep.objects.get(account=user)
+            profile=Patients.objects.get(person=profile)
+            if profile in user.hcw_v.all():
+                 if request.method=="POST":
+                    data=json.loads(request.body)
+                    print(data)
+                    if data['to_delete']=="yes":
+                        user.hcw_v.remove(profile)
+                        return JsonResponse({'status': 200})
+            else:
+                if Files.objects.filter(uploader=user,recipent=profile):
+                    return HttpResponse(f"<h1>{profile.full_name} ({profile.person.username}) has already been removed!</h1>")
+                else:
+                    return HttpResponseRedirect(reverse("mypatients_customers"))
         else:
-            # return JsonResponse({'status':"Forgery"})
-            return HttpResponse('<h1>Forgery! You can only delete the files you have uploaded!</h1>')
+            return HttpResponse("<h1>Error, User couldn't be removed! </h1>") # or do i redirect
