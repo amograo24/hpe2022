@@ -129,20 +129,21 @@ def search(request):
     print(related_files)
     print(associated_people_list)
     return render(request,"health_tracker/search.html",{
-        "associated_people":associated_people_list,
-        "related_files":related_files,
+        "associated_people":list(set(associated_people_list)),
+        "related_files":list(set(related_files)),
         "empty":not associated_people_list and not related_files,
         "search_entry":search_entry,
-        "user_type":user_type
+        "user_type":user_type,
+        "user":user
     })
 
-def health_status(request, wbid):
+def health_status_function(request, wbid):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     updater=User.objects.get(username=request.user)
     updater_type=updater.division.lower()
     if updater_type!='d/hcw/ms':
-        return HttpResponseRedirect(reverse("login"))
+        return HttpResponseRedirect(reverse("index"))
     try:
         profile = User.objects.get(username=wbid)
         profile_type = profile.division.lower()
@@ -861,3 +862,35 @@ def edit_file(request,wbid,file_name):
         "wbid":wbid,
         "file_name":file_name
     })
+
+def remove_patient_vendor(request,id):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    user=User.objects.get(username=request.user)
+
+    if not User.objects.filter(username=id):
+        if user.division.lower()=='nou':
+            return HttpResponseRedirect(reverse("mydoctors_vendors"))
+        else:
+            return HttpResponseRedirect(reverse("mypatients_customers"))
+    else:
+        profile=User.objects.get(username=id)
+        if user==profile:
+            return HttpResponseRedirect(reverse("index"))
+        user_type=user.division.lower()
+        profile_type=profile.division.lower()
+        if user_type=='nou' and prof
+
+        file=Files.objects.get(file=f"{wbid}/{name}")
+        if file.uploader and file.uploader.account==user:
+            if request.method=="POST":
+                data=json.loads(request.body)
+                print(data)
+                if data['to_delete']=="yes":
+                    # file.delete()
+                    os.remove(f"media/{wbid}/{name}")
+                    file.delete()
+                    return JsonResponse({'status': 200})
+        else:
+            # return JsonResponse({'status':"Forgery"})
+            return HttpResponse('<h1>Forgery! You can only delete the files you have uploaded!</h1>')
