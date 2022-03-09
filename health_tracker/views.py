@@ -143,7 +143,7 @@ def health_status_function(request, wbid):
                                                                                   'maximum_value', 'minimum_value',
                                                                                   'patient_value'), extra=3)
     if request.method == 'POST':
-        # print(request.POST)
+        print(request.POST)
         formset = HealthValueFormset(request.POST, instance=health_status)
         print(formset.errors, formset)
         if formset.is_valid():
