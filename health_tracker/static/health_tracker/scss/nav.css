@@ -99,7 +99,7 @@
           transform: translateY(0px);
 }
 
-@media screen and (min-width: 982px) {
+@media screen and (min-width: 1094px) {
   .nav {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
