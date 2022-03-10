@@ -141,7 +141,7 @@ def health_status_function(request, wbid):
     health_status = HealthStatus.objects.get(patient=patient)
     HealthValueFormset = inlineformset_factory(HealthStatus, HealthValue, fields=('health_status', 'health_condition',
                                                                                   'maximum_value', 'minimum_value',
-                                                                                  'patient_value'), extra=3)
+                                                                                  'patient_value'), extra=1)
     if request.method == 'POST':
         print(request.POST)
         formset = HealthValueFormset(request.POST, instance=health_status)

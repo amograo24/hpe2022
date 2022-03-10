@@ -11,14 +11,15 @@
         <form method="POST" action="{% url 'health' wbid %}">
             {% csrf_token %}
             {{formset}}
-            <input type="submit" value="Submit">
+            <div id="form_div"></div>
+            <input id="submit" type="submit" value="Submit">
         </form>
         <div>
             <button id="add-field">Add</button>
             <script>
                 function get_new_elements(id)
                 {
-                    let label = `<label for="id_health_status-${id}-health_condition">Health Condition ${id}:</label>`
+                    let label = `<label for="id_health_status-${id}-health_condition">Health Condition ${id+1}:</label>`
                     let hc = `<input type="text" name="health_status-${id}-health_condition" value="" maxlength="100" id="id_health_status-${id}-health_condition">`
                     let maxvl = `<label for="id_health_status-${id}-maximum_value">Maximum Value:</label>`
                     let maxv = `<input type="number" name="health_status-${id}-maximum_value" id="id_health_status-${id}-maximum_value">`
@@ -38,12 +39,19 @@
                 {
                     $("#add-field").click(e => {
                         let v = parseInt($("#id_health_status-TOTAL_FORMS").val())
+                        if ($(`#id_health_status-${v-1}-health_condition`).val()=="") {
+                            alert(`Please fill form ${v} first!`)
+                            return null;
+                        }
+                        // let x = parseInt($("#id_health_status-INITIAL_FORMS").val())
                         console.log(document.querySelector('#id_health_status-TOTAL_FORMS'))
                         $("#id_health_status-TOTAL_FORMS").val(v+1)
+                        // $("#id_health_status-INITIAL_FORMS").val(v-2)
                         for(let ele of $(get_new_elements(v)))
                         {
-                            $("form")[0].append(ele)
-                            // $("input").prepend(ele)
+                            // $("form")[0].append(ele)
+                            $("#form_div").append(ele)
+                            // $("#submit").prepend(ele)
                         }
                         
                     })
