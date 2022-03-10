@@ -18,3 +18,180 @@ hr {
 input[id$='minimum_value'], input[id$='maximum_value'], input[id$='patient_value'] {
     width: 10%;
 }
+
+.field-row{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+
+.forms{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.field{
+    display: flex;
+    flex-direction: column;
+
+    input{
+        width: 300px;
+        line-height: 40px;
+        margin-top: 1rem;
+        padding-left: 6px;
+        padding-right: 4px;
+        border: none;
+        border: 2px solid $secondary-color;
+        border-radius: 6px;
+        outline: none;
+        
+    }
+
+    label{
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+}
+
+.form-fields{
+    width: 75%;
+}
+form{
+    width: 100%;
+}
+
+.title{
+    text-align: center;
+    font-family: 'IBM Plex Sans';
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+    width: 100%;
+}
+
+.delete-div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    label{
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-right: 1rem;
+    }
+}
+
+#submit{
+    width: 15%;
+    height: 40px;
+    background-color: $secondary-color;
+    color: $background-color-dark;
+    border: none;
+    border-radius: 4px;
+    font-family: 'IBM Plex Sans';
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: calc(48px + 6rem);
+    position: fixed;
+    top: 0;
+    right: 2rem;
+}
+
+#add-field{
+    width: 15%;
+    height: 40px;
+    background-color: $secondary-color;
+    color: $background-color-dark;
+    border: none;
+    border-radius: 4px;
+    font-family: 'IBM Plex Sans';
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: calc(48px + 10rem);
+    position: fixed;
+    top: 0;
+    right: 2rem;
+}
+
+@media screen and (max-width: 1250px){
+    .forms{
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+}
+
+@media screen and (max-width: 835px){
+    .field input{
+        width: 200px;
+    }
+}
+
+@media screen and (max-width: 576px){
+    .field-row{
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    #submit{
+        position: inherit;
+        margin-top: 2rem;
+        width: 80%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    form{
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-fields{
+        width: 100%;
+    }
+
+    .field{
+        width: 80%;
+    }
+
+    .field input{
+        width: 100%;
+    }
+
+    label{
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .add-div{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;    
+        justify-content: center;
+        margin-top: 1rem;
+        margin-bottom: 4rem;
+    }
+    
+    #add-field{
+        position: inherit;
+        margin-top: 1rem;
+        width: 80%;
+    }
+}
+
+hr{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    color: $secondary-color;
+    width: 100%;
+}

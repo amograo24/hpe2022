@@ -1,7 +1,9 @@
 {% extends "health_tracker/layout.html" %}
 {% load static %}
 {% block title %}Health Status | {{wbid}}{% endblock %}
+{% block styling %}<link href="{% static 'health_tracker/scss/health.css' %}" rel="stylesheet" />{% endblock %}
 {% block body %}
+    <h1 class="title">Health Status of {{wbid}}</h1>
     {% if udne or nap or updater_not_auth %}
         <h3>{{message}}</h3>
     {% else %}
@@ -16,30 +18,55 @@
             {% for form in formset %}
                 <div class="form-fields">    
                     <!-- {{ form.hidden_fields }} -->
-                    {% for field in form %}
-                        {{ field.label_tag }} {{ field }}
+                    <div class="field-row">
+                    {% for field in form %} 
+                            {% if forloop.counter == 1 %}
+                            {% elif forloop.counter == 6 %}
+                            {% elif forloop.counter == 7 %}
+                                <div class="delete-div">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                </div>
+                            {% else %}
+                                <div class="field">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                </div>
+                            {% endif %}
+                            {% if forloop.counter == 3 %}
+                                </div>
+                                <div class="field-row">
+                            {% endif %}
+                            {% if forloop.counter == 5 %}
+                                </div>
+                            {% endif %}
                     {% endfor %}
-                </div>
+                    </div>
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                    <hr/>
             {% endfor %}
+        </div>
             </div>
             <!-- {{formset}} -->
-            <input type="submit" value="Submit">
+            <input id="submit" type="submit" value="Submit">
         </form>
-        <div>
+        <div class="add-div">
             <button id="add-field">Add</button>
             <script>
                 function get_new_elements(id)
                 {
-                    let label = `<label for="id_health_status-${id}-health_condition">Health Condition ${id+1}:</label>`
-                    let hc = `<input type="text" name="health_status-${id}-health_condition" value="" maxlength="100" id="id_health_status-${id}-health_condition">`
-                    let maxvl = `<label for="id_health_status-${id}-maximum_value">Maximum Value:</label>`
-                    let maxv = `<input type="number" name="health_status-${id}-maximum_value" id="id_health_status-${id}-maximum_value">`
-                    let minvl = `<label for="id_health_status-${id}-minimum_value">Minimum Value:</label>`
-                    let minv = `<input type="number" name="health_status-${id}-minimum_value"  id="id_health_status-${id}-minimum_value">`
-                    let pvl = `<label for="id_health_status-${id}-patient_value">Patient's Value:</label>`
-                    let pv = `<input type="number" name="health_status-${id}-patient_value" id="id_health_status-${id}-patient_value">`
-                    let dl = `<label for="id_health_status-${id}-DELETE">Delete:</label>`
-                    let d = `<input type="checkbox" name="health_status-${id}-DELETE" id="id_health_status-${id}-DELETE">`
+                    let label = `<div class="form-fields"><div class="field-row"><div class="field"><label for="id_health_status-${id}-health_condition">Health Condition ${id+1}:</label>`
+                    let hc = `<input type="text" name="health_status-${id}-health_condition" value="" maxlength="100" id="id_health_status-${id}-health_condition"></div>`
+                    let maxvl = `<div class="field"><label for="id_health_status-${id}-maximum_value">Maximum Value:</label>`
+                    let maxv = `<input type="number" name="health_status-${id}-maximum_value" id="id_health_status-${id}-maximum_value"></div></div>`
+                    let minvl = `<div class="field-row"><div class="field"><label for="id_health_status-${id}-minimum_value">Minimum Value:</label>`
+                    let minv = `<input type="number" name="health_status-${id}-minimum_value"  id="id_health_status-${id}-minimum_value"></div>`
+                    let pvl = `<div class="field"><label for="id_health_status-${id}-patient_value">Patient's Value:</label>`
+                    let pv = `<input type="number" name="health_status-${id}-patient_value" id="id_health_status-${id}-patient_value"></div></div>`
+                    let dl = `<div class="delete-div"><label for="id_health_status-${id}-DELETE">Delete:</label>`
+                    let d = `<input type="checkbox" name="health_status-${id}-DELETE" id="id_health_status-${id}-DELETE"></div><hr/>`
                     let h1 = `<input type="hidden" name="health_status-${id}-health_status" value="1" id="id_health_status-${id}-health_status">`
                     let h2 = `<input type="hidden" name="health_status-${id}-id" id="id_health_status-${id}-id">`
 
@@ -57,13 +84,13 @@
                         // let x = parseInt($("#id_health_status-INITIAL_FORMS").val())
                         console.log(document.querySelector('#id_health_status-TOTAL_FORMS'))
                         $("#id_health_status-TOTAL_FORMS").val(v+1)
-                        // let submitBtn = document.querySelector('#submit').cloneNode(0)
+                        let submitBtn = document.querySelector('#submit').cloneNode(0)
                         // $("#id_health_status-INITIAL_FORMS").val(v)
                         for(let ele of $(get_new_elements(v)))
                         {
-                            // $("#submit").remove()
+                            $("#submit").remove()
                             $(".forms").append(ele)
-                            // $("form")[0].append(submitBtn)
+                            $("form")[0].append(submitBtn)
                             // $("#submit").prepend(ele)
                         }
                     })
