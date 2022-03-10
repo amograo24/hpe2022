@@ -3,6 +3,14 @@
   margin-bottom: 3rem;
 }
 
+body {
+  padding-top: 0;
+}
+
+.nav {
+  display: none;
+}
+
 .back {
   width: 100vw;
   height: 100%;

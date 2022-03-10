@@ -5,3 +5,8 @@
     margin: 0px;
     font-family: 'IBM Plex Sans';
 }
+
+body{
+    padding-top: 82px;
+    overflow-x: hidden;
+}

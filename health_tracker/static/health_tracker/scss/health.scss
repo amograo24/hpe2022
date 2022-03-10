@@ -9,6 +9,7 @@
 body{
     background-color: $background-color-dark;
     color: $secondary-color;
+    padding-top: 82px;
 }
 
 hr {
@@ -97,7 +98,7 @@ form{
     font-family: 'IBM Plex Sans';
     font-size: 1.2rem;
     cursor: pointer;
-    margin-top: calc(48px + 6rem);
+    margin-top: calc(48px + 6rem + 82px);
     position: fixed;
     top: 0;
     right: 2rem;
@@ -113,7 +114,7 @@ form{
     font-family: 'IBM Plex Sans';
     font-size: 1.2rem;
     cursor: pointer;
-    margin-top: calc(48px + 10rem);
+    margin-top: calc(48px + 10rem + 82px);
     position: fixed;
     top: 0;
     right: 2rem;

@@ -1,0 +1,106 @@
+@import 'variables';
+
+.nav {
+    display: flex;
+    width: 100vw;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    &__title-bar {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        padding-right: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-left: 1rem;
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+    &__link-list-div {
+        max-height: 0px;
+        transform: translateY(-500px);
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+    &__link-list {
+        list-style: none;
+        width: 100%;
+    }
+    &__link-item {
+        width: 100%;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        text-align: center;
+        a {
+            text-decoration: none;
+            color: $text-light;
+            font-family: 'Raleway';
+            font-weight: 500;
+            font-size: 1.3em;
+            &:hover {
+                color: $secondary-color;
+                transition: all ease-in-out 500ms;
+                cursor: pointer;
+            }
+        }
+    }
+    &__burger {
+        display: inline-flex;
+        flex-direction: column;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    .nav__burger:hover .nav__line {
+        transition: all ease-in-out 500ms;
+        background-color: $secondary-color;
+    }
+    &__line {
+        margin-top: 7px;
+        background-color: white;
+        width: 35px;
+        height: 3px;
+    }
+}
+
+.active {
+    max-height: 300px;
+    height: 300px;
+    transition: all ease-in-out 500ms;
+    transform: translateY(0px);
+}
+
+@media screen and (min-width: 982px) {
+    .nav {
+        flex-direction: row;
+        &__burger {
+            display: none;
+        }
+        &__title-bar {
+            padding-right: 0;
+        }
+        &__link-list-div {
+            max-height: 300px;
+            transform: translateY(0px);
+            display: flex;
+            align-items: center;
+            width: calc(100% - 98px);
+        }
+        &__link-list {
+            margin-bottom: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+        &__link-item {
+            width: auto;
+            margin-right: 3rem;
+            text-align: right;
+            a {
+                font-size: 1.2em;
+            }
+        }
+        &__logo {
+            margin-left: 2rem;
+        }
+    }
+}

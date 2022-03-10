@@ -8,6 +8,14 @@ a{
     }
 }
 
+body{
+    padding-top: 0;
+}
+  
+.nav{
+    display: none;
+}
+
 form input[type=text], input[type=email], input[type=password], input[type=number]{
     transition-duration: 1s;
     display: block;
