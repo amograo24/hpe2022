@@ -29,7 +29,7 @@
                     let dl = `<label for="id_health_status-${id}-DELETE">Delete:</label>`
                     let d = `<input type="checkbox" name="health_status-${id}-DELETE" id="id_health_status-${id}-DELETE">`
                     let h1 = `<input type="hidden" name="health_status-${id}-health_status" value="1" id="id_health_status-${id}-health_status">`
-                    let h2 = `<input type="hidden" name="health_status-${id}-id" value="" id="id_health_status-${id}-id">`
+                    let h2 = `<input type="hidden" name="health_status-${id}-id" id="id_health_status-${id}-id">`
 
                     let whole_code = label + hc + maxvl + maxv + minvl + minv + pvl + pv + dl + d + h1 + h2
                     return whole_code
@@ -46,7 +46,7 @@
                         console.log(document.querySelector('#id_health_status-TOTAL_FORMS'))
                         $("#id_health_status-TOTAL_FORMS").val(v+1)
                         // let submitBtn = document.querySelector('#submit').cloneNode(0)
-                        $("#id_health_status-INITIAL_FORMS").val(v)
+                        // $("#id_health_status-INITIAL_FORMS").val(v)
                         for(let ele of $(get_new_elements(v)))
                         {
                             // $("#submit").remove()
