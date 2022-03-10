@@ -141,7 +141,7 @@ def health_status_function(request, wbid):
     health_status = HealthStatus.objects.get(patient=patient)
     HealthValueFormset = inlineformset_factory(HealthStatus, HealthValue, fields=('health_status', 'health_condition',
                                                                                   'maximum_value', 'minimum_value',
-                                                                                  'patient_value'), extra=1)
+                                                                                  'patient_value'), extra=0)
     if request.method == 'POST':
         print(request.POST)
         formset = HealthValueFormset(request.POST, instance=health_status)
@@ -165,6 +165,7 @@ def health_status_function(request, wbid):
             health_status.save()
             return HttpResponseRedirect(reverse("index"))  # return to patient's thingie
         else:
+            print(formset.errors)
             formset = HealthValueFormset(instance=health_status)
             return render(request,"health_tracker/health_status.html",{
                 "formset": formset,
@@ -885,3 +886,11 @@ def remove_patient_vendor(request,id):
                     return HttpResponseRedirect(reverse("mypatients_customers"))
         else:
             return HttpResponse("<h1>Error, User couldn't be removed! </h1>") # or do i redirect
+
+'''
+<QueryDict: {'health_status-TOTAL_FORMS': ['5'], 'health_status-INITIAL_FORMS': ['4'], 'health_status-MIN_NUM_FORMS': ['0'], 'health_status-MAX_NUM_FORMS': ['1000'], 'health_status-0-health_condition': ['Sugar'], 'health_status-0-maximum_value': ['100'], 'health_status-0-minimum_value': ['10'], 'health_status-0-patient_value': ['50'], 'health_status-0-health_status': ['1'], 'health_status-0-id': ['2'], 'health_status-1-health_condition': ['BP'], 'health_status-1-maximum_value': ['100'], 'health_status-1-minimum_value': ['10'], 'health_status-1-patient_value': ['50'], 'health_status-1-health_status': ['1'], 'health_status-1-id': ['3'], 'health_status-2-health_condition': ['Hello'], 'health_status-2-maximum_value': ['100'], 'health_status-2-minimum_value': ['10'], 'health_status-2-patient_value': ['40'], 'health_status-2-health_status': ['1'], 'health_status-2-id': ['4'], 'health_status-3-health_condition': ['Hello'], 'health_status-3-maximum_value': ['100'], 'health_status-3-minimum_value': ['10'], 'health_status-3-patient_value': ['50'], 'health_status-3-health_status': ['1'], 'health_status-3-id': ['5'], 'health_status-4-health_condition': ['test'], 'health_status-4-maximum_value': ['100'], 'health_status-4-minimum_value': ['10'], 'health_status-4-patient_value': ['50'], 'health_status-4-health_status': ['1'], 'health_status-4-id': ['']}>
+'''
+
+'''
+<QueryDict: {'health_status-TOTAL_FORMS': ['5'], 'health_status-INITIAL_FORMS': ['4'], 'health_status-MIN_NUM_FORMS': ['0'], 'health_status-MAX_NUM_FORMS': ['1000'], 'health_status-0-health_condition': ['Sugar'], 'health_status-0-maximum_value': ['100'], 'health_status-0-minimum_value': ['10'], 'health_status-0-patient_value': ['50'], 'health_status-0-health_status': ['1'], 'health_status-0-id': ['2'], 'health_status-1-health_condition': ['BP'], 'health_status-1-maximum_value': ['100'], 'health_status-1-minimum_value': ['10'], 'health_status-1-patient_value': ['50'], 'health_status-1-health_status': ['1'], 'health_status-1-id': ['3'], 'health_status-2-health_condition': ['Hello'], 'health_status-2-maximum_value': ['100'], 'health_status-2-minimum_value': ['10'], 'health_status-2-patient_value': ['40'], 'health_status-2-health_status': ['1'], 'health_status-2-id': ['4'], 'health_status-3-health_condition': ['Hello'], 'health_status-3-maximum_value': ['100'], 'health_status-3-minimum_value': ['10'], 'health_status-3-patient_value': ['50'], 'health_status-3-health_status': ['1'], 'health_status-3-id': ['5'], 'health_status-4-health_condition': ['test'], 'health_status-4-maximum_value': ['100'], 'health_status-4-minimum_value': ['10'], 'health_status-4-patient_value': ['50'], 'health_status-4-health_status': ['1'], 'health_status-4-id': ['6'], 'health_status-5-health_condition': ['avaneesh'], 'health_status-5-maximum_value': ['100'], 'health_status-5-minimum_value': ['10'], 'health_status-5-patient_value': ['50'], 'health_status-5-health_status': ['1'], 'health_status-5-id': [''], 'health_status-6-health_condition': ['avinash'], 'health_status-6-maximum_value': ['100'], 'health_status-6-minimum_value': ['10'], 'health_status-6-patient_value': ['30'], 'health_status-6-health_status': ['1'], 'health_status-6-id': ['1']}>
+'''

@@ -11,8 +11,7 @@
         <form method="POST" action="{% url 'health' wbid %}">
             {% csrf_token %}
             {{formset}}
-            <div id="form_div"></div>
-            <input id="submit" type="submit" value="Submit">
+            <input type="submit" value="Submit">
         </form>
         <div>
             <button id="add-field">Add</button>
@@ -30,7 +29,7 @@
                     let dl = `<label for="id_health_status-${id}-DELETE">Delete:</label>`
                     let d = `<input type="checkbox" name="health_status-${id}-DELETE" id="id_health_status-${id}-DELETE">`
                     let h1 = `<input type="hidden" name="health_status-${id}-health_status" value="1" id="id_health_status-${id}-health_status">`
-                    let h2 = `<input type="hidden" name="health_status-${id}-id" value="1" id="id_health_status-${id}-id">`
+                    let h2 = `<input type="hidden" name="health_status-${id}-id" value="" id="id_health_status-${id}-id">`
 
                     let whole_code = label + hc + maxvl + maxv + minvl + minv + pvl + pv + dl + d + h1 + h2
                     return whole_code
@@ -46,14 +45,15 @@
                         // let x = parseInt($("#id_health_status-INITIAL_FORMS").val())
                         console.log(document.querySelector('#id_health_status-TOTAL_FORMS'))
                         $("#id_health_status-TOTAL_FORMS").val(v+1)
-                        // $("#id_health_status-INITIAL_FORMS").val(v-2)
+                        // let submitBtn = document.querySelector('#submit').cloneNode(0)
+                        $("#id_health_status-INITIAL_FORMS").val(v)
                         for(let ele of $(get_new_elements(v)))
                         {
-                            // $("form")[0].append(ele)
-                            $("#form_div").append(ele)
+                            // $("#submit").remove()
+                            $("form")[0].append(ele)
+                            // $("form")[0].append(submitBtn)
                             // $("#submit").prepend(ele)
                         }
-                        
                     })
                 }
                 $(document).ready(main)

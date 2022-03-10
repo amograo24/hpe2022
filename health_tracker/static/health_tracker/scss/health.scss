@@ -1,0 +1,20 @@
+@import 'variables';
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: $background-color-dark;
+    color: $secondary-color;
+}
+
+hr {
+    color: #FFC107;
+}
+
+input[id$='minimum_value'], input[id$='maximum_value'], input[id$='patient_value'] {
+    width: 10%;
+}
