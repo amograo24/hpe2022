@@ -12,14 +12,13 @@
             {% csrf_token %}
             {{formset}}
             <input type="submit" value="Submit">
-
         </form>
         <div>
             <button id="add-field">Add</button>
             <script>
                 function get_new_elements(id)
                 {
-                    let label = `<label for="id_health_status-${id}-health_condition">Health Condition ${id+1}:</label>`
+                    let label = `<label for="id_health_status-${id}-health_condition">Health Condition ${id}:</label>`
                     let hc = `<input type="text" name="health_status-${id}-health_condition" value="" maxlength="100" id="id_health_status-${id}-health_condition">`
                     let maxvl = `<label for="id_health_status-${id}-maximum_value">Maximum Value:</label>`
                     let maxv = `<input type="number" name="health_status-${id}-maximum_value" id="id_health_status-${id}-maximum_value">`
@@ -38,11 +37,13 @@
                 function main()
                 {
                     $("#add-field").click(e => {
-                        let v = parseInt($("#id_health_status-TOTAL_FORMS").val()) + 1
-                        $("#id_health_status-TOTAL_FORMS").val(v)
+                        let v = parseInt($("#id_health_status-TOTAL_FORMS").val())
+                        console.log(document.querySelector('#id_health_status-TOTAL_FORMS'))
+                        $("#id_health_status-TOTAL_FORMS").val(v+1)
                         for(let ele of $(get_new_elements(v)))
                         {
                             $("form")[0].append(ele)
+                            // $("input").prepend(ele)
                         }
                         
                     })

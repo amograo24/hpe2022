@@ -145,8 +145,9 @@ def health_status_function(request, wbid):
     if request.method == 'POST':
         print(request.POST)
         formset = HealthValueFormset(request.POST, instance=health_status)
-        print(formset.errors, formset)
+        # print(formset.errors, formset)
         if formset.is_valid():
+            print("formset:",formset)
             for i in formset:
                 print("FormsetLoop Running")
                 print(i.cleaned_data.get('maximum_value'))
