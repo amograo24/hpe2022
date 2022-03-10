@@ -10,7 +10,19 @@
         {% endif %}
         <form method="POST" action="{% url 'health' wbid %}">
             {% csrf_token %}
-            {{formset}}
+            {{ formset.management_form }}
+            {{ formset.non_form_errors }}
+            <div class="forms">
+            {% for form in formset %}
+                <div class="form-fields">    
+                    <!-- {{ form.hidden_fields }} -->
+                    {% for field in form %}
+                        {{ field.label_tag }} {{ field }}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            </div>
+            <!-- {{formset}} -->
             <input type="submit" value="Submit">
         </form>
         <div>
@@ -46,11 +58,11 @@
                         console.log(document.querySelector('#id_health_status-TOTAL_FORMS'))
                         $("#id_health_status-TOTAL_FORMS").val(v+1)
                         // let submitBtn = document.querySelector('#submit').cloneNode(0)
-                        $("#id_health_status-INITIAL_FORMS").val(v)
+                        // $("#id_health_status-INITIAL_FORMS").val(v)
                         for(let ele of $(get_new_elements(v)))
                         {
                             // $("#submit").remove()
-                            $("form")[0].append(ele)
+                            $(".forms").append(ele)
                             // $("form")[0].append(submitBtn)
                             // $("#submit").prepend(ele)
                         }
