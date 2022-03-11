@@ -18,14 +18,13 @@
                   <div class="patient-container__patient-div">
                      {% if user_type == 'nou' %}
                         <!-- {% if person %} -->
-                           <a href="{% url 'other_profile' person.account.username %}" class="patient-container__patient-link"><p>{{person.full_com_name}} ({{person.account.username}})</p></a>
+                           <a href="{% url 'other_profile' person.account.username %}" class="patient-container__patient-link"><p>{{person.full_com_name}} ({{person.account.username}})</p>  <button type="button" class="delete_patient" data-pos="{{forloop.counter}}"><img src="{% static 'health_tracker/delete.svg' %}" /></button></a>
                         <!-- {% endif %} -->
                      {% else %}
-                           <a href="{% url 'other_profile' person.person.username %}" class="patient-container__patient-link"><p>{{person.full_name}} ({{person.person.username}})</p></a>
+                           <a href="{% url 'other_profile' person.person.username %}" class="patient-container__patient-link"><p>{{person.full_name}} ({{person.person.username}})</p>  <button type="button" class="delete_patient" data-pos="{{forloop.counter}}"><img src="{% static 'health_tracker/delete.svg' %}" /></button></a>
                      {% endif %}
                      {% if user in person.hcw_v.all %}
-                        <button type="button" class="delete_patient" data-pos="{{forloop.counter}}B">Delete</button>
-                        <div class="delete_patient_modal" tabindex="-1" data-pos="{{forloop.counter}}B" aria-labelledby="ModalLabel" aria-hidden="true">
+                        <div class="delete_patient_modal" tabindex="-1" data-pos="{{forloop.counter}}" aria-labelledby="ModalLabel" aria-hidden="true">
                            <div class="modal_dialog">
                               <div class="modal_content">
                                  <div class="modal_header">

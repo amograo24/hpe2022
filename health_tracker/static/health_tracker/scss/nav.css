@@ -26,14 +26,14 @@
       -ms-flex-align: center;
           align-items: center;
   padding-left: 1rem;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: black;
 }
 
 .nav__link-list-div {
   max-height: 0px;
   -webkit-transform: translateY(-500px);
           transform: translateY(-500px);
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: black;
 }
 
 .nav__link-list {
@@ -90,16 +90,35 @@
   height: 3px;
 }
 
+.nav__search-field {
+  width: 250px;
+  height: 40px;
+  padding-left: 0.5rem;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  border-bottom: 2px solid #FFC107;
+}
+
+.nav__btn {
+  width: 15%;
+  height: 40px;
+  outline: none;
+  border: none;
+  background-color: #FFC107;
+  border-radius: 4px;
+}
+
 .active {
-  max-height: 300px;
-  height: 300px;
+  max-height: 350px;
+  height: 350px;
   -webkit-transition: all ease-in-out 500ms;
   transition: all ease-in-out 500ms;
   -webkit-transform: translateY(0px);
           transform: translateY(0px);
 }
 
-@media screen and (min-width: 1094px) {
+@media screen and (min-width: 1207px) {
   .nav {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
@@ -113,7 +132,7 @@
     padding-right: 0;
   }
   .nav__link-list-div {
-    max-height: 300px;
+    max-height: 335px;
     -webkit-transform: translateY(0px);
             transform: translateY(0px);
     display: -webkit-box;
@@ -135,7 +154,7 @@
   }
   .nav__link-item {
     width: auto;
-    margin-right: 3rem;
+    margin-right: 2rem;
     text-align: right;
   }
   .nav__link-item a {
@@ -143,6 +162,34 @@
   }
   .nav__logo {
     margin-left: 2rem;
+  }
+  .nav__search-form {
+    height: 100%;
+  }
+  .nav__search-field {
+    width: 80%;
+    height: 100%;
+    padding-left: 0.5rem;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    border-bottom: 2px solid #FFC107;
+  }
+  .nav__btn {
+    width: 15%;
+    height: 100%;
+    outline: none;
+    border: none;
+    background-color: #FFC107;
+    border-radius: 4px;
+  }
+}
+
+@media screen and (max-height: 434px) {
+  .active {
+    max-height: calc(100vh - 82px);
+    height: calc(100vh - 82px);
+    overflow-y: scroll;
   }
 }
 /*# sourceMappingURL=nav.css.map */

@@ -100,7 +100,6 @@ body {
   border-radius: 0.5rem;
   line-height: 40px;
   border: 2px solid #FFC107;
-  padding-left: 8px;
   font-size: 1em;
   margin-top: 1rem;
   -webkit-transition: all ease-in-out 500ms;
@@ -108,6 +107,25 @@ body {
 }
 
 .delete_file:hover {
+  background-color: #d39e00;
+  border: 2px solid #d39e00;
+}
+
+.edit_file {
+  width: 90%;
+  outline: none;
+  border: none;
+  background-color: #FFC107;
+  border-radius: 0.5rem;
+  line-height: 40px;
+  border: 2px solid #FFC107;
+  font-size: 1em;
+  margin-top: 1rem;
+  -webkit-transition: all ease-in-out 500ms;
+  transition: all ease-in-out 500ms;
+}
+
+.edit_file:hover {
   background-color: #d39e00;
   border: 2px solid #d39e00;
 }

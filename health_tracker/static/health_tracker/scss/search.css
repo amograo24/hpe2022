@@ -131,16 +131,24 @@ body {
 }
 
 .delete_patient {
-  width: 90%;
+  width: 40px;
+  height: 40px;
   outline: none;
   border: none;
   background-color: #FFC107;
   border-radius: 0.5rem;
-  line-height: 40px;
   border: 2px solid #FFC107;
-  padding-left: 8px;
   font-size: 1em;
-  margin-top: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-right: 1rem;
   -webkit-transition: all ease-in-out 500ms;
   transition: all ease-in-out 500ms;
 }
@@ -148,6 +156,12 @@ body {
 .delete_patient:hover {
   background-color: #d39e00;
   border: 2px solid #d39e00;
+}
+
+.delete_patient img {
+  display: block;
+  width: 25px;
+  height: 25px;
 }
 
 .modal_header {
@@ -271,17 +285,19 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  padding-bottom: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .patient-container__patient-link {
-  width: 300px;
+  width: 290px;
   text-decoration: none;
   color: #FFC107;
   text-align: center;
   -webkit-transition: all ease-in-out 500ms;
   transition: all ease-in-out 500ms;
   margin: 0;
+  margin-left: 1rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -295,7 +311,7 @@ body {
 }
 
 .patient-container__patient-link p {
-  width: 260px;
+  width: 290px;
   overflow: hidden;
   white-space: nowrap;
   margin: 0;
@@ -311,5 +327,21 @@ body {
 
 .patient-container button {
   margin-top: 0;
+}
+
+@media screen and (min-width: 650px) {
+  .patient-container {
+    -ms-grid-columns: (600px)[auto-fit];
+        grid-template-columns: repeat(auto-fit, 600px);
+  }
+  .patient-container__patient-div {
+    width: 600px;
+  }
+  .patient-container__patient-link {
+    width: 590px;
+  }
+  .patient-container__patient-link p {
+    width: 590px;
+  }
 }
 /*# sourceMappingURL=search.css.map */

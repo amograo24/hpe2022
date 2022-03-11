@@ -44,7 +44,7 @@
                   {% if file.uploader.account == request.user %}
                      <div class="action-btns">
                         <button type="button" class="delete_file" data-pos="{{forloop.counter}}">Delete</button>
-                        <button type="button" class="delete_file" data-pos="{{forloop.counter}}">Edit</button>
+                        <button type="button" class="edit_file" data-pos="{{forloop.counter}}">Edit</button>
                      </div>
                      <div class="delete_file_modal" tabindex="-1" data-pos="{{forloop.counter}}" aria-labelledby="ModalLabel" aria-hidden="true">
                         <div class="modal_dialog">
