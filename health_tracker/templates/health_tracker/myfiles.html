@@ -5,26 +5,30 @@
 {% block styling %}<link href="{% static 'health_tracker/scss/files.css' %}" rel="stylesheet">{% endblock %}
 
 {% block body %}
-      <form method="post">
+      <form method="post" class="sort-filter-form">
          {% csrf_token %}
-         <label for="sort">Sort By</label>
-         <select name="sort" id="sort">
-            <option value="def">Default</option>
-            <option value="ft">File Type</option>
-            <option value="az">A-Z</option>
-         </select>
-         <label for="filter">Filter by</label>
-         <select name="filter" id="filter">
-            <option value="def">Show all</option>
-            <option value="PRSCN">Prescriptions</option>
-            <option value="S/T">Schedule/Timetable</option>
-            <option value="HR/TR">Health Report/Test Report</option>
-            <option value="INVCE">Invoice</option>
-            <option value="OP">Operative Report</option>
-            <option value="DS">Discharge Summary</option>
-            <option value="MSC">Miscellaneous</option>
-         </select>
-         <button>Apply</button>
+         <div class="sort-filter-form__field">
+            <label for="sort" class="sort-filter-form__label">Sort By</label>
+            <select name="sort" id="sort" class="sort-filter-form__select">
+               <option value="def">Default</option>
+               <option value="ft">File Type</option>
+               <option value="az">A-Z</option>
+            </select>
+         </div>
+         <div class="sort-filter-form__field">
+         <label for="filter" class="sort-filter-form__label">Filter by</label>
+            <select name="filter" id="filter" class="sort-filter-form__select">
+               <option value="def">Show all</option>
+               <option value="PRSCN">Prescriptions</option>
+               <option value="S/T">Schedule/Timetable</option>
+               <option value="HR/TR">Health Report/Test Report</option>
+               <option value="INVCE">Invoice</option>
+               <option value="OP">Operative Report</option>
+               <option value="DS">Discharge Summary</option>
+               <option value="MSC">Miscellaneous</option>
+            </select>
+         </div>
+         <button class="sort-filter-form__btn">Apply</button>
       </form>
    {% if not files %}
       <h3 class="title">No files to display!</h3>
@@ -55,7 +59,25 @@
                      <!-- <h6>Uploaded By: {% if file.uploader %} {{file.uploader.full_com_name}} {% else %} Deleted_User {% endif %}</h6> -->
                      <h6>Uploaded On: {{file.date}}</h6>
                   </div> 
-               </a>                         
+               </a>
+                  <button type="button" class="delete_file" data-pos="{{forloop.counter}}">Delete</button>
+                  <div class="delete_file_modal" tabindex="-1" data-pos="{{forloop.counter}}" aria-labelledby="ModalLabel" aria-hidden="true">
+                     <div class="modal_dialog">
+                        <div class="modal_content">
+                           <div class="modal_header">
+                              <h5 class="modal_title">Delete File</h5>
+                           </div>
+                           <div class="modal-body">
+                              <p>Are you sure you want to delete</p>
+                              <p class="modal-filename" data-name="{{file.file}}">"{{file.file}}"?</p>
+                           </div>
+                           <div class="modal_footer">
+                              <button type="button" class="delete_file_cancel" data-pos="{{forloop.counter}}">Cancel</button>
+                              <button type="button" class="delete_file_main" data-filename="{{file.file}}" id="delete_file_main{{file.id}}">Delete</button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>                      
             </div>
          <!-- <h1>{{file.tags|slice:"2:"}}</h1> -->
          </div>
@@ -65,18 +87,80 @@
 {% endblock %}
 {% block script %}
    <script>
-      // document.addEventListener('DOMContentLoaded',FilePathToString);
-      let file_name_class = document.querySelectorAll('.file_name_class')
-      let file_name_array=[...file_name_class]
-      file_name_array.forEach(element => {
-         FilePathToString(element.id.slice(4),element.getAttribute("data-name"))
-      })
-      function FilePathToString(id,file) {
-         let path_name=String(`${file}`)
-         let file_name=path_name.split("/").slice(-1)[0]
-         document.querySelector(`#file${id}`).innerHTML=`${file_name}`;
+         // document.addEventListener('DOMContentLoaded',FilePathToString);
+         let file_name_class = document.querySelectorAll('.file_name_class')
+         let file_name_array=[...file_name_class]
+         file_name_array.forEach(element => {
+            FilePathToString(element.id.slice(4),element.getAttribute("data-name"))
+         })
+   
+         let file_name_modal = document.querySelectorAll('.modal-filename')
+         // console.log(file_name_modal)
+         let file_name_main=[...file_name_modal]
+         file_name_main.forEach(element => {
+            element.innerHTML = String(`${element.getAttribute('data-name')}`).split("/").slice(-1)[0];
+         })
+         function FilePathToString(id,file) {
+            let path_name=String(`${file}`)
+            let file_name=path_name.split("/").slice(-1)[0]
+            document.querySelector(`#file${id}`).innerHTML=`${file_name}`;
+         }
+         
+      </script>
+   <script>
+      let delete_file_btn = document.querySelectorAll('.delete_file');
+      delete_file_btn.forEach(button => {
+         button.addEventListener('click', (e) => {
+            e.preventDefault();
+            let elearray = [...document.querySelectorAll('.delete_file_modal')];
+            // console.log(elearray);
+            for(let i = 0; i < elearray.length; i++){
+               if(elearray[i].dataset.pos == button.dataset.pos){
+                  elearray[i].style.display = 'block';
+               }
+            }
+         });
+      });
+
+      let cancel_file_btn = document.querySelectorAll('.delete_file_cancel');
+      cancel_file_btn.forEach(button => {
+         button.addEventListener('click', (e) => {
+            e.preventDefault();
+            let elearray = [...document.querySelectorAll('.delete_file_modal')];
+            // console.log(elearray);
+            for(let i = 0; i < elearray.length; i++){
+               if(elearray[i].dataset.pos == button.dataset.pos){
+                  elearray[i].style.display = 'none';
+               }
+            }
+         });
+      });
+
+      let delete_file_main_class = document.querySelectorAll('.delete_file_main')
+      delete_file_main_class.forEach(button => {button.addEventListener('click',event => {
+         let id=event.target.id.split('delete_file_main')[1]
+         let file_name=button.getAttribute("data-filename")
+         let to_delete="yes"
+
+         DeleteFile(id,file_name,to_delete)
+         // console.log(document.querySelector('input[name="csrfmiddlewaretoken"]').value)
+      })})
+
+      function DeleteFile(id,filename,to_delete) {
+         fetch(`/delete_file/${filename}`,{
+            method:"POST",
+            headers:{'X-CSRFToken':document.querySelector('input[name="csrfmiddlewaretoken"]').value }, //csrf token getAttribute('content')
+            body:JSON.stringify({
+               to_delete:to_delete // who is the logged in dude?
+            })
+         })
+         .then(response => response.json())
+         .then(data => {
+            if (data.status===200) {
+               location.reload()
+            }
+         })
       }
-      
    </script>
 <script>
    let img_class=document.querySelectorAll('.img_class')
