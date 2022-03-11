@@ -11,13 +11,6 @@ body{
     display: none;
 }
 
-ul{
-    font-size: 1.5rem;
-}
-
-ul li{
-    margin-top: 1vh;
-}
 
 #current{
     padding: 10px;

@@ -88,10 +88,11 @@
                 else
                 {
                     let notif_html = `
+                    <div class="notif-item">
                     <li>${row.sender} Sent A Letter of ${row.content} on  ${row.doc}</li>
                     <button onclick=approve(this) id='${row.sender}' class='${row.receiver} notification'>Approve</button>
                     <button onclick=reject(this) id='${row.sender}' class='${row.receiver} notification'>Reject</button>
-                                `
+                                </div>`
                     $('#current-msg').append(notif_html)
                 }
             }
@@ -120,5 +121,5 @@
 
 
 {% block styling %}
-<link rel="stylesheet" href="{% static 'health_tracker/css/notifs.css' %}">
+<link rel="stylesheet" href="{% static 'health_tracker/scss/notifs.css' %}">
 {% endblock %}
