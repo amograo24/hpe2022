@@ -1,3 +1,7 @@
+.empty {
+  color: #FFC107;
+}
+
 body {
   background-color: #141A26;
   color: #FFC107;
@@ -40,7 +44,8 @@ body {
 #upload-form input[type="text"],
 #upload-form input[type="email"],
 #upload-form input[type="password"],
-#upload-form input[type="number"] {
+#upload-form input[type="number"],
+#upload-form select {
   -webkit-transition-duration: 1s;
           transition-duration: 1s;
   display: block;
@@ -56,10 +61,14 @@ body {
   outline: none;
 }
 
-#upload-form input {
+#upload-form input, #upload-form select {
   margin-bottom: 2rem;
   text-align: left;
   width: 30%;
+}
+
+#upload-form select {
+  height: 40px;
 }
 
 #upload-form button {
@@ -89,6 +98,9 @@ body {
     margin-bottom: 5rem;
   }
   #upload-form input {
+    width: 80%;
+  }
+  #upload-form select {
     width: 80%;
   }
   #upload-form label {

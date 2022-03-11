@@ -1,3 +1,7 @@
+.empty {
+  color: #FFC107;
+}
+
 * {
   margin: 0;
   padding: 0;

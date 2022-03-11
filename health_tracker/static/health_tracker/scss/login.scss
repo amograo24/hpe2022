@@ -13,6 +13,10 @@ body{
   display: none;
 }
 
+.errorlist li{
+  color: $secondary-color;
+}
+
 .back {
     width: 100vw;
     height: 100%;
@@ -286,3 +290,28 @@ body{
     margin-top: 1rem;
   }
   
+@media screen and (max-width: 929px){
+
+  #slideBox {
+    width: 100%;
+    margin-left: 0%;
+  }
+
+  form{
+    width: 80%;
+  }
+
+  .right label, .left label{width: 100%;}
+
+  label{
+    max-width: 100%;
+  }
+
+  input{
+    width: 100%;
+  }
+
+  button{
+    width: 80%;
+  }
+}

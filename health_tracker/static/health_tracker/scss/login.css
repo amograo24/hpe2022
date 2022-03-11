@@ -1,3 +1,7 @@
+.empty {
+  color: #FFC107;
+}
+
 .title {
   color: #FFC107;
   margin-bottom: 3rem;
@@ -9,6 +13,10 @@ body {
 
 .nav {
   display: none;
+}
+
+.errorlist li {
+  color: #FFC107;
 }
 
 .back {
@@ -312,5 +320,27 @@ form input[type="submit"]:hover {
 
 p {
   margin-top: 1rem;
+}
+
+@media screen and (max-width: 929px) {
+  #slideBox {
+    width: 100%;
+    margin-left: 0%;
+  }
+  form {
+    width: 80%;
+  }
+  .right label, .left label {
+    width: 100%;
+  }
+  label {
+    max-width: 100%;
+  }
+  input {
+    width: 100%;
+  }
+  button {
+    width: 80%;
+  }
 }
 /*# sourceMappingURL=login.css.map */

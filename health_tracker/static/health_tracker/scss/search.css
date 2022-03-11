@@ -1,3 +1,7 @@
+.empty {
+  color: #FFC107;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -192,7 +196,6 @@ body {
   height: 100%;
   padding-left: 1rem;
   padding-right: 1rem;
-  word-break: break-all;
 }
 
 .modal-body p:last-child {
@@ -342,6 +345,15 @@ body {
   }
   .patient-container__patient-link p {
     width: 590px;
+  }
+  .modal-body p {
+    width: 590px;
+  }
+  .modal_footer {
+    width: 590px;
+  }
+  .modal_footer button {
+    width: 40%;
   }
 }
 /*# sourceMappingURL=search.css.map */

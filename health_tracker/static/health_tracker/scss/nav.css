@@ -1,3 +1,7 @@
+.empty {
+  color: #FFC107;
+}
+
 .nav {
   display: -webkit-box;
   display: -ms-flexbox;

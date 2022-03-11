@@ -31,7 +31,8 @@ body{
     input[type="text"],
     input[type="email"],
     input[type="password"],
-    input[type="number"] {
+    input[type="number"], 
+    select {
       transition-duration: 1s;
       display: block;
       border: none;
@@ -47,10 +48,14 @@ body{
       outline: none;
     }
 
-    input{
+    input, select{
         margin-bottom: 2rem;
         text-align: left;
         width: 30%;
+    }
+
+    select{
+        height: 40px;
     }
 
     button{
@@ -81,6 +86,10 @@ body{
         margin-bottom: 5rem;
 
         input{
+            width: 80%;
+        }
+
+        select{
             width: 80%;
         }
 

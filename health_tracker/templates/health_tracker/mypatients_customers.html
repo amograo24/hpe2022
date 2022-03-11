@@ -22,14 +22,11 @@
                 {% else %}
                     <a href="{% url 'other_profile' person.person.username %}" class="patient-container__patient-link">
                         <p>{{person.full_name}} ({{person.person.username}})</p>  
-                        <!-- {% if user in person.hcw_v.all %}
-                            <button type="button" class="delete_patient" data-pos="{{forloop.counter}}">
-                                <img src="{% static 'health_tracker/delete.svg' %}" />
-                            </button>
-                        {% endif %} -->
+                        <button type="button" class="delete_patient" data-pos="{{forloop.counter}}">
+                            <img src="{% static 'health_tracker/delete.svg' %}" />
+                        </button>
                         </a>
                 {% endif %}
-                <!-- {% if user in person.hcw_v.all %}
                 <div class="delete_patient_modal" tabindex="-1" data-pos="{{forloop.counter}}" aria-labelledby="ModalLabel" aria-hidden="true">
                     <div class="modal_dialog">
                         <div class="modal_content">
@@ -51,7 +48,6 @@
                         </div>
                     </div>
                 </div>
-                {% endif %} -->
             </div>
         {% endfor %}
     </div>
@@ -59,7 +55,7 @@
 
 {% endblock %}
 
-<!-- {% block script %}
+{% block script %}
 <script>
     let delete_patient_btn = document.querySelectorAll('.delete_patient');
     delete_patient_btn.forEach(button => {
@@ -116,4 +112,4 @@
        })
     }
 </script>
-{% endblock %} -->
+{% endblock %}

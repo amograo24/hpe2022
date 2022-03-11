@@ -167,7 +167,6 @@ body{
         height: 100%;
         padding-left: 1rem;
         padding-right: 1rem;
-        word-break: break-all;
     }
 
     p:last-child{
@@ -291,6 +290,19 @@ body{
             p{
                 width: 590px;
             }
+        }
+    }
+
+    .modal-body{
+        p{
+            width: 590px;
+        }
+    }
+
+    .modal_footer{
+        width: 590px;
+        button{
+            width: 40%;
         }
     }
 }
