@@ -198,7 +198,7 @@ def upload_file(request):
             for file in files:
                 if not is_valid_file(file):
                     files.remove(file)
-
+                    print(file)
             try:
                 patient = Patients.objects.get(wbid=patient)
                 notification = Notification.objects.filter(

@@ -1,9 +1,49 @@
 {% extends "health_tracker/layout.html" %}
+{% load static %}
 {% block title %}Edit File{% endblock %}
+{% block styling %}
+<link rel="stylesheet" href="{% static 'health_tracker/scss/upload.css' %}">
+{% endblock %}
 {% block body %}
-    <form action="{% url 'edit_file' wbid file_name %}" method="POST">
+
+    {% if message %}
+        <h3 class="empty">{{message}}</h3>
+    {% endif %}
+    <div>
+        <div>
+            <h1 class="title">Edit File</h1>
+        </div>
+    </div> 
+    <form method='POST' action="{% url 'edit_file' wbid file_name %}" enctype="multipart/form-data" id="upload-form">
         {% csrf_token %}
         {{form}}
-        <input type="submit" value="Save">
+        <button type="submit">Edit</button>
     </form>
+
 {% endblock %}
+
+{% block script %}
+<script>
+    function main()
+    {
+        if("{{ division }}" == "D/HCW/MS")
+        {
+            $("#id_vendor_name").hide()
+            $("#id_vendor_name").val("doctor")
+            $('label[for="id_vendor_name"]').hide()
+        }
+        $("#upload-form").on("submit", function() {
+            for(file of $("#id_file_field").prop("files"))
+            {
+                let size = file.size/(1000000)
+                if(size > 50)
+                {
+                    alert("Each file cannot be larger than 50mb!")
+                    return false;
+                 }
+            }
+        })
+    }
+    $(document).ready(main)
+</script>
+{% endblock script %}
