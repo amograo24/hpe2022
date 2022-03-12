@@ -243,6 +243,7 @@ def upload_file(request):
                         Files(uploader=uploader, recipent=patient, file=f, file_type=file_type, vendor_name=vendor_name, tags=tags, date=timezone.now()).save()
                         patient.hcw_v.remove(uploader)
                         patient.save()
+                return HttpResponseRedirect(reverse("myfiles"))
         else:
             return render(request, "health_tracker/file_upload.html", {
                 "message": "You must upload atleast 1 file!",
