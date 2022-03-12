@@ -71,7 +71,10 @@
    </div>
 {% endblock %}
 {% block script %}
-   <script>
+   <script src="{% static 'health_tracker/js/delete_file.js' %}"></script>
+   <script src="{% static 'health_tracker/js/filepath_tostring.js' %}"></script>
+   <script src="{% static 'health_tracker/js/image_preview.js' %}"></script>
+   <!-- <script>
       let delete_file_btn = document.querySelectorAll('.delete_file');
       delete_file_btn.forEach(button => {
          button.addEventListener('click', (e) => {
@@ -175,5 +178,5 @@
          .then((blobResponse) => {this.handleBlob(blobResponse,`${id}`)} )
       }
       $(document).ready(main)
-   </script>
+   </script> -->
 {% endblock %}

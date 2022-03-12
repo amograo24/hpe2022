@@ -57,7 +57,8 @@
 {% endblock %}
 
 {% block script %}
-<script>
+    <script src="{% static 'health_tracker/js/remove_patient_vendor.js' %}"></script>
+<!-- <script>
     let delete_patient_btn = document.querySelectorAll('.delete_patient');
     delete_patient_btn.forEach(button => {
        button.addEventListener('click', (e) => {
@@ -112,5 +113,5 @@
           }
        })
     }
-</script>
+</script> -->
 {% endblock %}

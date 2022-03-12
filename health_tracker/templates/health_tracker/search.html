@@ -103,7 +103,11 @@
     {% endif %}
 {% endblock %}
 {% block script %}
-<script>
+   <script src="{% static 'health_tracker/js/remove_patient_vendor.js' %}"></script>
+   <script src="{% static 'health_tracker/js/delete_file.js' %}"></script>
+   <script src="{% static 'health_tracker/js/filepath_tostring.js' %}"></script>
+   <script src="{% static 'health_tracker/js/image_preview.js' %}"></script>
+<!-- <script>
     let delete_patient_btn = document.querySelectorAll('.delete_patient');
     delete_patient_btn.forEach(button => {
        button.addEventListener('click', (e) => {
@@ -234,8 +238,8 @@
        document.querySelector(`#file${id}`).innerHTML=`${file_name}`;
     }
     
- </script>
- <script>
+ </script> -->
+ <!-- <script>
     let img_class=document.querySelectorAll('.img_class')
     let img_class_array=[...img_class]
     img_class_array.forEach(element => {
@@ -263,5 +267,5 @@
        .then((blobResponse) => {this.handleBlob(blobResponse,`${id}`)} )
     }
     $(document).ready(main)
- </script>
+ </script> -->
 {% endblock %}
