@@ -828,6 +828,7 @@ def edit_file(request,wbid,file_name):
             file.vendor_name=form.cleaned_data['vendor_name']
             file.file_type=form.cleaned_data['file_type']
             file.save()
+            return HttpResponseRedirect(reverse("myfiles"))
         else:
             return render(request,"health_tracker/edit_file.html",{
                 "form":form,
