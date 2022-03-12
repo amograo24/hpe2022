@@ -770,12 +770,14 @@ def remove_patient_vendor(request,id):
             user=MedWorkerRep.objects.get(account=user)
             profile=Patients.objects.get(person=profile)
             if profile in user.hcw_v.all():
-                 if request.method=="POST":
+                if request.method=="POST":
                     data=json.loads(request.body)
                     print(data)
                     if data['to_delete']=="yes":
                         user.hcw_v.remove(profile)
                         return JsonResponse({'status': 200})
+                else:
+                    return HttpResponse('<h1>GET method is not permitted!</h1>')
             else:
                 if Files.objects.filter(uploader=user,recipent=profile):
                     return HttpResponse(f"<h1>{profile.full_name} ({profile.person.username}) has already been removed!</h1>")
