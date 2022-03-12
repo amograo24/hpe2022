@@ -3,6 +3,7 @@ import uuid
 from typing import Union
 
 import pyqrcode
+from django.db.models import QuerySet
 
 from .models import User
 
@@ -77,7 +78,6 @@ def sort_files(files: list, mode: str) -> list:
     elif mode == "az":
         fs = [f for f in files]
         return sorted(fs, key=lambda x: str(x))
-
 
 if __name__ == "__main__":
     print(str(uuid.uuid4())[:12])

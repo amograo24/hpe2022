@@ -36,6 +36,7 @@ class MedWorkerRep(models.Model):
     account = models.ForeignKey(User, on_delete=models.CASCADE, related_name="account", default=None)
     notifications = models.ManyToManyField(Notification, related_name="mwr_notifs", blank=True)
 
+
     def __str__(self):
         return f"{self.account}"
 
