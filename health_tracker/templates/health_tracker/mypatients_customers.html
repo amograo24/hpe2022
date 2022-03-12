@@ -8,46 +8,47 @@
     <div class="patient-container">
         {% for person in patients_customers %}
             <div class="patient-container__patient-div">
-                {% if user_type == 'nou' %}
+                {% csrf_token %}
+                <!-- {% if user_type == 'nou' %} -->
                 <!-- {% if person %} -->
-                    <a href="{% url 'other_profile' person.account.username %}" class="patient-container__patient-link">
-                        <p>{{person.full_com_name}} ({{person.account.username}})</p>  
+                    <!-- <a href="{% url 'other_profile' person.account.username %}" class="patient-container__patient-link">
+                        <p>{{person.full_com_name}} ({{person.account.username}})</p>   -->
                         <!-- {% if user in person.hcw_v.all %}
                             <button type="button" class="delete_patient" data-pos="{{forloop.counter}}">
                                 <img src="{% static 'health_tracker/delete.svg' %}" />
                             </button>
                         {% endif %} -->
-                    </a>
+                    <!-- </a> -->
                 <!-- {% endif %} -->
-                {% else %}
-                    <a href="{% url 'other_profile' person.person.username %}" class="patient-container__patient-link">
-                        <p>{{person.full_name}} ({{person.person.username}})</p>  
+                <!-- {% else %} -->
+                <a href="{% url 'other_profile' person.person.username %}" class="patient-container__patient-link">
+                    <p>{{person.full_name}} ({{person.person.username}})</p>  
+                    {% if person in vendor.hcw_v.all %}
                         <button type="button" class="delete_patient" data-pos="{{forloop.counter}}">
                             <img src="{% static 'health_tracker/delete.svg' %}" />
                         </button>
-                        </a>
-                {% endif %}
-                <div class="delete_patient_modal" tabindex="-1" data-pos="{{forloop.counter}}" aria-labelledby="ModalLabel" aria-hidden="true">
-                    <div class="modal_dialog">
-                        <div class="modal_content">
-                            <div class="modal_header">
-                            <h5 class="modal_title">{% if user_type == 'nou' %} Remove Doctor/Vendor {% else %} Remove Patient/Customer {% endif %}</h5>
-                            </div>
-                            <div class="modal-body">
-                            <p>Are you sure you want to remove {% if user_type == 'nou' %} doctor/vendor {% else %} patient/customer {% endif %}</p>
-                            {% if user_type == 'nou' %}
-                                <p class="modal-patientname" data-id="{{person.account.username}}">"{{person.full_com_name}} ({{person.account.username}})"</p>
-                            {% else %}
-                                <p class="modal-patientname" data-id="{{person.person.username}}">"{{person.full_name}} ({{person.person.username}})"</p>
-                            {% endif %}
-                            </div>
-                            <div class="modal_footer">
-                            <button type="button" class="delete_patient_cancel" data-pos="{{forloop.counter}}">Cancel</button>
-                            <button type="button" class="delete_patient_main" data-person="{{person}}" id="remove_person{{person}}">Remove</button>
+                    {% endif %}
+                </a>
+                <!-- {% endif %} -->
+                {% if person in vendor.hcw_v.all %}
+                    <div class="delete_patient_modal" tabindex="-1" data-pos="{{forloop.counter}}" aria-labelledby="ModalLabel" aria-hidden="true">
+                        <div class="modal_dialog">
+                            <div class="modal_content">
+                                <div class="modal_header">
+                                <h5 class="modal_title">Remove Patient/Customer</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to remove patient/customer</p>
+                                    <p class="modal-patientname" data-id="{{person.person.username}}">"{{person.full_name}} ({{person.person.username}})"</p>
+                                </div>
+                                <div class="modal_footer">
+                                <button type="button" class="delete_patient_cancel" data-pos="{{forloop.counter}}">Cancel</button>
+                                <button type="button" class="delete_patient_main" data-person="{{person}}" id="remove_person{{person}}">Remove</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {% endif %}
             </div>
         {% endfor %}
     </div>

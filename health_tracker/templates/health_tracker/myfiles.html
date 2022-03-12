@@ -60,7 +60,11 @@
                      <h6>Uploaded On: {{file.date}}</h6>
                   </div> 
                </a>
-                  <button type="button" class="delete_file" data-pos="{{forloop.counter}}">Delete</button>
+               {% if file.uploader.account == request.user %}
+                  <div class="action-btns">
+                     <button type="button" class="delete_file" data-pos="{{forloop.counter}}">Delete</button>
+                     <button type="button" class="edit_file" data-pos="{{forloop.counter}}" onclick="window.location.href='/edit/{{file.file}}'">Edit</button>
+                  </div>   
                   <div class="delete_file_modal" tabindex="-1" data-pos="{{forloop.counter}}" aria-labelledby="ModalLabel" aria-hidden="true">
                      <div class="modal_dialog">
                         <div class="modal_content">
@@ -77,7 +81,8 @@
                            </div>
                         </div>
                      </div>
-                  </div>                      
+                  </div>     
+               {% endif %}                 
             </div>
          <!-- <h1>{{file.tags|slice:"2:"}}</h1> -->
          </div>

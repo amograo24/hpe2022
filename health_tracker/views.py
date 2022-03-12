@@ -774,7 +774,8 @@ def mypatients_customers(request):
         if file.recipent not in patients_customers:
             patients_customers.append(file.recipent)
     return render(request,"health_tracker/mypatients_customers.html",{
-        "patients_customers":patients_customers
+        "patients_customers":patients_customers,
+        "vendor":vendor
     })
 
 
