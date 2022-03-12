@@ -36,6 +36,7 @@
                     body: payload
                 }
                 let request = fetch("{% url 'notifications' %}", content)
+                request.then(text => console.log(text.text()))
 
             }
         </script>
@@ -46,15 +47,17 @@
         {
             let receiver_id = $(btn).attr('class').split(" ")[0]
             let sender_id = $(btn).attr('id')
-            console.log(receiver_id);
+
             let token = $("input[name='csrfmiddlewaretoken']").val()
             let header = {"X-CSRFToken": token}
-            let payload = JSON.stringify({type: "approval", authorised: sender_id, approver: receiver_id, status: "yes"})
+            let payload = JSON.stringify({type: "approval", "as": sender_id, "to": receiver_id, status: "yes"})
             let content = {
                 method: "POST", headers: header, body: payload
             }
+            console.log(receiver_id);
+            console.log(sender_id);
             let request = fetch("{% url 'notifications' %}", content)
-            request.then(data => {handle_rec()})
+            request.then(data => {handle_rec(); console.log(data.text());})
 
         }
     function reject(btn)
@@ -64,7 +67,7 @@
             console.log(receiver_id);
             let token = $("input[name='csrfmiddlewaretoken']").val()
             let header = {"X-CSRFToken": token}
-            let payload = JSON.stringify({type: "approval", authorised: sender_id, approver: receiver_id, status:"no"})
+            let payload = JSON.stringify({type: "approval", "as": sender_id, "to": receiver_id, status:"no"})
             let content = {
                 method: "POST", headers: header, body: payload
             }
@@ -99,7 +102,6 @@
         }
     function handle_rec()
         {
-            console.log(1)
             let token = $("input[name='csrfmiddlewaretoken']").val()
             let header = {"X-CSRFToken": token}
             let payload = JSON.stringify({type: "receive"})
