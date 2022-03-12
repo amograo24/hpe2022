@@ -1,0 +1,18 @@
+.empty {
+  color: #FFC107;
+}
+
+body {
+  background-color: #141A26;
+  color: #FFC107;
+  overflow-x: hidden;
+}
+
+.title {
+  text-align: center;
+  font-family: 'IBM Plex Sans';
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+  font-size: 2em;
+}
+/*# sourceMappingURL=dashboard.css.map */

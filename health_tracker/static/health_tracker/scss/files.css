@@ -33,6 +33,7 @@ body {
 
 .file_card {
   width: 300px;
+  height: 100%;
   border: 2px solid #FFC107;
   border-radius: 0.5rem;
   background-color: #263147;
@@ -282,19 +283,37 @@ body {
 
 @media screen and (max-width: 1950px) {
   #files_container {
-    -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
-    -webkit-box-align: start;
-        -ms-flex-align: start;
-            align-items: flex-start;
-    width: 80%;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    margin: 0 auto;
+    width: 85%;
+    -ms-grid-columns: (400px)[auto-fit];
+        grid-template-columns: repeat(auto-fit, 400px);
     margin: 0;
     margin-left: 2rem;
   }
+  .file_card {
+    width: 400px;
+  }
+  .inside_file_card h5 {
+    width: 390px;
+  }
+  .inside_file_card .modal_footer {
+    width: 390px;
+  }
+  .inside_file_card .modal_footer button {
+    width: 40%;
+  }
+  .inside_file_card .modal-body p {
+    width: 390px;
+  }
 }
 
-@media screen and (max-width: 1657px) {
+@media screen and (max-width: 1760px) {
   #files_container {
     -webkit-box-pack: start;
         -ms-flex-pack: start;
@@ -308,17 +327,119 @@ body {
   }
 }
 
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1676px) {
   #files_container {
-    -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
-    -webkit-box-align: start;
-        -ms-flex-align: start;
-            align-items: flex-start;
-    width: 60%;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -ms-grid-columns: (350px)[auto-fit];
+        grid-template-columns: repeat(auto-fit, 350px);
+    margin: 0 auto;
+    width: 85%;
     margin: 0;
     margin-left: 2rem;
+  }
+  .file_card {
+    width: 350px;
+  }
+  .title {
+    text-align: center;
+    padding-left: 2rem;
+  }
+  .inside_file_card h5 {
+    width: 340px;
+  }
+  .inside_file_card .modal_footer {
+    width: 340px;
+  }
+  .inside_file_card .modal_footer button {
+    width: 40%;
+  }
+  .inside_file_card .modal-body p {
+    width: 340px;
+  }
+  .sort-filter-form {
+    width: 15%;
+  }
+}
+
+@media screen and (max-width: 1450px) {
+  #files_container {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -ms-grid-columns: (400px)[auto-fit];
+        grid-template-columns: repeat(auto-fit, 400px);
+    margin: 0 auto;
+    width: 80%;
+    margin: 0;
+    margin-left: 2rem;
+  }
+  .file_card {
+    width: 400px;
+  }
+  .inside_file_card h5 {
+    width: 390px;
+  }
+  .inside_file_card .modal_footer {
+    width: 390px;
+  }
+  .inside_file_card .modal_footer button {
+    width: 40%;
+  }
+  .inside_file_card .modal-body p {
+    width: 390px;
+  }
+  .sort-filter-form {
+    width: 300px;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .sort-filter-form {
+    width: 20%;
+  }
+}
+
+@media screen and (max-width: 1180px) {
+  #files_container {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    margin: 0 auto;
+    -ms-grid-columns: (350px)[auto-fit];
+        grid-template-columns: repeat(auto-fit, 350px);
+    width: 80%;
+    margin: 0;
+    grid-column-gap: 1rem !important;
+    margin-top: 2rem;
+  }
+  .file_card {
+    width: 350px;
+  }
+  .inside_file_card h5 {
+    width: 340px;
+  }
+  .inside_file_card .modal_footer {
+    width: 340px;
+  }
+  .inside_file_card .modal_footer button {
+    width: 40%;
+  }
+  .inside_file_card .modal-body p {
+    width: 340px;
+  }
+  .sort-filter-form {
+    width: 300px;
   }
   .title {
     text-align: left;
@@ -327,16 +448,8 @@ body {
 }
 
 @media screen and (max-width: 1100px) {
-  #files_container {
-    -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
-    -webkit-box-align: start;
-        -ms-flex-align: start;
-            align-items: flex-start;
-    width: 80%;
-    margin: 0;
-    margin-left: 2rem;
+  .sort-filter-form {
+    width: 25%;
   }
 }
 
