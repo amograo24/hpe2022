@@ -531,6 +531,8 @@ def delete_file(request,wbid,name):
                     os.remove(f"media/{wbid}/{name}")
                     file.delete()
                     return JsonResponse({'status': 200})
+            else:
+                return HttpResponse('<h1>GET method is not permitted!</h1>')
         else:
             # return JsonResponse({'status':"Forgery"})
             return HttpResponse('<h1>Forgery! You can only delete the files you have uploaded!</h1>')
@@ -752,12 +754,14 @@ def remove_patient_vendor(request,id):
             user=Patients.objects.get(person=user)
             profile=MedWorkerRep.objects.get(account=profile)
             if profile in user.hcw_v.all():
-                 if request.method=="POST":
+                if request.method=="POST":
                     data=json.loads(request.body)
                     print(data)
                     if data['to_delete']=="yes":
                         user.hcw_v.remove(profile)
                         return JsonResponse({'status': 200})
+                else:
+                    return HttpResponse('<h1>GET method is not permitted!</h1>')
             else:
                 if Files.objects.filter(uploader=profile,recipent=user):
                     return HttpResponse(f"<h1>{profile.full_com_name} ({profile.account.username}) has already been removed!</h1>")
