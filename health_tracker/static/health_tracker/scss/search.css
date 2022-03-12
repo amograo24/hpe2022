@@ -106,6 +106,22 @@ body {
   background-position: center;
 }
 
+.action-btns {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 290px;
+}
+
+.action-btns button {
+  width: 40%;
+}
+
 .delete_file_modal {
   display: none;
 }
@@ -118,7 +134,6 @@ body {
   border-radius: 0.5rem;
   line-height: 40px;
   border: 2px solid #FFC107;
-  padding-left: 8px;
   font-size: 1em;
   margin-top: 1rem;
   -webkit-transition: all ease-in-out 500ms;
@@ -126,6 +141,25 @@ body {
 }
 
 .delete_file:hover {
+  background-color: #d39e00;
+  border: 2px solid #d39e00;
+}
+
+.edit_file {
+  width: 90%;
+  outline: none;
+  border: none;
+  background-color: #FFC107;
+  border-radius: 0.5rem;
+  line-height: 40px;
+  border: 2px solid #FFC107;
+  font-size: 1em;
+  margin-top: 1rem;
+  -webkit-transition: all ease-in-out 500ms;
+  transition: all ease-in-out 500ms;
+}
+
+.edit_file:hover {
   background-color: #d39e00;
   border: 2px solid #d39e00;
 }

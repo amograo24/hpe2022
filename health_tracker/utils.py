@@ -39,11 +39,12 @@ def get_hcw_vid(email:str, password: str, division: str):
     user.save()
     return user
 
-
-# TODO kushurox: Do file ext checks here before saving
 def is_valid_file(file: str) -> bool:
-    approved = ["docx", "pdf", "jpg", "jpeg", "png", "pptx", "ppt", "xlsx", "xls"]
+    approved = ["docx", "pdf", "jpg", "jpeg", "png", "pptx", "ppt", "xlsx", "xls", "txt", "mp4", "avi", "mov", "mp3", "key"]
+    file = str(file)
+
     if "." not in file:
+        print(file)
         return False
 
     f_ext = file[file.rfind(".")+1:]

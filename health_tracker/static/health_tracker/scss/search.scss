@@ -91,6 +91,16 @@ body{
     }
 }
 
+.action-btns{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 290px;
+
+    button{
+        width: 40%;
+    }
+}
 
 .delete_file_modal{
     display: none;
@@ -104,7 +114,24 @@ body{
     border-radius: 0.5rem;
     line-height: 40px;
     border: 2px solid $secondary-color;
-    padding-left: 8px;
+    font-size: 1em;
+    margin-top: 1rem;
+    transition: all ease-in-out 500ms;
+
+    &:hover{
+        background-color: darken($secondary-color, 10%);
+        border: 2px solid darken($secondary-color, 10%);
+    }
+}
+
+.edit_file{
+    width: 90%;
+    outline: none;
+    border: none;
+    background-color: $secondary-color;
+    border-radius: 0.5rem;
+    line-height: 40px;
+    border: 2px solid $secondary-color;
     font-size: 1em;
     margin-top: 1rem;
     transition: all ease-in-out 500ms;
