@@ -374,7 +374,7 @@ def index(request):
         image = None
         if user_type == 'nou':
             user = Patients.objects.get(person=user)
-            image = return_qr_code(request.user)
+            image = return_qr_code(f"/visit/{request.user}") #DOMAIN NAME TO BE ADDED
         elif user_type in ['d/hcw/ms', 'i/sp', 'msh']:
             user = MedWorkerRep.objects.get(account=user)
 
@@ -470,6 +470,54 @@ def other_profile(request, id):
 
 # TODO Notification API - kushurox
 
+def visit_qrcode(request,id):
+    if request.user.is_authenticated:
+        if request.user == id:
+            return HttpResponseRedirect(reverse("index"))
+        viewer = User.objects.get(username=request.user)
+        viewer_type = viewer.division.lower()
+        try:
+            profile = User.objects.get(username=id)
+            profile_type = profile.division.lower()
+        except User.DoesNotExist:
+            return HttpResponseRedirect(reverse("index"))
+        if (viewer_type == 'nou' and profile_type == 'nou') or (viewer_type in ['d/hcw/ms', 'i/sp', 'msh'] and profile_type in ['d/hcw/ms', 'i/sp', 'msh']):
+            return HttpResponseRedirect(reverse("index"))
+        if profile_type == 'nou':
+            profile = Patients.objects.get(person=profile)
+            viewer = MedWorkerRep.objects.get(account=viewer)
+            # if viewer in profile.hcw_v.all(): # even if not in, it should show na? basically filtered. # like only for
+            # registered doctor it should show all, for doctors who were deleted, only their uploaded files
+            files = Files.objects.filter(uploader=viewer, recipent=profile).order_by('-date')
+            if viewer_type != 'd/hcw/ms':
+                print(files, not files)
+                if not files:
+                    if viewer not in profile.hcw_v.all():
+                        return HttpResponseRedirect(reverse("auth_messages")+f"?w={profile.person.username}")
+                    else:
+                        return HttpResponseRedirect(reverse("index"))
+            elif viewer_type == 'd/hcw/ms':
+                # if viewer in profile.hcw_v.all():
+                #     files = Files.objects.filter(recipent=profile).order_by('-date')
+                if viewer not in profile.hcw_v.all() and not files:
+                    # if not files:
+                        # return HttpResponseRedirect(reverse("index"))
+                    return HttpResponseRedirect(reverse("auth_messages")+f"?w={profile.person.username}")
+                        # return HttpResponseRedirect(reverse("auth_messages"))
+            return HttpResponseRedirect(reverse("other_profile",args=(profile.person.username,)))
+        elif profile_type in ['d/hcw/ms', 'i/sp', 'msh']:
+            profile = MedWorkerRep.objects.get(account=profile)
+            viewer = Patients.objects.get(person=viewer)
+            files = Files.objects.filter(uploader=profile, recipent=viewer)
+
+            if not files and profile not in viewer.hcw_v.all():
+                # return HttpResponseRedirect(reverse("index"))
+                return HttpResponseRedirect(reverse("index"))
+            else:
+                return HttpResponseRedirect(reverse("other_profile",args=(profile.account.username,)))
+    else:
+        return HttpResponseRedirect(reverse("login"))
+  
 def notifications(request):
     if request.method == "POST":
         if not request.user.is_authenticated:
@@ -611,7 +659,8 @@ def get_file(request, wbid, name: str):
 
 def notification_page(request):
     ctx = {
-        "division": request.user.division
+        "division": request.user.division,
+        "default_wbid":request.GET.get('w','')
     }
     return render(request, "health_tracker/notifs.html", ctx)
 

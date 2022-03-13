@@ -23,6 +23,7 @@ urlpatterns = [
     path("mydoctors_vendors",views.mydoctors_vendors,name="mydoctors_vendors"),
     path("mypatients_customers",views.mypatients_customers,name="mypatients_customers"),
     path("edit/<str:wbid>/<str:file_name>",views.edit_file,name="edit_file"),
-    path("remove/<str:id>",views.remove_patient_vendor,name="remove_patient_vendor")
+    path("remove/<str:id>",views.remove_patient_vendor,name="remove_patient_vendor"),
+    path("visit/<str:id>",views.visit_qrcode,name="visit")
     # path("media")
 ]

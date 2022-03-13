@@ -14,7 +14,7 @@
 </div>
 {% if division.lower != "nou"  %}
     <div id="send">
-        <input id="target_user" type="text" placeholder="Enter Wbid here">
+        <input id="target_user" type="text" placeholder="Enter Wbid here" value="{{default_wbid}}">
         <button id="send_msg">Ask For Approval</button>
         <script>
             function handle_send()
