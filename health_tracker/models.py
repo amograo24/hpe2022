@@ -91,10 +91,20 @@ class HealthStatus(models.Model):
         return f"{self.patient}"
 
 class HealthValue(models.Model):
+    condition_category_choices=[
+        ('SAFE','Safe'),
+        ('WARNING','Warning'),
+        ('DANGER','Danger'),
+        ('BDL-SAFE','Borderline-Safe'),
+        ('BDL-DANGER','Borderline-Danger'),
+        ('NA','Not Applicable')
+    ]
     health_status=models.ForeignKey(HealthStatus,on_delete=models.CASCADE,related_name='health_status',verbose_name='Health Status',default=None)
     health_condition=models.CharField(default=None,verbose_name="Health Condition",max_length=100)
     maximum_value=models.IntegerField(default=None,verbose_name="Maximum Value",null=True,blank=True)
     minimum_value=models.IntegerField(default=None,verbose_name="Minimum Value",null=True,blank=True)
     patient_value=models.IntegerField(default=None,verbose_name="Patient's Value")
+    # condition_category=models.CharField(default=None, max_length=20, choices=condition_category_choices, verbose_name="Health Condition Category",null=True,blank=True)
+    condition_category=models.CharField(default=None, max_length=20, choices=condition_category_choices, verbose_name="Health Condition Category")
 
      
