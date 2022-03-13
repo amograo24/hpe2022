@@ -1,0 +1,15 @@
+@import 'variables';
+
+body{
+    background-color: $background-color-dark;
+    color: $secondary-color;
+    overflow-x: hidden;
+}
+
+.title{
+    text-align: center;
+    font-family: 'IBM Plex Sans';
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+    font-size: 2em;
+}

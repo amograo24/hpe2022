@@ -40,6 +40,7 @@ body{
 
 .file_card{
     width: 300px;
+    height: 100%;
     border: 2px solid $secondary-color;
     border-radius: 0.5rem;
     background-color: lighten($background-color-dark, 10%);
