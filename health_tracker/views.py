@@ -1,21 +1,21 @@
 import datetime
-import django
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404, FileResponse
 from django.shortcuts import render
 from django.urls import reverse
 
-from .mvc import NotificationManager
+from .mvc import NotificationManager, StateManager
 from .utils import gen_unique_id, get_hcw_vid, return_qr_code, is_valid_file, sort_files, filter_files
 from .forms import RegisterForm, LoginForm, UploadDocForm, EditFileForm, GoPublicForm
 from .models import User, MedWorkerRep, Patients, Notification, Files, HealthStatus, HealthValue
-from django.forms import modelformset_factory, inlineformset_factory
+from django.forms import inlineformset_factory
 import json
 from django.core.files.storage import FileSystemStorage
 import io
 from fitz import fitz
 from django.utils import timezone
+import pickle
 import base64
 import mimetypes
 from django.contrib.admin.widgets import AdminDateWidget
@@ -24,6 +24,9 @@ from django.core.paginator import Paginator
 import time
 import os
 
+with open("states.pickle", "rb") as fp:
+    STATES = dict(pickle.load(fp))
+    sm = StateManager(STATES)
 
 def search(request):
     if not request.user.is_authenticated:
@@ -783,18 +786,21 @@ def edit_file(request,wbid,file_name):
         "file_name":file_name
     })
 
+
 def go_public(request):
+    global sm
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     user=User.objects.get(username=request.user)
-    if user.division.lower()=='nou':
+    if user.division.lower() == 'nou':
         return HttpResponseRedirect(reverse("index"))
     vendor=MedWorkerRep.objects.get(account=user)
     form0=GoPublicForm(initial={'address':vendor.address,'city':vendor.city,'pincode':vendor.pincode})
+
     if request.method=="POST":
+
         form=GoPublicForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
             vendor.address=form.cleaned_data['address']
             vendor.city=form.cleaned_data['city']
             vendor.pincode=form.cleaned_data['pincode']
@@ -806,7 +812,8 @@ def go_public(request):
                 "form":form,
             })
     return render(request,"health_tracker/go_public.html",{
-        "form":form0,
+        "form": form0,
+        "states": sm.get_states()
     })    
 
 def go_private(request):
@@ -912,10 +919,9 @@ def remove_patient_vendor(request,id):
         else:
             return HttpResponse("<h1>Error, User couldn't be removed! </h1>") # or do i redirect
 
-'''
-<QueryDict: {'health_status-TOTAL_FORMS': ['5'], 'health_status-INITIAL_FORMS': ['4'], 'health_status-MIN_NUM_FORMS': ['0'], 'health_status-MAX_NUM_FORMS': ['1000'], 'health_status-0-health_condition': ['Sugar'], 'health_status-0-maximum_value': ['100'], 'health_status-0-minimum_value': ['10'], 'health_status-0-patient_value': ['50'], 'health_status-0-health_status': ['1'], 'health_status-0-id': ['2'], 'health_status-1-health_condition': ['BP'], 'health_status-1-maximum_value': ['100'], 'health_status-1-minimum_value': ['10'], 'health_status-1-patient_value': ['50'], 'health_status-1-health_status': ['1'], 'health_status-1-id': ['3'], 'health_status-2-health_condition': ['Hello'], 'health_status-2-maximum_value': ['100'], 'health_status-2-minimum_value': ['10'], 'health_status-2-patient_value': ['40'], 'health_status-2-health_status': ['1'], 'health_status-2-id': ['4'], 'health_status-3-health_condition': ['Hello'], 'health_status-3-maximum_value': ['100'], 'health_status-3-minimum_value': ['10'], 'health_status-3-patient_value': ['50'], 'health_status-3-health_status': ['1'], 'health_status-3-id': ['5'], 'health_status-4-health_condition': ['test'], 'health_status-4-maximum_value': ['100'], 'health_status-4-minimum_value': ['10'], 'health_status-4-patient_value': ['50'], 'health_status-4-health_status': ['1'], 'health_status-4-id': ['']}>
-'''
 
-'''
-<QueryDict: {'health_status-TOTAL_FORMS': ['5'], 'health_status-INITIAL_FORMS': ['4'], 'health_status-MIN_NUM_FORMS': ['0'], 'health_status-MAX_NUM_FORMS': ['1000'], 'health_status-0-health_condition': ['Sugar'], 'health_status-0-maximum_value': ['100'], 'health_status-0-minimum_value': ['10'], 'health_status-0-patient_value': ['50'], 'health_status-0-health_status': ['1'], 'health_status-0-id': ['2'], 'health_status-1-health_condition': ['BP'], 'health_status-1-maximum_value': ['100'], 'health_status-1-minimum_value': ['10'], 'health_status-1-patient_value': ['50'], 'health_status-1-health_status': ['1'], 'health_status-1-id': ['3'], 'health_status-2-health_condition': ['Hello'], 'health_status-2-maximum_value': ['100'], 'health_status-2-minimum_value': ['10'], 'health_status-2-patient_value': ['40'], 'health_status-2-health_status': ['1'], 'health_status-2-id': ['4'], 'health_status-3-health_condition': ['Hello'], 'health_status-3-maximum_value': ['100'], 'health_status-3-minimum_value': ['10'], 'health_status-3-patient_value': ['50'], 'health_status-3-health_status': ['1'], 'health_status-3-id': ['5'], 'health_status-4-health_condition': ['test'], 'health_status-4-maximum_value': ['100'], 'health_status-4-minimum_value': ['10'], 'health_status-4-patient_value': ['50'], 'health_status-4-health_status': ['1'], 'health_status-4-id': ['6'], 'health_status-5-health_condition': ['avaneesh'], 'health_status-5-maximum_value': ['100'], 'health_status-5-minimum_value': ['10'], 'health_status-5-patient_value': ['50'], 'health_status-5-health_status': ['1'], 'health_status-5-id': [''], 'health_status-6-health_condition': ['avinash'], 'health_status-6-maximum_value': ['100'], 'health_status-6-minimum_value': ['10'], 'health_status-6-patient_value': ['30'], 'health_status-6-health_status': ['1'], 'health_status-6-id': ['1']}>
-'''
+def StatesAPI(request):
+    global sm
+    if request.method == "POST":
+        body = json.loads(request.body)
+        return JsonResponse(sm.get_districts(body['sn']), safe=False, content_type="json")

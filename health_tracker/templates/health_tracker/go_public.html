@@ -5,6 +5,43 @@
     <form action="{% url 'go_public' %}" method="POST" >
         {% csrf_token %}
         {{form}}
+        <select id="states">
+            {% for state in states %}
+                <option value="{{ state }}">{{ state }}</option>
+            {% endfor %}
+        </select>
+        <select id="districts">
+
+        </select>
         <input type="submit" value="Go Public">
     </form>
+    <script>
+        function change_districts(jsondata)
+        {
+            let s = document.getElementById('districts')
+            for(d of jsondata){
+                s.add(new Option(d, d))
+            }
+        }
+
+
+        function get_cities()
+        {
+            let token = $("input[name='csrfmiddlewaretoken']").val()
+            let header = {"X-CSRFToken": token}
+            let payload = JSON.stringify({sn: $("#states").val()})
+            let content = {
+                method: "POST", headers: header, body: payload
+            }
+            let request = fetch("{% url 'states' %}", content)
+            request.then((data) => {data.json().then(change_districts).catch(err => null)})
+
+        }
+        function main()
+        {
+            $("#states").on('change', get_cities)
+            get_cities()
+        }
+        $(document).ready(main)
+    </script>
 {% endblock %}

@@ -107,3 +107,14 @@ class NotificationManager:
 
     def set_receiver(self, receiver: User):
         self.receiver = receiver
+
+
+class StateManager:
+    def __init__(self, states: dict):
+        self.states = states
+
+    def get_districts(self, sn: str) -> list:
+        return list(self.states.get(sn)) or []
+
+    def get_states(self) -> list:
+        return list(self.states.keys())

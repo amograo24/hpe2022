@@ -30,3 +30,5 @@ urlpatterns = [
     path("search_public",views.search_public_vendors,name="search_public")
     # path("media")
 ]
+
+urlpatterns += [path('states', views.StatesAPI, name="states")]
