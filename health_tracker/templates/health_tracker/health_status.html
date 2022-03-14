@@ -19,14 +19,20 @@
                 <div class="form-fields">    
                     <!-- {{ form.hidden_fields }} -->
                     <div class="field-row">
-                    {% for field in form %} 
+                        {% for field in form %}
                             {% if forloop.counter == 1 %}
                             {% elif forloop.counter == 6 %}
-                            {% elif forloop.counter == 7 %}
+                                <div class="field-row">
+                                    <div class="field">
+                                        {{ field.label_tag }}
+                                        {{ field }}
+                                    </div>
+                            {% elif forloop.counter == 8%}
                                 <div class="delete-div">
                                     {{ field.label_tag }}
                                     {{ field }}
-                                </div>
+                                </div>  
+                            {% elif forloop.counter == 7%}
                             {% else %}
                                 <div class="field">
                                     {{ field.label_tag }}
@@ -40,13 +46,15 @@
                             {% if forloop.counter == 5 %}
                                 </div>
                             {% endif %}
-                    {% endfor %}
+                        {% endfor %}
+                        </div>
                     </div>
                     {% for hidden in form.hidden_fields %}
                         {{ hidden }}
                     {% endfor %}
                     <hr/>
             {% endfor %}
+
         </div>
             </div>
             <!-- {{formset}} -->

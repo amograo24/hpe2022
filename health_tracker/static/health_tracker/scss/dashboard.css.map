@@ -1,10 +1,1 @@
-{
-    "version": 3,
-    "mappings": "ACWA,AAAA,MAAM,CAAA;EACF,KAAK,EAXS,OAAO;CAYxB;;ADXD,AAAA,IAAI,CAAA;EACA,gBAAgB,ECKI,OAAO;EDJ3B,KAAK,ECHS,OAAO;EDIrB,UAAU,EAAE,MAAM;CACrB;;AAED,AAAA,MAAM,CAAA;EACF,UAAU,EAAE,MAAM;EAClB,WAAW,EAAE,eAAe;EAC5B,UAAU,EAAE,IAAI;EAChB,aAAa,EAAE,IAAI;EACnB,SAAS,EAAE,GAAG;CACjB",
-    "sources": [
-        "dashboard.scss",
-        "_variables.scss"
-    ],
-    "names": [],
-    "file": "dashboard.css"
-}
+{"version":3,"sources":["_variables.scss","dashboard.css","dashboard.scss"],"names":[],"mappings":"AAWA;EACI,cAXc;ACClB;;ACAA;EACI,yBFKoB;EEJpB,cFHc;EEId,kBAAA;ADGJ;;ACAA;EACI,kBAAA;EACA,4BAAA;EACA,gBAAA;EACA,mBAAA;EACA,cAAA;ADGJ","file":"dashboard.css"}
