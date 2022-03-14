@@ -18,6 +18,7 @@
     <script>
         function change_districts(jsondata)
         {
+            $("#districts").html("")
             let s = document.getElementById('districts')
             for(d of jsondata){
                 s.add(new Option(d, d))
