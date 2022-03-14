@@ -515,7 +515,12 @@ def visit_qrcode(request,id):
 
             if not files and profile not in viewer.hcw_v.all():
                 # return HttpResponseRedirect(reverse("index"))
-                return HttpResponseRedirect(reverse("index"))
+                if profile.public==True:
+                    return render(request,"health_tracker/visit_profile.html",{
+                        "vendor":profile
+                    })
+                else:
+                    return HttpResponseRedirect(reverse("index"))
             else:
                 return HttpResponseRedirect(reverse("other_profile",args=(profile.account.username,)))
     else:
