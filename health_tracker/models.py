@@ -35,6 +35,10 @@ class MedWorkerRep(models.Model):
     hcwvid = models.CharField(default=None, max_length=11, validators=[MinLengthValidator(11)], verbose_name="Health Care Worker/Vendor ID", unique=True)
     account = models.ForeignKey(User, on_delete=models.CASCADE, related_name="account", default=None)
     notifications = models.ManyToManyField(Notification, related_name="mwr_notifs", blank=True)
+    public = models.BooleanField(default=False)
+    address = models.CharField(default=None,max_length=500,verbose_name="Address",blank=True,null=True)
+    city = models.CharField(default=None,max_length=30,verbose_name="City/Town",blank=True,null=True)
+    pincode = models.CharField(default=None,max_length=6,validators=[MinLengthValidator(6)],blank=True,null=True)
 
 
     def __str__(self):
@@ -101,9 +105,9 @@ class HealthValue(models.Model):
     ]
     health_status=models.ForeignKey(HealthStatus,on_delete=models.CASCADE,related_name='health_status',verbose_name='Health Status',default=None)
     health_condition=models.CharField(default=None,verbose_name="Health Condition",max_length=100)
-    maximum_value=models.IntegerField(default=None,verbose_name="Maximum Value",null=True,blank=True)
-    minimum_value=models.IntegerField(default=None,verbose_name="Minimum Value",null=True,blank=True)
-    patient_value=models.IntegerField(default=None,verbose_name="Patient's Value")
+    maximum_value=models.FloatField(default=None,verbose_name="Maximum Value",null=True,blank=True)
+    minimum_value=models.FloatField(default=None,verbose_name="Minimum Value",null=True,blank=True)
+    patient_value=models.FloatField(default=None,verbose_name="Patient's Value")
     # condition_category=models.CharField(default=None, max_length=20, choices=condition_category_choices, verbose_name="Health Condition Category",null=True,blank=True)
     condition_category=models.CharField(default=None, max_length=20, choices=condition_category_choices, verbose_name="Health Condition Category")
 

@@ -8,7 +8,7 @@ from django.urls import reverse
 
 from .mvc import NotificationManager
 from .utils import gen_unique_id, get_hcw_vid, return_qr_code, is_valid_file, sort_files, filter_files
-from .forms import RegisterForm, LoginForm, UploadDocForm, EditFileForm
+from .forms import RegisterForm, LoginForm, UploadDocForm, EditFileForm, GoPublicForm
 from .models import User, MedWorkerRep, Patients, Notification, Files, HealthStatus, HealthValue
 from django.forms import modelformset_factory, inlineformset_factory
 import json
@@ -781,6 +781,83 @@ def edit_file(request,wbid,file_name):
         "form":form0,
         "wbid":wbid,
         "file_name":file_name
+    })
+
+def go_public(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    user=User.objects.get(username=request.user)
+    if user.division.lower()=='nou':
+        return HttpResponseRedirect(reverse("index"))
+    vendor=MedWorkerRep.objects.get(account=user)
+    form0=GoPublicForm(initial={'address':vendor.address,'city':vendor.city,'pincode':vendor.pincode})
+    if request.method=="POST":
+        form=GoPublicForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            vendor.address=form.cleaned_data['address']
+            vendor.city=form.cleaned_data['city']
+            vendor.pincode=form.cleaned_data['pincode']
+            vendor.public=True
+            vendor.save()
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            return render(request,"health_tracker/go_public.html",{
+                "form":form,
+            })
+    return render(request,"health_tracker/go_public.html",{
+        "form":form0,
+    })    
+
+def go_private(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    user=User.objects.get(username=request.user)
+    if user.division.lower()=='nou':
+        return HttpResponseRedirect(reverse("index"))
+    vendor=MedWorkerRep.objects.get(account=user)
+    # if vendor.public!=True:
+    #     return HttpResponseRedirect(reverse("index"))
+    vendor.public=False
+    vendor.save()
+    return HttpResponseRedirect(reverse("index"))
+
+def search_public_vendors(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    search_entry=request.GET.get('q','')
+    user=User.objects.get(username=request.user)  
+    public_doctors=[]
+    public_insurance_service_providers=[]
+    public_medical_shops_labs=[]
+    public_vendors=MedWorkerRep.objects.filter(public=True)
+    check_list=[]
+    for vendor in public_vendors:
+        check_list=[vendor.account.username.lower(),vendor.full_com_name.lower(),vendor.reg_no.lower()]
+        if not (vendor.department==None or not vendor.department.strip(' ')):
+                check_list.append(vendor.department.lower())
+        if not (vendor.address==None or not vendor.address.strip(' ')):
+                check_list.append(vendor.address.lower())
+        if not (vendor.city==None or not vendor.city.strip(' ')):
+                check_list.append(vendor.city.lower())
+        if not (vendor.pincode==None or not vendor.pincode.strip(' ')):
+                check_list.append(vendor.pincode.lower())
+        for i in check_list:
+            if search_entry.lower() in i:
+                if vendor.account.division.lower()=='d/hcw/ms':
+                    public_doctors.append(vendor)
+                elif vendor.account.division.lower()=='i/sp':
+                    public_insurance_service_providers.append(vendor)
+                elif vendor.account.division.lower()=='msh':
+                    public_medical_shops_labs.append(vendor)
+                break
+    # return render(request,"health_tracker_search_public_vendors",{
+    return render(request,"health_tracker/search_public_vendors.html",{
+        "search_entry":search_entry,
+        "empty":not public_doctors and not public_insurance_service_providers and not public_medical_shops_labs,
+        "public_doctors":sorted(set(public_doctors)),
+        "public_insurance_service_providers":sorted(set(public_insurance_service_providers)),
+        "public_medical_shops_labs":sorted(set(public_medical_shops_labs))
     })
 
 def remove_patient_vendor(request,id):

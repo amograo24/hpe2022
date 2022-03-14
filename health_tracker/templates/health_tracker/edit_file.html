@@ -14,7 +14,7 @@
             <h1 class="title">Edit File</h1>
         </div>
     </div> 
-    <form method='POST' action="{% url 'edit_file' wbid file_name %}" enctype="multipart/form-data" id="upload-form">
+    <form method='POST' action="{% url 'edit_file' wbid file_name %}" id="upload-form">
         {% csrf_token %}
         {{form}}
         <button type="submit">Edit</button>

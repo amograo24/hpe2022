@@ -1,0 +1,26 @@
+{% extends "health_tracker/layout.html" %}
+{% block title %}Search Public Vendors{% endblock %}
+{% block body %}
+    {% if empty %}
+        <h3 class="empty">No public doctors/insurance representatives/medical shops/labs are associated with '{{search_entry}}'!</h3>
+    {% else %}
+        {% if public_doctors %}
+            <h1>Public Doctors</h1>
+            {% for doctor in public_doctors %}
+                <a href="{% url 'visit' doctor.account.username  %}">{{doctor.full_com_name}} ({{doctor.account.username}})</a>
+            {% endfor %}
+        {% endif %}
+        {% if public_insurance_service_providers %}
+            <h1>Public Insurance/Service Providers</h1>
+            {% for vendor in public_insurance_service_providers %}
+                <a href="{% url 'visit' vendor.account.username  %}">{{vendor.full_com_name}} ({{vendor.account.username}})</a>
+            {% endfor %}
+        {% endif %}
+        {% if public_medical_shops_labs %}
+            <h1>Public Medical Shops/Labs</h1>
+            {% for vendor in public_medical_shops_labs %}
+                <a href="{% url 'visit' vendor.account.username  %}">{{vendor.full_com_name}} ({{vendor.account.username}})</a>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

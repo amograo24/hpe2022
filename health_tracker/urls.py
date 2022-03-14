@@ -24,6 +24,9 @@ urlpatterns = [
     path("mypatients_customers",views.mypatients_customers,name="mypatients_customers"),
     path("edit/<str:wbid>/<str:file_name>",views.edit_file,name="edit_file"),
     path("remove/<str:id>",views.remove_patient_vendor,name="remove_patient_vendor"),
-    path("visit/<str:id>",views.visit_qrcode,name="visit")
+    path("visit/<str:id>",views.visit_qrcode,name="visit"),
+    path("gopublic",views.go_public,name="go_public"),
+    path("goprivate",views.go_private,name="go_private"),
+    path("search_public",views.search_public_vendors,name="search_public")
     # path("media")
 ]

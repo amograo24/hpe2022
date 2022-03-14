@@ -1,0 +1,10 @@
+{% extends "health_tracker/layout.html" %}
+{% load static %}
+{% block title %}Go Public{% endblock %}
+{% block body %}
+    <form action="{% url 'go_public' %}" method="POST" >
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="Go Public">
+    </form>
+{% endblock %}

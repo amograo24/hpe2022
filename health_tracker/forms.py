@@ -51,6 +51,10 @@ class EditFileForm(forms.ModelForm):
         fields=['tags','vendor_name','file_type']
     # file_type = forms.CharField
 
+class GoPublicForm(forms.Form):
+    address = forms.CharField(max_length=500,label="Address",required=True)
+    city = forms.CharField(max_length=30,label="City/Town",required=True)
+    pincode = forms.CharField(max_length=6,label="Pincode",required=True,widget=forms.TextInput(attrs={"type":"number"}),validators=[MinLengthValidator(6)])
 # class CreateHealthStatus(forms.ModelForm):
 #     class Meta:
 #         model=HealthStatus

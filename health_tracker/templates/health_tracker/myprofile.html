@@ -24,6 +24,12 @@
             <h3>Health Care Worker/Vendor ID: {{user.account.username}}</h3>
             <h3>Registration No./License No.: {{user.reg_no}}</h3>
             {% if user.account.division.lower == 'd/hcw/ms' %}<h3>Department: {{user.department}}</h3>{% endif %}
+            <h3>Account Visibility: {% if user.public %}Public{% else %}Private{% endif %}</h3>
+            {% if user.public == True %}
+                <button onclick="window.location.href='/goprivate'" >Go Private</button>
+            {% else %}
+                <button onclick="window.location.href='/gopublic'">Go Public</button>
+            {% endif %}
         {% endif %}
         <!-- <img src="/media/7977790201256379/Atomic_Physics.pdf"> -->
         <!-- <embed src="/media/7977790201256379/Atomic_Physics.pdf" type="application/pdf"> -->
