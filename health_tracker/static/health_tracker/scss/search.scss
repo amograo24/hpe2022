@@ -105,10 +105,11 @@ body{
 
 .delete_file_modal{
     display: none;
+    max-width: 300px;
 }
 
 .delete_file{
-    width: 90%;
+    width: 40%;
     outline: none;
     border: none;
     background-color: $secondary-color;
@@ -126,7 +127,7 @@ body{
 }
 
 .edit_file{
-    width: 90%;
+    width: 40%;
     outline: none;
     border: none;
     background-color: $secondary-color;
@@ -210,6 +211,7 @@ body{
     align-items: center;
     padding-top: 1rem;
     padding-bottom: 1rem;
+    margin: 0;
 
     button{
         width: 40%;
@@ -318,19 +320,6 @@ body{
             p{
                 width: 590px;
             }
-        }
-    }
-
-    .modal-body{
-        p{
-            width: 590px;
-        }
-    }
-
-    .modal_footer{
-        width: 590px;
-        button{
-            width: 40%;
         }
     }
 }

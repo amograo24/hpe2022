@@ -5,8 +5,7 @@
 * {
   margin: 0;
   padding: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
@@ -17,28 +16,24 @@ body {
 
 .title {
   text-align: center;
-  font-family: 'IBM Plex Sans';
+  font-family: "IBM Plex Sans";
   margin-top: 2rem;
   margin-bottom: 4rem;
 }
 
 .empty {
   text-align: center;
-  font-family: 'IBM Plex Sans';
+  font-family: "IBM Plex Sans";
   margin-top: 4rem;
   margin-bottom: 4rem;
 }
 
 #files_container {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (300px)[auto-fit];
-      grid-template-columns: repeat(auto-fit, 300px);
+  grid-template-columns: repeat(auto-fit, 300px);
   grid-row-gap: 2rem;
   grid-column-gap: 4rem;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
   width: 90%;
   margin: 0 auto;
   list-style: none;
@@ -56,30 +51,18 @@ body {
 }
 
 .inside_file_card {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-
 .inside_file_card a {
   width: 100%;
   color: #FFC107;
 }
-
 .inside_file_card a:hover {
   color: #a07800;
 }
-
 .inside_file_card h5 {
   text-align: center;
   margin-top: 2rem;
@@ -90,7 +73,6 @@ body {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
 .inside_file_card h6 {
   text-align: center;
   margin-top: 1rem;
@@ -108,27 +90,22 @@ body {
 }
 
 .action-btns {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-around;
+  align-items: center;
   width: 290px;
 }
-
 .action-btns button {
   width: 40%;
 }
 
 .delete_file_modal {
   display: none;
+  max-width: 300px;
 }
 
 .delete_file {
-  width: 90%;
+  width: 40%;
   outline: none;
   border: none;
   background-color: #FFC107;
@@ -137,17 +114,15 @@ body {
   border: 2px solid #FFC107;
   font-size: 1em;
   margin-top: 1rem;
-  -webkit-transition: all ease-in-out 500ms;
   transition: all ease-in-out 500ms;
 }
-
 .delete_file:hover {
   background-color: #d39e00;
   border: 2px solid #d39e00;
 }
 
 .edit_file {
-  width: 90%;
+  width: 40%;
   outline: none;
   border: none;
   background-color: #FFC107;
@@ -156,10 +131,8 @@ body {
   border: 2px solid #FFC107;
   font-size: 1em;
   margin-top: 1rem;
-  -webkit-transition: all ease-in-out 500ms;
   transition: all ease-in-out 500ms;
 }
-
 .edit_file:hover {
   background-color: #d39e00;
   border: 2px solid #d39e00;
@@ -178,25 +151,16 @@ body {
   border-radius: 0.5rem;
   border: 2px solid #FFC107;
   font-size: 1em;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
   margin-right: 1rem;
-  -webkit-transition: all ease-in-out 500ms;
   transition: all ease-in-out 500ms;
 }
-
 .delete_patient:hover {
   background-color: #d39e00;
   border: 2px solid #d39e00;
 }
-
 .delete_patient img {
   display: block;
   width: 25px;
@@ -207,7 +171,6 @@ body {
   padding-top: 2rem;
   padding-bottom: 1rem;
 }
-
 .modal_header .modal_title {
   margin: 0;
   padding: 0;
@@ -215,16 +178,10 @@ body {
 }
 
 .modal-body {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
   padding: 0;
 }
-
 .modal-body p {
   text-align: center;
   width: 290px;
@@ -232,7 +189,6 @@ body {
   padding-left: 1rem;
   padding-right: 1rem;
 }
-
 .modal-body p:last-child {
   font-weight: bold;
   font-size: 1.1em;
@@ -240,69 +196,53 @@ body {
 
 .modal_footer {
   width: 290px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-around;
+  align-items: center;
   padding-top: 1rem;
   padding-bottom: 1rem;
+  margin: 0;
 }
-
 .modal_footer button {
   width: 40%;
   outline: none;
   border: none;
   line-height: 40px;
 }
-
 .modal_footer button:first-child {
   background-color: #FFC107;
   color: #111;
   border-radius: 0.5rem;
   border: 2px solid #FFC107;
-  -webkit-transition: all ease-in-out 500ms;
   transition: all ease-in-out 500ms;
 }
-
 .modal_footer button:first-child:hover {
   background-color: #a07800;
   border: 2px solid #a07800;
 }
-
 .modal_footer button:last-child {
   background-color: red;
   color: white;
   border-radius: 0.5rem;
   border: 2px solid red;
-  -webkit-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
 }
-
 .modal_footer button:last-child:hover {
   background-color: #990000;
   border: 2px solid #990000;
 }
 
 .patient-container {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (300px)[auto-fit];
-      grid-template-columns: repeat(auto-fit, 300px);
+  grid-template-columns: repeat(auto-fit, 300px);
   grid-row-gap: 2rem;
   grid-column-gap: 4rem;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
   width: 90%;
   margin: 0 auto;
   list-style: none;
   margin-bottom: 4rem;
 }
-
 .patient-container__patient-div {
   width: 300px;
   border: 2px solid #FFC107;
@@ -310,44 +250,26 @@ body {
   background-color: #263147;
   padding: 0;
   margin: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   padding-left: 1rem;
   padding-right: 1rem;
 }
-
 .patient-container__patient-link {
   width: 290px;
   text-decoration: none;
   color: #FFC107;
   text-align: center;
-  -webkit-transition: all ease-in-out 500ms;
   transition: all ease-in-out 500ms;
   margin: 0;
   margin-left: 1rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: center;
+  align-items: center;
   height: 60px;
 }
-
 .patient-container__patient-link p {
   width: 290px;
   overflow: hidden;
@@ -358,19 +280,16 @@ body {
   font-size: 1.2em;
   text-align: center;
 }
-
 .patient-container__patient-link:hover {
   color: #a07800;
 }
-
 .patient-container button {
   margin-top: 0;
 }
 
 @media screen and (min-width: 650px) {
   .patient-container {
-    -ms-grid-columns: (600px)[auto-fit];
-        grid-template-columns: repeat(auto-fit, 600px);
+    grid-template-columns: repeat(auto-fit, 600px);
   }
   .patient-container__patient-div {
     width: 600px;
@@ -381,14 +300,4 @@ body {
   .patient-container__patient-link p {
     width: 590px;
   }
-  .modal-body p {
-    width: 590px;
-  }
-  .modal_footer {
-    width: 590px;
-  }
-  .modal_footer button {
-    width: 40%;
-  }
-}
-/*# sourceMappingURL=search.css.map */
+}/*# sourceMappingURL=search.css.map */

@@ -5,8 +5,7 @@
 * {
   margin: 0;
   padding: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
@@ -19,52 +18,38 @@ hr {
   color: #FFC107;
 }
 
-input[id$='minimum_value'], input[id$='maximum_value'], input[id$='patient_value'] {
+input[id$=minimum_value], input[id$=maximum_value], input[id$=patient_value] {
   width: 10%;
 }
 
 .field-row {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+  justify-content: space-around;
   width: 100%;
   margin-top: 2rem;
   margin-bottom: 1rem;
 }
 
 .forms {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   margin: 0 auto;
 }
 
 .field {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
-
-.field input {
+.field input, .field select {
   width: 300px;
   line-height: 40px;
+  height: 40px;
   margin-top: 1rem;
   padding-left: 6px;
   padding-right: 4px;
@@ -73,7 +58,6 @@ input[id$='minimum_value'], input[id$='maximum_value'], input[id$='patient_value
   border-radius: 6px;
   outline: none;
 }
-
 .field label {
   font-size: 1.2em;
   font-weight: bold;
@@ -89,24 +73,18 @@ form {
 
 .title {
   text-align: center;
-  font-family: 'IBM Plex Sans';
+  font-family: "IBM Plex Sans";
   margin-top: 2rem;
   margin-bottom: 4rem;
   width: 100%;
 }
 
 .delete-div {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
-
 .delete-div label {
   font-size: 1.2em;
   font-weight: bold;
@@ -120,7 +98,7 @@ form {
   color: #141A26;
   border: none;
   border-radius: 4px;
-  font-family: 'IBM Plex Sans';
+  font-family: "IBM Plex Sans";
   font-size: 1.2rem;
   cursor: pointer;
   margin-top: calc(48px + 6rem + 82px);
@@ -136,7 +114,7 @@ form {
   color: #141A26;
   border: none;
   border-radius: 4px;
-  font-family: 'IBM Plex Sans';
+  font-family: "IBM Plex Sans";
   font-size: 1.2rem;
   cursor: pointer;
   margin-top: calc(48px + 10rem + 82px);
@@ -147,103 +125,74 @@ form {
 
 @media screen and (max-width: 1250px) {
   .forms {
-    -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
-    -webkit-box-align: start;
-        -ms-flex-align: start;
-            align-items: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
   }
 }
-
 @media screen and (max-width: 835px) {
   .field input {
     width: 200px;
   }
 }
-
 @media screen and (max-width: 576px) {
   .field-row {
     width: 100%;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
   }
+
   #submit {
     position: inherit;
     margin-top: 2rem;
     width: 80%;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
+    align-items: center;
+    justify-content: center;
   }
+
   form {
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    display: -webkit-box;
-    display: -ms-flexbox;
+    align-items: center;
+    justify-content: center;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    flex-direction: column;
   }
+
   .form-fields {
     width: 100%;
   }
+
   .field {
     width: 80%;
   }
+
   .field input {
     width: 100%;
   }
+
   label {
     margin-top: 1rem;
     margin-bottom: 0.5rem;
   }
+
   .add-div {
     width: 100%;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     margin-top: 1rem;
     margin-bottom: 4rem;
   }
+
   #add-field {
     position: inherit;
     margin-top: 1rem;
     width: 80%;
   }
 }
-
 hr {
   margin-top: 2rem;
   margin-bottom: 2rem;
   color: #FFC107;
   width: 100%;
-}
-/*# sourceMappingURL=health.css.map */
+}/*# sourceMappingURL=health.css.map */
