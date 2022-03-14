@@ -37,7 +37,8 @@ class MedWorkerRep(models.Model):
     notifications = models.ManyToManyField(Notification, related_name="mwr_notifs", blank=True)
     public = models.BooleanField(default=False)
     address = models.CharField(default=None,max_length=500,verbose_name="Address",blank=True,null=True)
-    city = models.CharField(default=None,max_length=30,verbose_name="City/Town",blank=True,null=True)
+    city = models.CharField(default=None,max_length=100,verbose_name="City/Town",blank=True,null=True)
+    state = models.CharField(default=None,max_length=100,verbose_name="State/Union Territory",blank=True,null=True)
     pincode = models.CharField(default=None,max_length=6,validators=[MinLengthValidator(6)],blank=True,null=True)
 
 

@@ -53,7 +53,7 @@ class EditFileForm(forms.ModelForm):
 
 class GoPublicForm(forms.Form):
     address = forms.CharField(max_length=500,label="Address",required=True)
-    city = forms.CharField(max_length=30,label="City/Town",required=True)
+    # city = forms.CharField(max_length=30,label="City/Town",required=True)
     pincode = forms.CharField(max_length=6,label="Pincode",required=True,widget=forms.TextInput(attrs={"type":"number"}),validators=[MinLengthValidator(6)])
 # class CreateHealthStatus(forms.ModelForm):
 #     class Meta:

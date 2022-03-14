@@ -800,14 +800,16 @@ def go_public(request):
     if user.division.lower() == 'nou':
         return HttpResponseRedirect(reverse("index"))
     vendor=MedWorkerRep.objects.get(account=user)
-    form0=GoPublicForm(initial={'address':vendor.address,'city':vendor.city,'pincode':vendor.pincode})
-
+    # form0=GoPublicForm(initial={'address':vendor.address,'city':vendor.city,'pincode':vendor.pincode})
+    form0=GoPublicForm(initial={'address':vendor.address,'pincode':vendor.pincode})
     if request.method=="POST":
 
         form=GoPublicForm(request.POST)
         if form.is_valid():
             vendor.address=form.cleaned_data['address']
-            vendor.city=form.cleaned_data['city']
+            vendor.city=request.POST['district']
+            vendor.state=request.POST['state']
+            # vendor.city=form.cleaned_data['city']
             vendor.pincode=form.cleaned_data['pincode']
             vendor.public=True
             vendor.save()
@@ -815,9 +817,11 @@ def go_public(request):
         else:
             return render(request,"health_tracker/go_public.html",{
                 "form":form,
+                "vendor":vendor
             })
     return render(request,"health_tracker/go_public.html",{
         "form": form0,
+        "vendor":vendor,
         "states": sm.get_states()
     })    
 
@@ -852,6 +856,8 @@ def search_public_vendors(request):
                 check_list.append(vendor.address.lower())
         if not (vendor.city==None or not vendor.city.strip(' ')):
                 check_list.append(vendor.city.lower())
+        if not (vendor.state==None or not vendor.state.strip(' ')):
+                check_list.append(vendor.state.lower())
         if not (vendor.pincode==None or not vendor.pincode.strip(' ')):
                 check_list.append(vendor.pincode.lower())
         for i in check_list:

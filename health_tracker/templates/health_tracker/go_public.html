@@ -5,12 +5,16 @@
     <form action="{% url 'go_public' %}" method="POST" >
         {% csrf_token %}
         {{form}}
-        <select id="states">
+        <select id="states" name="state">
             {% for state in states %}
-                <option value="{{ state }}">{{ state }}</option>
+                {% if vendor.state == state %}
+                    <option value="{{ state }}" selected>{{ state }}</option> 
+                {% else %}
+                    <option value="{{ state }}">{{ state }}</option>
+                {% endif %}
             {% endfor %}
         </select>
-        <select id="districts">
+        <select id="districts" name="district">
 
         </select>
         <input type="submit" value="Go Public">
