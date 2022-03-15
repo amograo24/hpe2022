@@ -1,28 +1,80 @@
 {% extends "health_tracker/layout.html" %}
+{% load static %}
 {% block title %}My Doctors/Vendors{% endblock %}
+{% block styling %}<link href="{% static 'health_tracker/scss/search.css' %}" rel="stylesheet"/> {% endblock %}
 {% block body %}
     {% if authorized_doctors %}
-        <h1>Authorized Doctors</h1>
-        {% for doctor in authorized_doctors %}
-            <a href="{% url 'other_profile' doctor.account.username  %}">{{doctor.full_com_name}} ({{doctor.account.username}})</a>
-        {% endfor %}
+        <h1 class="title">Authorized Doctors</h1>
+        <div class="patient-container">
+            {% for person in authorized_doctors %}
+                <div class="patient-container__patient-div">
+                    {% csrf_token %}
+                    <a href="{% url 'other_profile' person.account.username %}" class="patient-container__patient-link">
+                        <p>{{person.full_com_name}} ({{person.account.username}})</p>  
+                        <button type="button" class="delete_patient" data-pos="{{forloop.counter}}">
+                            <img src="{% static 'health_tracker/delete.svg' %}" />
+                        </button>
+                    </a>
+                    <div class="delete_patient_modal" tabindex="-1" data-pos="{{forloop.counter}}" aria-labelledby="ModalLabel" aria-hidden="true">
+                        <div class="modal_dialog">
+                            <div class="modal_content">
+                                <div class="modal_header">
+                                <h5 class="modal_title">Remove Patient/Customer</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to remove patient/customer</p>
+                                    <p class="modal-patientname" data-id="{{person.account.username}}">"{{person.full_com_name}} ({{person.account.username}})"</p>
+                                </div>
+                                <div class="modal_footer">
+                                <button type="button" class="delete_patient_cancel" data-pos="{{forloop.counter}}">Cancel</button>
+                                <button type="button" class="delete_patient_main" data-person="{{person}}" id="remove_person{{person}}">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
     {% if other_doctors %}
-        <h1>Other Doctors</h1>
-        {% for doctor in other_doctors %}
-            <a href="{% url 'other_profile' doctor.account.username  %}">{{doctor.full_com_name}} ({{doctor.account.username}})</a>
-        {% endfor %}
+        <h1 class="title">Other Doctors</h1>
+        <div class="patient-container">
+            {% for person in other_doctors %}
+                <div class="patient-container__patient-div">
+                    {% csrf_token %}
+                    <a href="{% url 'other_profile' person.account.username %}" class="patient-container__patient-link">
+                        <p>{{person.full_com_name}} ({{person.account.username}})</p>  
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
     {% if insurance_service_providers %}
-        <h1>Insurance/Service Providers</h1>
-        {% for vendor in insurance_service_providers %}
-            <a href="{% url 'other_profile' vendor.account.username  %}">{{vendor.full_com_name}} ({{vendor.account.username}})</a>
-        {% endfor %}
+        <h1 class="title">Insurance/Service Providers</h1>
+        <div class="patient-container">
+            {% for person in insurance_service_providers %}
+                <div class="patient-container__patient-div">
+                    {% csrf_token %}
+                    <a href="{% url 'other_profile' person.account.username %}" class="patient-container__patient-link">
+                        <p>{{person.full_com_name}} ({{person.account.username}})</p>  
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
     {% if medical_shops_labs %}
-        <h1>Medical Shops/Labs</h1>
-        {% for vendor in medical_shops_labs %}
-            <a href="{% url 'other_profile' vendor.account.username  %}">{{vendor.full_com_name}} ({{vendor.account.username}})</a>
-        {% endfor %}
+        <h1 class="title">Medical Shops/Labs</h1>
+        <div class="patient-container">
+            {% for person in medical_shops_labs %}
+                <div class="patient-container__patient-div">
+                    {% csrf_token %}
+                    <a href="{% url 'other_profile' person.account.username %}" class="patient-container__patient-link">
+                        <p>{{person.full_com_name}} ({{person.account.username}})</p>  
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
 {% endblock %}
+
+{% block script %}<script src="{% static 'health_tracker/js/remove_patient_vendor.js' %}"></script>{% endblock %}

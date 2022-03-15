@@ -5,7 +5,6 @@
 a {
   color: #FFC107;
 }
-
 a:hover {
   color: #d39e00;
 }
@@ -19,8 +18,7 @@ body {
 }
 
 form input[type=text], input[type=email], input[type=password], input[type=number] {
-  -webkit-transition-duration: 1s;
-          transition-duration: 1s;
+  transition-duration: 1s;
   display: block;
   border: none;
   background-color: none;
@@ -44,16 +42,14 @@ label {
 }
 
 form input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=number]:focus {
-  -webkit-transition-duration: 1s;
-          transition-duration: 1s;
+  transition-duration: 1s;
   border-bottom: 3px solid red;
   min-width: 30vw;
 }
 
 select {
   display: block;
-  -webkit-transition-duration: 1s;
-          transition-duration: 1s;
+  transition-duration: 1s;
   border: none;
   background-color: none;
   border-radius: 4px;
@@ -72,8 +68,7 @@ svg {
   position: fixed;
   right: 39vw;
   top: 0px;
-  -webkit-transform: scaleX(-1);
-          transform: scaleX(-1);
+  transform: scaleX(-1);
 }
 
 .color-bg {
@@ -96,45 +91,26 @@ body {
   height: 100%;
   padding-top: 5rem;
   padding-bottom: 5rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: #141A26;
 }
 
 .title-div {
   width: 100%;
   height: 10vh;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   color: #FFC107;
   margin-bottom: 3rem;
 }
 
 .register-btn {
   width: 100%;
-  -webkit-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
   height: 40px;
   margin-top: 1rem;
@@ -156,42 +132,48 @@ body {
   .color-bg {
     width: 25vw;
   }
+
   svg {
     right: 24vw;
   }
 }
-
 @media screen and (max-width: 768px) {
   svg {
     visibility: hidden;
   }
+
   .color-bg {
     visibility: hidden;
   }
+
   .form-main {
     width: 100vw;
   }
+
   form input[type=text], input[type=email], input[type=password], input[type=number] {
     min-width: 60vw;
   }
+
   select {
     min-width: 100%;
   }
+
   form input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=number]:focus {
-    -webkit-transition-duration: 1s;
-            transition-duration: 1s;
+    transition-duration: 1s;
     border-bottom: 3px solid red;
     min-width: 60vw;
   }
+
   .title-div h1 {
     font-size: 3em;
   }
+
   label {
     max-width: 60vw;
   }
+
   .title-div h2 {
     font-size: 2em;
     margin-top: 1rem;
   }
-}
-/*# sourceMappingURL=register.css.map */
+}/*# sourceMappingURL=register.css.map */
