@@ -1,26 +1,49 @@
 {% extends "health_tracker/layout.html" %}
+{% load static %}
 {% block title %}Search Public Vendors{% endblock %}
+{% block styling %}<link href="{% static 'health_tracker/scss/search.css' %}" rel="stylesheet"/> {% endblock %}
 {% block body %}
     {% if empty %}
         <h3 class="empty">No public doctors/insurance representatives/medical shops/labs are associated with '{{search_entry}}'!</h3>
     {% else %}
         {% if public_doctors %}
-            <h1>Public Doctors</h1>
-            {% for doctor in public_doctors %}
-                <a href="{% url 'visit' doctor.account.username  %}">{{doctor.full_com_name}} ({{doctor.account.username}})</a>
-            {% endfor %}
+            <h1 class="title">Public Doctors</h1>
+            <div class="patient-container">
+                {% for doctor in public_doctors %}
+                    <div class="patient-container__patient-div">
+                        {% csrf_token %}
+                        <a href="{% url 'visit' doctor.account.username %}" class="patient-container__patient-link">
+                            <p>{{doctor.full_com_name}} ({{doctor.account.username}})</p>  
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
         {% endif %}
         {% if public_insurance_service_providers %}
-            <h1>Public Insurance/Service Providers</h1>
-            {% for vendor in public_insurance_service_providers %}
-                <a href="{% url 'visit' vendor.account.username  %}">{{vendor.full_com_name}} ({{vendor.account.username}})</a>
-            {% endfor %}
+            <h1 class="title">Public Insurance/Service Providers</h1>
+            <div class="patient-container">
+                {% for vendor in public_insurance_service_providers %}
+                    <div class="patient-container__patient-div">
+                        {% csrf_token %}
+                        <a href="{% url 'visit' vendor.account.username %}" class="patient-container__patient-link">
+                            <p>{{vendor.full_com_name}} ({{vendor.account.username}})</p>  
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>            
         {% endif %}
         {% if public_medical_shops_labs %}
-            <h1>Public Medical Shops/Labs</h1>
-            {% for vendor in public_medical_shops_labs %}
-                <a href="{% url 'visit' vendor.account.username  %}">{{vendor.full_com_name}} ({{vendor.account.username}})</a>
-            {% endfor %}
+            <h1 class="title">Public Medical Shops/Labs</h1>
+            <div class="patient-container">
+                {% for vendor in public_medical_shops_labs %}
+                    <div class="patient-container__patient-div">
+                        {% csrf_token %}
+                        <a href="{% url 'visit' vendor.account.username %}" class="patient-container__patient-link">
+                            <p>{{vendor.full_com_name}} ({{vendor.account.username}})</p>  
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>               
         {% endif %}
     {% endif %}
 {% endblock %}
