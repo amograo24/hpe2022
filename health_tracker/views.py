@@ -816,7 +816,6 @@ def go_public(request):
     if user.division.lower() == 'nou':
         return HttpResponseRedirect(reverse("index"))
     vendor = MedWorkerRep.objects.get(account=user)
-    # form0=GoPublicForm(initial={'address':vendor.address,'city':vendor.city,'pincode':vendor.pincode})
     form0 = GoPublicForm(initial={'address': vendor.address, 'pincode': vendor.pincode})
     if request.method == "POST":
 
@@ -825,7 +824,6 @@ def go_public(request):
             vendor.address = form.cleaned_data['address']
             vendor.city = request.POST['district']
             vendor.state = request.POST['state']
-            # vendor.city=form.cleaned_data['city']
             vendor.pincode = form.cleaned_data['pincode']
             vendor.public = True
             vendor.save()
