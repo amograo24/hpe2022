@@ -229,7 +229,7 @@ def upload_file(request):
     - This functions let's a doctor, an insurance serive provider or a medical shop/lab to upload
     documents for the patient/customer.
     - The document is saved in the patient's folder in the media folder.
-    - At the same time a File object
+    - At the same time a File object will be created where the file path will be stored,
     """
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
