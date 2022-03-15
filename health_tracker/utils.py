@@ -1,16 +1,11 @@
+import os
 import random
 import uuid
 from typing import Union
-
-import pyqrcode
-from django.db.models import QuerySet
+import qrcode
+from PIL import Image
 
 from .models import User
-
-
-def return_qr_code(uid: str, scale=5) -> Union[str, bytes]:
-    code = pyqrcode.create(uid)
-    return code.png_as_base64_str(scale=scale)
 
 
 def gen_unique_id(email: str, password: str) -> User:
@@ -27,7 +22,7 @@ def gen_unique_id(email: str, password: str) -> User:
     return user
 
 
-def get_hcw_vid(email:str, password: str, division: str):
+def get_hcw_vid(email: str, password: str, division: str):
     hcw_vid = uuid.uuid4()
     hcw_vid = str(hcw_vid)[:11]
     while User.objects.filter(username=hcw_vid):
@@ -39,6 +34,7 @@ def get_hcw_vid(email:str, password: str, division: str):
                                     division=division)
     user.save()
     return user
+
 
 def is_valid_file(file: str) -> bool:
     approved = ["docx", "pdf", "jpg", "jpeg", "png", "pptx", "ppt", "xlsx", "xls", "txt", "mp4", "avi", "mov", "mp3", "key"]
@@ -78,6 +74,7 @@ def sort_files(files: list, mode: str) -> list:
     elif mode == "az":
         fs = [f for f in files]
         return sorted(fs, key=lambda x: str(x))
+
 
 if __name__ == "__main__":
     print(str(uuid.uuid4())[:12])

@@ -1,4 +1,5 @@
 import datetime
+
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404, FileResponse
@@ -6,7 +7,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .mvc import NotificationManager, StateManager
-from .utils import gen_unique_id, get_hcw_vid, return_qr_code, is_valid_file, sort_files, filter_files
+from .utils import gen_unique_id, get_hcw_vid, is_valid_file, sort_files, filter_files
 from .forms import RegisterForm, LoginForm, UploadDocForm, EditFileForm, GoPublicForm
 from .models import User, MedWorkerRep, Patients, Notification, Files, HealthStatus, HealthValue
 from django.forms import inlineformset_factory
@@ -16,6 +17,9 @@ import io
 from fitz import fitz
 from django.utils import timezone
 import pickle
+from PIL import Image
+import qrcode
+
 import base64
 import mimetypes
 from django.contrib.admin.widgets import AdminDateWidget
@@ -30,6 +34,16 @@ with open("states.pickle", "rb") as fp:
 
 
 def search(request):
+    """ 
+    - This function is to bring a list of files and list of associated people to the user.
+    - Associated people include people who are in the user's many to many field, as well as people
+    who have uploaded files/ are recipients for the files uploaded by the user.
+    - Since some fields in objects are nullable, we add them to the "checklist" only if their value
+    is not null.
+    - Then we check whether the search entry is a part of any of the parameters/items in the checklist.
+    - If the search entry is a part of an item in the checklist, we accordingly append the user in the
+    associated people list, and the file in the related files list.
+    """
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     search_entry = request.GET.get('q', '')
@@ -110,6 +124,14 @@ def search(request):
 
 
 def health_status_function(request, wbid):
+    """
+    - This function gives authorized doctors (ie the doctors who are in the patient's many to many field) to
+    add/change values of the patient's health conditions.
+    - This function sends a formset as a part of the context. THe formset is a list of all "Health Values" 
+    forms where the instance is the patient's Health Status.
+    - In case the formset is invalid, the formset is again returned with a list of errors, so that the 
+    doctor can fill the form correctly again.
+    """
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     updater = User.objects.get(username=request.user)
@@ -189,18 +211,26 @@ def health_status_function(request, wbid):
             # formset = HealthValueFormset(requestinstance=health_status)
             return render(request, "health_tracker/health_status.html", {
                 "formset": formset,
-                "wbid": wbid,
+                # "wbid": wbid,
+                "patient":patient,
                 # "errors":formset.errors[0]
                 "errors":errors
                 # "message":"The Health Condition Field and the Patient's value Field cannot be empty!"
             })
     return render(request, "health_tracker/health_status.html", {
         "formset": HealthValueFormset(instance=health_status),
-        "wbid": wbid
+        # "wbid": wbid
+        "patient":patient
     })
 
 
 def upload_file(request):
+    """
+    - This functions let's a doctor, an insurance serive provider or a medical shop/lab to upload
+    documents for the patient/customer.
+    - The document is saved in the patient's folder in the media folder.
+    - At the same time a File object
+    """
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     # elif request.user.is_authenticated:
@@ -395,17 +425,23 @@ def index(request):
         user = User.objects.get(username=request.user)
         user_type = user.division.lower()
         image = None
+        health_status=None
         if user_type == 'nou':
             user = Patients.objects.get(person=user)
-            image = return_qr_code(f"/visit/{request.user}")  # DOMAIN NAME TO BE ADDED
+            # image = return_qr_code(f"/visit/{request.user}")  # DOMAIN NAME TO BE ADDED
+            try:
+                health_status=HealthStatus.objects.get(patient=user)
+            except HealthStatus.DoesNotExist:
+                HealthStatus(patient=user).save()
+                health_status=HealthStatus.objects.get(patient=user)
         elif user_type in ['d/hcw/ms', 'i/sp', 'msh']:
             user = MedWorkerRep.objects.get(account=user)
 
         return render(request, "health_tracker/myprofile.html", {
-            "image": image,
             "user": user,
             "nou": user_type == 'nou',
             "non_nou": user_type in ['d/hcw/ms', 'i/sp', 'msh'],
+            "health_status":health_status
             # "file":'media/7977790201256379/Atomic_Physics.pdf'
         })
     else:
@@ -579,15 +615,6 @@ def notifications(request):
     else:
         return HttpResponse("Get Method Not Allowed")
 
-
-# TODO Test view - kushurox
-
-
-def test(request):
-    ctx = {"division": request.user.division, "my_id": request.user.username}
-    return render(request, "health_tracker/copy_stuff_from_here.html", context=ctx)
-
-
 def delete_file(request, wbid, name):
     print(wbid, name)
     print(request.body)
@@ -720,7 +747,7 @@ def mydoctors_vendors(request):
                 insurance_service_providers.append(vendor)
         elif vendor.account.division.lower() == 'msh':
             if vendor not in medical_shops_labs:
-                medocal_shops_labs.append(vendor)
+                medical_shops_labs.append(vendor)
 
     for file in files:
         if file.uploader and file.uploader not in patient.hcw_v.all():
@@ -996,3 +1023,21 @@ def covid_vaccinations(request):
 
 def covid_mythbusters(request):
     return render(request, 'covid/covid_mythbusters.html')
+
+def handle_Qr(request):
+    if request.method == "POST":
+        body = json.loads(request.body)
+        uid = body['uid']
+        icon = Image.open("health_tracker/static/health_tracker/imgs/temo.jpg")
+        icon.thumbnail((50, 50), Image.ANTIALIAS)
+        qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_H, box_size=10)
+        qr.add_data(uid)
+        qr.make()
+        img = qr.make_image(fill_color="blue").convert('RGB')
+        pos = ((img.size[0] - icon.size[0])//2, (img.size[1] - icon.size[1])//2)
+        img.paste(icon, pos)
+        b = io.BytesIO()
+        img.save(b, 'JPEG')
+        b.seek(0)
+        print("file returned")
+        return FileResponse(b)

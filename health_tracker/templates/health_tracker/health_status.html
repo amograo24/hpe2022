@@ -1,20 +1,20 @@
 {% extends "health_tracker/layout.html" %}
 {% load static %}
-{% block title %}Health Status | {{wbid}}{% endblock %}
+{% block title %}Health Status | {{patient.person.username}}{% endblock %}
 {% block styling %}<link href="{% static 'health_tracker/scss/health.css' %}" rel="stylesheet" />{% endblock %}
 {% block body %}
     {% for error_list in errors %}
         <h5>Health Condition {{error_list.0}}:</h5>
         {{error_list.1}}
     {% endfor %}
-    <h1 class="title">Health Status of {{wbid}}</h1>
+    <h1 class="title">Health Status of {{patient.full_name}} ({{patient.person.username}})</h1>
     {% if udne or nap or updater_not_auth %}
-        <h3 class="empty">{{message}}</h3>
+        <h3 class="empty" style="padding-left: 2rem; padding-right: 2rem; text-align:center;">{{message}}</h3>
     {% else %}
         {% if message %}
-            <h3 class="empty">{{message}}</h3>
+            <h3 class="empty" style="padding-left: 2rem; padding-right: 300px; text-align:center;">{{message}}</h3>
         {% endif %}
-        <form method="POST" action="{% url 'health' wbid %}">
+        <form method="POST" action="{% url 'health' patient.person.username %}">
             {% csrf_token %}
             {{ formset.management_form }}
             {{ formset.non_form_errors }}

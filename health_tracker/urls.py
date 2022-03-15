@@ -2,7 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-
     # Dashboard/About Page
     path("", views.index, name="index"),
 
@@ -48,4 +47,5 @@ urlpatterns = [
     path("edit/<str:wbid>/<str:file_name>",views.edit_file,name="edit_file"),
 ]
 
-urlpatterns += [path('states', views.StatesAPI, name="states")]
+urlpatterns += [path('states', views.StatesAPI, name="states"),
+                path('getQr', views.handle_Qr)]
