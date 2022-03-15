@@ -33,10 +33,12 @@ urlpatterns = [
 
     # Covid Related URLs
     path("covid", views.covid, name="covid"),
-    path("covid/info", views.covid_info, name="covid_info"),
     path("covid/norms", views.covid_norms, name="covid_norms"),
     path("covid/vaccination", views.covid_vaccinations, name="covid_vaccinations"),
-   
+    path("covid/immunity", views.covid_immunity, name="covid_immunity"),
+    path("covid/bed_status", views.covid_bed_status, name="covid_bed_status"),
+    path("covid/mythbusters", views.covid_mythbusters, name="covid_mythbusters"),
+
    # Utility URLs
     path("upload", views.upload_file, name="upload_file"),
     path("media/<str:wbid>/<str:name>", views.file_page, name="file_page"),

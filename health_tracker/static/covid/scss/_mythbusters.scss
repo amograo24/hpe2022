@@ -1,0 +1,53 @@
+.mythbusters{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 3rem;
+    padding-bottom: 4rem;
+
+    &__container{
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+
+    &__myth{
+        margin-bottom: 2rem;
+        list-style: none;
+        color:  $comp-secondary-color;
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+
+    &__fact{
+        margin-bottom: 3rem;
+        list-style: none;
+        font-size: 1.1em;
+    }
+}
+
+@media screen and (min-width: 768px){
+    .mythbusters{
+        &__container{
+            padding-left: 20%;
+            padding-right: 20%;
+            width: 100%;
+        }
+        &__fact{
+            min-width: 100%;
+        }
+
+        &__myth{
+            min-width: 100%;
+        }
+    }
+}
+
+@media screen and (min-width: 1400px){
+    .mythbusters{
+        &__container{
+            padding-left: 30%;
+            padding-right: 30%;
+        }
+    }
+}

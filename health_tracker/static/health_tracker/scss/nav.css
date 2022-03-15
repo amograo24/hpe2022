@@ -114,8 +114,8 @@
 }
 
 .active {
-  max-height: 350px;
-  height: 350px;
+  max-height: 425px;
+  height: 425px;
   -webkit-transition: all ease-in-out 500ms;
   transition: all ease-in-out 500ms;
   -webkit-transform: translateY(0px);
