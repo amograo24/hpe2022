@@ -1,16 +1,23 @@
+import os
 import random
 import uuid
 from typing import Union
-
-import pyqrcode
-from django.db.models import QuerySet
+import qrcode
+from PIL import Image
 
 from .models import User
 
 
-def return_qr_code(uid: str, scale=5) -> Union[str, bytes]:
-    code = pyqrcode.create(uid)
-    return code.png_as_base64_str(scale=scale)
+def return_qr_code(uid: str):
+    icon = Image.open("health_tracker/static/health_tracker/temo.jpg")
+    icon.thumbnail((128, 128), Image.ANTIALIAS)
+    qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_H, box_size=25)
+    qr.add_data(uid)
+    qr.make()
+    img = qr.make_image(fill_color="blue").convert('RGB')
+    pos = ((img.size[0] - icon.size[0])//2, (img.size[1] - icon.size[1])//2)
+    img.paste(icon, pos)
+
 
 
 def gen_unique_id(email: str, password: str) -> User:
