@@ -169,8 +169,10 @@ form{
         width: 80%;
     }
 
-    .field input{
-        width: 100%;
+    .field{
+        input, select{
+            width: 100%;
+        }
     }
 
     label{

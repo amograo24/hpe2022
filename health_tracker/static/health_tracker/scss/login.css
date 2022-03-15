@@ -22,10 +22,13 @@ body {
 .back {
   width: 100vw;
   height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   position: absolute;
   z-index: -999;
 }
+
 .back .backLeft {
   width: 50%;
   height: 100vh;
@@ -34,13 +37,15 @@ body {
   position: absolute;
   left: 0;
 }
+
 .back .backRight {
   width: 50%;
   position: absolute;
   right: 0;
   height: 100vh;
   background: #e74c3c url(https://images.unsplash.com/photo-1576091160501-bbe57469278b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80);
-  filter: blur(2px) brightness(0.75);
+  -webkit-filter: blur(2px) brightness(0.75);
+          filter: blur(2px) brightness(0.75);
   background-size: cover;
   background-position: center;
 }
@@ -52,7 +57,8 @@ body {
   overflow: hidden;
   margin-left: 50%;
   position: absolute;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  -webkit-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 .topLayer {
@@ -66,23 +72,35 @@ body {
   width: 50%;
   height: 100%;
   background-color: #1760BF;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   left: 0;
   position: absolute;
   color: white;
 }
+
 .left label {
   color: #FFC107;
   font-size: 1.25em;
 }
-.left form input[type=text],
-.left input[type=email],
-.left input[type=password],
-.left input[type=number] {
-  transition-duration: 1s;
+
+.left form input[type="text"],
+.left input[type="email"],
+.left input[type="password"],
+.left input[type="number"] {
+  -webkit-transition-duration: 1s;
+          transition-duration: 1s;
   display: block;
   border: none;
   background-color: none;
@@ -97,23 +115,29 @@ body {
   margin-top: 0.5rem;
   outline: none;
 }
+
 .left a {
   color: #FFC107;
   font-size: 1.1em;
+  -webkit-transition: 500ms ease-in-out all;
   transition: 500ms ease-in-out all;
 }
+
 .left a:hover {
   color: #d39e00;
 }
+
 .left p {
   font-size: 1.15em;
   color: #fff;
 }
-.left form input[type=text],
-.left input[type=email],
-.left input[type=password],
-.left input[type=number] {
-  transition-duration: 1s;
+
+.left form input[type="text"],
+.left input[type="email"],
+.left input[type="password"],
+.left input[type="number"] {
+  -webkit-transition-duration: 1s;
+          transition-duration: 1s;
   display: block;
   border: none;
   background-color: none;
@@ -128,7 +152,8 @@ body {
   margin-top: 0.5rem;
   outline: none;
 }
-.left form input[type=submit] {
+
+.left form input[type="submit"] {
   outline: none;
   border: none;
   background-color: #FFC107;
@@ -139,6 +164,7 @@ body {
   padding-left: 8px;
   font-size: 1.2em;
   color: #111;
+  -webkit-transition: all ease-in-out 500ms;
   transition: all ease-in-out 500ms;
 }
 
@@ -147,33 +173,49 @@ body {
   height: 100%;
   background-color: #141A26;
   right: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   position: absolute;
 }
+
 .right label {
   color: #FFC107;
   font-size: 1.25em;
 }
+
 .right a {
   color: #FFC107;
   font-size: 1.1em;
+  -webkit-transition: 500ms ease-in-out all;
   transition: 500ms ease-in-out all;
 }
+
 .right a:hover {
   color: #d39e00;
 }
+
 .right p {
   font-size: 1.15em;
   color: #fff;
 }
-.right form input[type=text],
-.right input[type=email],
-.right input[type=password],
-.right input[type=number] {
-  transition-duration: 1s;
+
+.right form input[type="text"],
+.right input[type="email"],
+.right input[type="password"],
+.right input[type="number"] {
+  -webkit-transition-duration: 1s;
+          transition-duration: 1s;
   display: block;
   border: none;
   background-color: none;
@@ -189,11 +231,12 @@ body {
   outline: none;
 }
 
-form input[type=text]:focus,
-input[type=email]:focus,
-input[type=password]:focus,
-input[type=number]:focus {
-  transition-duration: 1s;
+form input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus {
+  -webkit-transition-duration: 1s;
+          transition-duration: 1s;
   border-bottom: 3px solid red;
   min-width: 30vw;
 }
@@ -203,13 +246,13 @@ label {
   max-width: 30vw;
 }
 
-form input[type=submit],
+form input[type="submit"],
 button {
   font-size: 1.2em;
   min-width: 30vw;
 }
 
-form input[type=submit] {
+form input[type="submit"] {
   outline: none;
   border: none;
   background-color: #FFC107;
@@ -219,6 +262,7 @@ form input[type=submit] {
   min-width: 30vw;
   padding-left: 8px;
   color: #111;
+  -webkit-transition: all ease-in-out 500ms;
   transition: all ease-in-out 500ms;
 }
 
@@ -235,6 +279,7 @@ form input[type=submit] {
   margin-bottom: 1rem;
   font-size: 1.2em;
   color: #111;
+  -webkit-transition: all ease-in-out 500ms;
   transition: all ease-in-out 500ms;
 }
 
@@ -244,7 +289,7 @@ form input[type=submit] {
   color: #111;
 }
 
-form input[type=submit]:hover {
+form input[type="submit"]:hover {
   background-color: #d39e00;
   border: 2px solid #d39e00;
   color: #111;
@@ -263,6 +308,7 @@ form input[type=submit]:hover {
   margin-bottom: 1rem;
   font-size: 1.2em;
   color: #111;
+  -webkit-transition: all ease-in-out 500ms;
   transition: all ease-in-out 500ms;
 }
 
@@ -281,24 +327,20 @@ p {
     width: 100%;
     margin-left: 0%;
   }
-
   form {
     width: 80%;
   }
-
   .right label, .left label {
     width: 100%;
   }
-
   label {
     max-width: 100%;
   }
-
   input {
     width: 100%;
   }
-
   button {
     width: 80%;
   }
-}/*# sourceMappingURL=login.css.map */
+}
+/*# sourceMappingURL=login.css.map */
