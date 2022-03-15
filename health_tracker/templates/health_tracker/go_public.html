@@ -4,9 +4,9 @@
 {% block body %}
     <form action="{% url 'go_public' %}" method="POST" >
         {% csrf_token %}
-        {{ form.address.label }}
+        {{ form.address.label }}:
         {{ form.address }}
-        <label for="states">Select your state</label>
+        <label for="states">State:</label>
         <select id="states" name="state">
             {% for state in states %}
                 {% if vendor.state == state %}
@@ -16,11 +16,11 @@
                 {% endif %}
             {% endfor %}
         </select>
-        <label for="districts">Select your district</label>
+        <label for="districts">District:</label>
         <select id="districts" name="district">
 
         </select>
-        {{ form.pincode.label }}
+        {{ form.pincode.label }}:
         {{ form.pincode }}
         <input type="submit" value="Go Public">
     </form>
