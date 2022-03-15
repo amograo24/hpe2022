@@ -30,7 +30,7 @@ class NotificationManager:
 
         check_notif = Notification.objects.filter(sender=self.sender, receiver=self.receiver)
 
-        if check_notif and check_notif[0] != "rejected":
+        if check_notif and check_notif[0] not in ("rejected", "approved"):
             return HttpResponse("Notification Already Sent!")
 
         self.notif_object = Notification(sender=self.sender, receiver=self.receiver, content="send")
