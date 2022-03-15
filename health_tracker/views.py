@@ -189,14 +189,16 @@ def health_status_function(request, wbid):
             # formset = HealthValueFormset(requestinstance=health_status)
             return render(request, "health_tracker/health_status.html", {
                 "formset": formset,
-                "wbid": wbid,
+                # "wbid": wbid,
+                "patient":patient,
                 # "errors":formset.errors[0]
                 "errors":errors
                 # "message":"The Health Condition Field and the Patient's value Field cannot be empty!"
             })
     return render(request, "health_tracker/health_status.html", {
         "formset": HealthValueFormset(instance=health_status),
-        "wbid": wbid
+        # "wbid": wbid
+        "patient":patient
     })
 
 
