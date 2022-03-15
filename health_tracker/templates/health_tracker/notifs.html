@@ -21,13 +21,13 @@
             function add_reply(text)
             {
                 text.text().then(t => {
-                    $("#current-msg").append(`<li>${t}</li>`)
+                    $("#current-msg").append(`<li style="color:yellow;margin:10px;">${t}</li>`)
                 })
+                $('#target_user').val("")
             }
 
             function handle_send()
             {
-                console.log(1)
                 let token = $("input[name='csrfmiddlewaretoken']").val()
                 let header = {"X-CSRFToken": token}
                 let whom = $('#target_user').val()
@@ -93,16 +93,20 @@
             {
                 if(row.content == "approved" || row.content == "rejected")
                 {
-                    let notif_html = `
-                    <li>${row.receiver} ${row.content} A Letter from ${row.sender} on ${row.doc}</li>
-                                `
+                    if("{{ division.lower }}" != "nou"){
+                    var notif_html = `
+                    <li>${row.receiver_name} ${row.content} an Authorization Request from ${row.sender_name} on ${row.doc}</li>`
+                    }else{
+                        var notif_html = `
+                    <li>You ${row.content} an Authorization Request from ${row.sender_name} (${row.sender}) on ${row.doc}</li>`
+                    }
                     $("#prev-msg").append(notif_html)
                 }
                 else
                 {
                     let notif_html = `
                     <div class="notif-item">
-                    <li>${row.sender} Sent A Letter of ${row.content} on  ${row.doc}</li>
+                    <li>${row.sender} [${row.sender_name}] Sent A Letter of approval on  ${row.doc}</li>
                     <button onclick=approve(this) id='${row.sender}' class='${row.receiver} notification'>Approve</button>
                     <button onclick=reject(this) id='${row.sender}' class='${row.receiver} notification'>Reject</button>
                                 </div>`
