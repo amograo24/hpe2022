@@ -14,13 +14,13 @@ class NotificationManager:
 
     def handle_send(self) -> HttpResponse:
         if self.sender.division.lower() == "nou":
-            return HttpResponse("You can't bro sorry")
+            return HttpResponse("Access Denied")
 
         if self.sender.username != self.request.user.username:
-            return HttpResponse("Can't Invite yourself")
+            return HttpResponse("Cannot Self Invite")
 
-        if self.sender.division.lower() == self.receiver.division.lower():
-            return HttpResponse("Just Can't")
+        if self.receiver.division in ['D/HCW/MS', 'I/SP', 'MSh']:
+            return HttpResponse("Cannot request another Medical worker")
 
         if self.sender_mwr in self.receiver_p.hcw_v.all():
             return HttpResponse("User Already Approved!")
@@ -35,24 +35,31 @@ class NotificationManager:
 
         self.notif_object = Notification(sender=self.sender, receiver=self.receiver, content="send")
         self.notif_object.save()
-        return HttpResponse("Notification Sent!")
+        return HttpResponse(f"You sent an authorization request to {self.receiver_p.full_name} ({self.receiver.username})")
 
     def handle_receive(self) -> Union[JsonResponse, HttpResponse]:
         if self.sender.division.lower() != self.request.user.division.lower():
             return HttpResponse("Not authorised")
         all_notifs = []
         if self.request.user.division.lower() != "nou":
-            print(self.sender)
             notifs = Notification.objects.filter(receiver=self.sender).order_by('-date_of_approval')
         else:
             notifs = Notification.objects.filter(receiver=self.sender).order_by('-date_of_approval')
 
         for notification in notifs:
+            if self.sender.division.lower() != "nou":
+                rec = Patients.objects.get(person=notification.sender).full_name
+                sen = MedWorkerRep.objects.get(account=self.sender).full_com_name
+            else:
+                sen = MedWorkerRep.objects.get(account=notification.sender).full_com_name
+                rec = Patients.objects.get(person=self.sender).full_name
             serialized_data = {
                 'content': notification.content,
                 'sender': notification.sender.username,
                 'receiver': notification.receiver.username,
-                'doc': f"{notification.date_of_approval.date()}"
+                'doc': f"{notification.date_of_approval.date()}",
+                "sender_name": sen,
+                "receiver_name": rec
             }
             all_notifs.append(serialized_data)
 
