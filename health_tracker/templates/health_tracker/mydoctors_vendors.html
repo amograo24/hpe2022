@@ -11,27 +11,31 @@
                     {% csrf_token %}
                     <a href="{% url 'other_profile' person.account.username %}" class="patient-container__patient-link">
                         <p>{{person.full_com_name}} ({{person.account.username}})</p>  
-                        <button type="button" class="delete_patient" data-pos="{{forloop.counter}}">
-                            <img src="{% static 'health_tracker/delete.svg' %}" />
-                        </button>
+                        {% if person in patient.hcw_v.all %}
+                            <button type="button" class="delete_patient" data-pos="{{forloop.counter}}">
+                                <img src="{% static 'health_tracker/delete.svg' %}" />
+                            </button>
+                        {% endif %}
                     </a>
-                    <div class="delete_patient_modal" tabindex="-1" data-pos="{{forloop.counter}}" aria-labelledby="ModalLabel" aria-hidden="true">
-                        <div class="modal_dialog">
-                            <div class="modal_content">
-                                <div class="modal_header">
-                                <h5 class="modal_title">Remove Patient/Customer</h5>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Are you sure you want to remove patient/customer</p>
-                                    <p class="modal-patientname" data-id="{{person.account.username}}">"{{person.full_com_name}} ({{person.account.username}})"</p>
-                                </div>
-                                <div class="modal_footer">
-                                <button type="button" class="delete_patient_cancel" data-pos="{{forloop.counter}}">Cancel</button>
-                                <button type="button" class="delete_patient_main" data-person="{{person}}" id="remove_person{{person}}">Remove</button>
+                    {% if person in patient.hcw_v.all %}
+                        <div class="delete_patient_modal" tabindex="-1" data-pos="{{forloop.counter}}" aria-labelledby="ModalLabel" aria-hidden="true">
+                            <div class="modal_dialog">
+                                <div class="modal_content">
+                                    <div class="modal_header">
+                                    <h5 class="modal_title">Remove Doctor/Vendor</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to remove doctor/vendor</p>
+                                        <p class="modal-patientname" data-id="{{person.account.username}}">"{{person.full_com_name}} ({{person.account.username}})"</p>
+                                    </div>
+                                    <div class="modal_footer">
+                                    <button type="button" class="delete_patient_cancel" data-pos="{{forloop.counter}}">Cancel</button>
+                                    <button type="button" class="delete_patient_main" data-person="{{person}}" id="remove_person{{person}}">Remove</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
@@ -56,8 +60,32 @@
                 <div class="patient-container__patient-div">
                     {% csrf_token %}
                     <a href="{% url 'other_profile' person.account.username %}" class="patient-container__patient-link">
-                        <p>{{person.full_com_name}} ({{person.account.username}})</p>  
+                        <p>{{person.full_com_name}} ({{person.account.username}})</p>
+                        {% if person in patient.hcw_v.all %}
+                            <button type="button" class="delete_patient" data-pos="{{forloop.counter}}A">
+                                <img src="{% static 'health_tracker/delete.svg' %}" />
+                            </button>
+                        {% endif %}                          
                     </a>
+                    {% if person in patient.hcw_v.all %}
+                        <div class="delete_patient_modal" tabindex="-1" data-pos="{{forloop.counter}}A" aria-labelledby="ModalLabel" aria-hidden="true">
+                            <div class="modal_dialog">
+                                <div class="modal_content">
+                                    <div class="modal_header">
+                                    <h5 class="modal_title">Remove Doctor/Vendor</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to remove doctor/vendor</p>
+                                        <p class="modal-patientname" data-id="{{person.account.username}}">"{{person.full_com_name}} ({{person.account.username}})"</p>
+                                    </div>
+                                    <div class="modal_footer">
+                                    <button type="button" class="delete_patient_cancel" data-pos="{{forloop.counter}}A">Cancel</button>
+                                    <button type="button" class="delete_patient_main" data-person="{{person}}" id="remove_person{{person}}">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
@@ -70,7 +98,31 @@
                     {% csrf_token %}
                     <a href="{% url 'other_profile' person.account.username %}" class="patient-container__patient-link">
                         <p>{{person.full_com_name}} ({{person.account.username}})</p>  
+                        {% if person in patient.hcw_v.all %}
+                            <button type="button" class="delete_patient" data-pos="{{forloop.counter}}B">
+                                <img src="{% static 'health_tracker/delete.svg' %}" />
+                            </button>
+                        {% endif %}                         
                     </a>
+                    {% if person in patient.hcw_v.all %}
+                        <div class="delete_patient_modal" tabindex="-1" data-pos="{{forloop.counter}}B" aria-labelledby="ModalLabel" aria-hidden="true">
+                            <div class="modal_dialog">
+                                <div class="modal_content">
+                                    <div class="modal_header">
+                                    <h5 class="modal_title">Remove Doctor/Vendor</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to remove doctor/vendor</p>
+                                        <p class="modal-patientname" data-id="{{person.account.username}}">"{{person.full_com_name}} ({{person.account.username}})"</p>
+                                    </div>
+                                    <div class="modal_footer">
+                                    <button type="button" class="delete_patient_cancel" data-pos="{{forloop.counter}}B">Cancel</button>
+                                    <button type="button" class="delete_patient_main" data-person="{{person}}" id="remove_person{{person}}">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>

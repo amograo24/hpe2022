@@ -28,9 +28,9 @@ class NotificationManager:
         if self.sender.division.lower() != self.request.user.division.lower():
             return HttpResponse("Not authorised")
 
-        check_notif = Notification.objects.filter(sender=self.sender, receiver=self.receiver)
-
-        if check_notif and check_notif[0] not in ("rejected", "approved"):
+        check_notif = Notification.objects.filter(sender=self.sender, receiver=self.receiver).order_by('-date_of_approval')
+        print(check_notif)
+        if check_notif and check_notif[0].content not in ("rejected", "approved"):
             return HttpResponse("Notification Already Sent!")
 
         self.notif_object = Notification(sender=self.sender, receiver=self.receiver, content="send")
@@ -59,7 +59,7 @@ class NotificationManager:
         return JsonResponse(all_notifs, content_type="json", safe=False)
 
     def handle_approve(self):
-        notif_obj = Notification.objects.get(sender=self.sender, receiver=self.receiver)
+        notif_obj = Notification.objects.filter(sender=self.sender, receiver=self.receiver).order_by('-date_of_approval')[0]
         if self.body["status"] == "yes":
             status = "approved"
             print(self.sender_mwr)

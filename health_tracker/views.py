@@ -699,10 +699,16 @@ def mydoctors_vendors(request):
     other_doctors = []
     insurance_service_providers = []
     medical_shops_labs = []
-    for doctor in patient.hcw_v.all():
-        if doctor.account.division.lower() == 'd/hcw/ms':
-            if doctor not in authorized_doctors:
-                authorized_doctors.append(doctor)
+    for vendor in patient.hcw_v.all():
+        if vendor.account.division.lower() == 'd/hcw/ms':
+            if vendor not in authorized_doctors:
+                authorized_doctors.append(vendor)
+        elif vendor.account.division.lower() == 'i/sp':
+            if vendor not in insurance_service_providers:
+                insurance_service_providers.append(vendor)
+        elif vendor.account.division.lower() == 'msh':
+            if vendor not in medical_shops_labs:
+                medocal_shops_labs.append(vendor)
 
     for file in files:
         if file.uploader and file.uploader not in patient.hcw_v.all():
@@ -715,10 +721,11 @@ def mydoctors_vendors(request):
                 medical_shops_labs.append(file.uploader)
 
     return render(request, "health_tracker/mydoctors_vendors.html", {
-        "authorized_doctors": authorized_doctors,
-        "other_doctors": other_doctors,
-        "insurance_service_providers": insurance_service_providers,
-        "medical_shops_labs": medical_shops_labs
+        "authorized_doctors": sorted(set(authorized_doctors),key=lambda item:(item.full_com_name,)),
+        "other_doctors": sorted(set(other_doctors),key=lambda item:(item.full_com_name,)),
+        "insurance_service_providers": sorted(set(insurance_service_providers),key=lambda item:(item.full_com_name,)),
+        "medical_shops_labs": sorted(set(medical_shops_labs),key=lambda item:(item.full_com_name,)),
+        "patient":patient
     })
 
 
@@ -739,7 +746,7 @@ def mypatients_customers(request):
         if file.recipent not in patients_customers:
             patients_customers.append(file.recipent)
     return render(request, "health_tracker/mypatients_customers.html", {
-        "patients_customers": patients_customers,
+        "patients_customers": sorted(set(patients_customers),key=lambda item:(item.full_name,)),
         "vendor": vendor
     })
 
@@ -890,9 +897,9 @@ def search_public_vendors(request):
     return render(request, "health_tracker/search_public_vendors.html", {
         "search_entry": search_entry,
         "empty": not public_doctors and not public_insurance_service_providers and not public_medical_shops_labs,
-        "public_doctors": sorted(set(public_doctors)),
-        "public_insurance_service_providers": sorted(set(public_insurance_service_providers)),
-        "public_medical_shops_labs": sorted(set(public_medical_shops_labs))
+        "public_doctors": sorted(set(public_doctors),key=lambda item:(item.full_com_name,)),
+        "public_insurance_service_providers": sorted(set(public_insurance_service_providers),key=lambda item:(item.full_com_name,)),
+        "public_medical_shops_labs": sorted(set(public_medical_shops_labs),key=lambda item:(item.full_com_name,))
     })
 
 
