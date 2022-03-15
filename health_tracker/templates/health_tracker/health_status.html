@@ -48,11 +48,11 @@
                             {% endif %}
                         {% endfor %}
                         </div>
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+                        <hr/>
                     </div>
-                    {% for hidden in form.hidden_fields %}
-                        {{ hidden }}
-                    {% endfor %}
-                    <hr/>
             {% endfor %}
 
         </div>
@@ -73,12 +73,29 @@
                     let minv = `<input type="number" name="health_status-${id}-minimum_value"  id="id_health_status-${id}-minimum_value"></div>`
                     let pvl = `<div class="field"><label for="id_health_status-${id}-patient_value">Patient's Value:</label>`
                     let pv = `<input type="number" name="health_status-${id}-patient_value" id="id_health_status-${id}-patient_value"></div></div>`
-                    let dl = `<div class="delete-div"><label for="id_health_status-${id}-DELETE">Delete:</label>`
-                    let d = `<input type="checkbox" name="health_status-${id}-DELETE" id="id_health_status-${id}-DELETE"></div><hr/>`
+                    let dl = `
+                        <div class="field-row">
+                            <div class="field">
+                                <label for="id_health_status-${id}-condition_category">Health Condition Category:</label>
+                                <select name="health_status-${id}-condition_category" id="id_health_status-${id}-condition_category">
+                                    <option value="" selected=""></option>
+                                    <option value="SAFE">Safe</option>
+                                    <option value="WARNING">Warning</option>
+                                    <option value="DANGER">Danger</option>
+                                    <option value="BDL-SAFE">Borderline-Safe</option>
+                                    <option value="BDL-DANGER">Borderline-Danger</option>
+                                    <option value="NA">Not Applicable</option>
+                                </select>
+                            </div>
+                            <div class="delete-div">
+                                <label for="id_health_status-${id}-DELETE">Delete:</label>
+                                <input type="checkbox" name="health_status-${id}-DELETE" id="id_health_status-${id}-DELETE">
+                            </div>
+                        </div>`
                     let h1 = `<input type="hidden" name="health_status-${id}-health_status" value="1" id="id_health_status-${id}-health_status">`
-                    let h2 = `<input type="hidden" name="health_status-${id}-id" id="id_health_status-${id}-id">`
+                    let h2 = `<input type="hidden" name="health_status-${id}-id" id="id_health_status-${id}-id"><hr/>`
 
-                    let whole_code = label + hc + maxvl + maxv + minvl + minv + pvl + pv + dl + d + h1 + h2
+                    let whole_code = label + hc + maxvl + maxv + minvl + minv + pvl + pv + dl + h1 + h2
                     return whole_code
                 }
                 function main()
@@ -98,7 +115,7 @@
                         {
                             $("#submit").remove()
                             $(".forms").append(ele)
-                            $("form")[0].append(submitBtn)
+                            $("form")[1].append(submitBtn)
                             // $("#submit").prepend(ele)
                         }
                     })

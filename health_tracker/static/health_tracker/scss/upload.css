@@ -16,14 +16,24 @@ body {
 }
 
 #upload-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   width: 100vw;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   padding: 0px;
   margin: 0px;
 }
+
 #upload-form label {
   font-size: 1.5rem;
   margin-bottom: 1rem;
@@ -31,12 +41,14 @@ body {
   width: 31%;
   margin-top: 1rem;
 }
-#upload-form input[type=text],
-#upload-form input[type=email],
-#upload-form input[type=password],
-#upload-form input[type=number],
+
+#upload-form input[type="text"],
+#upload-form input[type="email"],
+#upload-form input[type="password"],
+#upload-form input[type="number"],
 #upload-form select {
-  transition-duration: 1s;
+  -webkit-transition-duration: 1s;
+          transition-duration: 1s;
   display: block;
   border: none;
   background-color: none;
@@ -49,14 +61,17 @@ body {
   margin-top: 0.5rem;
   outline: none;
 }
+
 #upload-form input, #upload-form select {
   margin-bottom: 2rem;
   text-align: left;
   width: 30%;
 }
+
 #upload-form select {
   height: 40px;
 }
+
 #upload-form button {
   margin-top: 2rem;
   width: 30%;
@@ -68,8 +83,10 @@ body {
   line-height: 48px;
   cursor: pointer;
   color: #111;
+  -webkit-transition: 500ms ease-in-out all;
   transition: 500ms ease-in-out all;
 }
+
 #upload-form button:hover {
   background-color: #d39e00;
 }
@@ -78,7 +95,6 @@ body {
   body {
     overflow-x: hidden;
   }
-
   #upload-form {
     margin-bottom: 5rem;
   }
@@ -94,4 +110,5 @@ body {
   #upload-form button {
     width: 80%;
   }
-}/*# sourceMappingURL=upload.css.map */
+}
+/*# sourceMappingURL=upload.css.map */
