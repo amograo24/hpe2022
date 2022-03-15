@@ -1004,6 +1004,26 @@ def StatesAPI(request):
         return JsonResponse(sm.get_districts(body['sn']), safe=False, content_type="json")
 
 
+# Covid related methods
+
+def covid(request):
+    return render(request, 'covid/covid_main.html')
+
+def covid_bed_status(request):
+    return render(request, 'covid/location_bed_status_map.html')
+
+def covid_immunity(request):
+    return render(request, 'covid/build_immunity.html')
+
+def covid_norms(request):
+    return render(request, 'covid/follow_norms.html')
+
+def covid_vaccinations(request):
+    return render(request, 'covid/vaccination_faq.html')
+
+def covid_mythbusters(request):
+    return render(request, 'covid/covid_mythbusters.html')
+
 def handle_Qr(request):
     if request.method == "POST":
         body = json.loads(request.body)
