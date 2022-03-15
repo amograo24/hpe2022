@@ -100,13 +100,13 @@
                         var notif_html = `
                     <li>You ${row.content} an Authorization Request from ${row.sender_name} (${row.sender}) on ${row.doc}</li>`
                     }
-                    $("#prev-msg").append(notif_html) // comment
+                    $("#prev-msg").append(notif_html) // comment 2
                 }
                 else
                 {
                     let notif_html = `
                     <div class="notif-item">
-                    <li>${row.sender} [${row.sender_name}] Sent A Letter of approval on  ${row.doc}</li>
+                    <li>${row.sender} [${row.sender_name}] an Authorization Request on  ${row.doc}</li>
                     <button onclick=approve(this) id='${row.sender}' class='${row.receiver} notification'>Approve</button>
                     <button onclick=reject(this) id='${row.sender}' class='${row.receiver} notification'>Reject</button>
                                 </div>`
