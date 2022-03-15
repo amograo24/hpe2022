@@ -1,0 +1,369 @@
+.empty {
+  color: #FFC107;
+}
+
+.home {
+  padding-bottom: 4rem;
+}
+
+.home__row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 3rem;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.home__row a {
+  height: 48px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.home__column {
+  width: 400px;
+  height: 48px;
+  background-color: #FFC107;
+  border-radius: 6px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.home__column:hover {
+  cursor: pointer;
+  background-color: #d39e00;
+}
+
+.home__link {
+  color: #141A26;
+  text-decoration: none;
+  height: 100%;
+  margin: 0;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.immunity__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.immunity__title {
+  text-align: center;
+  font-size: 2.5em;
+  margin-bottom: 3rem;
+  margin-top: 5rem;
+  font-family: 'IBM Plex Sans';
+  padding-left: 10%;
+  padding-right: 10%;
+  text-align: center;
+}
+
+.immunity__list {
+  margin-top: 1rem;
+}
+
+.immunity__list li {
+  margin-top: 2rem;
+}
+
+.immunity__list-heading {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.immunity__sublist {
+  margin-top: 0.5rem;
+  margin-bottom: 3rem;
+}
+
+#container {
+  margin-bottom: 3rem;
+}
+
+@media screen and (min-width: 768px) {
+  .immunity__content {
+    padding-left: 20%;
+    padding-right: 20%;
+    font-size: 1.2em;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .immunity__content {
+    padding-left: 30%;
+    padding-right: 30%;
+  }
+}
+
+.mythbusters {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 3rem;
+  padding-bottom: 4rem;
+}
+
+.mythbusters__container {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.mythbusters__myth {
+  margin-bottom: 2rem;
+  list-style: none;
+  color: #07ffff;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.mythbusters__fact {
+  margin-bottom: 3rem;
+  list-style: none;
+  font-size: 1.1em;
+}
+
+@media screen and (min-width: 768px) {
+  .mythbusters__container {
+    padding-left: 20%;
+    padding-right: 20%;
+    width: 100%;
+  }
+  .mythbusters__fact {
+    min-width: 100%;
+  }
+  .mythbusters__myth {
+    min-width: 100%;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .mythbusters__container {
+    padding-left: 30%;
+    padding-right: 30%;
+  }
+}
+
+.vaccinations {
+  padding-bottom: 4rem;
+}
+
+.vaccinations__container {
+  padding-left: 10%;
+  padding-right: 10%;
+  font-size: 1.2em;
+}
+
+.vaccinations__question {
+  list-style: none;
+  color: #07ffff;
+  margin-bottom: 2rem;
+  margin-top: 3rem;
+  font-weight: bold;
+}
+
+.vaccinations__answer {
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+  list-style: none;
+}
+
+@media screen and (min-width: 768px) {
+  .vaccinations__container {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .vaccinations__container {
+    padding-left: 30%;
+    padding-right: 30%;
+  }
+}
+
+.norms {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding-bottom: 4rem;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 2.5rem;
+}
+
+.norms__title {
+  text-align: center;
+  font-size: 2em;
+  font-family: 'IBM Plex Sans';
+}
+
+.norms__subtitle {
+  padding-left: 10%;
+  padding-right: 10%;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.norms__subheading {
+  font-weight: bold;
+  font-size: 1.5em;
+  text-align: center;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.norms__list {
+  padding-left: 10%;
+  padding-right: 10%;
+  font-size: 1.2em;
+}
+
+.norms__list li {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.norms__note {
+  padding-left: 10%;
+  padding-right: 10%;
+  margin-bottom: 2rem;
+  font-size: 1.2em;
+}
+
+.yt {
+  display: -ms-grid;
+  display: grid;
+  width: 100%;
+  -ms-grid-columns: (560px)[auto-fit];
+      grid-template-columns: repeat(auto-fit, 560px);
+  grid-row-gap: 3rem;
+  grid-column-gap: 2rem;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.yt iframe {
+  width: 560px;
+}
+
+@media screen and (min-width: 768px) {
+  .norms__subtitle {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+  .norms__subheading {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+  .norms__list {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+  .norms__note {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .norms__subtitle {
+    padding-left: 30%;
+    padding-right: 30%;
+  }
+  .norms__subheading {
+    padding-left: 30%;
+    padding-right: 30%;
+  }
+  .norms__list {
+    padding-left: 30%;
+    padding-right: 30%;
+  }
+  .norms__note {
+    padding-left: 30%;
+    padding-right: 30%;
+  }
+}
+
+body {
+  background-color: #141A26;
+  color: #FFC107;
+}
+
+body .title {
+  text-align: center;
+  font-size: 2.5em;
+  margin-bottom: 3rem;
+  margin-top: 5rem;
+  font-family: 'IBM Plex Sans';
+}
+/*# sourceMappingURL=main.css.map */

@@ -1,94 +1,70 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="description" content="Covid-19 Norms">
-        <title>Covid-19 Norms</title>
-        <link rel="icon" href="images/mycomlogofinal.png" type="image/png">
-        <link rel="stylesheet" href="heading.css">
-        <link rel="stylesheet" href="following_norms.css">
-        <meta name="viewpoint" content="width=device-width, initial scale=1.0">
-    </head>
-    <body style="background-color: aliceblue;">
-        <header>
-            <div style="text-align: center;">
-                <img width="250" src="images/OneCommunity.png" alt="One Community Logo">
-            </div>
-            <br><br><br>
-            <div class="row">
-                <div class="column">
-                    <a href="index.html"><img width="50" src="images/mt.png" alt="Menu Page"></a>
-                </div>
-                <div class="column">
-                    <a href="bed_status3.html"><img width="50" src="images/hbt.png" alt="Live Covid Bed Status"></a>
-                </div>
-                <div class="column">
-                    <a href="build_immunity.html"><img width="50" src="images/byit.png" alt="Build Immune System"></a>
-                </div>
-                <div class="column">
-                    <a href="covid_info.html"><img width="50" src="images/cit.png" alt="Covid-19 Info"></a>
-                </div>
-                <div class="column">
-                    <a href="covid_resources.html"><img width="50" src="images/rt.png" alt="Covid-19 Resources"></a>
-                </div>
-            </div>
-            <br>
-            <h1 style="text-align: center; font-family: ubuntu, 'Segoe UI', sans-serif;">Following These Norms?</h1>
-        </header>
-        <main>
-            <h2>Masking</h2>
-            <p>Masks should be used as part of measures to suppress transmission of COVID-19 <strong>however, 
-                the use of masks alone is insufficient to protect oneself against COVID-19.</strong>  The appropriate 
-                use, storage and disposal of masks is also essential.
-            </p>
-            <h3>How to Wear a Mask: </h3>
-            <ul>
-                <li>Make sure that your mask covers your nose, mouth and chin. Never use masks with valves.</li>
-                <li>Wash masks regularly and thoroughly if its a fabric/cloth mask and dispose medical masks.</li>
-                <li>Always wash your hands before wearing your mask.</li>
-            </ul>
-            <p><strong></strong>Doctors also recommend double masking - preferably using a fabric/cloth mask and a surgical mask 
-                to ensure better protection. If you can, it's also recommended to wear a face shield on top of your mask.</strong>
-            </p>
-            <h3>In addition to wearing masks, take simple precautions such as:</h3>
-            <ul>
-                <li>Social distancing and avoiding crowds.</li>
-                <li>Keeping rooms well ventilated.</li>
-                <li>Washing your hands with soap.</li>
-                <li>If meeting someone is necessary, then do it in an open space.</li>
-                <li>Make sure to wear a mask in the lift, since this is a common hotspot to spread the virus.</li>
-                <li>Try to use toothpicks to press buttons in common spaces.</li>
-            </ul>
-            <p><strong>Scientific experiments have shown that airborne transmission is possible and the virus can rise 
-                upto a height of 10ft. Thus, it is essential to stay in well-ventilated rooms/open spaces, avoid 
-                large crowds and closed spaces(lifts).</strong>
-            </p>
-            <h3>Basics of hygiene:</h3>
-            <ul>
-                <li>Avoid touching your eyes, mouth and nose frequently.</li>
-                <li>Clean and disinfect surfaces regularly especially those that are frequently touched.</li>
-                <li>Regularly clean your hands thoroughly with a sanitiser or with soap and water.</li>
-            </ul>
-            <h3>Steps to take when you are feeling unwell:</h3>
-            <ul>
-                <li>Self-isolate at home even if you are facing minor symptoms such as cough or fever. For a 
-                    list of symptoms, refer to <a href="covid_trivia.html" target="_blank">COVID-19 Trivia</a>. It is important to know the full range of 
-                    symptoms. In addition, keep up to date with the improvements in your condition.
-                </li>
-            </ul>
-            <h3>Helpful Videos:</h3>
-            <br>
-            <div class="yt">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/adB8RW4I3o4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/ciUniZGD4tY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/GEIYCvcOHLw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-        </main>
-        <footer>
-            <div style="text-align: center; font-family: ubuntu, 'Segoe UI', sans-serif; background-color: navy; color: white; padding: 0.2%;">
-                <p>By Amog Rao (Web Dev) and Yasasvat Vummidi (Content)</p>
-                <p>&copy; 2021 One Community</p>
-            </div>
-        </footer>
-    </body>
-</html>
+{% extends 'covid/layout.html' %}
+{% load static %}
+{% block styling %}
+<link href="{% static 'covid/scss/main.css' %}" rel="stylesheet" />
+{% endblock %}
+{% block body %}
+<h1 class="title">Following these Norms?</h1>
+<main class="norms">
+    <h2 class="norms__title">Masking</h2>
+    <p class="norms__subtitle">Masks should be used as part of measures to suppress transmission of COVID-19
+        <strong>however,
+            the use of masks alone is insufficient to protect oneself against COVID-19.</strong> The appropriate
+        use, storage and disposal of masks is also essential.
+    </p>
+    <h3 class="norms__subheading">How to Wear a Mask: </h3>
+    <ul class="norms__list">
+        <li>Make sure that your mask covers your nose, mouth and chin. Never use masks with valves.</li>
+        <li>Wash masks regularly and thoroughly if its a fabric/cloth mask and dispose medical masks.</li>
+        <li>Always wash your hands before wearing your mask.</li>
+    </ul>
+    <p class="norms__note"><strong></strong>Doctors also recommend double masking - preferably using a fabric/cloth mask
+        and a surgical mask
+        to ensure better protection. If you can, it's also recommended to wear a face shield on top of your
+        mask.</strong>
+    </p>
+    <h3 class="norms__subheading">In addition to wearing masks, take simple precautions such as:</h3>
+    <ul class="norms__list">
+        <li>Social distancing and avoiding crowds.</li>
+        <li>Keeping rooms well ventilated.</li>
+        <li>Washing your hands with soap.</li>
+        <li>If meeting someone is necessary, then do it in an open space.</li>
+        <li>Make sure to wear a mask in the lift, since this is a common hotspot to spread the virus.</li>
+        <li>Try to use toothpicks to press buttons in common spaces.</li>
+    </ul>
+    <p class="norms__note"><strong>Scientific experiments have shown that airborne transmission is possible and the
+            virus can rise
+            upto a height of 10ft. Thus, it is essential to stay in well-ventilated rooms/open spaces, avoid
+            large crowds and closed spaces(lifts).</strong>
+    </p>
+    <h3 class="norms__subheading">Basics of hygiene:</h3>
+    <ul class="norms__list">
+        <li>Avoid touching your eyes, mouth and nose frequently.</li>
+        <li>Clean and disinfect surfaces regularly especially those that are frequently touched.</li>
+        <li>Regularly clean your hands thoroughly with a sanitiser or with soap and water.</li>
+    </ul>
+    <h3 class="norms__subheading">Steps to take when you are feeling unwell:</h3>
+    <ul class="norms__list">
+        <li>Self-isolate at home even if you are facing minor symptoms such as cough or fever. It is important
+            to know the full range of
+            symptoms. In addition, keep up to date with the improvements in your condition.
+        </li>
+    </ul>
+    <h3 class="norms__subheading">Helpful Videos:</h3>
+    <br>
+    <div class="yt">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/adB8RW4I3o4" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/ciUniZGD4tY" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/GEIYCvcOHLw" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+    </div>
+</main>
+{% endblock %}

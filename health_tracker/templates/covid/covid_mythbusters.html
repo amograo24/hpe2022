@@ -1,76 +1,37 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="description" content="Covid-19 Mythbusters">
-        <title>Covid-19 Mythbusters</title>
-        <link rel="icon" href="images/mycomlogofinal.png" type="image/png">
-        <link rel="stylesheet" href="heading2.css">
-        <link rel="stylesheet" href="covid_mythbusters.css">
-        <meta name="viewpoint" content="width=device-width, initial scale=1.0">
-    </head>
-    <body style="background-color: rgb(211, 207, 207);">
-        <header>
-            <img width="250" src="images/OneCommunity.png" alt="One Community Logo">
-            <br><br><br>
-            <div class="row">
-                <div class="column">
-                    <a href="index.html"><img width="50" src="images/mt.png" alt="Menu Page"></a>
-                </div>
-                <div class="column">
-                    <a href="bed_status3.html"><img width="50" src="images/hbt.png" alt="Live Covid Bed Status"></a>
-                </div>
-                <div class="column">
-                    <a href="build_immunity.html"><img width="50" src="images/byit.png" alt="Build Immune System"></a>
-                </div>
-                <div class="column">
-                    <a href="covid_info.html"><img width="50" src="images/cit.png" alt="Covid-19 Info"></a>
-                </div>
-                <div class="column">
-                    <a href="follow_norms.html"><img width="50" src="images/fnt.png" alt="Following these Norms?"></a>
-                </div>
-                <div class="column">
-                    <a href="covid_resources.html"><img width="50" src="images/rt.png" alt="Covid-19 Resources"></a>
-                </div>
-            </div> 
-            <br>
-            <h1 style="text-align: center; font-family: ubuntu, 'Segoe UI', sans-serif;">Covid-19 Mythbusters</h1>
-            <br>
-        </header>
-        <main>
-            <article>
-
-                <section>
-                    <li class="myth">MYTH - Alcohol based sanitisers are unsafe and cannot be used often.</li>
-                    <li class="fact">FACT - Alcohol based sanitisers are safe for everyone to use and do not create any relevant health issues. These sanitisers can be used often as they don't pose any side-effects nor do they lead to antibiotic resistance.</li>
-                </section>
-                <section>
-                    <li>MYTH - Vitamins and mineral supplements(capsules) can cure COVID-19.</li>
-                    <li>FACT - Vitamins and mineral supplements cannot cure COVID-19. However, they can help boost your immunity.</li>
-                </section>
-                <section>
-                    <li>MYTH - One should always wear masks even during exercising.</li>
-                    <li>FACT - One should not wear a mask while exercising since it reduces air circulation and can lead to oxygen deficiency. Sweat makes the mask wet and it can become the site of microbial growth. </li>   
-                </section>
-                <section>
-                    <li>MYTH - Thermal scanners can be used to detect COVID-19.</li>
-                    <li>FACT - Thermal scanners cannot detect COVID-19 and can only detect temperature. It can be used to detect fevers. </li>
-                </section>
-                <section>
-                    <li>MYTH - A pneumonia vaccine is sufficient to prevent COVID-19 infection.</li>
-                    <li>FACT - Vaccines against pneumonia will not protect you against COVID-19 virus.</li>
-                </section>
-                <section>
-                    <li>MYTH - Antibiotics can be used to treat COVID-19 infections and symptoms.</li>
-                    <li>FACT - Antibiotics are not effective against COVID-19 virus. Antibiotics are only effective against bacterial infections. </li>
-
-            </article>
-        </main>
-        <footer>
-            <div style="text-align: center; font-family: ubuntu, 'Segoe UI', sans-serif; background-color: rgb(37, 2, 37); color: white; padding: 0.2%;">
-                <p>By Amog Rao (Web Dev) and Yasasvat Vummidi (Content)</p>
-                <p>&copy; 2021 One Community</p>
-            </div>
-        </footer>
-    </body>
-</html>
+{% extends 'covid/layout.html' %}
+{% load static %}
+{% block styling %}<link href="{% static 'covid/scss/main.css' %}" rel="stylesheet" />{% endblock %}
+{% block body %}
+    <main class="mythbusters">
+        <h1 class="title">Covid Mythbusters</h1>
+        <section class="mythbusters__container">
+            <li class="mythbusters__myth">MYTH - Alcohol based sanitisers are unsafe and cannot be used often.</li>
+            <li class="mythbusters__fact">FACT - Alcohol based sanitisers are safe for everyone to use and do not create any relevant health issues. These sanitisers can be used often as they don't pose any side-effects nor do they lead to antibiotic resistance.</li>
+            <hr/>
+        </section>
+        <section class="mythbusters__container">
+            <li class="mythbusters__myth">MYTH - Vitamins and mineral supplements(capsules) can cure COVID-19.</li>
+            <li class="mythbusters__fact">FACT - Vitamins and mineral supplements cannot cure COVID-19. However, they can help boost your immunity.</li>
+            <hr/>
+        </section>
+        <section class="mythbusters__container">
+            <li class="mythbusters__myth">MYTH - One should always wear masks even during exercising.</li>
+            <li class="mythbusters__fact">FACT - One should not wear a mask while exercising since it reduces air circulation and can lead to oxygen deficiency. Sweat makes the mask wet and it can become the site of microbial growth. </li>   
+            <hr/>
+        </section>
+        <section class="mythbusters__container">
+            <li class="mythbusters__myth">MYTH - Thermal scanners can be used to detect COVID-19.</li>
+            <li class="mythbusters__fact">FACT - Thermal scanners cannot detect COVID-19 and can only detect temperature. It can be used to detect fevers. </li>
+            <hr/>
+        </section>
+        <section class="mythbusters__container">
+            <li class="mythbusters__myth">MYTH - A pneumonia vaccine is sufficient to prevent COVID-19 infection.</li>
+            <li class="mythbusters__fact">FACT - Vaccines against pneumonia will not protect you against COVID-19 virus.</li>
+            <hr/>
+        </section>
+        <section class="mythbusters__container">
+            <li class="mythbusters__myth">MYTH - Antibiotics can be used to treat COVID-19 infections and symptoms.</li>
+            <li class="mythbusters__fact">FACT - Antibiotics are not effective against COVID-19 virus. Antibiotics are only effective against bacterial infections. </li>
+        </section>
+    </main>
+{% endblock %}
