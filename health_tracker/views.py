@@ -397,9 +397,15 @@ def index(request):
         user = User.objects.get(username=request.user)
         user_type = user.division.lower()
         image = None
+        health_status=None
         if user_type == 'nou':
             user = Patients.objects.get(person=user)
             image = return_qr_code(f"/visit/{request.user}")  # DOMAIN NAME TO BE ADDED
+            try:
+                health_status=HealthStatus.objects.get(patient=user)
+            except HealthStatus.DoesNotExist:
+                HealthStatus(patient=user).save()
+                health_status=HealthStatus.objects.get(patient=user)
         elif user_type in ['d/hcw/ms', 'i/sp', 'msh']:
             user = MedWorkerRep.objects.get(account=user)
 
@@ -408,6 +414,7 @@ def index(request):
             "user": user,
             "nou": user_type == 'nou',
             "non_nou": user_type in ['d/hcw/ms', 'i/sp', 'msh'],
+            "health_status":health_status
             # "file":'media/7977790201256379/Atomic_Physics.pdf'
         })
     else:
