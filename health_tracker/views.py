@@ -1,5 +1,4 @@
 import datetime
-from tempfile import TemporaryFile
 
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
@@ -8,7 +7,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .mvc import NotificationManager, StateManager
-from .utils import gen_unique_id, get_hcw_vid, return_qr_code, is_valid_file, sort_files, filter_files
+from .utils import gen_unique_id, get_hcw_vid, is_valid_file, sort_files, filter_files
 from .forms import RegisterForm, LoginForm, UploadDocForm, EditFileForm, GoPublicForm
 from .models import User, MedWorkerRep, Patients, Notification, Files, HealthStatus, HealthValue
 from django.forms import inlineformset_factory
@@ -405,7 +404,7 @@ def index(request):
         health_status=None
         if user_type == 'nou':
             user = Patients.objects.get(person=user)
-            image = return_qr_code(f"/visit/{request.user}")  # DOMAIN NAME TO BE ADDED
+            # image = return_qr_code(f"/visit/{request.user}")  # DOMAIN NAME TO BE ADDED
             try:
                 health_status=HealthStatus.objects.get(patient=user)
             except HealthStatus.DoesNotExist:
@@ -415,7 +414,6 @@ def index(request):
             user = MedWorkerRep.objects.get(account=user)
 
         return render(request, "health_tracker/myprofile.html", {
-            "image": image,
             "user": user,
             "nou": user_type == 'nou',
             "non_nou": user_type in ['d/hcw/ms', 'i/sp', 'msh'],

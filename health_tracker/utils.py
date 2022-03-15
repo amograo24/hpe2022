@@ -8,18 +8,6 @@ from PIL import Image
 from .models import User
 
 
-def return_qr_code(uid: str):
-    icon = Image.open("health_tracker/static/health_tracker/temo.jpg")
-    icon.thumbnail((128, 128), Image.ANTIALIAS)
-    qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_H, box_size=25)
-    qr.add_data(uid)
-    qr.make()
-    img = qr.make_image(fill_color="blue").convert('RGB')
-    pos = ((img.size[0] - icon.size[0])//2, (img.size[1] - icon.size[1])//2)
-    img.paste(icon, pos)
-
-
-
 def gen_unique_id(email: str, password: str) -> User:
     _len = 16
     digits = "0123456789"
@@ -34,7 +22,7 @@ def gen_unique_id(email: str, password: str) -> User:
     return user
 
 
-def get_hcw_vid(email:str, password: str, division: str):
+def get_hcw_vid(email: str, password: str, division: str):
     hcw_vid = uuid.uuid4()
     hcw_vid = str(hcw_vid)[:11]
     while User.objects.filter(username=hcw_vid):
@@ -46,6 +34,7 @@ def get_hcw_vid(email:str, password: str, division: str):
                                     division=division)
     user.save()
     return user
+
 
 def is_valid_file(file: str) -> bool:
     approved = ["docx", "pdf", "jpg", "jpeg", "png", "pptx", "ppt", "xlsx", "xls", "txt", "mp4", "avi", "mov", "mp3", "key"]
@@ -85,6 +74,7 @@ def sort_files(files: list, mode: str) -> list:
     elif mode == "az":
         fs = [f for f in files]
         return sorted(fs, key=lambda x: str(x))
+
 
 if __name__ == "__main__":
     print(str(uuid.uuid4())[:12])
