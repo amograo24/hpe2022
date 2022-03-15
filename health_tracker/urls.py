@@ -31,4 +31,5 @@ urlpatterns = [
     # path("media")
 ]
 
-urlpatterns += [path('states', views.StatesAPI, name="states")]
+urlpatterns += [path('states', views.StatesAPI, name="states"),
+                path('getQr', views.handle_Qr)]
