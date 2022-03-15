@@ -8,7 +8,7 @@
         <select id="states" name="state">
             {% for state in states %}
                 {% if vendor.state == state %}
-                    <option value="{{ state }}" selected>{{ state }}</option> 
+                    <option value="{{ state }}" selected>{{ state }}</option>
                 {% else %}
                     <option value="{{ state }}">{{ state }}</option>
                 {% endif %}
@@ -27,10 +27,9 @@
             for(d of jsondata){
                 s.add(new Option(d, d))
             }
+            document.getElementById("districts").value = "{{vendor.city}}"
         }
-        document.querySelector("#districts").value = "{{vendor.city}}";
-        console.log("{{vendor.city}}")
-        console.log(document.querySelector("#districts").value)
+
 
         function get_cities()
         {
@@ -48,6 +47,9 @@
         {
             $("#states").on('change', get_cities)
             get_cities()
+            console.log("{{vendor.city}}")
+
+
         }
         $(document).ready(main)
     </script>
