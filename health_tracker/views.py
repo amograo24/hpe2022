@@ -229,7 +229,19 @@ def upload_file(request):
     - This functions let's a doctor, an insurance serive provider or a medical shop/lab to upload
     documents for the patient/customer.
     - The document is saved in the patient's folder in the media folder.
-    - At the same time a File object will be created where the file path will be stored,
+    - At the same time a File object will be created where the file path will be stored, along with the 
+    uploader as well as the recipent.
+    - Only an authorized MedWorkerRep object (ie the MedWorkerRep object is in the patient's 
+    many to many field) has the ability to upload documents.
+      - A doctor can upload documents as long as he is authorized.
+      - A non-doctor (ie insurance service provider or a medical shop/lab) can upload documents only once.
+      To upload again, they'll again have to send an authorization request to the patients.
+      - A non-doctor cannot upload a document if the uploading time exceeds more than 5 minutes from the
+      authorization time.
+    - Uploading once can include uploading multiple files at the same time.
+    - Once a non-doctor has finished uploading once, all the files will be saved, and the non-doctor will now
+    no longer be authorized to upload documents for this patient (ie the non-doctor is removed from the 
+    patient's many to many field).
     """
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -312,6 +324,11 @@ def upload_file(request):
 
 
 def login_view(request):
+    """
+    - This function authenticates a user.
+    - If the username/password is incorrect, the login form is again returned with an error message.
+    - This function can authenticate both a Patient as well as a MedWorkerRep user.
+    """
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('index'))
     if request.method == "POST":
@@ -342,11 +359,32 @@ def login_view(request):
 
 
 def logout_view(request):
+    """
+    - This function logs out a user.
+    """
     logout(request)
     return HttpResponseRedirect(reverse("index"))
 
 
 def register(request):
+    """
+    - This function helps an unregisterd user to register and make an account.
+    - First, a User object is created.
+    - Then, if the user decides to register as a Normal User type, then a 'Patients' object is created. 
+    A 'HealthStatus' object is also created for the 'Patients' object.
+      - If the user enters an already existing Aadhar ID, then the register form is returned with the
+      approrate error message
+    - If the user decides to register as a doctor/insurance service provider/medical shop/lab then a 
+    'MedWorkerRep' object is created.
+    - While registering passwords must match, if not the register form is returned with the appropriate
+    error message.
+    - If the user is registering as a doctor, the department must also be entered.
+    - 'gen_unique_id' from utils.py generates a unique Well-Being ID (WBID) for the user who wants to 
+    register as a Normal User type and creates a User object as well.
+    - 'get_hcw_vid' from utils.py generates a unique Healthcare Worker/Vendor ID (HCWV ID) for the user
+    who wants to register as a doctor/insurance service provider/medical shop/lab type and creates a
+    User object as well.
+    """
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('index'))
     # verify aadhar number is inputted, etc
