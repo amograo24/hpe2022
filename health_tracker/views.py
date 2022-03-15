@@ -995,7 +995,7 @@ def handle_Qr(request):
         uid = body['uid']
         icon = Image.open("health_tracker/static/health_tracker/temo.jpg")
         icon.thumbnail((50, 50), Image.ANTIALIAS)
-        qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_H, box_size=15)
+        qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_H, box_size=10)
         qr.add_data(uid)
         qr.make()
         img = qr.make_image(fill_color="blue").convert('RGB')
