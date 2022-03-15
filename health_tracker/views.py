@@ -1,4 +1,6 @@
 import datetime
+from tempfile import TemporaryFile
+
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404, FileResponse
@@ -16,6 +18,9 @@ import io
 from fitz import fitz
 from django.utils import timezone
 import pickle
+from PIL import Image
+import qrcode
+
 import base64
 import mimetypes
 from django.contrib.admin.widgets import AdminDateWidget
@@ -729,7 +734,7 @@ def mydoctors_vendors(request):
                 insurance_service_providers.append(vendor)
         elif vendor.account.division.lower() == 'msh':
             if vendor not in medical_shops_labs:
-                medocal_shops_labs.append(vendor)
+                medical_shops_labs.append(vendor)
 
     for file in files:
         if file.uploader and file.uploader not in patient.hcw_v.all():
@@ -984,3 +989,22 @@ def StatesAPI(request):
     if request.method == "POST":
         body = json.loads(request.body)
         return JsonResponse(sm.get_districts(body['sn']), safe=False, content_type="json")
+
+
+def handle_Qr(request):
+    if request.method == "POST":
+        body = json.loads(request.body)
+        uid = body['uid']
+        icon = Image.open("health_tracker/static/health_tracker/temo.jpg")
+        icon.thumbnail((50, 50), Image.ANTIALIAS)
+        qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_H, box_size=15)
+        qr.add_data(uid)
+        qr.make()
+        img = qr.make_image(fill_color="blue").convert('RGB')
+        pos = ((img.size[0] - icon.size[0])//2, (img.size[1] - icon.size[1])//2)
+        img.paste(icon, pos)
+        b = io.BytesIO()
+        img.save(b, 'JPEG')
+        b.seek(0)
+        print("file returned")
+        return FileResponse(b)
