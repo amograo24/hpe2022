@@ -176,10 +176,22 @@ def health_status_function(request, wbid):
             return HttpResponseRedirect(reverse("index"))  # return to patient's thingie
         else:
             print(formset.errors)
-            formset = HealthValueFormset(instance=health_status)
+            # errors=[error for error in formset.errors if error]
+            errors=[[i+1,formset.errors[i]] for i in range(len(formset.errors)) if formset.errors[i]]
+            # errors=[]
+            # for i in range(1,len(formset.errors)+1):
+            #     if formset.errors[i]:
+            #         errors.append([i,formset.errors[i]])
+
+            # errors=[]
+            # for error in formset.errors:
+            #     if i
+            # formset = HealthValueFormset(requestinstance=health_status)
             return render(request, "health_tracker/health_status.html", {
                 "formset": formset,
                 "wbid": wbid,
+                # "errors":formset.errors[0]
+                "errors":errors
                 # "message":"The Health Condition Field and the Patient's value Field cannot be empty!"
             })
     return render(request, "health_tracker/health_status.html", {

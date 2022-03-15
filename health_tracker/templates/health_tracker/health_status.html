@@ -3,6 +3,10 @@
 {% block title %}Health Status | {{wbid}}{% endblock %}
 {% block styling %}<link href="{% static 'health_tracker/scss/health.css' %}" rel="stylesheet" />{% endblock %}
 {% block body %}
+    {% for error_list in errors %}
+        <h5>Health Condition {{error_list.0}}:</h5>
+        {{error_list.1}}
+    {% endfor %}
     <h1 class="title">Health Status of {{wbid}}</h1>
     {% if udne or nap or updater_not_auth %}
         <h3 class="empty">{{message}}</h3>
@@ -16,7 +20,7 @@
             {{ formset.non_form_errors }}
             <div class="forms">
             {% for form in formset %}
-                <div class="form-fields">    
+                <div class="form-fields">   
                     <!-- {{ form.hidden_fields }} -->
                     <div class="field-row">
                         {% for field in form %}
@@ -78,7 +82,7 @@
                             <div class="field">
                                 <label for="id_health_status-${id}-condition_category">Health Condition Category:</label>
                                 <select name="health_status-${id}-condition_category" id="id_health_status-${id}-condition_category">
-                                    <option value="" selected=""></option>
+                                    <option value="" selected="">----</option>
                                     <option value="SAFE">Safe</option>
                                     <option value="WARNING">Warning</option>
                                     <option value="DANGER">Danger</option>

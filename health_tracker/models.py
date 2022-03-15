@@ -97,7 +97,7 @@ class HealthStatus(models.Model):
 
 class HealthValue(models.Model):
     condition_category_choices=[
-        ('', ''),
+        ('', '----'),
         ('SAFE','Safe'),
         ('WARNING','Warning'),
         ('DANGER','Danger'),
