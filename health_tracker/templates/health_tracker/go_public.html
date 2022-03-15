@@ -28,7 +28,9 @@
                 s.add(new Option(d, d))
             }
         }
-
+        document.querySelector("#districts").value = "{{vendor.city}}";
+        console.log("{{vendor.city}}")
+        console.log(document.querySelector("#districts").value)
 
         function get_cities()
         {
