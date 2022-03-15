@@ -591,15 +591,6 @@ def notifications(request):
     else:
         return HttpResponse("Get Method Not Allowed")
 
-
-# TODO Test view - kushurox
-
-
-def test(request):
-    ctx = {"division": request.user.division, "my_id": request.user.username}
-    return render(request, "health_tracker/copy_stuff_from_here.html", context=ctx)
-
-
 def delete_file(request, wbid, name):
     print(wbid, name)
     print(request.body)
@@ -993,7 +984,7 @@ def handle_Qr(request):
     if request.method == "POST":
         body = json.loads(request.body)
         uid = body['uid']
-        icon = Image.open("health_tracker/static/health_tracker/temo.jpg")
+        icon = Image.open("health_tracker/static/health_tracker/imgs/temo.jpg")
         icon.thumbnail((50, 50), Image.ANTIALIAS)
         qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_H, box_size=15)
         qr.add_data(uid)
