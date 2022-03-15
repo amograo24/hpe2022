@@ -34,6 +34,16 @@ with open("states.pickle", "rb") as fp:
 
 
 def search(request):
+    """ 
+    - This function is to bring a list of files and list of associated people to the user.
+    - Associated people include people who are in the user's many to many field, as well as people
+    who have uploaded files/ are recipients for the files uploaded by the user.
+    - Since some fields in objects are nullable, we add them to the "checklist" only if their value
+    is not null.
+    - Then we check whether the search entry is a part of any of the parameters/items in the checklist.
+    - If the search entry is a part of an item in the checklist, we accordingly append the user in the
+    associated people list, and the file in the related files list.
+    """
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     search_entry = request.GET.get('q', '')
@@ -114,6 +124,14 @@ def search(request):
 
 
 def health_status_function(request, wbid):
+    """
+    - This function gives authorized doctors (ie the doctors who are in the patient's many to many field) to
+    add/change values of the patient's health conditions.
+    - This function sends a formset as a part of the context. THe formset is a list of all "Health Values" 
+    forms where the instance is the patient's Health Status.
+    - In case the formset is invalid, the formset is again returned with a list of errors, so that the 
+    doctor can fill the form correctly again.
+    """
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     updater = User.objects.get(username=request.user)
@@ -207,6 +225,12 @@ def health_status_function(request, wbid):
 
 
 def upload_file(request):
+    """
+    - This functions let's a doctor, an insurance serive provider or a medical shop/lab to upload
+    documents for the patient/customer.
+    - The document is saved in the patient's folder in the media folder.
+    - At the same time a File object
+    """
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     # elif request.user.is_authenticated:
