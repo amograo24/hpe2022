@@ -72,6 +72,11 @@
         border-bottom: 2px solid $secondary-color;
     }
 
+
+    &__logo{
+        margin-left: 1rem;
+    }
+
     &__btn{
         width: 15%;
         height: 40px;
@@ -89,7 +94,7 @@
     transform: translateY(0px);
 }
 
-@media screen and (min-width: 1207px) {
+@media screen and (min-width: 1252px) {
     .nav {
         flex-direction: row;
         &__burger {
@@ -103,8 +108,13 @@
             transform: translateY(0px);
             display: flex;
             align-items: center;
-            width: calc(100% - 98px);
+            width: calc(100% - 161.94px - 2rem);
         }
+
+        &__logo{
+            margin-left: 2rem;
+        }
+
         &__link-list {
             margin-bottom: 0;
             display: flex;
@@ -117,9 +127,6 @@
             a {
                 font-size: 1.2em;
             }
-        }
-        &__logo {
-            margin-left: 2rem;
         }
 
         &__search-form{
