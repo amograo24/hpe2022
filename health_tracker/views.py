@@ -459,6 +459,13 @@ def register(request):
 
 
 def index(request):
+    """
+    - If the user is authenticated then the "My Profile" page is rendered. This page acts as
+    a dashboard for the user providing all details such as Full name, email, etc.
+    - If the user is of a Normal User type (ie Patient type) then the Health Status object of
+    that user is also sent as context while return rendering the "myprofile.html" page.
+    - If the user is not logged in, then the "index.html" page is return rendered. 
+    """
     if request.user.is_authenticated:
         user = User.objects.get(username=request.user)
         user_type = user.division.lower()
@@ -497,7 +504,7 @@ def myfiles(request):
     user_type = user.division.lower()
     if user_type == 'nou':
         user = Patients.objects.get(person=user)
-        files = Files.objects.filter(recipent=user)[::-1]
+        files = Files.objects.filter(recipent=user)[::-1] # order by -date
 
     else:
         user = MedWorkerRep.objects.get(account=user)
@@ -1066,7 +1073,7 @@ def handle_Qr(request):
     if request.method == "POST":
         body = json.loads(request.body)
         uid = body['uid']
-        icon = Image.open("health_tracker/static/health_tracker/imgs/temo.jpg")
+        icon = Image.open("health_tracker/static/health_tracker/imgs/uhi_plus.png")
         icon.thumbnail((50, 50), Image.ANTIALIAS)
         qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_H, box_size=10)
         qr.add_data(uid)
