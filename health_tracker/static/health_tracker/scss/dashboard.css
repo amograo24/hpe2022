@@ -15,4 +15,120 @@ body {
   margin-bottom: 4rem;
   font-size: 2em;
 }
+
+.container {
+  width: 100vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  pointer-events: none;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.bg1, .bg2, .bg3 {
+  height: 100%;
+}
+
+.bg1 {
+  background-color: #ff3907;
+  width: 10%;
+}
+
+.bg2 {
+  background-color: #0fff07;
+  width: 50%;
+}
+
+.bg3 {
+  background-color: #ff3907;
+  width: 40%;
+}
+
+.dashboard__patient-personal {
+  text-align: center;
+  padding-bottom: 2rem;
+}
+
+.dashboard #qrcode-generated {
+  margin-top: 3rem;
+}
+
+.dashboard__health-stat {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}
+
+.dashboard__labels {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 80vw;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 0 auto;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 1rem;
+}
+
+.dashboard__category {
+  margin: 0 auto;
+  margin-top: 2rem;
+  width: 100%;
+  text-align: center;
+}
+
+.dashboard__health-item h4 {
+  font-size: 1.3em;
+  padding-left: 10vw;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.dashboard hr {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.dashboard .heading {
+  width: 100%;
+  text-align: center;
+  font-size: 2em;
+}
+
+.safe {
+  color: #0fff07;
+}
+
+.warning {
+  color: #ffcc00;
+}
+
+.danger {
+  color: #ff3907;
+}
+
+.bdl-safe {
+  color: #c4da05;
+}
+
+.bdl-danger {
+  color: #ff9307;
+}
+
+@media screen and (min-width: 768px) {
+  .slider {
+    width: 60% !important;
+  }
+  .dashboard__labels {
+    width: 60vw;
+  }
+}
 /*# sourceMappingURL=dashboard.css.map */
