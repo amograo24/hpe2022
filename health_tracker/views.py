@@ -1073,8 +1073,8 @@ def handle_Qr(request):
     if request.method == "POST":
         body = json.loads(request.body)
         uid = body['uid']
-        icon = Image.open("health_tracker/static/health_tracker/imgs/uhi_plus.png")
-        icon.thumbnail((50, 50), Image.ANTIALIAS)
+        icon = Image.open("health_tracker/static/health_tracker/imgs/uhiplusbg.png")
+        icon.thumbnail((120, 120), Image.ANTIALIAS)
         qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_H, box_size=10)
         qr.add_data(uid)
         qr.make()
