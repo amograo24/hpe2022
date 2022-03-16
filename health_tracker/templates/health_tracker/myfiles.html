@@ -40,7 +40,7 @@
       <h3 class="title">No files to display!</h3>
    {% else %}
       <h1 class="title">{% if user_type == 'nou' %} My Files {% else %} Files Uploaded by You: {% endif %}</h1>
-      <div id="files_container">
+      <div id="files_container" class="file_container active-files">
          {% for file in files %}
          <div class="file_card" title="{{file.file}}">
             {% csrf_token %}
@@ -108,7 +108,7 @@
          if (sort_div.style.display=="none") {
             sort_div.style.display="block";
             sort_div_button.innerHTML="Close Filter Box";
-            files_container.style.width="80%";
+            files_container.classList.toggle("active-files");
          } else {
             sort_div.style.display="none";
             sort_div_button.innerHTML="Open Filter Box";
@@ -117,6 +117,7 @@
             files_container.style["-webkit-box-pack"]='center';
             files_container.style["-ms-flex-pack"]='center';
             files_container.style["justify-content"]='center';
+            files_container.classList.toggle("active-files");
          }
       })
    </script>

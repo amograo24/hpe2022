@@ -9,6 +9,20 @@ body {
   padding-bottom: 4rem;
 }
 
+#sort-div-button {
+  width: 20%;
+  outline: none;
+  margin-top: 4rem;
+  margin-left: 4rem;
+  margin-bottom: 2rem;
+  border: 2px #FFC107 solid;
+  background-color: #FFC107;
+  color: #141A26;
+  height: 40px;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
 .title {
   text-align: center;
   font-family: 'IBM Plex Sans';
@@ -16,7 +30,7 @@ body {
   margin-bottom: 4rem;
 }
 
-#files_container {
+.file_container {
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: (300px)[auto-fit];
@@ -25,7 +39,9 @@ body {
   grid-column-gap: 4rem;
   -ms-flex-pack: distribute;
       justify-content: space-around;
-  width: 80%;
+  width: 90%;
+  padding-left: 5%;
+  padding-right: 5%;
   margin: 0 auto;
   list-style: none;
   margin-bottom: 4rem;
@@ -282,7 +298,7 @@ body {
 }
 
 @media screen and (max-width: 1950px) {
-  #files_container {
+  .active-files {
     -ms-flex-pack: distribute;
         justify-content: space-around;
     -webkit-box-align: center;
@@ -313,7 +329,7 @@ body {
 }
 
 @media screen and (max-width: 1760px) {
-  #files_container {
+  .active-files {
     -webkit-box-pack: start;
         -ms-flex-pack: start;
             justify-content: flex-start;
@@ -327,7 +343,7 @@ body {
 }
 
 @media screen and (max-width: 1676px) {
-  #files_container {
+  .active-files {
     -ms-flex-pack: distribute;
         justify-content: space-around;
     -webkit-box-align: center;
@@ -365,7 +381,7 @@ body {
 }
 
 @media screen and (max-width: 1450px) {
-  #files_container {
+  .active-files {
     -ms-flex-pack: distribute;
         justify-content: space-around;
     -webkit-box-align: center;
@@ -399,7 +415,7 @@ body {
 }
 
 @media screen and (max-width: 1180px) {
-  #files_container {
+  .active-files {
     -ms-flex-pack: distribute;
         justify-content: space-around;
     -webkit-box-align: center;
@@ -431,7 +447,7 @@ body {
   body {
     padding-bottom: 350px;
   }
-  #files_container {
+  .file_container {
     width: 100%;
     -webkit-box-pack: center;
         -ms-flex-pack: center;
@@ -444,6 +460,9 @@ body {
   .title {
     text-align: center;
     padding-left: 0;
+  }
+  #sort-div-button {
+    width: 40%;
   }
 }
 /*# sourceMappingURL=files.css.map */

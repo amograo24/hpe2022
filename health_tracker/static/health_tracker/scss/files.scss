@@ -7,6 +7,20 @@ body{
     padding-bottom: 4rem;
 }
 
+#sort-div-button{
+    width: 20%;
+    outline: none;
+    margin-top: 4rem;
+    margin-left: 4rem;
+    margin-bottom: 2rem;
+    border: 2px $secondary-color solid;
+    background-color: $secondary-color;
+    color: $background-color-dark;
+    height: 40px;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
 .title{
     text-align: center;
     font-family: 'IBM Plex Sans';
@@ -14,13 +28,15 @@ body{
     margin-bottom: 4rem;
 }
 
-#files_container{
+.file_container{
     display: grid;
     grid-template-columns: repeat(auto-fit, 300px);
     grid-row-gap: 2rem;
     grid-column-gap: 4rem;
     justify-content: space-around;
-    width: 80%;
+    width: 90%;
+    padding-left: 5%;
+    padding-right: 5%;
     margin: 0 auto;
     list-style: none;
     margin-bottom: 4rem;
@@ -247,7 +263,7 @@ body{
 }
 
 @media screen and (max-width: 1950px){
-    #files_container{
+    .active-files{
         justify-content: space-around;
         align-items: center;
         margin: 0 auto;
@@ -282,7 +298,7 @@ body{
 }
 
 @media screen and (max-width: 1760px){
-    #files_container{
+    .active-files{
         justify-content: flex-start;
         align-items: flex-start;
         width: 80%;
@@ -293,7 +309,7 @@ body{
 }
 
 @media screen and (max-width: 1676px){
-    #files_container{
+    .active-files{
         justify-content: space-around;
         align-items: center;
         grid-template-columns: repeat(auto-fit, 350px);
@@ -337,7 +353,7 @@ body{
 }
 
 @media screen and (max-width: 1450px){
-    #files_container{
+    .active-files{
         justify-content: space-around;
         align-items: center;
         grid-template-columns: repeat(auto-fit, 400px);
@@ -376,7 +392,7 @@ body{
 }
 
 @media screen and (max-width: 1180px){
-    #files_container{
+    .active-files{
         justify-content: space-around;
         align-items: center;
         margin: 0 auto;
@@ -407,7 +423,7 @@ body{
         padding-bottom: 350px;
     }
 
-    #files_container{
+    .file_container{
         width: 100%;
         justify-content: center;
         align-items: center;
@@ -417,5 +433,9 @@ body{
     .title{
         text-align: center;
         padding-left: 0;
+    }
+
+    #sort-div-button{
+        width: 40%;
     }
 }
