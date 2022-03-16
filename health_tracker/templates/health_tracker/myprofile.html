@@ -1,12 +1,17 @@
 {% extends "health_tracker/layout.html" %}
 {% load static %}
 {% block title %}Home{% endblock %}
-{% block styling %}<link href="{% static 'health_tracker/scss/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block styling %}
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>   
+    <link href="{% static 'health_tracker/scss/dashboard.css' %}" rel="stylesheet"> 
+{% endblock %}
 {% block body %}
     <main class="dashboard">
     <div>
         <div>
-            <h1 class="title">Health Tracker</h1>
+            <h1 class="title">Patient Details</h1>
         </div>
     </div> 
     {% if nou %}
@@ -41,21 +46,83 @@
                     </script>
                 </div>
             </div>
+            <hr/>
             <div class="dashboard__health-stat">
+                <h1 class="heading">Health Status</h1>
+                <hr/>
                 {% for health_value in health_status.health_status.all %}
-                    <h4>
-                        <div class="dashboard__progress-bar">
-                            <div class="dashboard__progress" width=""
+                    <div class="dashboard__health-item">
+                        <h4>
+                            {{health_value.health_condition}}
+                        </h4>
+                        <div class="container">
+                            <div 
+                                id="slider{{ forloop.counter }}" 
+                                class="slider" 
+                                data-pos="{{ forloop.counter }}"
+                                style="
+                                        display: flex; 
+                                        height: 25px;
+                                        width: 80vw;
+                                        margin: 0 auto;
+                                        border: 1px solid #FFC107;
+                                ">
+                                <div id="custom-handle{{ forloop.counter }}" class="ui-slider-handle" style="
+                                width: 3em;
+                                height: 40px;
+                                top: 50%;
+                                text-align: center;
+                                line-height: 40px;
+                                margin-top: -20px;
+                                z-index: 0;
+                                background-color: #FFC107;
+                                color: #141A26;
+                                border: 1px solid #FFC107;"></div>
+                                <div class="bg1" id="bg1{{forloop.counter}}""></div>
+                                <div class="bg2" id="bg2{{forloop.counter}}"></div>
+                                <div class="bg3" id="bg3{{forloop.counter}}"></div>
+                            </div>
                         </div>
-                        {{health_value.health_condition}}
-                        
-                        {{health_value.maximum_value}}
-                        {{health_value.minimum_value}}
-                        {{health_value.patient_value}}
-                    </h4>
-                    <h5>
-                        {{health_value.condition_category}}
-                    </h5>
+                        <div class="dashboard__labels container">
+                            {% if health_value.minimum_value != None %}
+                                <label id="mini{{forloop.counter}}">{{health_value.minimum_value}}</label>
+                            {% else %}
+                                <label hidden id="mini{{forloop.counter}}">{{health_value.minimum_value}}</label>
+                            {% endif %}
+                            {% if health_value.maximum_value != None %}
+                                <label id="maxi{{forloop.counter}}">{{health_value.maximum_value}}</label>
+                            {% else %}
+                                <label hidden id="maxi{{forloop.counter}}">{{health_value.maximum_value}}</label>
+                            {% endif %}
+                        </div>
+                        <label hidden id="patient{{forloop.counter}}">{{health_value.patient_value}}</label>
+                        {% if health_value.condition_category == "SAFE" %}
+                            <h5 class="safe dashboard__category">
+                                CONDITION: {{health_value.condition_category}}
+                            </h5>
+                        {% endif %}
+                        {% if health_value.condition_category == "WARNING" %}
+                            <h5 class="warning dashboard__category">
+                                CONDITION: {{health_value.condition_category}}
+                            </h5>
+                        {% endif %}
+                        {% if health_value.condition_category == "DANGER" %}
+                            <h5 class="danger dashboard__category">
+                                CONDITION: {{health_value.condition_category}}
+                            </h5>
+                        {% endif %}
+                        {% if health_value.condition_category == "BDL-SAFE" %}
+                            <h5 class="bdl-safe dashboard__category">
+                                CONDITION: {{health_value.condition_category}}
+                            </h5>
+                        {% endif %}
+                        {% if health_value.condition_category == "BDL-DANGER" %}
+                        <h5 class="bdl-danger dashboard__category">
+                            CONDITION: {{health_value.condition_category}}
+                        </h5>
+                    {% endif %}
+                    </div>
+                    <hr/>
                 {% endfor %}
             </div>
         </div>
@@ -96,4 +163,66 @@
     {% endif %}
 {% endblock %}
 {% block script %}
+<script>
+    $(function() {
+        let sliders = document.querySelectorAll(".slider");
+        for(let id = 1; id <= sliders.length; id++){
+            let mini = $(`#mini${id}`).html()
+            let maxi = $(`#maxi${id}`).html()
+            let patient = $(`#patient${id}`).html()
+            patient = parseFloat(patient)
+            let leftLimit, rightLimit;
+            if(mini == "None" && maxi == "None"){
+                mini = patient-(patient/2);
+                maxi = patient+(patient/2);
+                $(`#bg1${id}`).width(0)
+                $(`#bg2${id}`).width(`100%`)
+                $(`#bg2${id}`).css('background-color', '#1760BF')
+                $(`#bg3${id}`).width(0)
+            }
+            mini = parseFloat(mini)
+            maxi = parseFloat(maxi)
+            if(patient <= mini){
+                leftLimit = patient;
+                rightLimit = maxi;
+                let maxDiff = (maxi - patient);
+                let nonIdeal = ((mini-patient)/maxDiff)*100;
+                let ideal = ((maxi - mini)/maxDiff)*100;
+                $(`#bg1${id}`).width(`${nonIdeal}%`)
+                $(`#bg2${id}`).width(`${ideal}%`)
+                $(`#bg3${id}`).width(0)
+            }
+            if(patient >= maxi){
+                leftLimit = mini;
+                rightLimit = patient;
+                let maxDiff = (patient - mini);
+                let nonIdeal = ((patient - maxi)/maxDiff)*100;
+                let ideal = ((maxi - mini)/maxDiff)*100;
+                $(`#bg1${id}`).width(0)
+                $(`#bg2${id}`).width(`${ideal}%`)
+                $(`#bg3${id}`).width(`${nonIdeal}%`)
+            }
+            if(mini < patient && patient < maxi){
+                leftLimit = mini;
+                rightLimit = maxi;
+                let maxDiff = (maxi - mini);
+                let ideal = ((maxi - mini)/maxDiff)*100;
+                $(`#bg1${id}`).width(0)
+                $(`#bg2${id}`).width(`${ideal}%`)
+                $(`#bg3${id}`).width(0)
+            }
+            $(`#mini${id}`).html(leftLimit)
+            $(`#maxi${id}`).html(rightLimit)
+            var handle = $(`#custom-handle${id}`);
+            $(`#slider${id}` ).slider({
+                value: patient,
+                min:leftLimit,
+                max: rightLimit,
+                create: function() {
+                    handle.text( $(this).slider( "value" ) );
+                },
+            });
+        }
+    });
+</script>
 {% endblock script %}
