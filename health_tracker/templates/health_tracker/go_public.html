@@ -1,13 +1,24 @@
 {% extends "health_tracker/layout.html" %}
 {% load static %}
 {% block title %}Go Public{% endblock %}
+{% block styling %}
+<link rel="stylesheet" href="{% static 'health_tracker/scss/upload.css' %}">
+{% endblock %}
 {% block body %}
-    <form action="{% url 'go_public' %}" method="POST" >
+    {% if message %}
+        <h3 class="empty">{{message}}</h3>
+    {% endif %}
+    <div>
+        <div>
+            <h1 class="title">Go Public</h1>
+        </div>
+    </div> 
+    <form action="{% url 'go_public' %}" method="POST" id="upload-form">
         {% csrf_token %}
-        {{ form.address.label }}:
+        <label>{{ form.address.label }}:</label>
         {{ form.address }}
         <label for="states">State:</label>
-        <select id="states" name="state">
+        <select id="states" name="state" required>
             {% for state in states %}
                 {% if vendor.state == state %}
                     <option value="{{ state }}" selected>{{ state }}</option>
@@ -17,12 +28,13 @@
             {% endfor %}
         </select>
         <label for="districts">District:</label>
-        <select id="districts" name="district">
+        <select id="districts" name="district" required>
 
         </select>
-        {{ form.pincode.label }}:
+        <label>{{ form.pincode.label }}:</label>
         {{ form.pincode }}
-        <input type="submit" value="Go Public">
+        <!-- <input type="submit" value="Go Public"> -->
+        <button type="submit">Go Public</button>
     </form>
     <script>
         function change_districts(jsondata)

@@ -5,7 +5,11 @@
 {% block styling %}<link href="{% static 'health_tracker/scss/files.css' %}" rel="stylesheet">{% endblock %}
 
 {% block body %}
+   <!-- <div id="sort-div"> -->
+      <button id="sort-div-button">Close Filter Box</button>
+      <div id="sort-div">
       <form method="post" class="sort-filter-form">
+         <!-- <div id="sort-div"> -->
          {% csrf_token %}
          <div class="sort-filter-form__field">
             <label for="sort" class="sort-filter-form__label">Sort By</label>
@@ -29,7 +33,9 @@
             </select>
          </div>
          <button class="sort-filter-form__btn">Apply</button>
+         <!-- </div> -->
       </form>
+      </div>
    {% if not files %}
       <h3 class="title">No files to display!</h3>
    {% else %}
@@ -94,6 +100,26 @@
    <script src="{% static 'health_tracker/js/delete_file.js' %}"></script>
    <script src="{% static 'health_tracker/js/filepath_tostring.js' %}"></script>
    <script src="{% static 'health_tracker/js/image_preview.js' %}"></script>
+   <script>
+      let sort_div_button=document.querySelector("#sort-div-button")
+      let sort_div=document.querySelector("#sort-div")
+      let files_container=document.querySelector("#files_container")
+      sort_div_button.addEventListener("click", () => {
+         if (sort_div.style.display=="none") {
+            sort_div.style.display="block";
+            sort_div_button.innerHTML="Close Filter Box";
+            files_container.style.width="80%";
+         } else {
+            sort_div.style.display="none";
+            sort_div_button.innerHTML="Open Filter Box";
+            files_container.style.width="90%";
+            // Avaneesh Check here
+            files_container.style["-webkit-box-pack"]='center';
+            files_container.style["-ms-flex-pack"]='center';
+            files_container.style["justify-content"]='center';
+         }
+      })
+   </script>
    <!-- <script>
          // document.addEventListener('DOMContentLoaded',FilePathToString);
          let file_name_class = document.querySelectorAll('.file_name_class')

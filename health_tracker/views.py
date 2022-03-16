@@ -912,6 +912,13 @@ def go_public(request):
 
         form = GoPublicForm(request.POST)
         if form.is_valid():
+            if not request.POST['district'] or not request.POST['state']:
+                return render(request,"health_tracker/go_public.html",{
+                    "message":"All fields are required!",
+                    "form": form,
+                    "vendor": vendor,
+                    "states": sm.get_states()
+                })
             vendor.address = form.cleaned_data['address']
             vendor.city = request.POST['district']
             vendor.state = request.POST['state']
