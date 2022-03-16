@@ -1033,7 +1033,7 @@ def handle_Qr(request):
         qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_H, box_size=10)
         qr.add_data(uid)
         qr.make()
-        img = qr.make_image(fill_color="blue").convert('RGB')
+        img = qr.make_image(fill_color="#FFC107", back_color="#141A26").convert('RGB')
         pos = ((img.size[0] - icon.size[0])//2, (img.size[1] - icon.size[1])//2)
         img.paste(icon, pos)
         b = io.BytesIO()

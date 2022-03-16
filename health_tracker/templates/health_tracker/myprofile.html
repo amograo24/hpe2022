@@ -3,9 +3,10 @@
 {% block title %}Home{% endblock %}
 {% block styling %}<link href="{% static 'health_tracker/scss/dashboard.css' %}" rel="stylesheet">{% endblock %}
 {% block body %}
+
     <div>
         <div>
-            <h3 class="title">Health Tracker</h3>
+            <h3 class="title" width="290">Health Tracker</h3>
         </div>
     </div> 
         {% if nou %}
@@ -17,7 +18,7 @@
             <div  id="qrcode-generated">
                 {% csrf_token %}
                 <!--    this tag will generate the qrcode, the qrcode will be sent from the backend after it's generation-->
-                    <img src="" alt="Invalid Image" id="qr-image">
+                    <img src="" alt="Invalid Image" id="qr-image" width="200px">
                 <script>
 
                     function set_image(blobResponse)
