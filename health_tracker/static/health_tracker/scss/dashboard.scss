@@ -15,11 +15,18 @@ body{
 }
 
 .container { 
+    padding: 0;
     width: 100vw;
     display: flex;
     pointer-events: none;
     align-items: center;
+    margin-top:1rem;
     justify-content: center;
+}
+
+.container1{
+    margin-top: 0;
+    margin-bottom: 1rem;
 }
 
 .bg1, .bg2, .bg3 { 
@@ -39,9 +46,37 @@ body{
 }
 
 .dashboard{
+
+    &__patient{
+        margin-bottom: 4rem;
+    }
+    
     &__patient-personal{
         text-align: center;
         padding-bottom: 2rem;
+        padding-left: 5rem;
+        padding-right: 5rem;
+
+        button{
+            width: 80%;
+            height: 40px;
+            font-size: 1.1em;
+            background-color: $secondary-color;
+            color: $background-color-dark;
+            border: none;
+            outline: none;
+            margin-top: 2rem;
+            border-radius: 6px;
+
+            &:hover{
+                background-color: darken($secondary-color, 10%);
+            }
+        }
+
+        h3{
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
     }
 
     #qrcode-generated{
@@ -55,11 +90,20 @@ body{
 
     &__labels{
         display: flex;
-        width: 80vw;
         justify-content: space-between;
-        margin: 0 auto;
         align-items: center;
-        margin-top: 1rem;
+    }
+
+    &__health-container{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, 350px);
+        grid-row-gap: 5rem;
+        grid-column-gap: 4rem;
+        justify-content: space-around;
+        width: 90%;
+        margin: 0 auto;
+        list-style: none;
+        margin-top: 4rem;
     }
 
     &__category{
@@ -70,12 +114,21 @@ body{
     }
 
     &__health-item{
+        width: 350px;
+        
         h4{
             font-size: 1.3em;
-            padding-left: 10vw;
             width: 100%;
-            margin-bottom:2rem;
+            margin-bottom: 2.5rem;
         }
+    }
+
+    .container{
+        width: 350px;
+    }
+
+    .slider{
+        width: 350px;
     }
 
     hr{
@@ -110,14 +163,57 @@ body{
     color: #ff9307;
 }
 
-@media screen and (min-width: 768px) {
-    .slider{
-        width: 60% !important;
+
+@media screen and (min-width: 780px) {
+
+    .dashboard{
+        &__patient-personal{
+            text-align: left;
+            button{
+                width: 100%;
+            }
+        }
+    }
+    
+    hr{
+        display: none;
     }
 
     .dashboard{
-        &__labels{
-            width: 60vw;
+
+        &__patient-personal{
+            width: 80vw;
+            margin: 0 auto;
+            border: 2px solid $secondary-color;
+            border-radius: 6px;
+            margin-top: 2rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: space-around;
+            align-items: center;
+            h3{
+                width: 100%;
+            }
+        }
+        #qrcode-generated{
+            margin-top: 0;
+        }
+    }
+}
+
+@media screen and (min-width: 1300px) {
+    .dashboard{
+        &__patient-personal{
+            width: 60vw !important;
+        }
+    }
+}
+
+@media screen and (min-width: 1900px) {
+    .dashboard{
+        &__patient-personal{
+            width: 50vw !important;
         }
     }
 }

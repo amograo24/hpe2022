@@ -3,9 +3,66 @@
 {% block title %}Home{% endblock %}
 {% block styling %}<link href="{% static 'health_tracker/scss/dashboard.css' %}" rel="stylesheet">{% endblock %}
 {% block body %}
-    <h3>{% if vendor.account.division.lower == 'd/hcw/ms' %} Full Name: {% else %} Company Name: {% endif %} {{vendor.full_com_name}}</h3>
-    <h3>Email: {{vendor.account.email}}</h3>
-    <h3>Health Care Worker/Vendor ID: {{vendor.account.username}}</h3>
-    <h3>Registration No./License No.: {{vendor.reg_no}}</h3>
-    {% if vendor.account.division.lower == 'd/hcw/ms' %}<h3>Department: {{vendor.department}}</h3>{% endif %}
+    <h1 class="title">Doctor's Profile</h1>
+    <div class="dashboard__patient">
+        <div class="dashboard__patient-personal">
+            <div class="dashboard__patient-text" style="padding-left: 2rem;">
+                <h3>
+                    {% if vendor.account.division.lower == 'd/hcw/ms' %} 
+                        Full Name: 
+                    {% else %} 
+                        Company Name: 
+                    {% endif %} 
+                        {{vendor.full_com_name}}
+                </h3>
+                <h3>
+                    Email: {{vendor.account.email}}
+                </h3>
+                <h3>
+                    Health Care Worker/Vendor ID: {{vendor.account.username}}
+                </h3>
+                <h3>Registration No./License No.: {{vendor.reg_no}}</h3>
+                {% if vendor.account.division.lower == 'd/hcw/ms' %}
+                    <h3>
+                        Department: {{vendor.department}}
+                    </h3>
+                {% endif %}
+                <h3>
+                    Address: {{vendor.address}}
+                </h3>
+                <h3>
+                    City: {{vendor.city}}
+                </h3>
+                <h3>
+                    State: {{vendor.state}}
+                </h3>
+                <h3>
+                    Pincode: {{vendor.pincode}}
+                </h3>
+            </div>
+            <div  id="qrcode-generated">
+                {% csrf_token %}
+                <!--    this tag will generate the qrcode, the qrcode will be sent from the backend after it's generation-->
+                <img src="" alt="Invalid Image" id="qr-image" width="200px">
+                <script>
+                    function set_image(blobResponse)
+                    {
+                        const imageObjectURL = URL.createObjectURL(blobResponse)
+                        document.getElementById("qr-image").src = imageObjectURL;
+                    }
+
+                    function get_qr()
+                    {
+                    let token = $("input[name='csrfmiddlewaretoken']").val()
+                    let url = "/getQr"
+                    let header = {'X-CSRFToken': token}
+                    let request = fetch(url, {method: "POST", headers: header, body: JSON.stringify({uid: "/visit/{{ vendor.account.username }}"})})
+                    request.then(resp => resp.blob())
+                    .then(set_image)
+                    }
+                    $(document).ready(get_qr)
+                </script>
+            </div>
+        </div>
+    </div>
 {% endblock %}

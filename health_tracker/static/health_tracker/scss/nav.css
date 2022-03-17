@@ -126,7 +126,7 @@
           transform: translateY(0px);
 }
 
-@media screen and (min-width: 1252px) {
+@media screen and (min-width: 1300px) {
   .nav {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
@@ -138,6 +138,7 @@
   }
   .nav__title-bar {
     padding-right: 0;
+    max-width: 193.94px;
   }
   .nav__link-list-div {
     max-height: 335px;
@@ -149,7 +150,7 @@
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
-    width: calc(100% - 161.94px - 2rem);
+    width: calc(100% - 193.94px);
   }
   .nav__logo {
     margin-left: 2rem;

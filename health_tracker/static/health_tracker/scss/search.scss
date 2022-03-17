@@ -198,6 +198,10 @@ body{
         padding-right: 1rem;
     }
 
+    .modal-filename, .modal-patientname{
+        word-break: break-all;
+    }
+
     p:last-child{
         font-weight: bold;
         font-size: 1.1em;
