@@ -18,7 +18,6 @@ body{
     padding: 0;
     width: 100vw;
     display: flex;
-    pointer-events: none;
     align-items: center;
     margin-top:1rem;
     justify-content: center;
@@ -115,6 +114,7 @@ body{
 
     &__health-item{
         width: 350px;
+        margin: 0 auto;
         
         h4{
             font-size: 1.3em;
@@ -202,10 +202,63 @@ body{
     }
 }
 
+.search_public{
+
+    &__title{
+        margin-top: 4rem;
+        margin-bottom: 3rem;
+        font-size: 2em;
+        text-align: center;
+    }
+
+    &__form{
+        width: 80%;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__field{
+        width: 80%;
+        border:none;
+        outline: none;
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px;
+        border-bottom: 2px solid $secondary-color;
+        height: 40px;
+        font-size: 1.1em;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    &__btn{
+        width: 20%;
+        height: 40px;
+        background-color: $secondary-color;    
+        color: $background-color-dark;
+        transition: all ease-in-out 500ms;
+        border: none;
+        outline: none;
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+
+        &:hover{
+            background-color: darken($secondary-color, 10%);
+        }
+    }
+}
+
 @media screen and (min-width: 1300px) {
     .dashboard{
         &__patient-personal{
             width: 60vw !important;
+        }
+    }
+
+    .search_public{
+        &__form{
+            width: 60%;
         }
     }
 }
@@ -214,6 +267,12 @@ body{
     .dashboard{
         &__patient-personal{
             width: 50vw !important;
+        }
+    }
+
+    .search_public{
+        &__form{
+            width: 50%;
         }
     }
 }

@@ -49,6 +49,13 @@
                 </div>
             </div>
             <hr/>
+            <section class="search_public">
+                <h3 class="search_public__title">Search for Public Doctors</h3>
+                <form class="search_public__form" action="{% url 'search_public' %}">
+                    <input class="search_public__field" type="text" name="q"/>
+                    <button class="search_public__btn" type="submit">Submit</button>
+                </form>
+            </section> 
             <div class="dashboard__health-stat">
                 <h1 class="heading">Health Status</h1>
                 <hr/>
@@ -73,7 +80,7 @@
                                             margin: 0 auto;
                                             border: 1px solid #FFC107;
                                     ">
-                                    <div id="custom-handle{{ forloop.counter }}" class="ui-slider-handle" style="
+                                    <div id="custom-handle{{ forloop.counter }}" class="ui-slider-handle" title="{{health_value.patient_value}}" style="
                                     width: 3em;
                                     height: 40px;
                                     top: 50%;
