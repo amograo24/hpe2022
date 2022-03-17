@@ -486,6 +486,15 @@ def index(request):
 
 
 def myfiles(request):
+    """
+    - This function returns a list of files.
+    - If the user is of a Normal User/Patient type, then the files where this user is a 
+    recipient is passed as context when returning the 'myfiles.html' page.
+    - If the user is a MedWorkerRep type, then the files that his user has uploaded 
+    is passed as context when returning the 'myfiles.html' page
+    - The user has an option to sort/filter the type of files on 'myfiles.html'. Accordingly, the
+    files are sorted and filtered and are sent as context while reurning 'myfiles.html'.
+    """
     print(request.POST)
     sort_method = request.POST.get('sort') or "def"
     filter_method = request.POST.get("filter") or "def"
@@ -496,11 +505,11 @@ def myfiles(request):
     user_type = user.division.lower()
     if user_type == 'nou':
         user = Patients.objects.get(person=user)
-        files = Files.objects.filter(recipent=user)[::-1] # order by -date
+        files = Files.objects.filter(recipent=user).order_by('-date') # order by -date
 
     else:
         user = MedWorkerRep.objects.get(account=user)
-        files = Files.objects.filter(uploader=user)[::-1]
+        files = Files.objects.filter(uploader=user).order_by('-date')
 
     files = filter_files(files, filter_method)
     files = sort_files(files, sort_method)
@@ -511,6 +520,23 @@ def myfiles(request):
 
 
 def other_profile(request, id):
+    """
+    - This function returns a list of files, a health status, and user details based on who is 
+    trying to view another user's profile and whose profile is being viewed.
+
+    - A 'MedWorkerRep' can view a 'Patient' only if the MedWorkerRep is in the 
+    patient's many to many field or if the the MedWorkerRep has uploaded documents for the patient.
+    - If the MedWorkerRep is not of doctor type then only the files uploaded by the MedWorkerRep where 
+    the patient is a recipient will be visible.
+    - An authorized doctor (ie a MedWorkerRep whose type is doctor and is in the many to many field
+    of the patient) will also have access to view the HealthStatus of the patient. Apart from this, the
+    authorized doctor will have access to all of the patient's files.
+    
+    - A 'Patient' can view a 'MedWorkerRep' only if the MedWorkerRep is in the patient's many to many
+    field or if the MedWorkerRep has uploaded documents where the recipient is the patient. The patient 
+    will be able to view only the files uploaded by this MedWorkerRep where the recipent is the patient 
+    along with the MedWorkerRep's details.
+    """
     if request.user.is_authenticated:
         if request.user == id:
             return HttpResponseRedirect(reverse("index"))
@@ -651,6 +677,11 @@ def notifications(request):
         return HttpResponse("Get Method Not Allowed")
 
 def delete_file(request, wbid, name):
+    """
+    - This function let's a MedWorkerRep delete a file only if the MedWorkerRep has uploaded the file.
+    - A 'Patient' does not have access to delete files. A MedWorkerRep cannot delete files
+    uploaded by another MedWorkerRep.
+    """
     print(wbid, name)
     print(request.body)
     if not request.user.is_authenticated:
@@ -678,17 +709,18 @@ def delete_file(request, wbid, name):
         else:
             # return JsonResponse({'status':"Forgery"})
             return HttpResponse('<h1>Forgery! You can only delete the files you have uploaded!</h1>')
-    # lecturer=User.objects.get(username=lecturer)
-    # course_filter=Course.objects.filter(creator=lecturer)
-    # course=course_filter.get(course_name=course)
-    # if request.method=="POST":
-    #     data = json.loads(request.body)
-    #     if data['to_delete']=="yes":
-    #         course.delete()
-    #         return JsonResponse({'status':200})
 
 
 def file_page(request, wbid, name):
+    """
+    - This function let's a patient/MedWorkerRep view a file.
+    - An authorized doctor (ie a MedWorkerRep whose type is doctor and is in the many to many field
+    of the patient) can view the file only if the doctor is in the many to many field of 
+    the patient with the wbid in the url.
+    - A MedWorkerRep of non doctor type can view the file only if the file has been uploaded by the
+    MedWorkerRep trying to view the file.
+    - A Patient can view the file only if the file recipient is this patient.
+    """
     # check if the wbid exists
     # check if the viewer if authorised to view
     # check if file exists
@@ -765,6 +797,17 @@ def notification_page(request):
 
 
 def mydoctors_vendors(request):
+    """
+    - This function returns multiple lists of MedWorkerReps affiliated to the patient.
+    - Authorized Doctors are MedWorkerRep users of doctor type that are in the patient's many to many field.
+    - Other Doctors are MedWorkerRep users of doctor type that are not in the patient's many to many field, 
+    but have uploaded documents where this patient is the recipient.
+    - Insurance/Service Providers and Medical Shops/Labs that have uploaded files where the recipient is 
+    the patinet are also added in the respective lists.
+    - The above 4 lists are passed as context and are sorted based on the Full Name/Company Name of 
+    the MedWorkerRep.
+    - If a MedWorkerRep tries to visit this URL, the MedWorkerRep will be redirected to "mypatients_customers".
+    """
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     user = User.objects.get(username=request.user)
@@ -807,6 +850,12 @@ def mydoctors_vendors(request):
 
 
 def mypatients_customers(request):
+    """
+    - This function returns a list of Patients associated to the MedWorkerRep.
+    - Patients that are the recipients of the files uploaded by the MedWorkerRep, or Patients
+    where the MedWorkerRep is in the many to many field of are added to the list.
+    - A Patient who tries to visit this URL will be redirected to "mydoctors_vendors".
+    """
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     user = User.objects.get(username=request.user)
@@ -829,6 +878,11 @@ def mypatients_customers(request):
 
 
 def edit_file(request, wbid, file_name):
+    """
+    - This function returns a form as context with pre-filled details regarding a file giving a 
+    MedWorkerRep the ability to edit file details such as tags, uploader name, and file type.
+    - Only the MedWorkerRep who has uploaded the file has the ability to edit the file details.
+    """
     ##############################################
     if not request.user.is_authenticated:  # if user not authenticated
         return HttpResponseRedirect(reverse("login"))
@@ -893,6 +947,11 @@ def edit_file(request, wbid, file_name):
 
 
 def go_public(request):
+    """
+    - This function provides a form for a MedWorkRep who is willing to make the profile public.
+    - Upon successfully filling this form, the MedWorkerRep's profile will be made public for other 
+    users to search this MedWorkerRep up, giving users essential information on finding MedWorkerReps
+    """
     global sm
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
