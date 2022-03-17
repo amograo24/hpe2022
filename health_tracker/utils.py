@@ -37,15 +37,15 @@ def get_hcw_vid(email: str, password: str, division: str):
 
 
 def is_valid_file(file: str) -> bool:
-    approved = ["docx", "pdf", "jpg", "jpeg", "png", "pptx", "ppt", "xlsx", "xls", "txt", "mp4", "avi", "mov", "mp3", "key"]
+    approved = ["docx", "pdf", "jpg", "jpeg", "png", "pptx", "ppt", "xlsx", "xls", "txt", "mp4", "avi", "mov", "mp3",
+                "key"]
     file = str(file)
 
-    if "." not in file:
-        print(file)
+    if "." not in file:  # checks if it has an extension
         return False
 
     f_ext = file[file.rfind(".")+1:]
-    if f_ext not in approved:
+    if f_ext not in approved:  # checks if it has a valid extension
         return False
 
     return True

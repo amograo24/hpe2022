@@ -238,14 +238,12 @@ def upload_file(request):
     """
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
-    # elif request.user.is_authenticated:
     uploader = User.objects.get(username=request.user)
     uploader_type = uploader.division.lower()
     if uploader_type not in ['d/hcw/ms', 'i/sp', 'msh']:
         return HttpResponseRedirect(reverse("index"))
     ctx = {}
     if request.method == "POST":
-        # uploaded_file=request.FILES.get('document')
         form = UploadDocForm(request.POST)
         files = request.FILES.getlist('file_field')
         if form.is_valid() and files:
@@ -254,7 +252,7 @@ def upload_file(request):
 
             for file in files:
                 if not is_valid_file(file):
-                    files.remove(file)
+                    files.remove(file)  # removes the file if not valid.
                     print(file)
             try:
                 patient = Patients.objects.get(wbid=patient)
@@ -329,7 +327,6 @@ def login_view(request):
             # Attempt to sign user in
             username = form.cleaned_data["username"]
             password = form.cleaned_data["password"]
-            # code=request.POST['code']
             user = authenticate(request, username=username, password=password)
 
             # Check if authentication successful
@@ -379,16 +376,12 @@ def register(request):
     """
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('index'))
-    # verify aadhar number is inputted, etc
+    # verify Aadhaar number is inputted, etc
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
-            # username=form.cleaned_data['username']
             full_name = form.cleaned_data['full_name']
-            # first_name=form.cleaned_data['first_name']
-            # last_name=form.cleaned_data['last_name']
             email = form.cleaned_data['email']
-            # dob=form.cleaned_data['dob']
             password = form.cleaned_data['password']
             confirm_password = form.cleaned_data['confirm_password']
             division = form.cleaned_data['division']
@@ -488,9 +481,9 @@ def index(request):
 def myfiles(request):
     """
     - This function returns a list of files.
-    - If the user is of a Normal User/Patient type, then the files where this user is a 
+    - If the user is of a Normal User/Patient type, then the files where this user is a
     recipient is passed as context when returning the 'myfiles.html' page.
-    - If the user is a MedWorkerRep type, then the files that his user has uploaded 
+    - If the user is a MedWorkerRep type, then the files that his user has uploaded
     is passed as context when returning the 'myfiles.html' page
     - The user has an option to sort/filter the type of files on 'myfiles.html'. Accordingly, the
     files are sorted and filtered and are sent as context while reurning 'myfiles.html'.
@@ -505,7 +498,7 @@ def myfiles(request):
     user_type = user.division.lower()
     if user_type == 'nou':
         user = Patients.objects.get(person=user)
-        files = Files.objects.filter(recipent=user).order_by('-date') # order by -date
+        files = Files.objects.filter(recipent=user).order_by('-date')  # order by -date
 
     else:
         user = MedWorkerRep.objects.get(account=user)
@@ -521,20 +514,20 @@ def myfiles(request):
 
 def other_profile(request, id):
     """
-    - This function returns a list of files, a health status, and user details based on who is 
+    - This function returns a list of files, a health status, and user details based on who is
     trying to view another user's profile and whose profile is being viewed.
 
-    - A 'MedWorkerRep' can view a 'Patient' only if the MedWorkerRep is in the 
+    - A 'MedWorkerRep' can view a 'Patient' only if the MedWorkerRep is in the
     patient's many to many field or if the the MedWorkerRep has uploaded documents for the patient.
-    - If the MedWorkerRep is not of doctor type then only the files uploaded by the MedWorkerRep where 
+    - If the MedWorkerRep is not of doctor type then only the files uploaded by the MedWorkerRep where
     the patient is a recipient will be visible.
     - An authorized doctor (ie a MedWorkerRep whose type is doctor and is in the many to many field
     of the patient) will also have access to view the HealthStatus of the patient. Apart from this, the
     authorized doctor will have access to all of the patient's files.
-    
+
     - A 'Patient' can view a 'MedWorkerRep' only if the MedWorkerRep is in the patient's many to many
-    field or if the MedWorkerRep has uploaded documents where the recipient is the patient. The patient 
-    will be able to view only the files uploaded by this MedWorkerRep where the recipent is the patient 
+    field or if the MedWorkerRep has uploaded documents where the recipient is the patient. The patient
+    will be able to view only the files uploaded by this MedWorkerRep where the recipent is the patient
     along with the MedWorkerRep's details.
     """
     if request.user.is_authenticated:
@@ -715,7 +708,7 @@ def file_page(request, wbid, name):
     """
     - This function let's a patient/MedWorkerRep view a file.
     - An authorized doctor (ie a MedWorkerRep whose type is doctor and is in the many to many field
-    of the patient) can view the file only if the doctor is in the many to many field of 
+    of the patient) can view the file only if the doctor is in the many to many field of
     the patient with the wbid in the url.
     - A MedWorkerRep of non doctor type can view the file only if the file has been uploaded by the
     MedWorkerRep trying to view the file.
@@ -745,8 +738,6 @@ def file_page(request, wbid, name):
         if not os.path.exists(f'media/{wbid}/{name}'):
             raise Http404(f"'{name}' doesn't exist!")
     else:
-        # Major Security Risk: Since the temporary user is a part of profile.hcw_v.all() he can view stuff. Also if
-        # he ain't in the thing, but he is the one who uploaded the doc, he should be able to see
         if viewer.division.lower() in ['d/hcw/ms', 'i/sp', 'msh']:
             vendor = MedWorkerRep.objects.get(account=viewer)
             if vendor in profile.hcw_v.all():
@@ -800,11 +791,11 @@ def mydoctors_vendors(request):
     """
     - This function returns multiple lists of MedWorkerReps affiliated to the patient.
     - Authorized Doctors are MedWorkerRep users of doctor type that are in the patient's many to many field.
-    - Other Doctors are MedWorkerRep users of doctor type that are not in the patient's many to many field, 
+    - Other Doctors are MedWorkerRep users of doctor type that are not in the patient's many to many field,
     but have uploaded documents where this patient is the recipient.
-    - Insurance/Service Providers and Medical Shops/Labs that have uploaded files where the recipient is 
+    - Insurance/Service Providers and Medical Shops/Labs that have uploaded files where the recipient is
     the patinet are also added in the respective lists.
-    - The above 4 lists are passed as context and are sorted based on the Full Name/Company Name of 
+    - The above 4 lists are passed as context and are sorted based on the Full Name/Company Name of
     the MedWorkerRep.
     - If a MedWorkerRep tries to visit this URL, the MedWorkerRep will be redirected to "mypatients_customers".
     """
@@ -879,7 +870,7 @@ def mypatients_customers(request):
 
 def edit_file(request, wbid, file_name):
     """
-    - This function returns a form as context with pre-filled details regarding a file giving a 
+    - This function returns a form as context with pre-filled details regarding a file giving a
     MedWorkerRep the ability to edit file details such as tags, uploader name, and file type.
     - Only the MedWorkerRep who has uploaded the file has the ability to edit the file details.
     """
@@ -949,7 +940,7 @@ def edit_file(request, wbid, file_name):
 def go_public(request):
     """
     - This function provides a form for a MedWorkRep who is willing to make the profile public.
-    - Upon successfully filling this form, the MedWorkerRep's profile will be made public for other 
+    - Upon successfully filling this form, the MedWorkerRep's profile will be made public for other
     users to search this MedWorkerRep up, giving users essential information on finding MedWorkerReps
     """
     global sm
