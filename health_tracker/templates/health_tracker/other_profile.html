@@ -10,6 +10,82 @@
       <h3>Well-Being ID: {{profile.person.username}}</h3>     
       <!-- QR CODE -->
       {% if viewer_doctor_type and viewer in profile.hcw_v.all %}
+         <div>
+            <button onclick="window.location.href='/health/{{profile.person.username}}'">Edit</button>
+            <div class="dashboard__health-container">
+               {% for health_value in health_status.health_status.all %}
+                  <div class="dashboard__health-item">
+                     <h4>
+                           {{health_value.health_condition}}
+                     </h4>
+                     <div class="dashboard__labels container1">
+                           <label id="mid{{forloop.counter}}">{{health_value.minimum_value}}</label>
+                     </div>
+                     <div class="container">
+                           <div 
+                              id="slider{{ forloop.counter }}" 
+                              class="slider" 
+                              data-pos="{{ forloop.counter }}"
+                              style="
+                                       display: flex; 
+                                       height: 25px;
+                                       width: 80vw;
+                                       margin: 0 auto;
+                                       border: 1px solid #FFC107;
+                              ">
+                              <div id="custom-handle{{ forloop.counter }}" class="ui-slider-handle" style="
+                              width: 3em;
+                              height: 40px;
+                              top: 50%;
+                              text-align: center;
+                              line-height: 40px;
+                              margin-top: -20px;
+                              z-index: 0;
+                              background-color: #FFC107;
+                              color: #141A26;
+                              border: 1px solid #FFC107;"></div>
+                              <div class="bg1" id="bg1{{forloop.counter}}""></div>
+                              <div class="bg2" id="bg2{{forloop.counter}}"></div>
+                              <div class="bg3" id="bg3{{forloop.counter}}"></div>
+                           </div>
+                     </div>
+                     <div class="dashboard__labels container">
+                           <label id="mini{{forloop.counter}}">{{health_value.minimum_value}}</label>
+                           <label id="maxi{{forloop.counter}}">{{health_value.maximum_value}}</label>
+                     </div>
+                     <label hidden id="patient{{forloop.counter}}">{{health_value.patient_value}}</label>
+                     {% if health_value.condition_category == "SAFE" %}
+                           <h5 class="safe dashboard__category">
+                              CONDITION: {{health_value.condition_category}}
+                           </h5>
+                     {% endif %}
+                     {% if health_value.condition_category == "WARNING" %}
+                           <h5 class="warning dashboard__category">
+                              CONDITION: {{health_value.condition_category}}
+                           </h5>
+                     {% endif %}
+                     {% if health_value.condition_category == "DANGER" %}
+                           <h5 class="danger dashboard__category">
+                              CONDITION: {{health_value.condition_category}}
+                           </h5>
+                     {% endif %}
+                     {% if health_value.condition_category == "BDL-SAFE" %}
+                           <h5 class="bdl-safe dashboard__category">
+                              CONDITION: {{health_value.condition_category}}
+                           </h5>
+                     {% endif %}
+                     {% if health_value.condition_category == "BDL-DANGER" %}
+                     <h5 class="bdl-danger dashboard__category">
+                           CONDITION: {{health_value.condition_category}}
+                     </h5>
+                  {% endif %}
+                  </div>
+                  <hr/>
+               {% endfor %}
+            </div>         
+         </div>
+      <!-- If error, here add endif -->
+      <!-- and here: if viewer_doctor_type and viewer in profile.hcw_v.all  -->
          {% if files %}
             <h1 class="title">All files of {{profile.full_name}} ({{profile.person.username}}):</h1>
          {% else %}
@@ -83,6 +159,7 @@
    <script src="{% static 'health_tracker/js/delete_file.js' %}"></script>
    <script src="{% static 'health_tracker/js/filepath_tostring.js' %}"></script>
    <script src="{% static 'health_tracker/js/image_preview.js' %}"></script>
+   <script src="{% static 'health_tracker/js/health_status.js' %}"></script>
    <!-- <script>
       let delete_file_btn = document.querySelectorAll('.delete_file');
       delete_file_btn.forEach(button => {

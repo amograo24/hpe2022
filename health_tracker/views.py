@@ -544,6 +544,7 @@ def other_profile(request, id):
                 viewer_type in ['d/hcw/ms', 'i/sp', 'msh'] and profile_type in ['d/hcw/ms', 'i/sp', 'msh']):
             return HttpResponseRedirect(reverse("index"))
         if profile_type == 'nou':
+            health_status=None
             profile = Patients.objects.get(person=profile)
             viewer = MedWorkerRep.objects.get(account=viewer)
             # if viewer in profile.hcw_v.all(): # even if not in, it should show na? basically filtered. # like only for
@@ -555,6 +556,7 @@ def other_profile(request, id):
                     return HttpResponseRedirect(reverse("index"))
             elif viewer_type == 'd/hcw/ms':
                 if viewer in profile.hcw_v.all():
+                    health_status=HealthStatus.objects.get(patient=user)
                     files = Files.objects.filter(recipent=profile).order_by('-date')
                 else:
                     if not files:
@@ -564,7 +566,8 @@ def other_profile(request, id):
                 "viewer_doctor_type": viewer_type == 'd/hcw/ms',
                 "profile_type": profile_type,
                 "profile": profile,
-                "viewer": viewer
+                "viewer": viewer,
+                "health_status":health_status
             })
         elif profile_type in ['d/hcw/ms', 'i/sp', 'msh']:
             profile = MedWorkerRep.objects.get(account=profile)
