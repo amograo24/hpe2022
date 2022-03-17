@@ -26,7 +26,6 @@ cancel_patient_btn.forEach(button => {
    });
 });
 
-// TODO Amog change code here to delete patient
 let delete_patient_class = document.querySelectorAll('.delete_patient_main')
 delete_patient_class.forEach(button => {button.addEventListener('click',event => {
    let id=event.target.id.split('remove_person')[1]

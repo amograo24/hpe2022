@@ -13,6 +13,9 @@ class NotificationManager:
     receiver_p = None
 
     def handle_send(self) -> HttpResponse:
+        """
+        Handles logic for sending a notification from a User instance to another User Instance
+        """
         if self.sender.division.lower() == "nou":
             return HttpResponse("Access Denied")
 
@@ -38,6 +41,9 @@ class NotificationManager:
         return HttpResponse(f"You sent an authorization request to {self.receiver_p.full_name} ({self.receiver.username})")
 
     def handle_receive(self) -> Union[JsonResponse, HttpResponse]:
+        """
+        Returns a JsonResponse of all the notifications a user is associated with.
+        """
         if self.sender.division.lower() != self.request.user.division.lower():
             return HttpResponse("Not authorised")
         all_notifs = []
@@ -66,6 +72,9 @@ class NotificationManager:
         return JsonResponse(all_notifs, content_type="json", safe=False)
 
     def handle_approve(self):
+        """
+        Handles logic for approving a notification from a User instance for another User Instance
+        """
         notif_obj = Notification.objects.filter(sender=self.sender, receiver=self.receiver).order_by('-date_of_approval')[0]
         if self.body["status"] == "yes":
             status = "approved"
@@ -87,6 +96,11 @@ class NotificationManager:
         return HttpResponse("Validation done!")
 
     def __init__(self, request, sender: User, receiver: User = None):
+        """
+        request: WSGI Request Object.
+        sender: User instance, A notification Object's sender. Can be a Patient or a MedWorker
+        receiver: User instance, A notification Object's receiver. Can be a Patient or a MedWorker
+        """
         self.request = request
         self.body = json.loads(request.body)
         self.sender = sender
@@ -95,9 +109,13 @@ class NotificationManager:
         self.type = self.body['type']
 
     def validate_request(self):
-
-        big_brain = self.request.user.username if not self.receiver else self.body['as']
-        self.sender_mwr = MedWorkerRep.objects.filter(hcwvid=big_brain)
+        """
+        Validates the request sent to the notification API, and decides the logistics based on the
+        type of the request.
+        """
+        # TODO kushurox: Test the usefulness of this line
+        receiver_temp = self.request.user.username if not self.receiver else self.body['as']
+        self.sender_mwr = MedWorkerRep.objects.filter(hcwvid=receiver_temp)
         if self.sender_mwr:
             self.sender_mwr = self.sender_mwr[0]
 
@@ -106,6 +124,7 @@ class NotificationManager:
 
         return self.__fmap[self.type](self)
 
+    # Function map for calling the method based on the type of the request
     __fmap = {
         "send": handle_send,
         "receive": handle_receive,
@@ -113,15 +132,29 @@ class NotificationManager:
     }
 
     def set_receiver(self, receiver: User):
+        """
+        receiver: User instance
+        Sets the receiver of the class instance
+        """
         self.receiver = receiver
 
 
 class StateManager:
     def __init__(self, states: dict):
+        """
+        states: dictionary of all the states and its respective districts
+        """
         self.states = states
 
     def get_districts(self, sn: str) -> list:
+        """
+        sn: state name
+        return: Returns the respective districts of state in the form of a list
+        """
         return list(self.states.get(sn)) or []
 
     def get_states(self) -> list:
+        """
+        return: Returns all the states in the form of a list
+        """
         return list(self.states.keys())

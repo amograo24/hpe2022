@@ -19,13 +19,6 @@ from django.utils import timezone
 import pickle
 from PIL import Image
 import qrcode
-
-import base64
-import mimetypes
-from django.contrib.admin.widgets import AdminDateWidget
-from django.views.decorators.csrf import csrf_exempt
-from django.core.paginator import Paginator
-import time
 import os
 
 with open("states.pickle", "rb") as fp:
@@ -270,7 +263,6 @@ def upload_file(request):
                 if notification:
                     time_condition = (timezone.now(
                     ) - notification[0].date_of_approval) > datetime.timedelta(minutes=5)
-                # TODO Avaneesh: The if condition is not working cause the patient.hcw_v.all() QuerySet is empty. So it always shows Patient has not authorized.
                 if uploader not in patient.hcw_v.all():
                     return render(request, "health_tracker/file_upload.html", {
                         "message": f"The Patient/Customer with the WBID {patient.person.username} has not yet authorized you to upload documents to their profile!",
@@ -574,8 +566,6 @@ def other_profile(request, id):
         return HttpResponseRedirect(reverse("login"))
 
 
-# TODO Notification API - kushurox
-
 def visit_qrcode(request, id):
     if request.user.is_authenticated:
         if request.user == id:
@@ -764,6 +754,9 @@ def get_file(request, wbid, name: str):
 
 
 def notification_page(request):
+    """
+    Allows MedWorkerRep(s) to send approval requests to Patient(s)
+    """
     ctx = {
         "division": request.user.division,
         "default_wbid": request.GET.get('w', '')
@@ -1050,10 +1043,14 @@ def remove_patient_vendor(request, id):
 
 
 def StatesAPI(request):
+    """
+    Handles the API Request for retrieving States in go_public.html
+    """
     global sm
     if request.method == "POST":
         body = json.loads(request.body)
         return JsonResponse(sm.get_districts(body['sn']), safe=False, content_type="json")
+    return HttpResponse("Only POST method Allowed")
 
 
 # Covid related methods
@@ -1077,7 +1074,12 @@ def covid_mythbusters(request):
     return render(request, 'covid/covid_mythbusters.html')
 
 def handle_Qr(request):
+    """
+    Handles the API request for QRCode generation.
+    Requires a UID: str for generating a QRCode and returns it as a file response
+    """
     if request.method == "POST":
+        # TODO kushurox: Add authentication check here
         body = json.loads(request.body)
         uid = body['uid']
         icon = Image.open("health_tracker/static/health_tracker/imgs/uhiplusbg.png")
