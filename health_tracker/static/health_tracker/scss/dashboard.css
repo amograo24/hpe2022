@@ -22,7 +22,6 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  pointer-events: none;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -133,6 +132,7 @@ body {
 
 .dashboard__health-item {
   width: 350px;
+  margin: 0 auto;
 }
 
 .dashboard__health-item h4 {
@@ -218,15 +218,72 @@ body {
   }
 }
 
+.search_public__title {
+  margin-top: 4rem;
+  margin-bottom: 3rem;
+  font-size: 2em;
+  text-align: center;
+}
+
+.search_public__form {
+  width: 80%;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.search_public__field {
+  width: 80%;
+  border: none;
+  outline: none;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-bottom: 2px solid #FFC107;
+  height: 40px;
+  font-size: 1.1em;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.search_public__btn {
+  width: 20%;
+  height: 40px;
+  background-color: #FFC107;
+  color: #141A26;
+  -webkit-transition: all ease-in-out 500ms;
+  transition: all ease-in-out 500ms;
+  border: none;
+  outline: none;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.search_public__btn:hover {
+  background-color: #d39e00;
+}
+
 @media screen and (min-width: 1300px) {
   .dashboard__patient-personal {
     width: 60vw !important;
+  }
+  .search_public__form {
+    width: 60%;
   }
 }
 
 @media screen and (min-width: 1900px) {
   .dashboard__patient-personal {
     width: 50vw !important;
+  }
+  .search_public__form {
+    width: 50%;
   }
 }
 /*# sourceMappingURL=dashboard.css.map */

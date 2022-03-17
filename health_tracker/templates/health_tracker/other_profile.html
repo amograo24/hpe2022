@@ -1,18 +1,56 @@
 {% extends "health_tracker/layout.html" %}
 {% load static %}
 {% block title %}{% endblock %}
-{% block styling %}<link href="{% static 'health_tracker/scss/search.css' %}" rel="stylesheet">{% endblock %}
+{% block styling %}
+   <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>   
+   <link href="{% static 'health_tracker/scss/search.css' %}" rel="stylesheet">
+   <link href="{% static 'health_tracker/scss/dashboard.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block body %}
    {% if profile_type == 'nou' %}
-      <h3>Full Name: {{profile.full_name}}</h3>
-      <h3>Email: {{profile.person.email}}</h3>
-      <h3>Well-Being ID: {{profile.person.username}}</h3>     
-      <!-- QR CODE -->
+      <div class="dashboard__patient">
+         <div class="dashboard__patient-personal">
+            <div class="dashboard__patient-text">
+               <h3>Full Name: {{profile.full_name}}</h3>
+               <h3>Email: {{profile.person.email}}</h3>
+               <h3>Well-Being ID: {{profile.wbid}}</h3>
+               <h3>Aadhar ID: {{profile.aadharid}}</h3>
+            </div>
+            <!--<div  id="qrcode-generated">
+               {% csrf_token %}
+               <!--    this tag will generate the qrcode, the qrcode will be sent from the backend after it's generation-->
+                     <img src="" alt="Invalid Image" id="qr-image" width="200px">
+               <script>
+
+                     function set_image(blobResponse)
+                     {
+                        const imageObjectURL = URL.createObjectURL(blobResponse)
+                        document.getElementById("qr-image").src = imageObjectURL;
+                     }
+
+                     function get_qr()
+                     {
+                     let token = $("input[name='csrfmiddlewaretoken']").val()
+                     let url = "/getQr"
+                     let header = {'X-CSRFToken': token}
+                     let request = fetch(url, {method: "POST", headers: header, body: JSON.stringify({uid: "/visit/{{profile.wbid}}"})})
+                     request.then(resp => resp.blob())
+                     .then(set_image)
+                     }
+                     $(document).ready(get_qr)
+               </script>
+            </div>
+         </div>  
+      </div>
       {% if viewer_doctor_type and viewer in profile.hcw_v.all %}
-         <div>
-            <button onclick="window.location.href='/health/{{profile.person.username}}'">Edit</button>
-            <div class="dashboard__health-container">
+            <div class="make_btn">
+               <button class="edit" onclick="window.location.href='/health/{{profile.person.username}}'">Edit</button>
+               <button class="collapsible">Health Status&nbsp;&nbsp;<i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+            </div>
+            <div class="dashboard__health-container content" style="margin-top: 0;">
                {% for health_value in health_status.health_status.all %}
                   <div class="dashboard__health-item">
                      <h4>
@@ -21,7 +59,7 @@
                      <div class="dashboard__labels container1">
                            <label id="mid{{forloop.counter}}">{{health_value.minimum_value}}</label>
                      </div>
-                     <div class="container">
+                     <div class="container" style="width: 350px;">
                            <div 
                               id="slider{{ forloop.counter }}" 
                               class="slider" 
@@ -49,7 +87,7 @@
                               <div class="bg3" id="bg3{{forloop.counter}}"></div>
                            </div>
                      </div>
-                     <div class="dashboard__labels container">
+                     <div class="dashboard__labels container" style="width: 350px;">
                            <label id="mini{{forloop.counter}}">{{health_value.minimum_value}}</label>
                            <label id="maxi{{forloop.counter}}">{{health_value.maximum_value}}</label>
                      </div>
@@ -95,11 +133,35 @@
          <h1 class="title">Files uploaded by you on {{profile.full_name}}'s profile.</h1>
       {% endif %}
    {% else %}
-      <h3>{% if profile.account.division.lower == 'd/hcw/ms' %} Full Name: {% else %} Company Name: {% endif %} {{profile.full_com_name}}</h3>
-      <h3>Email: {{profile.account.email}}</h3>
-      <h3>Health Care Worker/Vendor ID: {{profile.account.username}}</h3>
-      <h3>Registration No./License No.: {{profile.reg_no}}</h3>
-      {% if profile.account.division.lower == 'd/hcw/ms' %}<h3>Department: {{profile.department}}</h3>{% endif %}
+      <div class="dashboard__patient">
+         <div class="dashboard__patient-personal">
+            <div class="dashboard__patient-text">
+               <h3>
+                     {% if profile.account.division.lower == 'd/hcw/ms' %} 
+                        Full Name: 
+                     {% else %} 
+                        Company Name: 
+                     {% endif %} 
+                        {{profile.full_com_name}}
+               </h3>
+               <h3>
+                     Email: {{profile.account.email}}
+               </h3>
+               <h3>
+                     Health Care Worker/Vendor ID: {{profile.account.username}}
+               </h3>
+               {% if user.aadharid != None %}
+                     <h3>Aadhar ID: {{profile.aadharid}}</h3>
+               {% endif %}
+               <h3>Registration No./License No.: {{profile.reg_no}}</h3>
+               {% if profile.account.division.lower == 'd/hcw/ms' %}
+                     <h3>
+                        Department: {{profile.department}}
+                     </h3>
+               {% endif %}
+            </div>
+         </div>
+      </div>
       {% if profile in viewer.hcw_v.all %}
          {% if files %}
             <h1 class="title">All files uploaded by {{profile.full_com_name}} on your profile:</h1>
@@ -265,4 +327,18 @@
       }
       $(document).ready(main)
    </script> -->
+   <script>
+      document.getElementsByClassName("collapsible")[0].addEventListener("click", () => {
+         let content = document.getElementsByClassName('content')[0];
+         if (content.style.maxHeight){
+            content.style.maxHeight = null;
+            $('.fa').toggleClass('fa-arrow-down')
+            $('.fa').toggleClass('fa-arrow-up')
+         } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+            $('.fa').toggleClass('fa-arrow-down')
+            $('.fa').toggleClass('fa-arrow-up')
+         }
+      });
+    </script>
 {% endblock %}

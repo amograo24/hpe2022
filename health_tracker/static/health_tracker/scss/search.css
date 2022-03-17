@@ -388,4 +388,61 @@ body {
     width: 590px;
   }
 }
+
+.collapsible {
+  background-color: #FFC107;
+  color: #141A26;
+  cursor: pointer;
+  padding-left: 1.5rem;
+  width: 100%;
+  border: none;
+  height: 3rem;
+  text-align: left;
+  outline: none;
+  font-size: 1.2em;
+}
+
+.collapsible:hover {
+  background-color: #d39e00;
+}
+
+.content {
+  width: 90%;
+  max-height: 0;
+  overflow: hidden;
+  -webkit-transition: max-height 500ms ease-out;
+  transition: max-height 500ms ease-out;
+  background-color: #141A26;
+  padding-top: 3rem;
+}
+
+.make_btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+
+.make_btn button {
+  font-weight: bold;
+  text-align: center;
+}
+
+.make_btn .edit {
+  width: 20%;
+  background-color: #000;
+  color: #FFC107;
+  -webkit-transition: all 500ms ease-in-out;
+  transition: all 500ms ease-in-out;
+  border: none;
+  font-size: 1.2em;
+  outline: none;
+}
+
+.make_btn .edit:hover {
+  background-color: #263147;
+}
 /*# sourceMappingURL=search.css.map */

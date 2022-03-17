@@ -556,7 +556,7 @@ def other_profile(request, id):
                     return HttpResponseRedirect(reverse("index"))
             elif viewer_type == 'd/hcw/ms':
                 if viewer in profile.hcw_v.all():
-                    health_status=HealthStatus.objects.get(patient=user)
+                    health_status=HealthStatus.objects.get(patient=profile)
                     files = Files.objects.filter(recipent=profile).order_by('-date')
                 else:
                     if not files:

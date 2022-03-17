@@ -327,3 +327,51 @@ body{
         }
     }
 }
+
+.collapsible {
+    background-color: $secondary-color;
+    color: $background-color-dark;
+    cursor: pointer;
+    padding-left: 1.5rem;
+    width: 100%;
+    border: none;
+    height: 3rem;
+    text-align: left;
+    outline: none;
+    font-size: 1.2em;
+ }
+
+.collapsible:hover {
+    background-color: darken($secondary-color, 10%);
+}
+
+.content {
+   width: 90%;
+   max-height: 0;
+   overflow: hidden;
+   transition: max-height 500ms ease-out;
+   background-color: #141A26;
+   padding-top: 3rem;
+}
+
+.make_btn{
+    display: flex;
+    flex-direction: row-reverse;
+    button{
+        font-weight: bold;
+        text-align: center;
+    }
+    .edit{
+        width: 20%;
+        background-color: #000;
+        color: $secondary-color;
+        transition: all 500ms ease-in-out;
+        border: none;
+        font-size: 1.2em;
+        outline: none;
+
+        &:hover{
+            background-color: lighten($background-color-dark, 10%);
+        }
+    }
+}
