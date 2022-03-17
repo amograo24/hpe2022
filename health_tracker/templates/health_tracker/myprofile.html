@@ -17,10 +17,12 @@
     {% if nou %}
         <div class="dashboard__patient">
             <div class="dashboard__patient-personal">
-                <h3>Full Name: {{user.full_name}}</h3>
-                <h3>Email: {{user.person.email}}</h3>
-                <h3>Well-Being ID: {{user.person.username}}</h3>
-                <h3>Aadhar ID: {{user.aadharid}}</h3>
+                <div class="dashboard__patient-text">
+                    <h3>Full Name: {{user.full_name}}</h3>
+                    <h3>Email: {{user.person.email}}</h3>
+                    <h3>Well-Being ID: {{user.person.username}}</h3>
+                    <h3>Aadhar ID: {{user.aadharid}}</h3>
+                </div>
                 <div  id="qrcode-generated">
                     {% csrf_token %}
                     <!--    this tag will generate the qrcode, the qrcode will be sent from the backend after it's generation-->
@@ -50,116 +52,122 @@
             <div class="dashboard__health-stat">
                 <h1 class="heading">Health Status</h1>
                 <hr/>
-                {% for health_value in health_status.health_status.all %}
-                    <div class="dashboard__health-item">
-                        <h4>
-                            {{health_value.health_condition}}
-                        </h4>
-                        <div class="container">
-                            <div 
-                                id="slider{{ forloop.counter }}" 
-                                class="slider" 
-                                data-pos="{{ forloop.counter }}"
-                                style="
-                                        display: flex; 
-                                        height: 25px;
-                                        width: 80vw;
-                                        margin: 0 auto;
-                                        border: 1px solid #FFC107;
-                                ">
-                                <div id="custom-handle{{ forloop.counter }}" class="ui-slider-handle" style="
-                                width: 3em;
-                                height: 40px;
-                                top: 50%;
-                                text-align: center;
-                                line-height: 40px;
-                                margin-top: -20px;
-                                z-index: 0;
-                                background-color: #FFC107;
-                                color: #141A26;
-                                border: 1px solid #FFC107;"></div>
-                                <div class="bg1" id="bg1{{forloop.counter}}""></div>
-                                <div class="bg2" id="bg2{{forloop.counter}}"></div>
-                                <div class="bg3" id="bg3{{forloop.counter}}"></div>
+                <div class="dashboard__health-container">
+                    {% for health_value in health_status.health_status.all %}
+                        <div class="dashboard__health-item">
+                            <h4>
+                                {{health_value.health_condition}}
+                            </h4>
+                            <div class="dashboard__labels container1">
+                                <label id="mid{{forloop.counter}}">{{health_value.minimum_value}}</label>
                             </div>
-                        </div>
-                        <div class="dashboard__labels container">
-                            {% if health_value.minimum_value != None %}
+                            <div class="container">
+                                <div 
+                                    id="slider{{ forloop.counter }}" 
+                                    class="slider" 
+                                    data-pos="{{ forloop.counter }}"
+                                    style="
+                                            display: flex; 
+                                            height: 25px;
+                                            width: 80vw;
+                                            margin: 0 auto;
+                                            border: 1px solid #FFC107;
+                                    ">
+                                    <div id="custom-handle{{ forloop.counter }}" class="ui-slider-handle" style="
+                                    width: 3em;
+                                    height: 40px;
+                                    top: 50%;
+                                    text-align: center;
+                                    line-height: 40px;
+                                    margin-top: -20px;
+                                    z-index: 0;
+                                    background-color: #FFC107;
+                                    color: #141A26;
+                                    border: 1px solid #FFC107;"></div>
+                                    <div class="bg1" id="bg1{{forloop.counter}}""></div>
+                                    <div class="bg2" id="bg2{{forloop.counter}}"></div>
+                                    <div class="bg3" id="bg3{{forloop.counter}}"></div>
+                                </div>
+                            </div>
+                            <div class="dashboard__labels container">
                                 <label id="mini{{forloop.counter}}">{{health_value.minimum_value}}</label>
-                            {% else %}
-                                <label hidden id="mini{{forloop.counter}}">{{health_value.minimum_value}}</label>
-                            {% endif %}
-                            {% if health_value.maximum_value != None %}
                                 <label id="maxi{{forloop.counter}}">{{health_value.maximum_value}}</label>
-                            {% else %}
-                                <label hidden id="maxi{{forloop.counter}}">{{health_value.maximum_value}}</label>
+                            </div>
+                            <label hidden id="patient{{forloop.counter}}">{{health_value.patient_value}}</label>
+                            {% if health_value.condition_category == "SAFE" %}
+                                <h5 class="safe dashboard__category">
+                                    CONDITION: {{health_value.condition_category}}
+                                </h5>
                             {% endif %}
+                            {% if health_value.condition_category == "WARNING" %}
+                                <h5 class="warning dashboard__category">
+                                    CONDITION: {{health_value.condition_category}}
+                                </h5>
+                            {% endif %}
+                            {% if health_value.condition_category == "DANGER" %}
+                                <h5 class="danger dashboard__category">
+                                    CONDITION: {{health_value.condition_category}}
+                                </h5>
+                            {% endif %}
+                            {% if health_value.condition_category == "BDL-SAFE" %}
+                                <h5 class="bdl-safe dashboard__category">
+                                    CONDITION: {{health_value.condition_category}}
+                                </h5>
+                            {% endif %}
+                            {% if health_value.condition_category == "BDL-DANGER" %}
+                            <h5 class="bdl-danger dashboard__category">
+                                CONDITION: {{health_value.condition_category}}
+                            </h5>
+                        {% endif %}
                         </div>
-                        <label hidden id="patient{{forloop.counter}}">{{health_value.patient_value}}</label>
-                        {% if health_value.condition_category == "SAFE" %}
-                            <h5 class="safe dashboard__category">
-                                CONDITION: {{health_value.condition_category}}
-                            </h5>
-                        {% endif %}
-                        {% if health_value.condition_category == "WARNING" %}
-                            <h5 class="warning dashboard__category">
-                                CONDITION: {{health_value.condition_category}}
-                            </h5>
-                        {% endif %}
-                        {% if health_value.condition_category == "DANGER" %}
-                            <h5 class="danger dashboard__category">
-                                CONDITION: {{health_value.condition_category}}
-                            </h5>
-                        {% endif %}
-                        {% if health_value.condition_category == "BDL-SAFE" %}
-                            <h5 class="bdl-safe dashboard__category">
-                                CONDITION: {{health_value.condition_category}}
-                            </h5>
-                        {% endif %}
-                        {% if health_value.condition_category == "BDL-DANGER" %}
-                        <h5 class="bdl-danger dashboard__category">
-                            CONDITION: {{health_value.condition_category}}
-                        </h5>
-                    {% endif %}
-                    </div>
-                    <hr/>
-                {% endfor %}
+                        <hr/>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     {% elif non_nou %}
-        <h3>
-            {% if user.account.division.lower == 'd/hcw/ms' %} 
-                Full Name: 
-            {% else %} 
-                Company Name: 
-            {% endif %} 
-                {{user.full_com_name}}
-        </h3>
-        <h3>
-            Email: {{user.account.email}}
-        </h3>
-        <h3>
-            Health Care Worker/Vendor ID: {{user.account.username}}
-        </h3>
-        <h3>Registration No./License No.: {{user.reg_no}}</h3>
-        {% if user.account.division.lower == 'd/hcw/ms' %}
-            <h3>
-                Department: {{user.department}}
-            </h3>
-        {% endif %}
-        <h3>
-            Account Visibility: 
-            {% if user.public %}
-                Public
-            {% else %}
-                Private
-            {% endif %}
-        </h3>
-        {% if user.public == True %}
-            <button onclick="window.location.href='/goprivate'" >Go Private</button>
-        {% else %}
-            <button onclick="window.location.href='/gopublic'">Go Public</button>
-        {% endif %}
+        <div class="dashboard__patient">
+            <div class="dashboard__patient-personal">
+                <div class="dashboard__patient-text">
+                    <h3>
+                        {% if user.account.division.lower == 'd/hcw/ms' %} 
+                            Full Name: 
+                        {% else %} 
+                            Company Name: 
+                        {% endif %} 
+                            {{user.full_com_name}}
+                    </h3>
+                    <h3>
+                        Email: {{user.account.email}}
+                    </h3>
+                    <h3>
+                        Health Care Worker/Vendor ID: {{user.account.username}}
+                    </h3>
+                    {% if user.aadharid != None %}
+                        <h3>Aadhar ID: {{user.aadharid}}</h3>
+                    {% endif %}
+                    <h3>Registration No./License No.: {{user.reg_no}}</h3>
+                    {% if user.account.division.lower == 'd/hcw/ms' %}
+                        <h3>
+                            Department: {{user.department}}
+                        </h3>
+                    {% endif %}
+                    <h3>
+                        Account Visibility: 
+                        {% if user.public %}
+                            Public
+                        {% else %}
+                            Private
+                        {% endif %}
+                    </h3>
+                    {% if user.public == True %}
+                        <button onclick="window.location.href='/goprivate'" >Go Private</button>
+                    {% else %}
+                        <button onclick="window.location.href='/gopublic'">Go Public</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     {% endif %}
 {% endblock %}
 {% block script %}
@@ -172,6 +180,9 @@
             let patient = $(`#patient${id}`).html()
             patient = parseFloat(patient)
             let leftLimit, rightLimit;
+            leftLimit = patient-(patient/2);
+            rightLimit = patient+(patient/2);
+            midLimit = " ";
             if(mini == "None" && maxi == "None"){
                 mini = patient-(patient/2);
                 maxi = patient+(patient/2);
@@ -185,34 +196,68 @@
             if(patient <= mini){
                 leftLimit = patient;
                 rightLimit = maxi;
+                midLimit = mini;
                 let maxDiff = (maxi - patient);
                 let nonIdeal = ((mini-patient)/maxDiff)*100;
                 let ideal = ((maxi - mini)/maxDiff)*100;
                 $(`#bg1${id}`).width(`${nonIdeal}%`)
                 $(`#bg2${id}`).width(`${ideal}%`)
                 $(`#bg3${id}`).width(0)
+                $(`#mid${id}`).css('padding-left', `${nonIdeal}%`)
+                if(ideal === 0){
+                    $(`#bg1${id}`).width(0)
+                    $(`#bg2${id}`).width(`100%`)
+                    $(`#bg2${id}`).css('background-color', '#1760BF')
+                    $(`#bg3${id}`).width(0)
+                }
             }
             if(patient >= maxi){
                 leftLimit = mini;
                 rightLimit = patient;
+                midLimit = maxi;
                 let maxDiff = (patient - mini);
                 let nonIdeal = ((patient - maxi)/maxDiff)*100;
                 let ideal = ((maxi - mini)/maxDiff)*100;
                 $(`#bg1${id}`).width(0)
                 $(`#bg2${id}`).width(`${ideal}%`)
                 $(`#bg3${id}`).width(`${nonIdeal}%`)
+                $(`#mid${id}`).css('padding-left', `${ideal}%`)
+                if(ideal === 0){
+                    $(`#bg1${id}`).width(0)
+                    $(`#bg2${id}`).width(`100%`)
+                    $(`#bg2${id}`).css('background-color', '#1760BF')
+                    $(`#bg3${id}`).width(0)
+                }
             }
             if(mini < patient && patient < maxi){
                 leftLimit = mini;
                 rightLimit = maxi;
+                midLimit = leftLimit;
                 let maxDiff = (maxi - mini);
                 let ideal = ((maxi - mini)/maxDiff)*100;
                 $(`#bg1${id}`).width(0)
                 $(`#bg2${id}`).width(`${ideal}%`)
                 $(`#bg3${id}`).width(0)
+                if(ideal === 0){
+                    $(`#bg1${id}`).width(0)
+                    $(`#bg2${id}`).width(`100%`)
+                    $(`#bg2${id}`).css('background-color', '#1760BF')
+                    $(`#bg3${id}`).width(0)
+                }
             }
-            $(`#mini${id}`).html(leftLimit)
-            $(`#maxi${id}`).html(rightLimit)
+            if(leftLimit !== patient){
+                $(`#mini${id}`).html(leftLimit)
+            }
+            else{
+                $(`#mini${id}`).html("")
+            }
+            if(rightLimit !== patient){
+                $(`#maxi${id}`).html(rightLimit)
+            }
+            else{
+                $(`#maxi${id}`).html("")
+            }
+            $(`#mid${id}`).html(midLimit)
             var handle = $(`#custom-handle${id}`);
             $(`#slider${id}` ).slider({
                 value: patient,
