@@ -931,7 +931,15 @@ def edit_file(request, wbid, file_name):
             # tags=form.cleaned_data['tags']
             # vendor_name=form.cleaned_data['vendor_name']
             # file_type=form.cleaned_data['file_type']
+            # print("Vendor Name:",len(form.cleaned_data['vendor_name']))
             print(form.cleaned_data)
+            if file.uploader and editor.account.division.lower()!='d/hcw/ms' and not form.cleaned_data['vendor_name']:
+                return render(request, "health_tracker/edit_file.html", {
+                    "form": form,
+                    "wbid": wbid,
+                    "file_name": file_name,
+                    "message":"Name of person uploading document must be entered!"
+                })
             file.tags = form.cleaned_data['tags']
             file.vendor_name = form.cleaned_data['vendor_name']
             file.file_type = form.cleaned_data['file_type']
