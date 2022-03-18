@@ -33,7 +33,7 @@ class Notification(models.Model):
 
 class MedWorkerRep(models.Model):
     full_com_name = models.CharField(default=None, max_length=200, verbose_name="Full Name/Company Name")
-    department = models.CharField(default=None, max_length=100, null=True, blank=True)  # give choices
+    department = models.CharField(default=None, max_length=100, null=True, blank=True)  # only for doctors
     reg_no = models.CharField(default=None, max_length=20, verbose_name="Registration No./License ID")
     hcwvid = models.CharField(default=None, max_length=11, validators=[MinLengthValidator(11)],
                               verbose_name="Health Care Worker/Vendor ID", unique=True)
