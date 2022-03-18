@@ -135,19 +135,19 @@ def health_status_function(request, wbid):
         profile = User.objects.get(username=wbid)
         profile_type = profile.division.lower()
     except User.DoesNotExist:
-        message = None
-        if updater_type == 'd/hcw/ms':
-            message = f"Patient with the WBID '{wbid}' doesn't exist! Check your patients' list to update the Health Status Card for your patients."
+        # message = None
+        # if updater_type == 'd/hcw/ms':
+        message = f"Patient with the WBID '{wbid}' doesn't exist! Check your patients' list to update the Health Status Cards of your patients."
         return render(request, "health_tracker/health_status.html", {
             "message": message,
-            "wbid": wbid,
+            # "wbid": wbid,
             "udne": User.DoesNotExist
         })
     if profile_type != 'nou':
         print("Bug Trigger 2")
         return render(request, "health_tracker/health_status.html", {
-            "message": f"'{profile}' is not a patient! You can update/create Health Status Cards only for patients!",
-            "wbid": wbid,
+            "message": f"'{profile}' is not a patient! You can update/create Health Status Cards of patients only!",
+            # "wbid": wbid,
             "nap": profile_type != 'nou'
         })
 
@@ -156,8 +156,8 @@ def health_status_function(request, wbid):
     if updater not in patient.hcw_v.all():
         print("Bug Trigger!")
         return render(request, "health_tracker/health_status.html", {
-            "message": f"Patient with the '{wbid}' has not authorised you to update/create their Health Status Card!",
-            "wbid": wbid,
+            "message": f"Patient with the WBID '{wbid}' has not authorised you to update/create their Health Status Card!",
+            # "wbid": wbid,
             "updater_not_auth": updater not in patient.hcw_v.all(),
         })
 
@@ -172,15 +172,16 @@ def health_status_function(request, wbid):
         print(formset.errors, formset)
         if formset.is_valid():
             print("formset:", formset)
-            for i in formset:
+            for form in formset:
                 print("FormsetLoop Running")
-                print(i.cleaned_data.get('maximum_value'))
-                data = i.cleaned_data
+                print(form.cleaned_data.get('maximum_value'))
+                data = form.cleaned_data
                 if (data.get('maximum_value') and data.get('minimum_value')) and data.get('maximum_value') < data.get(
                         'minimum_value'):
                     return render(request, "health_tracker/health_status.html", {
                         "formset": formset,
-                        "wbid": wbid,
+                        "patient":patient,
+                        # "wbid": wbid,
                         "message": f"The minimum value cannot be greater than the maximum value for '{data.get('health_condition')}'!"
                     })
             # print(formset.maximum_value,formset.minimum_value)
@@ -188,7 +189,8 @@ def health_status_function(request, wbid):
             health_status.last_updated_by = updater
             health_status.last_updated = timezone.now()
             health_status.save()
-            return HttpResponseRedirect(reverse("index"))  # return to patient's thingie
+            return HttpResponseRedirect(reverse("other_profile",args=(wbid,)))
+            # return HttpResponseRedirect(reverse("index"))  # return to patient's thingie
         else:
             print(formset.errors)
             # errors=[error for error in formset.errors if error]

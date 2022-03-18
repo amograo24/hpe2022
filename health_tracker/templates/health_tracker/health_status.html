@@ -7,10 +7,10 @@
         <h5>Health Condition {{error_list.0}}:</h5>
         {{error_list.1}}
     {% endfor %}
-    <h1 class="title">Health Status of {{patient.full_name}} ({{patient.person.username}})</h1>
     {% if udne or nap or updater_not_auth %}
         <h3 class="empty" style="padding-left: 2rem; padding-right: 2rem; text-align:center;">{{message}}</h3>
     {% else %}
+        <h1 class="title">Health Status of {{patient.full_name}} ({{patient.person.username}})</h1>
         {% if message %}
             <h3 class="empty" style="padding-left: 2rem; padding-right: 300px; text-align:center;">{{message}}</h3>
         {% endif %}
