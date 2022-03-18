@@ -240,7 +240,7 @@ def upload_file(request):
         return HttpResponseRedirect(reverse("login"))
     uploader = User.objects.get(username=request.user)
     uploader_type = uploader.division.lower()
-    if uploader_type not in ['d/hcw/ms', 'i/sp', 'msh']:
+    if uploader_type not in ['d/hcw/ms', 'i/sp', 'msh']: # just do == "nou"?
         return HttpResponseRedirect(reverse("index"))
     ctx = {}
     if request.method == "POST":
@@ -394,7 +394,7 @@ def register(request):
             try:
                 # Creating the user here
                 if division.lower() == "nou" or division.lower() == None:
-                    user = gen_unique_id(email=email, password=password)
+                    user = gen_unique_id(email=email, password=password) # TODO: Still needs to be changed
                     aadharid = form.cleaned_data['aadharid']
                     if len(aadharid) != 12 or aadharid.isnumeric() == False:
                         return render(request, "health_tracker/register.html", {
@@ -663,8 +663,15 @@ def notifications(request):
             sender = User.objects.get(username=request.user)
 
         elif body['type'] == "approval":
-            sender = User.objects.get(username=body['as'])
+            sender = User.objects.filter(username=body['as'])
+            if sender:
+                sender = sender[0]
+            else:
+                return HttpResponse("User Does Not Exists!")
+
             receiver = User.objects.get(username=request.user)
+        else:
+            return HttpResponse("API Error! Forgery?")
 
         nm = NotificationManager(request, sender, receiver)
         return nm.validate_request()
@@ -783,9 +790,12 @@ def notification_page(request):
     """
     Allows MedWorkerRep(s) to send approval requests to Patient(s)
     """
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('index'))
     ctx = {
         "division": request.user.division,
-        "default_wbid": request.GET.get('w', '')
+        "default_wbid": request.GET.get('w', ''),
+        "doc_id": request.user.username
     }
     return render(request, "health_tracker/notifs.html", ctx)
 
@@ -965,6 +975,13 @@ def go_public(request):
                     "vendor": vendor,
                     "states": sm.get_states()
                 })
+            if request.POST['state'] not in sm.get_states() or request.POST['district'] not in sm.get_districts(request.POST['state']):
+                return render(request, "health_tracker/go_public.html", {
+                    "message": "Invalid State/District",
+                    "form": form,
+                    "vendor": vendor,
+                    "states": sm.get_states()
+                })
             vendor.address = form.cleaned_data['address']
             vendor.city = request.POST['district']
             vendor.state = request.POST['state']
@@ -1126,13 +1143,13 @@ def covid_vaccinations(request):
 def covid_mythbusters(request):
     return render(request, 'covid/covid_mythbusters.html')
 
+
 def handle_Qr(request):
     """
     Handles the API request for QRCode generation.
     Requires a UID: str for generating a QRCode and returns it as a file response
     """
     if request.method == "POST":
-        # TODO kushurox: Add authentication check here
         body = json.loads(request.body)
         uid = body['uid']
         icon = Image.open("health_tracker/static/health_tracker/imgs/uhiplusbg.png")
@@ -1148,3 +1165,5 @@ def handle_Qr(request):
         b.seek(0)
         print("file returned")
         return FileResponse(b)
+
+    return HttpResponse("Only POST allowed")

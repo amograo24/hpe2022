@@ -36,7 +36,7 @@
                     alert('Whom to send?')
                     return
                 }
-                let payload = JSON.stringify({to: whom, as: "{{ division }}", type: "send"})
+                let payload = JSON.stringify({to: whom, as: "{{ doc_id }}", type: "send"})
                 let content =
                 {
                     method: "POST",

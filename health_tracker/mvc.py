@@ -32,7 +32,7 @@ class NotificationManager:
             return HttpResponse("Not authorised")
 
         check_notif = Notification.objects.filter(sender=self.sender, receiver=self.receiver).order_by('-date_of_approval')
-        print(check_notif)
+        print(check_notif, "Debug print in handle_send")
         if check_notif and check_notif[0].content not in ("rejected", "approved"):
             return HttpResponse("Notification Already Sent!")
 
@@ -113,16 +113,18 @@ class NotificationManager:
         Validates the request sent to the notification API, and decides the logistics based on the
         type of the request.
         """
-        # TODO kushurox: Test the usefulness of this line
+
         receiver_temp = self.request.user.username if not self.receiver else self.body['as']
         self.sender_mwr = MedWorkerRep.objects.filter(hcwvid=receiver_temp)
         if self.sender_mwr:
             self.sender_mwr = self.sender_mwr[0]
+        else:
+            print("sender_mwr not found!")
 
-        if self.receiver:
+        if self.receiver:  # For approval, since patients can't send 'send' request
             self.receiver_p = Patients.objects.get(wbid=self.receiver.username)
 
-        return self.__fmap[self.type](self)
+        return self.__fmap[self.type](self) if self.type in self.__fmap else HttpResponse("Invalid type")
 
     # Function map for calling the method based on the type of the request
     __fmap = {
