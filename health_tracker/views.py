@@ -659,6 +659,9 @@ def notifications(request):
             else:
                 return HttpResponse("Receiver Not Found")
 
+            if sender.division == receiver.division:
+                return HttpResponse("Can't send request to non patient")
+
         elif body['type'] == "receive":
             sender = User.objects.get(username=request.user)
 
