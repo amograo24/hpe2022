@@ -244,7 +244,7 @@ def upload_file(request):
     uploader_type = uploader.division.lower()
     if uploader_type not in ['d/hcw/ms', 'i/sp', 'msh']: # just do == "nou"?
         return HttpResponseRedirect(reverse("index"))
-    ctx = {}
+    # ctx = {}
     if request.method == "POST":
         form = UploadDocForm(request.POST)
         files = request.FILES.getlist('file_field')
@@ -280,11 +280,12 @@ def upload_file(request):
             file_type = form.cleaned_data['file_type']
             tags = form.cleaned_data['tags']
             # if uploader is med shop/insurance and if in the patient's approves list, and the time has exceeded
-            if uploader_type in ['i/sp', 'msh'] and uploader in patient.hcw_v.all() and time_condition:
+            # if uploader_type in ['i/sp', 'msh'] and uploader in patient.hcw_v.all() and time_condition:
+            if uploader_type!='d/hcw/ms' and uploader in patient.hcw_v.all() and time_condition:
                 patient.hcw_v.remove(uploader)
                 patient.save()
                 return render(request, "health_tracker/file_upload.html", {
-                    "message": f"Uploading time has exceeded more than 5 minutes! Resend a request to '{patient.person.username}-{patient.full_name}'!",
+                    "message": f"Uploading time has exceeded more than 5 minutes! Resend an authorization request to '{patient.full_name} ({patient.person.username})'!",
                     "form": form,
                     "division": request.user.division
                 })
@@ -301,7 +302,8 @@ def upload_file(request):
                               tags=tags, date=timezone.now()).save()
                         patient.hcw_v.remove(uploader)
                         patient.save()
-                return HttpResponseRedirect(reverse("myfiles"))
+                return HttpResponseRedirect(reverse("other_profile",args=(wbid,))) 
+                # return HttpResponseRedirect(reverse("myfiles")) # or do i redirect to other_profile
         else:
             return render(request, "health_tracker/file_upload.html", {
                 "message": "You must upload atleast 1 file!",
