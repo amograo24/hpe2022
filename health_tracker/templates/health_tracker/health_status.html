@@ -20,8 +20,7 @@
             {{ formset.non_form_errors }}
             <div class="forms">
             {% for form in formset %}
-                <div class="form-fields">   
-                    <!-- {{ form.hidden_fields }} -->
+                <div class="form-fields">
                     <div class="field-row">
                         {% for field in form %}
                             {% if forloop.counter == 1 %}
@@ -61,7 +60,6 @@
 
         </div>
             </div>
-            <!-- {{formset}} -->
             <input id="submit" type="submit" value="Submit">
         </form>
         <div class="add-div">

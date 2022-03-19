@@ -26,23 +26,12 @@
 <script>
     function main()
     {
-        if("{{ division }}" == "D/HCW/MS")
+        if("{{ editor.account.division }}" == "D/HCW/MS")
         {
             $("#id_vendor_name").hide()
             $("#id_vendor_name").val("doctor")
             $('label[for="id_vendor_name"]').hide()
         }
-        $("#upload-form").on("submit", function() {
-            for(file of $("#id_file_field").prop("files"))
-            {
-                let size = file.size/(1000000)
-                if(size > 50)
-                {
-                    alert("Each file cannot be larger than 50mb!")
-                    return false;
-                 }
-            }
-        })
     }
     $(document).ready(main)
 </script>

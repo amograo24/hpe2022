@@ -125,6 +125,5 @@ class HealthValue(models.Model):
     maximum_value = models.FloatField(default=None, verbose_name="Maximum Value", null=True, blank=True)
     minimum_value = models.FloatField(default=None, verbose_name="Minimum Value", null=True, blank=True)
     patient_value = models.FloatField(default=None, verbose_name="Patient's Value")
-    # condition_category=models.CharField(default=None, max_length=20, choices=condition_category_choices, verbose_name="Health Condition Category",null=True,blank=True)
     condition_category = models.CharField(default=None, max_length=20, choices=condition_category_choices,
                                           verbose_name="Health Condition Category")

@@ -952,7 +952,8 @@ def edit_file(request, wbid, file_name):
                     "form": form,
                     "wbid": wbid,
                     "file_name": file_name,
-                    "message":"Name of person uploading document must be entered!"
+                    "message":"Name of person uploading document must be entered!",
+                    "editor": editor
                 })
             file.tags = form.cleaned_data['tags']
             if editor.account.division.lower()!='d/hcw/ms':
@@ -964,12 +965,14 @@ def edit_file(request, wbid, file_name):
             return render(request, "health_tracker/edit_file.html", {
                 "form": form,
                 "wbid": wbid,
-                "file_name": file_name
+                "file_name": file_name,
+                "editor": editor
             })
     return render(request, "health_tracker/edit_file.html", {
         "form": form0,
         "wbid": wbid,
-        "file_name": file_name
+        "file_name": file_name,
+        "editor": editor
     })
 
 
@@ -1040,6 +1043,7 @@ def go_private(request):
 
 
 def search_public_vendors(request):
+    """done by kushal sai. Whole function"""
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     search_entry = request.GET.get('q', '')
@@ -1048,7 +1052,6 @@ def search_public_vendors(request):
     public_insurance_service_providers = []
     public_medical_shops_labs = []
     public_vendors = MedWorkerRep.objects.filter(public=True)
-    check_list = []
     for vendor in public_vendors:
         check_list = [vendor.account.username.lower(), vendor.full_com_name.lower(), vendor.reg_no.lower()]
         if not (vendor.department == None or not vendor.department.strip(' ')):
@@ -1070,7 +1073,6 @@ def search_public_vendors(request):
                 elif vendor.account.division.lower() == 'msh':
                     public_medical_shops_labs.append(vendor)
                 break
-    # return render(request,"health_tracker_search_public_vendors",{
     return render(request, "health_tracker/search_public_vendors.html", {
         "search_entry": search_entry,
         "empty": not public_doctors and not public_insurance_service_providers and not public_medical_shops_labs,
