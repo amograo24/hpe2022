@@ -302,7 +302,7 @@ def upload_file(request):
                               tags=tags, date=timezone.now()).save()
                         patient.hcw_v.remove(uploader)
                         patient.save()
-                return HttpResponseRedirect(reverse("other_profile",args=(wbid,))) 
+                return HttpResponseRedirect(reverse("other_profile",args=(patient.person.username,))) 
                 # return HttpResponseRedirect(reverse("myfiles")) # or do i redirect to other_profile
         else:
             return render(request, "health_tracker/file_upload.html", {
