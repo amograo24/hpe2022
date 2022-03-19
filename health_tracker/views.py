@@ -460,7 +460,7 @@ def index(request):
     if request.user.is_authenticated:
         user = User.objects.get(username=request.user)
         user_type = user.division.lower()
-        image = None
+        # image = None
         health_status=None
         if user_type == 'nou':
             user = Patients.objects.get(person=user)
@@ -955,7 +955,8 @@ def edit_file(request, wbid, file_name):
                     "message":"Name of person uploading document must be entered!"
                 })
             file.tags = form.cleaned_data['tags']
-            file.vendor_name = form.cleaned_data['vendor_name']
+            if editor.account.division.lower()!='d/hcw/ms':
+                file.vendor_name = form.cleaned_data['vendor_name']
             file.file_type = form.cleaned_data['file_type']
             file.save()
             return HttpResponseRedirect(reverse("myfiles"))

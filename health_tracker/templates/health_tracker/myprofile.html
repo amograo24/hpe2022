@@ -11,7 +11,7 @@
     <main class="dashboard">
     <div>
         <div>
-            <h1 class="title">Patient Details</h1>
+            <h1 class="title">My Details</h1>
         </div>
     </div> 
     {% if nou %}
@@ -50,86 +50,90 @@
             </div>
             <hr/>
             <section class="search_public">
-                <h3 class="search_public__title">Search for Public Doctors</h3>
+                <h3 class="search_public__title">Search for Public Doctors/Vendors</h3>
                 <form class="search_public__form" action="{% url 'search_public' %}">
                     <input class="search_public__field" type="text" name="q"/>
                     <button class="search_public__btn" type="submit">Submit</button>
                 </form>
             </section> 
             <div class="dashboard__health-stat">
-                <h1 class="heading">Health Status</h1>
-                <hr/>
-                <div class="dashboard__health-container">
-                    {% for health_value in health_status.health_status.all %}
-                        <div class="dashboard__health-item">
-                            <h4>
-                                {{health_value.health_condition}}
-                            </h4>
-                            <div class="dashboard__labels container1">
-                                <label id="mid{{forloop.counter}}">{{health_value.minimum_value}}</label>
-                            </div>
-                            <div class="container">
-                                <div 
-                                    id="slider{{ forloop.counter }}" 
-                                    class="slider" 
-                                    data-pos="{{ forloop.counter }}"
-                                    style="
-                                            display: flex; 
-                                            height: 25px;
-                                            width: 80vw;
-                                            margin: 0 auto;
-                                            border: 1px solid #FFC107;
-                                    ">
-                                    <div id="custom-handle{{ forloop.counter }}" class="ui-slider-handle" title="{{health_value.patient_value}}" style="
-                                    width: 3em;
-                                    height: 40px;
-                                    top: 50%;
-                                    text-align: center;
-                                    line-height: 40px;
-                                    margin-top: -20px;
-                                    z-index: 0;
-                                    background-color: #FFC107;
-                                    color: #141A26;
-                                    border: 1px solid #FFC107;"></div>
-                                    <div class="bg1" id="bg1{{forloop.counter}}""></div>
-                                    <div class="bg2" id="bg2{{forloop.counter}}"></div>
-                                    <div class="bg3" id="bg3{{forloop.counter}}"></div>
+                {% if health_status.health_status.all|length == 0 %}
+                    <h1 class="heading">Your Health Status Card is empty.</h1>
+                {% else %}                
+                    <h1 class="heading">Health Status</h1>
+                    <hr/>
+                    <div class="dashboard__health-container">
+                        {% for health_value in health_status.health_status.all %}
+                            <div class="dashboard__health-item">
+                                <h4>
+                                    {{health_value.health_condition}}
+                                </h4>
+                                <div class="dashboard__labels container1">
+                                    <label id="mid{{forloop.counter}}">{{health_value.minimum_value}}</label>
                                 </div>
+                                <div class="container">
+                                    <div 
+                                        id="slider{{ forloop.counter }}" 
+                                        class="slider" 
+                                        data-pos="{{ forloop.counter }}"
+                                        style="
+                                                display: flex; 
+                                                height: 25px;
+                                                width: 80vw;
+                                                margin: 0 auto;
+                                                border: 1px solid #FFC107;
+                                        ">
+                                        <div id="custom-handle{{ forloop.counter }}" class="ui-slider-handle" title="{{health_value.patient_value}}" style="
+                                        width: 3em;
+                                        height: 40px;
+                                        top: 50%;
+                                        text-align: center;
+                                        line-height: 40px;
+                                        margin-top: -20px;
+                                        z-index: 0;
+                                        background-color: #FFC107;
+                                        color: #141A26;
+                                        border: 1px solid #FFC107;"></div>
+                                        <div class="bg1" id="bg1{{forloop.counter}}""></div>
+                                        <div class="bg2" id="bg2{{forloop.counter}}"></div>
+                                        <div class="bg3" id="bg3{{forloop.counter}}"></div>
+                                    </div>
+                                </div>
+                                <div class="dashboard__labels container">
+                                    <label id="mini{{forloop.counter}}">{{health_value.minimum_value}}</label>
+                                    <label id="maxi{{forloop.counter}}">{{health_value.maximum_value}}</label>
+                                </div>
+                                <label hidden id="patient{{forloop.counter}}">{{health_value.patient_value}}</label>
+                                {% if health_value.condition_category == "SAFE" %}
+                                    <h5 class="safe dashboard__category">
+                                        CONDITION: SAFE
+                                    </h5>
+                                {% endif %}
+                                {% if health_value.condition_category == "WARNING" %}
+                                    <h5 class="warning dashboard__category">
+                                        CONDITION: WARNING
+                                    </h5>
+                                {% endif %}
+                                {% if health_value.condition_category == "DANGER" %}
+                                    <h5 class="danger dashboard__category">
+                                        CONDITION: DANGER
+                                    </h5>
+                                {% endif %}
+                                {% if health_value.condition_category == "BDL-SAFE" %}
+                                    <h5 class="bdl-safe dashboard__category">
+                                        CONDITION: BORDERLINE-SAFE
+                                    </h5>
+                                {% endif %}
+                                {% if health_value.condition_category == "BDL-DANGER" %}
+                                    <h5 class="bdl-danger dashboard__category">
+                                        CONDITION: BORDERLINE-DANGER
+                                    </h5>
+                                {% endif %}
                             </div>
-                            <div class="dashboard__labels container">
-                                <label id="mini{{forloop.counter}}">{{health_value.minimum_value}}</label>
-                                <label id="maxi{{forloop.counter}}">{{health_value.maximum_value}}</label>
-                            </div>
-                            <label hidden id="patient{{forloop.counter}}">{{health_value.patient_value}}</label>
-                            {% if health_value.condition_category == "SAFE" %}
-                                <h5 class="safe dashboard__category">
-                                    CONDITION: {{health_value.condition_category}}
-                                </h5>
-                            {% endif %}
-                            {% if health_value.condition_category == "WARNING" %}
-                                <h5 class="warning dashboard__category">
-                                    CONDITION: {{health_value.condition_category}}
-                                </h5>
-                            {% endif %}
-                            {% if health_value.condition_category == "DANGER" %}
-                                <h5 class="danger dashboard__category">
-                                    CONDITION: {{health_value.condition_category}}
-                                </h5>
-                            {% endif %}
-                            {% if health_value.condition_category == "BDL-SAFE" %}
-                                <h5 class="bdl-safe dashboard__category">
-                                    CONDITION: {{health_value.condition_category}}
-                                </h5>
-                            {% endif %}
-                            {% if health_value.condition_category == "BDL-DANGER" %}
-                            <h5 class="bdl-danger dashboard__category">
-                                CONDITION: {{health_value.condition_category}}
-                            </h5>
-                        {% endif %}
-                        </div>
-                        <hr/>
-                    {% endfor %}
-                </div>
+                            <hr/>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
         </div>
     {% elif non_nou %}
@@ -150,15 +154,17 @@
                     <h3>
                         Health Care Worker/Vendor ID: {{user.account.username}}
                     </h3>
-                    {% if user.aadharid != None %}
-                        <h3>Aadhar ID: {{user.aadharid}}</h3>
-                    {% endif %}
                     <h3>Registration No./License No.: {{user.reg_no}}</h3>
-                    {% if user.account.division.lower == 'd/hcw/ms' %}
+                    {% if user.account.division.lower == 'd/hcw/ms' and user.department %}
                         <h3>
                             Department: {{user.department}}
                         </h3>
                     {% endif %}
+                    {% if user.address %}<h3>Address: {{user.address}}</h3>{% endif %}
+                    {% if user.state %}<h3>State/UT: {{user.state}}</h3>{% endif %}
+                    {% if user.city %}<h3>District: {{user.city}}</h3>{% endif %}
+                    {% if user.pincode %}<h3>Pincode: {{user.pincode}}</h3>{% endif %}
+                    <!-- <h3>Address: {{user.address}}</h3> -->
                     <h3>
                         Account Visibility: 
                         {% if user.public %}
@@ -197,6 +203,7 @@
                     </script>
                 </div>
             </div>
+            <!-- <h3>{{user.address}}</h3> -->
         </div>
     {% endif %}
 {% endblock %}
