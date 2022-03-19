@@ -14,7 +14,7 @@ class User(AbstractUser):
     division_choices = [
         ('D/HCW/MS', 'Doctor/Health Care Worker/Medical Staff'),
         ('I/SP', 'Insurance/Health Service Provider'),
-        ('MSh', 'Medical Shop'),
+        ('MSh', 'Medical Shop/Lab'),
         ('NoU', 'Normal User')
     ]
     division = models.CharField(default='NoU', max_length=20, choices=division_choices, verbose_name="Division",

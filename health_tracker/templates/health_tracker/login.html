@@ -16,17 +16,18 @@
     <div id="slideBox">
         <div class="topLayer">
             <div class="right">
+                <!-- Logo? -->
                 <h1 class="title">Patient Login</h1>
                 <form action="{% url 'login' %}" method="POST">
                     {% csrf_token %}
                     {{form}}
                     <input type="submit" value="Login">
                 </form>
-                <button id="goRight">Are you a health care worker?</button>
+                <button id="goRight">Are you a health care worker/vendor?</button>
                 <p>Don't have an account yet? <a href="{% url 'register' %}">Register here.</a></p>
             </div>
             <div class="left">
-                <h1 class="title">Health Worker Login</h1>
+                <h1 class="title">Health Worker/Vendor Login</h1>
                 <form action="{% url 'login' %}" method="POST">
                     {% csrf_token %}
                     {{form}}

@@ -398,7 +398,7 @@ def register(request):
             try:
                 # Creating the user here
                 if division.lower() == "nou" or division.lower() == None:
-                    user = gen_unique_id(email=email, password=password) # TODO: Still needs to be changed
+                    #user = gen_unique_id(email=email, password=password) # TODO: Change done, check if it works
                     aadharid = form.cleaned_data['aadharid']
                     if len(aadharid) != 12 or aadharid.isnumeric() == False:
                         return render(request, "health_tracker/register.html", {
@@ -413,11 +413,12 @@ def register(request):
                             "message": "An account with this Aadhar ID already exists!"
                         })
                     print(request.user.pk, request.user, request.user.username)
+                    user = gen_unique_id(email=email, password=password)
                     Patients(aadharid=aadharid, full_name=full_name, wbid=user.username, person=user).save()
                     HealthStatus(patient=Patients.objects.get(person=user, aadharid=aadharid)).save()
 
                 elif division.lower() in ['d/hcw/ms', 'i/sp', 'msh']:
-                    user = get_hcw_vid(email=email, password=password, division=division)
+                    # user = get_hcw_vid(email=email, password=password, division=division)
                     reg_no = form.cleaned_data['reg_no']
                     dept = form.cleaned_data['department']
                     ## new:
@@ -427,6 +428,7 @@ def register(request):
                                 "form": form,
                                 "message": "You must enter a department name!"
                             })
+                    user = get_hcw_vid(email=email, password=password, division=division)
                     MedWorkerRep(reg_no=reg_no, department=dept, full_com_name=full_name, hcwvid=user.username,
                                  account=user).save()
 
