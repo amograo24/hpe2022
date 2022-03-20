@@ -26,21 +26,21 @@ class Notification(models.Model):
                                verbose_name="Sender")
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="receiver", default=None,
                                  verbose_name="Receiver")
-    content = models.CharField(max_length=200, verbose_name="Message Content")
+    content = models.CharField(max_length=15, verbose_name="Message Content")
     date_of_approval = models.DateTimeField(default=timezone.now)
     # status field to check whether it is approved or not
 
 
 class MedWorkerRep(models.Model):
-    full_com_name = models.CharField(default=None, max_length=200, verbose_name="Full Name/Company Name")
-    department = models.CharField(default=None, max_length=100, null=True, blank=True)  # only for doctors
+    full_com_name = models.CharField(default=None, max_length=40, verbose_name="Full Name/Company Name")
+    department = models.CharField(default=None, max_length=60, null=True, blank=True)  # only for doctors
     reg_no = models.CharField(default=None, max_length=20, verbose_name="Registration No./License ID")
     hcwvid = models.CharField(default=None, max_length=11, validators=[MinLengthValidator(11)],
                               verbose_name="Health Care Worker/Vendor ID", unique=True)
     account = models.ForeignKey(User, on_delete=models.CASCADE, related_name="account", default=None)
-    notifications = models.ManyToManyField(Notification, related_name="mwr_notifs", blank=True)
     public = models.BooleanField(default=False)
-    address = models.CharField(default=None, max_length=500, verbose_name="Address", blank=True, null=True)
+    contact_number = models.CharField(default=None, max_length=10, validators=[MinLengthValidator(10)],blank=True ,null=True, verbose_name="Contact Number")
+    address = models.CharField(default=None, max_length=300, verbose_name="Address", blank=True, null=True)
     city = models.CharField(default=None, max_length=100, verbose_name="City/Town", blank=True, null=True)
     state = models.CharField(default=None, max_length=100, verbose_name="State/Union Territory", blank=True, null=True)
     pincode = models.CharField(default=None, max_length=6, validators=[MinLengthValidator(6)], blank=True, null=True)
@@ -53,14 +53,13 @@ class MedWorkerRep(models.Model):
 
 
 class Patients(models.Model):
-    full_name = models.CharField(default=None, max_length=200, verbose_name="Full Name")
+    full_name = models.CharField(default=None, max_length=40, verbose_name="Full Name")
     person = models.ForeignKey(User, on_delete=models.CASCADE, related_name="person", default=None)
     wbid = models.CharField(default=None, verbose_name="Well-Being ID", max_length=16,
                             validators=[MinLengthValidator(16)], unique=True)
     aadharid = models.CharField(default=None, verbose_name="Aadhar ID", max_length=12,
                                 validators=[MinLengthValidator(12)], unique=True)
     hcw_v = models.ManyToManyField(MedWorkerRep, blank=True, related_name='hcw_v')
-    notifications = models.ManyToManyField(Notification, related_name="p_notifs", blank=True)
 
     def __str__(self):
         return f"{self.person}"
@@ -86,7 +85,7 @@ class Files(models.Model):  # SET('Deleted User')
     tags = models.CharField(default=None, blank=True, null=True, verbose_name="Tags/Keywords", max_length=200)
     file = models.FileField(default=None, unique=True, verbose_name="File Path")
     vendor_name = models.CharField(default=None, blank=True, null=True,
-                                   verbose_name="Name of person uploading this document", max_length=200)
+                                   verbose_name="Name of person uploading this document", max_length=40)
     date = models.DateTimeField(default=timezone.now)
     file_type = models.CharField(default='MSC', max_length=20, choices=file_type_choices, verbose_name="File Type")
 
