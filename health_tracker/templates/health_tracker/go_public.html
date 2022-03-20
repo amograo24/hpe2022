@@ -15,6 +15,9 @@
     </div> 
     <form action="{% url 'go_public' %}" method="POST" id="upload-form">
         {% csrf_token %}
+        <label>{{ form.contact_number.label }}:</label>
+        {{ form.contact_number.errors }}
+        {{ form.contact_number }}        
         <label>{{ form.address.label }}:</label>
         {{ form.address.errors }}
         {{ form.address }}
