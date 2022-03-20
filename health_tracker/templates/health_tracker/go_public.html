@@ -16,6 +16,7 @@
     <form action="{% url 'go_public' %}" method="POST" id="upload-form">
         {% csrf_token %}
         <label>{{ form.address.label }}:</label>
+        {{ form.address.errors }}
         {{ form.address }}
         <label for="states">State:</label>
         <select id="states" name="state" required>
@@ -32,6 +33,7 @@
 
         </select>
         <label>{{ form.pincode.label }}:</label>
+        {{ form.pincode.errors }}
         {{ form.pincode }}
         <!-- <input type="submit" value="Go Public"> -->
         <button type="submit">Go Public</button>

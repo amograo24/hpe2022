@@ -20,6 +20,7 @@
 
             function add_reply(text)
             {
+                $('#current-msg').html("")
                 text.text().then(t => {
                     $("#current-msg").append(`<li style="color:yellow;margin:10px;">${t}</li>`)
                 })
@@ -94,6 +95,7 @@
                 if(row.content == "approved" || row.content == "rejected")
                 {
                     if("{{ division.lower }}" != "nou"){
+                    $('#current-msg').html("")
                     var notif_html = `
                     <li>${row.receiver_name} ${row.content} an Authorization Request from ${row.sender_name} on ${row.doc}</li>`
                     }else{

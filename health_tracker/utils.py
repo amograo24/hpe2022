@@ -1,9 +1,5 @@
-import os
 import random
 import uuid
-from typing import Union
-import qrcode
-from PIL import Image
 
 from .models import User
 

@@ -670,7 +670,7 @@ def notifications(request):
             else:
                 return HttpResponse("Receiver Not Found")
 
-            if sender.division == receiver.division:
+            if receiver.division.lower() in ["d/hcw/ms", "i/sp", "msh"]:
                 return HttpResponse("Can't send request to non patient")
 
         elif body['type'] == "receive":
@@ -935,17 +935,9 @@ def edit_file(request, wbid, file_name):
     file = Files.objects.get(file=f'{wbid}/{file_name}', uploader=editor, recipent=profile)
 
     form0 = EditFileForm(initial={'tags': file.tags, 'vendor_name': file.vendor_name, 'file_type': file.file_type})
-    # print(form0(initial={'tags':file.tags}))
-    # form0.fields['tags']=file.tags # what if it is null?
-    # form0.fields['vendor_name']=file.vendor_name # what if it is null?
-    # form0.fields['file_type']=file.file_type
     if request.method == "POST":
         form = EditFileForm(request.POST)
         if form.is_valid():
-            # tags=form.cleaned_data['tags']
-            # vendor_name=form.cleaned_data['vendor_name']
-            # file_type=form.cleaned_data['file_type']
-            # print("Vendor Name:",len(form.cleaned_data['vendor_name']))
             print(form.cleaned_data)
             if file.uploader and editor.account.division.lower()!='d/hcw/ms' and not form.cleaned_data['vendor_name']:
                 return render(request, "health_tracker/edit_file.html", {
