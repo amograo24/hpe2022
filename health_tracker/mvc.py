@@ -59,12 +59,13 @@ class NotificationManager:
             else:
                 sen = MedWorkerRep.objects.get(account=notification.sender).full_com_name
                 rec = Patients.objects.get(person=self.sender).full_name
+            dt=notification.date_of_approval
             serialized_data = {
                 'content': notification.content,
                 'sender': notification.sender.username,
                 'receiver': notification.receiver.username,
                 # 'doc': f"{notification.date_of_approval.date()}",
-                'doc': notification.date_of_approval,
+                'doc': f"{dt},{dt.hour}:{dt.minute}",
                 "sender_name": sen,
                 "receiver_name": rec
             }
