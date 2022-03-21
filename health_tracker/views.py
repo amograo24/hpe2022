@@ -671,7 +671,7 @@ def notifications(request):
                 return HttpResponse("Receiver Not Found")
 
             if receiver.division.lower() in ["d/hcw/ms", "i/sp", "msh"]:
-                return HttpResponse("Can't send request to non patient")
+                return HttpResponse("Can send request to patients only!")
 
         elif body['type'] == "receive":
             sender = User.objects.get(username=request.user)
@@ -681,7 +681,7 @@ def notifications(request):
             if sender:
                 sender = sender[0]
             else:
-                return HttpResponse("User Does Not Exists!")
+                return HttpResponse("User Does Not Exist!")
 
             receiver = User.objects.get(username=request.user)
         else:

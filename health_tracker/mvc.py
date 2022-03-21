@@ -23,7 +23,7 @@ class NotificationManager:
             return HttpResponse("Cannot Self Invite")
 
         if self.receiver.division in ['D/HCW/MS', 'I/SP', 'MSh']:
-            return HttpResponse("Cannot request another Medical worker")
+            return HttpResponse("Can request only patients!")
 
         if self.sender_mwr in self.receiver_p.hcw_v.all():
             return HttpResponse("User Already Approved!")
@@ -64,7 +64,6 @@ class NotificationManager:
                 'content': notification.content,
                 'sender': notification.sender.username,
                 'receiver': notification.receiver.username,
-                # 'doc': f"{notification.date_of_approval.date()}",
                 'doc': f"{dt.date()},{dt.hour}:{dt.minute}",
                 "sender_name": sen,
                 "receiver_name": rec
