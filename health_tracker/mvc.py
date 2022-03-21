@@ -63,7 +63,8 @@ class NotificationManager:
                 'content': notification.content,
                 'sender': notification.sender.username,
                 'receiver': notification.receiver.username,
-                'doc': f"{notification.date_of_approval.date()}",
+                # 'doc': f"{notification.date_of_approval.date()}",
+                'doc': notification.date_of_approval,
                 "sender_name": sen,
                 "receiver_name": rec
             }
