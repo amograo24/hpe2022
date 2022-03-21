@@ -105,10 +105,10 @@
 
                     if("{{ division.lower }}" != "nou"){
                     var notif_html = `
-                    <li>${row.receiver_name} ${row.content} an Authorization Request from ${row.sender_name} on ${row.doc}</li>`
+                    <li>${row.receiver_name} ${row.content} an Authorization Request from ${row.sender_name} on ${row.doc} ${row.doc.hour} ${row.doc.minute}</li>`
                     }else{
                         var notif_html = `
-                    <li>You ${row.content} an Authorization Request from ${row.sender_name} (${row.sender}) on ${row.doc}</li>`
+                    <li>You ${row.content} an Authorization Request from ${row.sender_name} (${row.sender}) on ${row.doc.hour}</li>`
                     }
                     $("#prev-msg").append(notif_html) // comment 2
                 }
