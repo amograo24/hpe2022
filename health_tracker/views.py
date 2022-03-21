@@ -412,7 +412,7 @@ def register(request):
                             "form": form,
                             "message": "An account with this Aadhar ID already exists!"
                         })
-                    print(request.user.pk, request.user, request.user.username)
+                    # print(request.user.pk, request.user, request.user.username)
                     user = gen_unique_id(email=email, password=password)
                     Patients(aadharid=aadharid, full_name=full_name, wbid=user.username, person=user).save()
                     HealthStatus(patient=Patients.objects.get(person=user, aadharid=aadharid)).save()
