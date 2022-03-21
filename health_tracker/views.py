@@ -1181,10 +1181,10 @@ def handle_Qr(request):
         pos = ((img.size[0] - icon.size[0])//2, (img.size[1] - icon.size[1])//2)
         img.paste(icon, pos)
         b = io.BytesIO()
-        b.name = f"{uid}.jpeg"
         img.save(b, 'JPEG')
         b.seek(0)
         print("file returned")
+        b.name = f"{uid}.jpeg"
         return FileResponse(b)
 
     return HttpResponse("Only POST allowed")
