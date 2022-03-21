@@ -15,10 +15,18 @@
       <div class="dashboard__patient">
          <div class="dashboard__patient-personal">
             <div class="dashboard__patient-text">
-               <h3>Full Name: {{profile.full_name}}</h3>
-               <h3>Email: {{profile.person.email}}</h3>
-               <h3>Well-Being ID: {{profile.wbid}}</h3>
-               <!-- <h3>Aadhar ID: {{profile.aadharid}}</h3> -->
+               <h5 class="dashboard__patient-header">
+                  Full Name
+              </h5>
+              <h3 class="dashboard__patient-mainline">{{profile.full_name}}</h3>
+              <h5 class="dashboard__patient-header">
+                  Email
+              </h5>
+              <h3 class="dashboard__patient-mainline">{{profile.person.email}}</h3>
+              <h5 class="dashboard__patient-header">
+                  Well-Being ID
+              </h5>
+              <h3 class="dashboard__patient-mainline">{{profile.person.username}}</h3>
             </div>
             <div  id="qrcode-generated">
                {% csrf_token %}
@@ -95,27 +103,27 @@
                      <label hidden id="patient{{forloop.counter}}">{{health_value.patient_value}}</label>
                      {% if health_value.condition_category == "SAFE" %}
                            <h5 class="safe dashboard__category">
-                              CONDITION: {{health_value.condition_category}}
+                              CONDITION: SAFE
                            </h5>
                      {% endif %}
                      {% if health_value.condition_category == "WARNING" %}
                            <h5 class="warning dashboard__category">
-                              CONDITION: {{health_value.condition_category}}
+                              CONDITION: WARNING
                            </h5>
                      {% endif %}
                      {% if health_value.condition_category == "DANGER" %}
                            <h5 class="danger dashboard__category">
-                              CONDITION: {{health_value.condition_category}}
+                              CONDITION: DANGER
                            </h5>
                      {% endif %}
                      {% if health_value.condition_category == "BDL-SAFE" %}
                            <h5 class="bdl-safe dashboard__category">
-                              CONDITION: {{health_value.condition_category}}
+                              CONDITION: BORDERLINE-SAFE
                            </h5>
                      {% endif %}
                      {% if health_value.condition_category == "BDL-DANGER" %}
                      <h5 class="bdl-danger dashboard__category">
-                           CONDITION: {{health_value.condition_category}}
+                           CONDITION: BORDERLINE-DANGER
                      </h5>
                   {% endif %}
                   </div>
@@ -137,27 +145,36 @@
       <div class="dashboard__patient">
          <div class="dashboard__patient-personal">
             <div class="dashboard__patient-text">
-               <h3>
-                     {% if profile.account.division.lower == 'd/hcw/ms' %} 
-                        Full Name: 
-                     {% else %} 
-                        Company Name: 
-                     {% endif %} 
-                        {{profile.full_com_name}}
-               </h3>
-               <h3>
-                     Email: {{profile.account.email}}
-               </h3>
-               <h3>
-                     Health Care Worker/Vendor ID: {{profile.account.username}}
-               </h3>
-               <h3>Registration No./License No.: {{profile.reg_no}}</h3>
-               {% if profile.account.division.lower == 'd/hcw/ms' %}
-                     <h3>
-                        Department: {{profile.department}}
-                     </h3>
-               {% endif %}
+               <h5 class="dashboard__patient-header">
+                  {% if profile.account.division.lower == 'd/hcw/ms' %} 
+                      Full Name
+                  {% else %} 
+                      Company Name
+                  {% endif %} 
+              </h5>
+              <h3 class="dashboard__patient-mainline">{{profile.full_com_name}}</h3>
+              <h5 class="dashboard__patient-header">
+                  Email
+              </h5>
+              <h3 class="dashboard__patient-mainline">{{profile.account.email}}</h3>
+              <h5 class="dashboard__patient-header">
+                  Health Care Worker/Vendor ID
+              </h5>
+              <h3 class="dashboard__patient-mainline">{{profile.account.username}}</h3>
+              <h5 class="dashboard__patient-header">Registration No./License No.</h5>
+              <h3 class="dashboard__patient-mainline">
+                  {{profile.reg_no}}
+              </h3>
+              {% if profile.account.division.lower == 'd/hcw/ms' and profile.department %}
+                  <h5 class="dashboard__patient-header">
+                      Department
+                  </h5>
+                  <h3 class="dashboard__patient-mainline">
+                      {{profile.department}}
+                  </h3>
+              {% endif %}
             </div>
+
             <div  id="qrcode-generated">
                {% csrf_token %}
                <!--    this tag will generate the qrcode, the qrcode will be sent from the backend after it's generation-->
@@ -184,6 +201,32 @@
             </div>            
          </div>
       </div>
+      <div class="dashboard__patient-address">
+         {% if user.address %}
+             <h5 class="dashboard__patient-header">
+                 Address
+             </h5>
+             <h3 class="dashboard__patient-mainline">{{user.address}}</h3>
+         {% endif %}
+         {% if user.state %}
+             <h5 class="dashboard__patient-header">
+                 State/UT
+             </h5>
+             <h3 class="dashboard__patient-mainline">{{user.state}}</h3>
+         {% endif %}
+         {% if user.city %}
+             <h5 class="dashboard__patient-header">
+                 District
+             </h5>
+             <h3 class="dashboard__patient-mainline">{{user.city}}</h3>
+         {% endif %}
+         {% if user.pincode %}
+             <h5 class="dashboard__patient-header">
+                 Pincode
+             </h5>
+             <h3 class="dashboard__patient-mainline">{{user.pincode}}</h3>
+         {% endif %}
+      </div>      
       {% if profile in viewer.hcw_v.all %}
          {% if files %}
             <h1 class="title">All files uploaded by {{profile.full_com_name}} on your profile:</h1>
