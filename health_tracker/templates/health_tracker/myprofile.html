@@ -223,32 +223,34 @@
             </div>
             <!-- <h3>{{user.address}}</h3> -->
         </div>
-        <div class="dashboard__patient-address">
-            {% if user.address %}
-                <h5 class="dashboard__patient-header">
-                    Address
-                </h5>
-                <h3 class="dashboard__patient-mainline">{{user.address}}</h3>
-            {% endif %}
-            {% if user.state %}
-                <h5 class="dashboard__patient-header">
-                    State/UT
-                </h5>
-                <h3 class="dashboard__patient-mainline">{{user.state}}</h3>
-            {% endif %}
-            {% if user.city %}
-                <h5 class="dashboard__patient-header">
-                    District
-                </h5>
-                <h3 class="dashboard__patient-mainline">{{user.city}}</h3>
-            {% endif %}
-            {% if user.pincode %}
-                <h5 class="dashboard__patient-header">
-                    Pincode
-                </h5>
-                <h3 class="dashboard__patient-mainline">{{user.pincode}}</h3>
-            {% endif %}
-        </div>
+        {% if vendor.address or vendor.state or vendor.city or vendor.pincode %}
+            <div class="dashboard__patient-address">
+                {% if user.address %}
+                    <h5 class="dashboard__patient-header">
+                        Address
+                    </h5>
+                    <h3 class="dashboard__patient-mainline">{{user.address}}</h3>
+                {% endif %}
+                {% if user.state %}
+                    <h5 class="dashboard__patient-header">
+                        State/UT
+                    </h5>
+                    <h3 class="dashboard__patient-mainline">{{user.state}}</h3>
+                {% endif %}
+                {% if user.city %}
+                    <h5 class="dashboard__patient-header">
+                        District
+                    </h5>
+                    <h3 class="dashboard__patient-mainline">{{user.city}}</h3>
+                {% endif %}
+                {% if user.pincode %}
+                    <h5 class="dashboard__patient-header">
+                        Pincode
+                    </h5>
+                    <h3 class="dashboard__patient-mainline">{{user.pincode}}</h3>
+                {% endif %}
+            </div>
+        {% endif %}
     {% endif %}
 {% endblock %}
 {% block script %}

@@ -192,7 +192,7 @@
                      let token = $("input[name='csrfmiddlewaretoken']").val()
                      let url = "/getQr"
                      let header = {'X-CSRFToken': token}
-                     let request = fetch(url, {method: "POST", headers: header, body: JSON.stringify({uid: "/visit/{{person.account.username}}"})})
+                     let request = fetch(url, {method: "POST", headers: header, body: JSON.stringify({uid: "/visit/{{profile.account.username}}"})})
                      request.then(resp => resp.blob())
                      .then(set_image)
                      }
@@ -201,32 +201,34 @@
             </div>            
          </div>
       </div>
-      <div class="dashboard__patient-address">
-         {% if user.address %}
-             <h5 class="dashboard__patient-header">
-                 Address
-             </h5>
-             <h3 class="dashboard__patient-mainline">{{user.address}}</h3>
-         {% endif %}
-         {% if user.state %}
-             <h5 class="dashboard__patient-header">
-                 State/UT
-             </h5>
-             <h3 class="dashboard__patient-mainline">{{user.state}}</h3>
-         {% endif %}
-         {% if user.city %}
-             <h5 class="dashboard__patient-header">
-                 District
-             </h5>
-             <h3 class="dashboard__patient-mainline">{{user.city}}</h3>
-         {% endif %}
-         {% if user.pincode %}
-             <h5 class="dashboard__patient-header">
-                 Pincode
-             </h5>
-             <h3 class="dashboard__patient-mainline">{{user.pincode}}</h3>
-         {% endif %}
-      </div>      
+      {% if profile.address or profile.state or profile.city or profile.pincode %}
+         <div class="dashboard__patient-address">
+            {% if profile.address %}
+               <h5 class="dashboard__patient-header">
+                  Address
+               </h5>
+               <h3 class="dashboard__patient-mainline">{{user.address}}</h3>
+            {% endif %}
+            {% if profile.state %}
+               <h5 class="dashboard__patient-header">
+                  State/UT
+               </h5>
+               <h3 class="dashboard__patient-mainline">{{user.state}}</h3>
+            {% endif %}
+            {% if profile.city %}
+               <h5 class="dashboard__patient-header">
+                  District
+               </h5>
+               <h3 class="dashboard__patient-mainline">{{user.city}}</h3>
+            {% endif %}
+            {% if profile.pincode %}
+               <h5 class="dashboard__patient-header">
+                  Pincode
+               </h5>
+               <h3 class="dashboard__patient-mainline">{{user.pincode}}</h3>
+            {% endif %}
+         </div>   
+      {% endif %}   
       {% if profile in viewer.hcw_v.all %}
          {% if files %}
             <h1 class="title">All files uploaded by {{profile.full_com_name}} on your profile:</h1>

@@ -63,30 +63,32 @@
         </div>
         <!-- <h3>{{vendor.address}}</h3> -->
     </div>
-    <div class="dashboard__patient-address">
-        {% if vendor.address %}
-            <h5 class="dashboard__patient-header">
-                Address
-            </h5>
-            <h3 class="dashboard__patient-mainline">{{vendor.address}}</h3>
-        {% endif %}
-        {% if vendor.state %}
-            <h5 class="dashboard__patient-header">
-                State/UT
-            </h5>
-            <h3 class="dashboard__patient-mainline">{{vendor.state}}</h3>
-        {% endif %}
-        {% if vendor.city %}
-            <h5 class="dashboard__patient-header">
-                District
-            </h5>
-            <h3 class="dashboard__patient-mainline">{{vendor.city}}</h3>
-        {% endif %}
-        {% if vendor.pincode %}
-            <h5 class="dashboard__patient-header">
-                Pincode
-            </h5>
-            <h3 class="dashboard__patient-mainline">{{vendor.pincode}}</h3>
-        {% endif %}
-    </div>
+    {% if vendor.address or vendor.state or vendor.city or vendor.pincode %}
+        <div class="dashboard__patient-address">
+            {% if vendor.address %}
+                <h5 class="dashboard__patient-header">
+                    Address
+                </h5>
+                <h3 class="dashboard__patient-mainline">{{vendor.address}}</h3>
+            {% endif %}
+            {% if vendor.state %}
+                <h5 class="dashboard__patient-header">
+                    State/UT
+                </h5>
+                <h3 class="dashboard__patient-mainline">{{vendor.state}}</h3>
+            {% endif %}
+            {% if vendor.city %}
+                <h5 class="dashboard__patient-header">
+                    District
+                </h5>
+                <h3 class="dashboard__patient-mainline">{{vendor.city}}</h3>
+            {% endif %}
+            {% if vendor.pincode %}
+                <h5 class="dashboard__patient-header">
+                    Pincode
+                </h5>
+                <h3 class="dashboard__patient-mainline">{{vendor.pincode}}</h3>
+            {% endif %}
+        </div>
+    {% endif %}
 {% endblock %}
