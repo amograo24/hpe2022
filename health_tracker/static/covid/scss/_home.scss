@@ -2,8 +2,8 @@
     padding-bottom: 4rem;
 
     &__row{
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-gap: 3rem;
         gap: 3rem;
         align-items: center;
         justify-content: center;

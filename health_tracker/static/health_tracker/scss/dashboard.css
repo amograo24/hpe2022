@@ -12,7 +12,7 @@ body {
   text-align: center;
   font-family: 'IBM Plex Sans';
   margin-top: 2rem;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
   font-size: 2em;
 }
 
@@ -63,7 +63,14 @@ body {
   text-align: center;
   padding-bottom: 2rem;
   padding-left: 5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   padding-right: 5rem;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: column-reverse;
+          flex-direction: column-reverse;
 }
 
 .dashboard__patient-personal button {
@@ -88,7 +95,7 @@ body {
 }
 
 .dashboard #qrcode-generated {
-  margin-top: 3rem;
+  margin-bottom: 2rem;
 }
 
 .dashboard__health-stat {
@@ -180,12 +187,78 @@ body {
   color: #ff9307;
 }
 
+.dashboard__patient-address {
+  width: 80vw;
+  margin: 0 auto;
+  border: 2px solid #FFC107;
+  border-radius: 6px;
+  margin-top: 2rem;
+  padding: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 4rem;
+}
+
+.dashboard__patient-address h3 {
+  width: 100%;
+}
+
+.dashboard__patient-address button {
+  width: 60%;
+  height: 40px;
+  font-size: 1.1em;
+  background-color: #FFC107;
+  color: #141A26;
+  border: none;
+  outline: none;
+  margin-top: 2rem;
+  border-radius: 6px;
+}
+
+.dashboard__patient-address button:hover {
+  background-color: #d39e00;
+}
+
+.dashboard__patient-address h3 {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.dashboard__patient-address h5 {
+  width: 100%;
+}
+
+.dashboard__patient-address h3:last-child {
+  margin-bottom: 0;
+}
+
 @media screen and (min-width: 780px) {
   .dashboard__patient-personal {
     text-align: left;
   }
   .dashboard__patient-personal button {
     width: 100%;
+  }
+  .dashboard__patient-text {
+    width: 60%;
+  }
+  .dashboard__patient-header {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0 !important;
+    font-size: 1em;
+  }
+  .dashboard__patient-mainline {
+    margin-top: 0 !important;
   }
   hr {
     display: none;

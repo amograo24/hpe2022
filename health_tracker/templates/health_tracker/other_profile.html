@@ -1,5 +1,6 @@
 {% extends "health_tracker/layout.html" %}
 {% load static %}
+{% load custom_filter %}
 {% block title %}{% endblock %}
 {% block styling %}
    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -200,8 +201,13 @@
                <div class="inside_file_card">
                   <a style="text-decoration: none;" href="/media/{{file.file}}">
                <!-- <a href="{#% url 'file_page' file.recipent file.file %#}">kk</a> -->
-                     <div class="files_container__img-card img_class" id="img{{file.id}}" data-image="{{file.file}}">
-                     </div>
+                     {% if not file|stringformat:"s"|endswith:"docx,xls,xlsx,txt,mp4,avi,mov,ppt,pptx,mp3,key" %}
+                        <div class="files_container__img-card img_class" id="img{{file.id}}" data-image="{{file.file}}">
+                        </div>
+                     {% else %}
+                        <img class="files_container__img-card img_class" id="img{{file.id}}" data-image=""
+                        src="{% static 'health_tracker/folder.png' %}">
+                     {% endif %}
                      <div class="files_container__content">
                         <h5 class="file_name_class" id="file{{file.id}}" data-name={{file.file}}>{{file.file}}</h5>
                         <!-- <a href="media/{{file.file}}"><h1 class="file_name_class" id="file{{file.id}}" data-name={{file.file}}>{{file.file}}</h1></a> -->

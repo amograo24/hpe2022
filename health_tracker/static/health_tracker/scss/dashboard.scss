@@ -10,7 +10,7 @@ body{
     text-align: center;
     font-family: 'IBM Plex Sans';
     margin-top: 2rem;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
     font-size: 2em;
 }
 
@@ -54,7 +54,9 @@ body{
         text-align: center;
         padding-bottom: 2rem;
         padding-left: 5rem;
+        display: flex;
         padding-right: 5rem;
+        flex-direction: column-reverse;
 
         button{
             width: 80%;
@@ -79,7 +81,7 @@ body{
     }
 
     #qrcode-generated{
-        margin-top: 3rem;   
+        margin-bottom: 2rem;   
     }
 
     &__health-stat{
@@ -163,6 +165,54 @@ body{
     color: #ff9307;
 }
 
+.dashboard{
+    &__patient-address{
+        width: 80vw;
+        margin: 0 auto;
+        border: 2px solid $secondary-color;
+        border-radius: 6px;
+        margin-top: 2rem;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        margin-bottom: 4rem;
+        
+        h3{
+            width: 100%;
+        }
+
+        button{
+            width: 60%;
+            height: 40px;
+            font-size: 1.1em;
+            background-color: $secondary-color;
+            color: $background-color-dark;
+            border: none;
+            outline: none;
+            margin-top: 2rem;
+            border-radius: 6px;
+
+            &:hover{
+                background-color: darken($secondary-color, 10%);
+            }
+        }
+
+        h3{
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        h5{
+            width: 100%;
+        }
+
+        h3:last-child{
+            margin-bottom: 0;
+        }
+    }
+}
 
 @media screen and (min-width: 780px) {
 
@@ -172,6 +222,20 @@ body{
             button{
                 width: 100%;
             }
+        }
+
+        &__patient-text{
+            width: 60%;
+        }
+
+        &__patient-header{
+            color: rgba(255,255,255, 0.7);
+            margin-bottom: 0 !important;
+            font-size: 1em;
+        }
+
+        &__patient-mainline{
+            margin-top: 0 !important;
         }
     }
     

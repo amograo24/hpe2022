@@ -18,10 +18,22 @@
         <div class="dashboard__patient">
             <div class="dashboard__patient-personal">
                 <div class="dashboard__patient-text">
-                    <h3>Full Name: {{user.full_name}}</h3>
-                    <h3>Email: {{user.person.email}}</h3>
-                    <h3>Well-Being ID: {{user.person.username}}</h3>
-                    <h3>Aadhar ID: {{user.aadharid}}</h3>
+                    <h5 class="dashboard__patient-header">
+                        Full Name
+                    </h5>
+                    <h3 class="dashboard__patient-mainline">{{user.full_name}}</h3>
+                    <h5 class="dashboard__patient-header">
+                        Email
+                    </h5>
+                    <h3 class="dashboard__patient-mainline">{{user.person.email}}</h3>
+                    <h5 class="dashboard__patient-header">
+                        Well-Being ID
+                    </h5>
+                    <h3 class="dashboard__patient-mainline">{{user.person.username}}</h3>
+                    <h5 class="dashboard__patient-header">
+                        Aadhar ID
+                    </h5>
+                    <h3 class="dashboard__patient-mainline">{{user.aadharid}}</h3>
                 </div>
                 <div  id="qrcode-generated">
                     {% csrf_token %}
@@ -140,33 +152,39 @@
         <div class="dashboard__patient">
             <div class="dashboard__patient-personal">
                 <div class="dashboard__patient-text">
-                    <h3>
+                    <h5 class="dashboard__patient-header">
                         {% if user.account.division.lower == 'd/hcw/ms' %} 
-                            Full Name: 
+                            Full Name
                         {% else %} 
-                            Company Name: 
+                            Company Name
                         {% endif %} 
-                            {{user.full_com_name}}
+                    </h5>
+                    <h3 class="dashboard__patient-mainline">{{user.full_com_name}}</h3>
+                    <h5 class="dashboard__patient-header">
+                        Email
+                    </h5>
+                    <h3 class="dashboard__patient-mainline">{{user.account.email}}</h3>
+                    <h5 class="dashboard__patient-header">
+                        Health Care Worker/Vendor ID
+                    </h5>
+                    <h3 class="dashboard__patient-mainline">{{user.account.username}}</h3>
+                    <h5 class="dashboard__patient-header">Registration No./License No.</h5>
+                    <h3 class="dashboard__patient-mainline">
+                        {{user.reg_no}}
                     </h3>
-                    <h3>
-                        Email: {{user.account.email}}
-                    </h3>
-                    <h3>
-                        Health Care Worker/Vendor ID: {{user.account.username}}
-                    </h3>
-                    <h3>Registration No./License No.: {{user.reg_no}}</h3>
                     {% if user.account.division.lower == 'd/hcw/ms' and user.department %}
-                        <h3>
-                            Department: {{user.department}}
+                        <h5 class="dashboard__patient-header">
+                            Department
+                        </h5>
+                        <h3 class="dashboard__patient-mainline">
+                            {{user.department}}
                         </h3>
                     {% endif %}
-                    {% if user.address %}<h3>Address: {{user.address}}</h3>{% endif %}
-                    {% if user.state %}<h3>State/UT: {{user.state}}</h3>{% endif %}
-                    {% if user.city %}<h3>District: {{user.city}}</h3>{% endif %}
-                    {% if user.pincode %}<h3>Pincode: {{user.pincode}}</h3>{% endif %}
-                    <!-- <h3>Address: {{user.address}}</h3> -->
-                    <h3>
-                        Account Visibility: 
+                    <!-- <h3 class="dashboard__patient-mainline">Address{{user.address}}</h3> -->
+                    <h5 class="dashboard__patient-header">
+                        Account Visibility
+                    </h5>
+                    <h3 class="dashboard__patient-mainline">
                         {% if user.public %}
                             Public
                         {% else %}
@@ -204,6 +222,32 @@
                 </div>
             </div>
             <!-- <h3>{{user.address}}</h3> -->
+        </div>
+        <div class="dashboard__patient-address">
+            {% if user.address %}
+                <h5 class="dashboard__patient-header">
+                    Address
+                </h5>
+                <h3 class="dashboard__patient-mainline">{{user.address}}</h3>
+            {% endif %}
+            {% if user.state %}
+                <h5 class="dashboard__patient-header">
+                    State/UT
+                </h5>
+                <h3 class="dashboard__patient-mainline">{{user.state}}</h3>
+            {% endif %}
+            {% if user.city %}
+                <h5 class="dashboard__patient-header">
+                    District
+                </h5>
+                <h3 class="dashboard__patient-mainline">{{user.city}}</h3>
+            {% endif %}
+            {% if user.pincode %}
+                <h5 class="dashboard__patient-header">
+                    Pincode
+                </h5>
+                <h3 class="dashboard__patient-mainline">{{user.pincode}}</h3>
+            {% endif %}
         </div>
     {% endif %}
 {% endblock %}
