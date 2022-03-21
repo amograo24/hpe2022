@@ -1180,7 +1180,7 @@ def handle_Qr(request):
         img = qr.make_image(fill_color="#FFC107", back_color="#141A26").convert('RGB')
         pos = ((img.size[0] - icon.size[0])//2, (img.size[1] - icon.size[1])//2)
         img.paste(icon, pos)
-        b = io.BytesIO(name=f"{uid}.jpeg")
+        b = io.BytesIO()
         img.save(b, 'JPEG')
         b.seek(0)
         print("file returned")
