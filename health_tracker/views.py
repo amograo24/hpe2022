@@ -1039,6 +1039,8 @@ def search_public_vendors(request):
     """done by kushal sai. Whole function"""
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
+    if request.user.division.lower()!='nou':
+        return HttpResponseRedirect(reverse("index"))
     search_entry = request.GET.get('q', '')
     user = User.objects.get(username=request.user)
     public_doctors = []
