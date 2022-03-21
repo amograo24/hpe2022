@@ -1,8 +1,19 @@
 @import 'variables';
 
-.title{
+.login-title{
     color: $secondary-color;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
+}
+
+.login-logo{
+  width: 40%;
+  margin-bottom: 1rem;
+}
+
+.login-error{
+  margin-top: 1rem;
+  color: $secondary-color;
+  margin-bottom: 2rem;
 }
 
 body{
@@ -313,5 +324,18 @@ body{
 
   button{
     width: 80%;
+  }
+}
+
+@media screen and (max-height: 750px){
+  .right, .left{
+    justify-content: flex-start;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    overflow-y: scroll;
+  }
+  .login-title{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
 }

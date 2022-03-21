@@ -277,6 +277,20 @@ body{
         padding-right: 1rem;
     }
 
+    &__patient-header{
+        font-size: 1em;
+        margin-bottom: 0;
+        color: rgba(255,255,255, 0.7);
+        text-align: left;
+    }
+
+    &__patient-header:last-child{
+        font-size: 1em;
+        margin-bottom: 1rem;
+        color: rgba(255,255,255, 0.7);
+        text-align: left;
+    }
+    
     &__patient-link{
         width: 290px;
         text-decoration: none;

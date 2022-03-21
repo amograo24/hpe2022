@@ -10,7 +10,7 @@ body {
 
 .title {
   text-align: center;
-  font-family: 'IBM Plex Sans';
+  font-family: "IBM Plex Sans";
   margin-top: 2rem;
   margin-bottom: 2rem;
   font-size: 2em;
@@ -19,16 +19,10 @@ body {
 .container {
   padding: 0;
   width: 100vw;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   margin-top: 1rem;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
 }
 
 .container1 {
@@ -58,21 +52,38 @@ body {
 .dashboard__patient {
   margin-bottom: 4rem;
 }
-
+.dashboard__updated {
+  width: 80%;
+  margin: 0 auto;
+}
+.dashboard__updated-label {
+  width: 100%;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+}
+.dashboard__patient-header {
+  font-size: 1em;
+  margin-bottom: 0;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: left;
+}
+.dashboard__patient-mainline {
+  padding-left: 1rem;
+  text-align: left;
+  margin-top: 0 !important;
+  margin-bottom: 2rem !important;
+}
 .dashboard__patient-personal {
   text-align: center;
   padding-bottom: 2rem;
-  padding-left: 5rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  width: 80%;
+  margin: 0 auto;
+  padding: 2rem;
   display: flex;
-  padding-right: 5rem;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: reverse;
-      -ms-flex-direction: column-reverse;
-          flex-direction: column-reverse;
+  border: 2px solid #FFC107;
+  border-radius: 6px;
+  flex-direction: column-reverse;
 }
-
 .dashboard__patient-personal button {
   width: 80%;
   height: 40px;
@@ -84,83 +95,66 @@ body {
   margin-top: 2rem;
   border-radius: 6px;
 }
-
 .dashboard__patient-personal button:hover {
   background-color: #d39e00;
 }
-
 .dashboard__patient-personal h3 {
   margin-top: 1rem;
+  overflow-wrap: break-word;
   margin-bottom: 1rem;
 }
-
 .dashboard #qrcode-generated {
   margin-bottom: 2rem;
 }
-
 .dashboard__health-stat {
   margin-top: 4rem;
   margin-bottom: 4rem;
 }
-
 .dashboard__labels {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-between;
+  align-items: center;
 }
-
 .dashboard__health-container {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (350px)[auto-fit];
-      grid-template-columns: repeat(auto-fit, 350px);
+  grid-template-columns: repeat(auto-fit, 350px);
   grid-row-gap: 5rem;
   grid-column-gap: 4rem;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  width: 90%;
+  justify-content: space-around;
+  width: 100%;
   margin: 0 auto;
+  padding-left: 5%;
+  padding-right: 5%;
   list-style: none;
   margin-top: 4rem;
+  pointer-events: none;
 }
-
 .dashboard__category {
   margin: 0 auto;
   margin-top: 2rem;
   width: 100%;
   text-align: center;
 }
-
 .dashboard__health-item {
   width: 350px;
   margin: 0 auto;
 }
-
 .dashboard__health-item h4 {
   font-size: 1.3em;
   width: 100%;
   margin-bottom: 2.5rem;
 }
-
 .dashboard .container {
   width: 350px;
 }
-
 .dashboard .slider {
   width: 350px;
+  pointer-events: none;
 }
-
 .dashboard hr {
   margin-top: 3rem;
   margin-bottom: 3rem;
 }
-
 .dashboard .heading {
   width: 100%;
   text-align: center;
@@ -194,25 +188,15 @@ body {
   border-radius: 6px;
   margin-top: 2rem;
   padding: 2rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
   margin-bottom: 4rem;
 }
-
 .dashboard__patient-address h3 {
   width: 100%;
 }
-
 .dashboard__patient-address button {
   width: 60%;
   height: 40px;
@@ -224,20 +208,16 @@ body {
   margin-top: 2rem;
   border-radius: 6px;
 }
-
 .dashboard__patient-address button:hover {
   background-color: #d39e00;
 }
-
 .dashboard__patient-address h3 {
   width: 100%;
   margin-bottom: 2rem;
 }
-
 .dashboard__patient-address h5 {
   width: 100%;
 }
-
 .dashboard__patient-address h3:last-child {
   margin-bottom: 0;
 }
@@ -260,9 +240,11 @@ body {
   .dashboard__patient-mainline {
     margin-top: 0 !important;
   }
+
   hr {
     display: none;
   }
+
   .dashboard__patient-personal {
     width: 80vw;
     margin: 0 auto;
@@ -270,18 +252,10 @@ body {
     border-radius: 6px;
     margin-top: 2rem;
     padding: 2rem;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: reverse;
-        -ms-flex-direction: row-reverse;
-            flex-direction: row-reverse;
-    -ms-flex-pack: distribute;
-        justify-content: space-around;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    align-items: center;
   }
   .dashboard__patient-personal h3 {
     width: 100%;
@@ -290,28 +264,19 @@ body {
     margin-top: 0;
   }
 }
-
 .search_public__title {
   margin-top: 4rem;
   margin-bottom: 3rem;
   font-size: 2em;
   text-align: center;
 }
-
 .search_public__form {
   width: 80%;
   margin: 0 auto;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
-
 .search_public__field {
   width: 80%;
   border: none;
@@ -324,20 +289,17 @@ body {
   padding-left: 8px;
   padding-right: 8px;
 }
-
 .search_public__btn {
   width: 20%;
   height: 40px;
   background-color: #FFC107;
   color: #141A26;
-  -webkit-transition: all ease-in-out 500ms;
   transition: all ease-in-out 500ms;
   border: none;
   outline: none;
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
 }
-
 .search_public__btn:hover {
   background-color: #d39e00;
 }
@@ -346,17 +308,23 @@ body {
   .dashboard__patient-personal {
     width: 60vw !important;
   }
+  .dashboard__patient-address {
+    width: 60vw !important;
+  }
+
   .search_public__form {
     width: 60%;
   }
 }
-
 @media screen and (min-width: 1900px) {
   .dashboard__patient-personal {
     width: 50vw !important;
   }
+  .dashboard__patient-address {
+    width: 50vw !important;
+  }
+
   .search_public__form {
     width: 50%;
   }
-}
-/*# sourceMappingURL=dashboard.css.map */
+}/*# sourceMappingURL=dashboard.css.map */

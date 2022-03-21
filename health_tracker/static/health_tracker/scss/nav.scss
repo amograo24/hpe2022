@@ -88,8 +88,8 @@
 }
 
 .active {
-    max-height: 425px;
-    height: 425px;
+    max-height: 350px;
+    height: 350px;
     transition: all ease-in-out 500ms;
     transform: translateY(0px);
 }
@@ -105,7 +105,7 @@
             max-width: 193.94px;
         }
         &__link-list-div {
-            max-height: 335px;
+            max-height: 350px;
             transform: translateY(0px);
             display: flex;
             align-items: center;

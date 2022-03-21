@@ -5,10 +5,6 @@
 <link rel="stylesheet" href="{% static 'health_tracker/scss/login.css' %}">
 {% endblock %}
 {% block body %}
-
-    {% if message %}
-        <div class="empty">{{ message }}</div>
-    {% endif %}
     <div class="back">
         <div class="backLeft"></div>
         <div class="backRight"></div>
@@ -16,8 +12,11 @@
     <div id="slideBox">
         <div class="topLayer">
             <div class="right">
-                <!-- Logo? -->
-                <h1 class="title">Patient Login</h1>
+                <img class="login-logo" src="{% static 'health_tracker/uhi.png' %}">
+                <h1 class="login-title">Patient Login</h1>
+                {% if message %}
+                    <div class="login-error">Error: {{ message }}</div>
+                {% endif %}
                 <form action="{% url 'login' %}" method="POST">
                     {% csrf_token %}
                     {{form}}
@@ -27,7 +26,11 @@
                 <p>Don't have an account yet? <a href="{% url 'register' %}">Register here.</a></p>
             </div>
             <div class="left">
-                <h1 class="title">Health Worker/Vendor Login</h1>
+                <img class="login-logo" src="{% static 'health_tracker/uhi.png' %}">
+                <h1 class="login-title">Health Worker/Vendor Login</h1>
+                {% if message %}
+                    <div class="login-error">Error: {{ message }}</div>
+                {% endif %}
                 <form action="{% url 'login' %}" method="POST">
                     {% csrf_token %}
                     {{form}}

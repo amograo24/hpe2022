@@ -73,6 +73,10 @@
                     <h1 class="heading">Your Health Status Card is empty.</h1>
                 {% else %}                
                     <h1 class="heading">Health Status</h1>
+                    <div class="dashboard__updated">
+                        <p class="dashboard__updated-label">Last updated by {{health_status.last_updated_by}}</p>
+                        <p class="dashboard__updated-label">Last updated on {{health_status.last_updated}}</p>
+                     </div>
                     <hr/>
                     <div class="dashboard__health-container">
                         {% for health_value in health_status.health_status.all %}
