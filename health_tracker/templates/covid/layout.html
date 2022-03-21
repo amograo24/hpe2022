@@ -22,7 +22,9 @@
     <body>
         <nav class="nav">
             <div class="nav__title-bar">  
-                <img src="{% static 'health_tracker/uhi.png' %}" alt="logo" height="50px" class="nav__logo">         
+                <a href="{% url 'index' %}">
+                    <img src="{% static 'health_tracker/uhi.png' %}" alt="logo" height="50px" class="nav__logo">         
+                </a>
                 <div class="nav__burger" id="burger">
                     <span class="nav__line"></span>
                     <span class="nav__line"></span>
@@ -35,7 +37,6 @@
                         <li class="nav__link-item"><a class="nav__link" href="{% url 'login' %}">Login</a></li>
                         <li class="nav__link-item"><a class="nav__link" href="{% url 'register' %}">Register</a></li>
                     {% else %}
-                        <li class="nav__link-item"><a class="nav__link" href="{% url 'index' %}">Dashboard</a></li>
                         <li class="nav__link-item"><a class="nav__link" href="{% url 'covid' %}">COVID-19</a></li>
                         <!-- <li class="nav__link-item"><a class="nav__link" href="./gallery.html">Health Status</a></li> -->
                         {% if request.user.division.lower != 'nou' %}
