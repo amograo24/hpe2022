@@ -52,6 +52,7 @@
     </div>
 {% endif %}
 <script>
+    var updateMessages = 0;
     function approve(btn)
         {
             let receiver_id = $(btn).attr('class').split(" ")[0]
@@ -90,12 +91,19 @@
             $('#current-msg').html("")
             {% endif %}
             $("#prev-msg").html("")
+
             for(let row of data)
             {
+                if(updateMessages != data.length)
+                {
+                    updateMessages = data.length
+                    $('#current-msg').html("")
+
+                }
                 if(row.content == "approved" || row.content == "rejected")
                 {
+
                     if("{{ division.lower }}" != "nou"){
-                    $('#current-msg').html("")
                     var notif_html = `
                     <li>${row.receiver_name} ${row.content} an Authorization Request from ${row.sender_name} on ${row.doc}</li>`
                     }else{
@@ -108,7 +116,7 @@
                 {
                     let notif_html = `
                     <div class="notif-item">
-                    <li>${row.sender} [${row.sender_name}] an Authorization Request on  ${row.doc}</li>
+                    <li>${row.sender_name} [${row.sender}] an Authorization Request on  ${row.doc}</li>
                     <button onclick=approve(this) id='${row.sender}' class='${row.receiver} notification'>Approve</button>
                     <button onclick=reject(this) id='${row.sender}' class='${row.receiver} notification'>Reject</button>
                                 </div>`
