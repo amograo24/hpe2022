@@ -207,25 +207,25 @@
                <h5 class="dashboard__patient-header">
                   Address
                </h5>
-               <h3 class="dashboard__patient-mainline">{{user.address}}</h3>
+               <h3 class="dashboard__patient-mainline">{{profile.address}}</h3>
             {% endif %}
             {% if profile.state %}
                <h5 class="dashboard__patient-header">
                   State/UT
                </h5>
-               <h3 class="dashboard__patient-mainline">{{user.state}}</h3>
+               <h3 class="dashboard__patient-mainline">{{profile.state}}</h3>
             {% endif %}
             {% if profile.city %}
                <h5 class="dashboard__patient-header">
                   District
                </h5>
-               <h3 class="dashboard__patient-mainline">{{user.city}}</h3>
+               <h3 class="dashboard__patient-mainline">{{profile.city}}</h3>
             {% endif %}
             {% if profile.pincode %}
                <h5 class="dashboard__patient-header">
                   Pincode
                </h5>
-               <h3 class="dashboard__patient-mainline">{{user.pincode}}</h3>
+               <h3 class="dashboard__patient-mainline">{{profile.pincode}}</h3>
             {% endif %}
          </div>   
       {% endif %}   
