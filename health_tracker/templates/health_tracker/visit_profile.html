@@ -3,42 +3,39 @@
 {% block title %}Home{% endblock %}
 {% block styling %}<link href="{% static 'health_tracker/scss/dashboard.css' %}" rel="stylesheet">{% endblock %}
 {% block body %}
-    <h1 class="title">Doctor's Profile</h1>
+    <h1 class="title">{{vendor.full_com_name}}'s Profile</h1>
     <div class="dashboard__patient">
         <div class="dashboard__patient-personal">
-            <div class="dashboard__patient-text" style="padding-left: 2rem;">
-                <h3>
+            <div class="dashboard__patient-text">
+                <h5 class="dashboard__patient-header">
                     {% if vendor.account.division.lower == 'd/hcw/ms' %} 
-                        Full Name: 
+                        Full Name
                     {% else %} 
-                        Company Name: 
+                        Company Name
                     {% endif %} 
-                        {{vendor.full_com_name}}
+                </h5>
+                <h3 class="dashboard__patient-mainline">{{vendor.full_com_name}}</h3>
+                <h5 class="dashboard__patient-header">
+                    Email
+                </h5>
+                <h3 class="dashboard__patient-mainline">{{vendor.account.email}}</h3>
+                <!-- <h5 class="dashboard__patient-header">
+                    Health Care Worker/Vendor ID
+                </h5>
+                <h3 class="dashboard__patient-mainline">{{vendor.account.username}}</h3> -->
+                <h5 class="dashboard__patient-header">Registration No./License No.</h5>
+                <h3 class="dashboard__patient-mainline">
+                    {{vendor.reg_no}}
                 </h3>
-                <h3>
-                    Email: {{vendor.account.email}}
-                </h3>
-                <h3>
-                    Health Care Worker/Vendor ID: {{vendor.account.username}}
-                </h3>
-                <h3>Registration No./License No.: {{vendor.reg_no}}</h3>
-                {% if vendor.account.division.lower == 'd/hcw/ms' %}
-                    <h3>
-                        Department: {{vendor.department}}
+                {% if vendor.account.division.lower == 'd/hcw/ms' and vendor.department %}
+                    <h5 class="dashboard__patient-header">
+                        Department
+                    </h5>
+                    <h3 class="dashboard__patient-mainline">
+                        {{vendor.department}}
                     </h3>
                 {% endif %}
-                <h3>
-                    Address: {{vendor.address}}
-                </h3>
-                <h3>
-                    City: {{vendor.city}}
-                </h3>
-                <h3>
-                    State: {{vendor.state}}
-                </h3>
-                <h3>
-                    Pincode: {{vendor.pincode}}
-                </h3>
+                <!-- <h3 class="dashboard__patient-mainline">Address{{vendor.address}}</h3> -->
             </div>
             <div  id="qrcode-generated">
                 {% csrf_token %}
@@ -64,5 +61,32 @@
                 </script>
             </div>
         </div>
+        <!-- <h3>{{vendor.address}}</h3> -->
+    </div>
+    <div class="dashboard__patient-address">
+        {% if vendor.address %}
+            <h5 class="dashboard__patient-header">
+                Address
+            </h5>
+            <h3 class="dashboard__patient-mainline">{{vendor.address}}</h3>
+        {% endif %}
+        {% if vendor.state %}
+            <h5 class="dashboard__patient-header">
+                State/UT
+            </h5>
+            <h3 class="dashboard__patient-mainline">{{vendor.state}}</h3>
+        {% endif %}
+        {% if vendor.city %}
+            <h5 class="dashboard__patient-header">
+                District
+            </h5>
+            <h3 class="dashboard__patient-mainline">{{vendor.city}}</h3>
+        {% endif %}
+        {% if vendor.pincode %}
+            <h5 class="dashboard__patient-header">
+                Pincode
+            </h5>
+            <h3 class="dashboard__patient-mainline">{{vendor.pincode}}</h3>
+        {% endif %}
     </div>
 {% endblock %}
