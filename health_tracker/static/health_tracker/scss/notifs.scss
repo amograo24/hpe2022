@@ -4,14 +4,6 @@ body{
     background-color: $background-color-dark;
 }
 
-#current::-webkit-scrollbar{
-    display: none;
-}
-
-#prev::-webkit-scrollbar{
-    display: none;
-}
-
 #current{
     background-color: lighten($background-color-dark, 20%);
     width: 90vw;

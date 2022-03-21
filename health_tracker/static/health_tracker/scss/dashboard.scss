@@ -45,17 +45,44 @@ body{
 }
 
 .dashboard{
-
     &__patient{
         margin-bottom: 4rem;
     }
+
+    &__updated{
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    &__updated-label{
+        width: 100%;
+        color: rgba(255,255,255, 0.7);
+        text-align: center;
+    }
     
+    &__patient-header{
+        font-size: 1em;
+        margin-bottom: 0;
+        color: rgba(255,255,255, 0.7);
+        text-align: left;
+    }
+
+    &__patient-mainline{
+        padding-left: 1rem;
+        text-align: left;
+        margin-top: 0 !important;
+        margin-bottom: 2rem !important;
+    }
+
     &__patient-personal{
         text-align: center;
         padding-bottom: 2rem;
-        padding-left: 5rem;
+        width: 80%;
+        margin: 0 auto;
+        padding: 2rem;
         display: flex;
-        padding-right: 5rem;
+        border: 2px solid $secondary-color;
+        border-radius: 6px;
         flex-direction: column-reverse;
 
         button{
@@ -76,6 +103,7 @@ body{
 
         h3{
             margin-top: 1rem;
+            overflow-wrap: break-word;
             margin-bottom: 1rem;
         }
     }
@@ -101,10 +129,13 @@ body{
         grid-row-gap: 5rem;
         grid-column-gap: 4rem;
         justify-content: space-around;
-        width: 90%;
+        width: 100%;
         margin: 0 auto;
+        padding-left: 5%;
+        padding-right: 5%;
         list-style: none;
         margin-top: 4rem;
+        pointer-events: none;
     }
 
     &__category{
@@ -131,6 +162,7 @@ body{
 
     .slider{
         width: 350px;
+        pointer-events: none;
     }
 
     hr{
@@ -318,6 +350,9 @@ body{
         &__patient-personal{
             width: 60vw !important;
         }
+        &__patient-address{
+            width: 60vw !important;
+        }
     }
 
     .search_public{
@@ -330,6 +365,9 @@ body{
 @media screen and (min-width: 1900px) {
     .dashboard{
         &__patient-personal{
+            width: 50vw !important;
+        }
+        &__patient-address{
             width: 50vw !important;
         }
     }

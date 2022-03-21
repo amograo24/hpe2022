@@ -6,14 +6,6 @@ body {
   background-color: #141A26;
 }
 
-#current::-webkit-scrollbar {
-  display: none;
-}
-
-#prev::-webkit-scrollbar {
-  display: none;
-}
-
 #current {
   background-color: #374869;
   width: 90vw;
@@ -23,11 +15,9 @@ body {
   margin-top: 5vh;
   overflow-y: scroll;
 }
-
 #current ul {
   padding: 0;
 }
-
 #current .notif-item {
   color: #FFC107;
   padding-left: 3rem;
@@ -38,7 +28,6 @@ body {
   margin: 0;
   font-size: 1.2em;
 }
-
 #current .notif-item button {
   width: 30%;
   height: 48px;
@@ -51,10 +40,8 @@ body {
   margin-top: 1rem;
   margin-right: 1rem;
   margin-left: 1rem;
-  -webkit-transition: all ease-in-out 500ms;
   transition: all ease-in-out 500ms;
 }
-
 #current .notif-item button:hover {
   background-color: #d39e00;
   border: 2px solid #d39e00;
@@ -69,11 +56,9 @@ body {
   margin-top: 5vh;
   overflow-y: scroll;
 }
-
 #prev ul {
   padding: 0;
 }
-
 #prev ul li {
   color: #FFC107;
   padding-left: 3rem;
@@ -110,7 +95,6 @@ body {
   border-bottom: 2px solid #FFC107;
   background-color: #FFC107;
 }
-
 #send_msg:hover {
   background-color: #d39e00;
   border: 2px solid #d39e00;
@@ -122,5 +106,4 @@ body {
 
 #prev-msg {
   list-style-type: none;
-}
-/*# sourceMappingURL=notifs.css.map */
+}/*# sourceMappingURL=notifs.css.map */
