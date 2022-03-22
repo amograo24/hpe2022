@@ -5,11 +5,23 @@
 .login-title {
   color: #FFC107;
   margin-bottom: 1rem;
+  text-align: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+p {
+  text-align: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .login-logo {
   width: 40%;
   margin-bottom: 1rem;
+}
+.login-logo:hover {
+  cursor: pointer;
 }
 
 .login-error {
@@ -148,7 +160,6 @@ body {
   border: 2px solid #FFC107;
   min-width: 30vw;
   padding-left: 8px;
-  font-size: 1.2em;
   color: #111;
   transition: all ease-in-out 500ms;
 }
@@ -216,7 +227,6 @@ label {
 
 form input[type=submit],
 button {
-  font-size: 1.2em;
   min-width: 30vw;
 }
 
@@ -229,7 +239,7 @@ form input[type=submit] {
   border: 2px solid #FFC107;
   min-width: 30vw;
   padding-left: 8px;
-  color: #111;
+  color: #141A26;
   transition: all ease-in-out 500ms;
 }
 
@@ -244,7 +254,6 @@ form input[type=submit] {
   min-width: 30vw;
   padding-left: 8px;
   margin-bottom: 1rem;
-  font-size: 1.2em;
   color: #111;
   transition: all ease-in-out 500ms;
 }
@@ -272,7 +281,6 @@ form input[type=submit]:hover {
   min-width: 30vw;
   padding-left: 8px;
   margin-bottom: 1rem;
-  font-size: 1.2em;
   color: #111;
   transition: all ease-in-out 500ms;
 }
