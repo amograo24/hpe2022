@@ -1,6 +1,6 @@
 {% extends "health_tracker/layout.html" %}
 {% load static %}
-{% block title %}Home{% endblock %}
+{% block title %}{{vendor.full_com_name}}'s Profile {% endblock %}
 {% block styling %}<link href="{% static 'health_tracker/scss/dashboard.css' %}" rel="stylesheet">{% endblock %}
 {% block body %}
     <h1 class="title">{{vendor.full_com_name}}'s Profile</h1>
