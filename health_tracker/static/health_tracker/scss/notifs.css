@@ -50,7 +50,7 @@ body {
 #prev {
   background-color: #374869;
   width: 90vw;
-  max-height: 40vh;
+  height: 60vh;
   margin-left: 5vw;
   border-radius: 10px;
   margin-top: 5vh;
@@ -106,4 +106,20 @@ body {
 
 #prev-msg {
   list-style-type: none;
+}
+
+@media screen and (max-width: 670px) {
+  #send {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  #send input {
+    width: 90%;
+    margin-left: 0;
+  }
+  #send #send_msg {
+    width: 90%;
+  }
 }/*# sourceMappingURL=notifs.css.map */

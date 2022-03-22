@@ -15,7 +15,11 @@ body{
 .login-logo{
     width: 40%;
     margin-bottom: 1rem;
-  }
+    
+    &:hover{
+        cursor: pointer;
+    }
+}
   
   
 .nav{
@@ -124,7 +128,7 @@ body{
     background-color: $secondary-color;
     padding-top: 2px;
     padding-bottom: 2px;
-    color: white;
+    color: $background-color-dark;
     margin-bottom: 2rem;
     border-radius: 4px;
 }

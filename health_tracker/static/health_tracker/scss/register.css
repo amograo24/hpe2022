@@ -17,6 +17,9 @@ body {
   width: 40%;
   margin-bottom: 1rem;
 }
+.login-logo:hover {
+  cursor: pointer;
+}
 
 .nav {
   display: none;
@@ -124,7 +127,7 @@ body {
   background-color: #FFC107;
   padding-top: 2px;
   padding-bottom: 2px;
-  color: white;
+  color: #141A26;
   margin-bottom: 2rem;
   border-radius: 4px;
 }

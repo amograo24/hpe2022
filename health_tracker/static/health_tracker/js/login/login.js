@@ -15,6 +15,12 @@ function getCookie(cname) {
 }
 
 $(document).ready(function(){
+  document.querySelectorAll("label[for=id_username]")[0].innerHTML = "Well-Being ID:"
+  document.querySelectorAll('input[name="username"]')[0].placeholder = "Enter WBID"
+  document.querySelectorAll('input[name="password"]')[0].placeholder = "Enter Password"
+  document.querySelectorAll("label[for=id_username]")[1].innerHTML = "Health Care Worker/Vendor ID:"
+  document.querySelectorAll('input[name="username"]')[1].placeholder = "Enter HCWV ID"
+  document.querySelectorAll('input[name="password"]')[1].placeholder = "Enter Password"
   var $width = $(window).width();
   if($width > 929) {
     if(getCookie('side') === 'left'){

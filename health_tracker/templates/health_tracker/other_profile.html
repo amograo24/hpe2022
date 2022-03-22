@@ -57,7 +57,11 @@
       {% if viewer_doctor_type and viewer in profile.hcw_v.all %}
             <div class="make_btn">
                <button class="edit" onclick="window.location.href='/health/{{profile.person.username}}'">{% if health_status.health_status.all|length == 0 %}Create{% else %}Edit{% endif %}</button>
-               <button class="collapsible">{% if health_status.health_status.all|length == 0 %}Health Status does not exist!{% else %}Health Status&nbsp;&nbsp;<i class="fa fa-arrow-down" id="trigger-btn" aria-hidden="true"></i>{% endif %}</button>
+               {% if health_status.health_status.all|length == 0 %}
+                  <button disabled class="collapsible">Health Status does not exist!</button>
+               {% else %}
+                  <button class="collapsible"> Health Status&nbsp;&nbsp;<i class="fa fa-arrow-down" id="trigger-btn" aria-hidden="true"></i></button>
+               {% endif %}
             </div>
             <div class="dashboard__health-container content" style="margin-top: 0;">
                <div>

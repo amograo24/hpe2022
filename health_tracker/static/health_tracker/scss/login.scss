@@ -3,11 +3,24 @@
 .login-title{
     color: $secondary-color;
     margin-bottom: 1rem;
+    text-align: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+p{
+  text-align: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .login-logo{
   width: 40%;
   margin-bottom: 1rem;
+
+  &:hover{
+    cursor: pointer;
+  }
 }
 
 .login-error{
@@ -156,7 +169,6 @@ body{
         border: 2px solid $secondary-color;
         min-width: 30vw;
         padding-left: 8px;
-        font-size: 1.2em;
         color: $text-color-dark;
         transition: all ease-in-out 500ms;
       }
@@ -230,7 +242,6 @@ body{
   
   form input[type="submit"],
   button {
-    font-size: 1.2em;
     min-width: 30vw;
   }
   
@@ -243,7 +254,7 @@ body{
     border: 2px solid $secondary-color;
     min-width: 30vw;
     padding-left: 8px;
-    color: $text-color-dark;
+    color: $background-color-dark;
     transition: all ease-in-out 500ms;
   }
   
@@ -258,7 +269,6 @@ body{
     min-width: 30vw;
     padding-left: 8px;
     margin-bottom: 1rem;
-    font-size: 1.2em;
     color: $text-color-dark;
     transition: all ease-in-out 500ms;
   }
@@ -286,7 +296,6 @@ body{
     min-width: 30vw;
     padding-left: 8px;
     margin-bottom: 1rem;
-    font-size: 1.2em;
     color: $text-color-dark;
     transition: all ease-in-out 500ms;
   }

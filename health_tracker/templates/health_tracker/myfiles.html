@@ -58,7 +58,7 @@
                         <h6>Patient/Customer: {{file.recipent.full_name}} ({{file.recipent.person.username}})</h6>
                      {% endif %}                     
                      <h6>Uploaded On: {{file.date}}</h6>
-                     <h6>File type: {{file.file_type}}</h6>
+                     <h6>Type: {{file.file_type}}</h6>
                   </div> 
                </a>
                {% if file.uploader.account == request.user %}

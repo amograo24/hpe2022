@@ -77,9 +77,9 @@ body {
 }
 .inside_file_card h6 {
   text-align: center;
-  margin-top: 1rem;
   padding-left: 1rem;
   padding-right: 1rem;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .files_container__img-card {
