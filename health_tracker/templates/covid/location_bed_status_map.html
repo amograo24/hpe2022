@@ -5,8 +5,13 @@
 <link href="{% static 'covid/scss/main.css' %}" rel="stylesheet" />
 {% endblock %}
 {% block body %}
+    <h1 class="a-title">Live COVID-19 Bed Status</h1>
         <div id="legend1">
-            <div class="legend2"><iframe src="https://www.google.com/maps/d/u/4/embed?mid=1GlZET2XYZ6nMstecvWTIpwMJm_RpGAFT" width="120%" height="600"></iframe></div>
+            <div class="legend2">
+                <iframe src="https://www.google.com/maps/d/u/4/embed?mid=1GlZET2XYZ6nMstecvWTIpwMJm_RpGAFT"></iframe>
+            </div>
+            <h3 class="b-title">Legend</h3>
+            <hr/>
             <div class="legend3">
                 <div class="legend">
                     <img src="{% static 'covid/img/ph.png' %}" alt="Private Hospitals">
@@ -17,7 +22,7 @@
                     <label> - Government Hospitals</label>
                 </div>
                 <div class="legend">
-                    <img src="{% static 'covid/img/pmc.png' %}" alt="Private Medical Colleges>
+                    <img src="{% static 'covid/img/pmc.png' %}" alt="Private Medical Colleges">
                     <label> - Private Medical Colleges</label>
                 </div>
                 <div class="legend">

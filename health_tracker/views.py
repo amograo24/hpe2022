@@ -50,7 +50,6 @@ def search(request):
     else:
         user = MedWorkerRep.objects.get(account=user)
         files = Files.objects.filter(uploader=user)
-    print("files", files)
     associated_people = user.hcw_v.all()
     related_files = []
     associated_people_list = []
@@ -71,7 +70,6 @@ def search(request):
                 if search_entry.lower() in i:
                     associated_people_list.append(person)
                     break
-    print("associated_people_list", associated_people_list)
     for file in files:
         # check for tags, and the uploader, and vendor name. Ex tags it will show class str even if nothing exists. so do file.tags.strip(" ")
         # check_list=[str(file.file).lower(),file.recipent.full_name.lower(),file.recipent.person.username.lower(),file.file_type.lower(),"presctiption","schedule/timetable","health report/test report","invoice","operative report","discharge summary","miscellaneous"]
@@ -104,8 +102,6 @@ def search(request):
                     if file.recipent not in associated_people_list:
                         associated_people_list.append(file.recipent)
                         break
-    print(related_files)
-    print(associated_people_list)
     return render(request, "health_tracker/search.html", {
         "associated_people": list(set(associated_people_list)),
         "related_files": list(set(related_files)),
@@ -144,7 +140,6 @@ def health_status_function(request, wbid):
             "udne": User.DoesNotExist
         })
     if profile_type != 'nou':
-        print("Bug Trigger 2")
         return render(request, "health_tracker/health_status.html", {
             "message": f"'{profile}' is not a patient! You can update/create Health Status Cards of patients only!",
             # "wbid": wbid,
@@ -154,7 +149,6 @@ def health_status_function(request, wbid):
     patient = Patients.objects.get(person=profile)
     updater = MedWorkerRep.objects.get(account=updater)
     if updater not in patient.hcw_v.all():
-        print("Bug Trigger!")
         return render(request, "health_tracker/health_status.html", {
             "message": f"Patient with the WBID '{wbid}' has not authorised you to update/create their Health Status Card!",
             # "wbid": wbid,
@@ -167,14 +161,9 @@ def health_status_function(request, wbid):
                                                                                   'patient_value',
                                                                                   'condition_category'), extra=1)
     if request.method == 'POST':
-        print(request.POST)
         formset = HealthValueFormset(request.POST, instance=health_status)
-        print(formset.errors, formset)
         if formset.is_valid():
-            print("formset:", formset)
             for form in formset:
-                print("FormsetLoop Running")
-                print(form.cleaned_data.get('maximum_value'))
                 data = form.cleaned_data
                 if (data.get('maximum_value') and data.get('minimum_value')) and data.get('maximum_value') < data.get(
                         'minimum_value'):
@@ -184,7 +173,6 @@ def health_status_function(request, wbid):
                         # "wbid": wbid,
                         "message": f"The minimum value cannot be greater than the maximum value for '{data.get('health_condition')}'!"
                     })
-            # print(formset.maximum_value,formset.minimum_value)
             formset.save()
             health_status.last_updated_by = updater
             health_status.last_updated = timezone.now()
@@ -192,7 +180,6 @@ def health_status_function(request, wbid):
             return HttpResponseRedirect(reverse("other_profile",args=(wbid,)))
             # return HttpResponseRedirect(reverse("index"))  # return to patient's thingie
         else:
-            print(formset.errors)
             # errors=[error for error in formset.errors if error]
             errors=[[i+1,formset.errors[i]] for i in range(len(formset.errors)) if formset.errors[i]]
             # errors=[]
@@ -255,7 +242,6 @@ def upload_file(request):
             for file in files:
                 if not is_valid_file(file):
                     files.remove(file)  # removes the file if not valid.
-                    print(file)
             try:
                 patient = Patients.objects.get(wbid=patient)
                 notification = Notification.objects.filter(
@@ -412,7 +398,6 @@ def register(request):
                             "form": form,
                             "message": "An account with this Aadhar ID already exists!"
                         })
-                    # print(request.user.pk, request.user, request.user.username)
                     user = gen_unique_id(email=email, password=password)
                     Patients(aadharid=aadharid, full_name=full_name, wbid=user.username, person=user).save()
                     HealthStatus(patient=Patients.objects.get(person=user, aadharid=aadharid)).save()
@@ -494,7 +479,6 @@ def myfiles(request):
     - The user has an option to sort/filter the type of files on 'myfiles.html'. Accordingly, the
     files are sorted and filtered and are sent as context while reurning 'myfiles.html'.
     """
-    print(request.POST)
     sort_method = request.POST.get('sort') or "def"
     filter_method = request.POST.get("filter") or "def"
     if not request.user.is_authenticated:
@@ -557,7 +541,6 @@ def other_profile(request, id):
             # registered doctor it should show all, for doctors who were deleted, only their uploaded files
             files = Files.objects.filter(uploader=viewer, recipent=profile).order_by('-date')
             if viewer_type != 'd/hcw/ms':
-                print(files, not files)
                 if not files:
                     return HttpResponseRedirect(reverse("index"))
             elif viewer_type == 'd/hcw/ms':
@@ -620,7 +603,6 @@ def visit_qrcode(request, id):
             # registered doctor it should show all, for doctors who were deleted, only their uploaded files
             files = Files.objects.filter(uploader=viewer, recipent=profile).order_by('-date')
             if viewer_type != 'd/hcw/ms':
-                print(files, not files)
                 if not files:
                     if viewer not in profile.hcw_v.all():
                         return HttpResponseRedirect(reverse("auth_messages") + f"?w={profile.person.username}")
@@ -699,8 +681,6 @@ def delete_file(request, wbid, name):
     - A 'Patient' does not have access to delete files. A MedWorkerRep cannot delete files
     uploaded by another MedWorkerRep.
     """
-    print(wbid, name)
-    print(request.body)
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     user = User.objects.get(username=request.user)
@@ -715,7 +695,6 @@ def delete_file(request, wbid, name):
         if file.uploader and file.uploader.account == user:
             if request.method == "POST":
                 data = json.loads(request.body)
-                print(data)
                 if data['to_delete'] == "yes":
                     # file.delete()
                     os.remove(f"media/{wbid}/{name}")
@@ -769,7 +748,6 @@ def file_page(request, wbid, name):
                     raise Http404(f"'{name}' doesn't exist!")
                 elif os.path.exists(f'media/{wbid}/{name}'):
                     file = Files.objects.get(file=f'{wbid}/{name}')
-                    # print(file.file,str(file.file).lower())
                     # if the person who uploaded the file is not the vendor and if the vendor is not a doctor => intruder
                     if file.uploader != vendor and viewer.division.lower() != 'd/hcw/ms':
                         return HttpResponseRedirect(reverse("index"))
@@ -938,7 +916,6 @@ def edit_file(request, wbid, file_name):
     if request.method == "POST":
         form = EditFileForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
             if file.uploader and editor.account.division.lower()!='d/hcw/ms' and not form.cleaned_data['vendor_name']:
                 return render(request, "health_tracker/edit_file.html", {
                     "form": form,
@@ -1099,7 +1076,6 @@ def remove_patient_vendor(request, id):
             if profile in user.hcw_v.all():
                 if request.method == "POST":
                     data = json.loads(request.body)
-                    print(data)
                     if data['to_delete'] == "yes":
                         user.hcw_v.remove(profile)
                         return JsonResponse({'status': 200})
@@ -1116,7 +1092,6 @@ def remove_patient_vendor(request, id):
             if profile in user.hcw_v.all():
                 if request.method == "POST":
                     data = json.loads(request.body)
-                    print(data)
                     if data['to_delete'] == "yes":
                         user.hcw_v.remove(profile)
                         return JsonResponse({'status': 200})
@@ -1183,7 +1158,6 @@ def handle_Qr(request):
         b = io.BytesIO()
         img.save(b, 'JPEG')
         b.seek(0)
-        print("file returned")
         return FileResponse(b)
 
     return HttpResponse("Only POST allowed")

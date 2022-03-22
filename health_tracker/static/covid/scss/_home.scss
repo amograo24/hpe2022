@@ -45,3 +45,11 @@
             justify-content: center;
     }
 }
+
+@media screen and (max-width: 400px){
+    .home{
+        &__column{
+            width: 200px;
+        }
+    }
+}

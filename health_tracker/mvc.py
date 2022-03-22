@@ -32,7 +32,6 @@ class NotificationManager:
             return HttpResponse("Not authorised")
 
         check_notif = Notification.objects.filter(sender=self.sender, receiver=self.receiver).order_by('-date_of_approval')
-        print(check_notif, "Debug print in handle_send")
         if check_notif and check_notif[0].content not in ("rejected", "approved"):
             return HttpResponse("Notification Already Sent!")
 
@@ -79,7 +78,6 @@ class NotificationManager:
         notif_obj = Notification.objects.filter(sender=self.sender, receiver=self.receiver).order_by('-date_of_approval')[0]
         if self.body["status"] == "yes":
             status = "approved"
-            print(self.sender_mwr)
             self.receiver_p.hcw_v.add(self.sender_mwr)
 
         else:
@@ -119,9 +117,6 @@ class NotificationManager:
         self.sender_mwr = MedWorkerRep.objects.filter(hcwvid=receiver_temp)
         if self.sender_mwr:
             self.sender_mwr = self.sender_mwr[0]
-        else:
-            print("sender_mwr not found!")
-
         if self.receiver:  # For approval, since patients can't send 'send' request
             self.receiver_p = Patients.objects.get(wbid=self.receiver.username)
 
