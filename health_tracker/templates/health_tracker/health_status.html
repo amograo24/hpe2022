@@ -94,7 +94,7 @@
                                 <input type="checkbox" name="health_status-${id}-DELETE" id="id_health_status-${id}-DELETE">
                             </div>
                         </div>`
-                    let h1 = `<input type="hidden" name="health_status-${id}-health_status" value="1" id="id_health_status-${id}-health_status">`
+                    let h1 = `<input type="hidden" name="health_status-${id}-health_status" value="{{health_status.pk}}" id="id_health_status-${id}-health_status">`
                     let h2 = `<input type="hidden" name="health_status-${id}-id" id="id_health_status-${id}-id"><hr/>`
 
                     let whole_code = label + hc + maxvl + maxv + minvl + minv + pvl + pv + dl + h1 + h2
