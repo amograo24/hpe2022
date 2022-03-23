@@ -479,10 +479,10 @@ def myfiles(request):
     - The user has an option to sort/filter the type of files on 'myfiles.html'. Accordingly, the
     files are sorted and filtered and are sent as context while reurning 'myfiles.html'.
     """
-    sort_method = request.POST.get('sort') or "def"
-    filter_method = request.POST.get("filter") or "def"
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
+    sort_method = request.POST.get('sort') or "def"
+    filter_method = request.POST.get("filter") or "def"        
     user = User.objects.get(username=request.user)
     files = None
     user_type = user.division.lower()

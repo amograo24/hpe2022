@@ -272,19 +272,19 @@
                         <!-- <a href="media/{{file.file}}"><h1 class="file_name_class" id="file{{file.id}}" data-name={{file.file}}>{{file.file}}</h1></a> -->
                         <h6>Uploaded By: {% if file.uploader %} {{file.uploader.full_com_name}} {% else %} Deleted_User {% endif %}</h6>
                         <h6>Uploaded On: {{file.date}}</h6>
-                        {% if file.type == 'PRSCN' %}
+                        {% if file.file_type == 'PRSCN' %}
                            <h6>Type: Prescription</h6>
-                        {% elif file.type == 'S/T' %}
+                        {% elif file.file_type == 'S/T' %}
                            <h6>Type: Schedule/Timetable</h6>
-                        {% elif file.type == 'HR/TR' %}
+                        {% elif file.file_type == 'HR/TR' %}
                            <h6>Type: Health Report/Test Report</h6>
-                        {% elif file.type == 'INVCE' %}
+                        {% elif file.file_type == 'INVCE' %}
                            <h6>Type: Invoice</h6>
-                        {% elif file.type == 'OP' %}
+                        {% elif file.file_type == 'OP' %}
                            <h6>Type: Operative Report</h6>
-                        {% elif file.type == 'DS' %}
+                        {% elif file.file_type == 'DS' %}
                            <h6>Type: Discharge Summary</h6>
-                        {% elif file.type == 'MSC' %}
+                        {% elif file.file_type == 'MSC' %}
                            <h6>Type: Miscellaneous</h6>
                         {% endif %}                        
                      </div> 
