@@ -35,7 +35,7 @@ urlpatterns = [
     path("covid/norms", views.covid_norms, name="covid_norms"),
     path("covid/vaccination", views.covid_vaccinations, name="covid_vaccinations"),
     path("covid/immunity", views.covid_immunity, name="covid_immunity"),
-    path("covid/bed_status", views.covid_bed_status, name="covid_bed_status"),
+    path("covid/hospital_map", views.covid_hospital_map, name="covid_hospital_map"),
     path("covid/mythbusters", views.covid_mythbusters, name="covid_mythbusters"),
 
     # Utility URLs

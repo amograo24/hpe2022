@@ -1123,7 +1123,7 @@ def StatesAPI(request):
 def covid(request):
     return render(request, 'covid/covid_main.html')
 
-def covid_bed_status(request):
+def covid_hospital_map(request):
     return render(request, 'covid/location_bed_status_map.html')
 
 def covid_immunity(request):
