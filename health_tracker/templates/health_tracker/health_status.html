@@ -70,11 +70,11 @@
                     let label = `<div class="form-fields"><div class="field-row"><div class="field"><label for="id_health_status-${id}-health_condition">Health Condition ${id+1}:</label>`
                     let hc = `<input type="text" name="health_status-${id}-health_condition" value="" maxlength="100" id="id_health_status-${id}-health_condition"></div>`
                     let maxvl = `<div class="field"><label for="id_health_status-${id}-maximum_value">Maximum Value:</label>`
-                    let maxv = `<input type="number" name="health_status-${id}-maximum_value" id="id_health_status-${id}-maximum_value"></div></div>`
+                    let maxv = `<input type="number" name="health_status-${id}-maximum_value" step="any" id="id_health_status-${id}-maximum_value"></div></div>`
                     let minvl = `<div class="field-row"><div class="field"><label for="id_health_status-${id}-minimum_value">Minimum Value:</label>`
-                    let minv = `<input type="number" name="health_status-${id}-minimum_value"  id="id_health_status-${id}-minimum_value"></div>`
+                    let minv = `<input type="number" name="health_status-${id}-minimum_value" step="any" id="id_health_status-${id}-minimum_value"></div>`
                     let pvl = `<div class="field"><label for="id_health_status-${id}-patient_value">Patient's Value:</label>`
-                    let pv = `<input type="number" name="health_status-${id}-patient_value" id="id_health_status-${id}-patient_value"></div></div>`
+                    let pv = `<input type="number" name="health_status-${id}-patient_value" step="any" id="id_health_status-${id}-patient_value"></div></div>`
                     let dl = `
                         <div class="field-row">
                             <div class="field">
