@@ -1,6 +1,6 @@
 {% extends "health_tracker/layout.html" %}
 {% load static %}
-{% block title %}Health Status | {{patient.person.username}}{% endblock %}
+{% block title %}Health Status ({{patient.person.username}}){% endblock %}
 {% block styling %}<link href="{% static 'health_tracker/scss/health.css' %}" rel="stylesheet" />{% endblock %}
 {% block body %}
     {% for error_list in errors %}
@@ -105,7 +105,7 @@
                     $("#add-field").click(e => {
                         let v = parseInt($("#id_health_status-TOTAL_FORMS").val())
                         if ($(`#id_health_status-${v-1}-health_condition`).val()=="") {
-                            alert(`Please fill form ${v} first!`)
+                            alert(`Please fill health condition ${v} first!`)
                             return null;
                         }
                         // let x = parseInt($("#id_health_status-INITIAL_FORMS").val())
