@@ -856,7 +856,7 @@ def mypatients_customers(request):
         return HttpResponseRedirect(reverse("login"))
     user = User.objects.get(username=request.user)
     if user.division.lower() == 'nou':
-        return HttpResponseRedirect(reverse("mypatients_customers"))
+        return HttpResponseRedirect(reverse("mydoctors_vendors"))
     vendor = MedWorkerRep.objects.get(account=user)
     patients_customers = []
     files = Files.objects.filter(uploader=vendor)

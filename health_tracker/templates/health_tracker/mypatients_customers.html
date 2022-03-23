@@ -3,24 +3,14 @@
 {% block title %}My Patients/Customers{% endblock %}
 {% block styling %}<link href = "{% static 'health_tracker/scss/search.css' %}" rel="stylesheet">{% endblock %}
 {% block body %}
-{% if patients_customers %}
+{% if not patients_customers %}
+    <h3 class="empty">You have no patients/customers!</h3>
+{% elif patients_customers %}
     <h1 class="title">Patients/Customers</h1>
     <div class="patient-container">
         {% for person in patients_customers %}
             <div class="patient-container__patient-div">
                 {% csrf_token %}
-                <!-- {% if user_type == 'nou' %} -->
-                <!-- {% if person %} -->
-                    <!-- <a href="{% url 'other_profile' person.account.username %}" class="patient-container__patient-link">
-                        <p>{{person.full_com_name}} ({{person.account.username}})</p>   -->
-                        <!-- {% if user in person.hcw_v.all %}
-                            <button type="button" class="delete_patient" data-pos="{{forloop.counter}}">
-                                <img src="{% static 'health_tracker/delete.svg' %}" />
-                            </button>
-                        {% endif %} -->
-                    <!-- </a> -->
-                <!-- {% endif %} -->
-                <!-- {% else %} -->
                 <a href="{% url 'other_profile' person.person.username %}" class="patient-container__patient-link">
                     <p>{{person.full_name}} ({{person.person.username}})</p>  
                     {% if person in vendor.hcw_v.all %}
@@ -29,7 +19,6 @@
                         </button>
                     {% endif %}
                 </a>
-                <!-- {% endif %} -->
                 {% if person in vendor.hcw_v.all %}
                     <div class="delete_patient_modal" tabindex="-1" data-pos="{{forloop.counter}}" aria-labelledby="ModalLabel" aria-hidden="true">
                         <div class="modal_dialog">
