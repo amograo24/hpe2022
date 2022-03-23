@@ -11,7 +11,7 @@
     <main class="dashboard">
     <div>
         <div>
-            <h1 class="title">My Details</h1>
+            <h1 class="title">Dashboard</h1>
         </div>
     </div> 
     {% if nou %}
@@ -52,7 +52,7 @@
                         let token = $("input[name='csrfmiddlewaretoken']").val()
                         let url = "/getQr"
                         let header = {'X-CSRFToken': token}
-                        let request = fetch(url, {method: "POST", headers: header, body: JSON.stringify({uid: "/visit/{{ user.person.username }}"})})
+                        let request = fetch(url, {method: "POST", headers: header, body: JSON.stringify({uid: "http://64.227.173.119:8000/visit/{{ user.person.username }}"})})
                         request.then(resp => resp.blob())
                         .then(set_image)
                         }
@@ -65,7 +65,7 @@
                 <h3 class="search_public__title">Search for Public Doctors/Vendors</h3>
                 <form class="search_public__form" action="{% url 'search_public' %}">
                     <input class="search_public__field" type="text" name="q"/>
-                    <button class="search_public__btn" type="submit">Submit</button>
+                    <button class="search_public__btn" type="submit">Search</button>
                 </form>
             </section> 
             <div class="dashboard__health-stat">
@@ -74,7 +74,7 @@
                 {% else %}                
                     <h1 class="heading">Health Status</h1>
                     <div class="dashboard__updated">
-                        <p class="dashboard__updated-label">Last updated by {{health_status.last_updated_by}}</p>
+                        <p class="dashboard__updated-label">Last updated by <a href="{% url 'other_profile' health_status.last_updated_by.account.username %}" style="color: rgba(255, 255, 255, 0.7);">{{health_status.last_updated_by.full_com_name}} ({{health_status.last_updated_by.account.username}})</a></p>
                         <p class="dashboard__updated-label">Last updated on {{health_status.last_updated}}</p>
                      </div>
                     <hr/>
@@ -163,7 +163,7 @@
                             Company Name
                         {% endif %} 
                     </h5>
-                    <h3 class="dashboard__patient-mainline">{{user.full_com_name}}</h3>
+                    <h3 class="dashboard__patient-mainline">{{user.full_com_name}}</h3>              
                     <h5 class="dashboard__patient-header">
                         Email
                     </h5>
@@ -217,7 +217,7 @@
                         let token = $("input[name='csrfmiddlewaretoken']").val()
                         let url = "/getQr"
                         let header = {'X-CSRFToken': token}
-                        let request = fetch(url, {method: "POST", headers: header, body: JSON.stringify({uid: "/visit/{{ user.account.username }}"})})
+                        let request = fetch(url, {method: "POST", headers: header, body: JSON.stringify({uid: "http://64.227.173.119:8000/visit/{{ user.account.username }}"})})
                         request.then(resp => resp.blob())
                         .then(set_image)
                         }
@@ -227,8 +227,14 @@
             </div>
             <!-- <h3>{{user.address}}</h3> -->
         </div>
-        {% if vendor.address or vendor.state or vendor.city or vendor.pincode %}
+        {% if user.contact_number or user.address or user.state or user.city or user.pincode %}
             <div class="dashboard__patient-address">
+                {% if user.contact_number %}
+                    <h5 class="dashboard__patient-header">
+                        Contact Number
+                    </h5>
+                    <h3 class="dashboard__patient-mainline">{{user.contact_number}}</h3>    
+                {% endif %}                  
                 {% if user.address %}
                     <h5 class="dashboard__patient-header">
                         Address
