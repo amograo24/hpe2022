@@ -3,6 +3,9 @@
 {% block title %}My Doctors/Vendors{% endblock %}
 {% block styling %}<link href="{% static 'health_tracker/scss/search.css' %}" rel="stylesheet"/> {% endblock %}
 {% block body %}
+    {% if not authorized_doctors and not other_doctors and not insurance_service_providers and not medical_shops_labs %}
+        <h3 class="empty">You have no doctors/vendors!</h3>
+    {% endif %}
     {% if authorized_doctors %}
         <h1 class="title">Authorized Doctors</h1>
         <div class="patient-container">
