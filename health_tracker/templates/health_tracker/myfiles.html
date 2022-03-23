@@ -58,7 +58,21 @@
                         <h6>Patient/Customer: {{file.recipent.full_name}} ({{file.recipent.person.username}})</h6>
                      {% endif %}                     
                      <h6>Uploaded On: {{file.date}}</h6>
-                     <h6>Type: {{file.file_type}}</h6>
+                     {% if file.type == 'PRSCN' %}
+                        <h6>Type: Prescription</h6>
+                     {% elif file.type == 'S/T' %}
+                        <h6>Type: Schedule/Timetable</h6>
+                     {% elif file.type == 'HR/TR' %}
+                        <h6>Type: Health Report/Test Report</h6>
+                     {% elif file.type == 'INVCE' %}
+                        <h6>Type: Invoice</h6>
+                     {% elif file.type == 'OP' %}
+                        <h6>Type: Operative Report</h6>
+                     {% elif file.type == 'DS' %}
+                        <h6>Type: Discharge Summary</h6>
+                     {% elif file.type == 'MSC' %}
+                        <h6>Type: Miscellaneous</h6>
+                     {% endif %}                     
                   </div> 
                </a>
                {% if file.uploader.account == request.user %}
