@@ -1019,7 +1019,7 @@ def search_public_vendors(request):
     if request.user.division.lower()!='nou':
         return HttpResponseRedirect(reverse("index"))
     search_entry = request.GET.get('q', '')
-    user = User.objects.get(username=request.user)
+    # user = User.objects.get(username=request.user)
     public_doctors = []
     public_insurance_service_providers = []
     public_medical_shops_labs = []

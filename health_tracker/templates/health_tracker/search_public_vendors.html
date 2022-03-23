@@ -15,7 +15,7 @@
                         <a href="{% url 'visit' doctor.account.username %}" class="patient-container__patient-link">
                             <p>{{doctor.full_com_name}} ({{doctor.account.username}})</p>  
                         </a>
-                        <p class="patient-container__patient-header">City: {{doctor.city}}</p>
+                        <p class="patient-container__patient-header">District: {{doctor.city}}</p>
                         <p class="patient-container__patient-header">State: {{doctor.state}}</p>
                     </div>
                 {% endfor %}
@@ -30,6 +30,8 @@
                         <a href="{% url 'visit' vendor.account.username %}" class="patient-container__patient-link">
                             <p>{{vendor.full_com_name}} ({{vendor.account.username}})</p>  
                         </a>
+                        <p class="patient-container__patient-header">District: {{vendor.city}}</p>
+                        <p class="patient-container__patient-header">State: {{vendor.state}}</p>                        
                     </div>
                 {% endfor %}
             </div>            
@@ -43,6 +45,8 @@
                         <a href="{% url 'visit' vendor.account.username %}" class="patient-container__patient-link">
                             <p>{{vendor.full_com_name}} ({{vendor.account.username}})</p>  
                         </a>
+                        <p class="patient-container__patient-header">District: {{vendor.city}}</p>
+                        <p class="patient-container__patient-header">State: {{vendor.state}}</p>                            
                     </div>
                 {% endfor %}
             </div>               
