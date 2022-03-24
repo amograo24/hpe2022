@@ -19,10 +19,10 @@
                     Email
                 </h5>
                 <h3 class="dashboard__patient-mainline">{{vendor.account.email}}</h3>
-                <!-- <h5 class="dashboard__patient-header">
+                <h5 class="dashboard__patient-header">
                     Health Care Worker/Vendor ID
                 </h5>
-                <h3 class="dashboard__patient-mainline">{{vendor.account.username}}</h3> -->
+                <h3 class="dashboard__patient-mainline">{{vendor.account.username}}</h3>
                 <h5 class="dashboard__patient-header">Registration No./License No.</h5>
                 <h3 class="dashboard__patient-mainline">
                     {{vendor.reg_no}}
@@ -53,7 +53,7 @@
                     let token = $("input[name='csrfmiddlewaretoken']").val()
                     let url = "/getQr"
                     let header = {'X-CSRFToken': token}
-                    let request = fetch(url, {method: "POST", headers: header, body: JSON.stringify({uid: "/visit/{{ vendor.account.username }}"})})
+                    let request = fetch(url, {method: "POST", headers: header, body: JSON.stringify({uid: "http://64.227.173.119:8000/visit/{{ vendor.account.username }}"})})
                     request.then(resp => resp.blob())
                     .then(set_image)
                     }
@@ -63,8 +63,14 @@
         </div>
         <!-- <h3>{{vendor.address}}</h3> -->
     </div>
-    {% if vendor.address or vendor.state or vendor.city or vendor.pincode %}
+    {% if vednor.contact_number vendor.address or vendor.state or vendor.city or vendor.pincode %}
         <div class="dashboard__patient-address">
+            {% if vendor.contact_number %}
+                <h5 class="dashboard__patient-header">
+                    Contact Number
+                </h5>
+                <h3 class="dashboard__patient-mainline">{{vendor.contact_number}}</h3>
+            {% endif %}            
             {% if vendor.address %}
                 <h5 class="dashboard__patient-header">
                     Address
