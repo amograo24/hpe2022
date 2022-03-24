@@ -734,7 +734,8 @@ def file_page(request, wbid, name):
     profile = Patients.objects.get(person=profile)
 
     # if viewer is basically a normal user and if the viewer is not the profile
-    if viewer.division.lower() not in ['d/hcw/ms', 'i/sp', 'msh'] and viewer != profile.person:
+    # if viewer.division.lower() not in ['d/hcw/ms', 'i/sp', 'msh'] and viewer != profile.person:
+    if viewer.division.lower()=='nou' and viewer != profile.person:
         return HttpResponseRedirect(reverse("index"))
 
     if viewer == profile.person:  # if the viewer is the wbid (profile)
