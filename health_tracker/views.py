@@ -639,7 +639,8 @@ def visit_qrcode(request, id):
 def notifications(request):
     if request.method == "POST":
         if not request.user.is_authenticated:
-            return HttpResponse("Not Authenticated")
+            # return HttpResponse("Not Authenticated")
+            return HttpResponseRedirect(reverse("login"))
 
         body = json.loads(request.body)
         sender = receiver = None
@@ -650,10 +651,10 @@ def notifications(request):
             if receiver:
                 receiver = receiver[0]
             else:
-                return HttpResponse("Receiver Not Found")
+                return HttpResponse("Receiver not found!")
 
             if receiver.division.lower() in ["d/hcw/ms", "i/sp", "msh"]:
-                return HttpResponse("Can send request to patients only!")
+                return HttpResponse("Can send authorization requests to patients only!")
 
         elif body['type'] == "receive":
             sender = User.objects.get(username=request.user)
@@ -673,7 +674,7 @@ def notifications(request):
         return nm.validate_request()
 
     else:
-        return HttpResponse("Get Method Not Allowed")
+        return HttpResponse("GET method not allowed!")
 
 def delete_file(request, wbid, name):
     """

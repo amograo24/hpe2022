@@ -17,19 +17,19 @@ class NotificationManager:
         Handles logic for sending a notification from a User instance to another User Instance
         """
         if self.sender.division.lower() == "nou":
-            return HttpResponse("Access Denied")
+            return HttpResponse("Access Denied!")
 
         if self.sender.username != self.request.user.username:
-            return HttpResponse("Cannot Self Invite")
+            return HttpResponse("Cannot self invite!")
 
         if self.receiver.division in ['D/HCW/MS', 'I/SP', 'MSh']:
-            return HttpResponse("Can request only patients!")
+            return HttpResponse("Can send authorization requests to patients only!")
 
         if self.sender_mwr in self.receiver_p.hcw_v.all():
             return HttpResponse("User Already Approved!")
 
         if self.sender.division.lower() != self.request.user.division.lower():
-            return HttpResponse("Not authorised")
+            return HttpResponse("Not authorised!")
 
         check_notif = Notification.objects.filter(sender=self.sender, receiver=self.receiver).order_by('-date_of_approval')
         if check_notif and check_notif[0].content not in ("rejected", "approved"):
@@ -44,7 +44,7 @@ class NotificationManager:
         Returns a JsonResponse of all the notifications a user is associated with.
         """
         if self.sender.division.lower() != self.request.user.division.lower():
-            return HttpResponse("Not authorised")
+            return HttpResponse("Not authorised!")
         all_notifs = []
         if self.request.user.division.lower() != "nou":
             notifs = Notification.objects.filter(receiver=self.sender).order_by('-date_of_approval')
