@@ -1183,4 +1183,4 @@ def handle_Qr(request):
         b.seek(0)
         return FileResponse(b)
 
-    return HttpResponse("Only POST allowed")
+    return HttpResponse("Only POST method allowed!")
