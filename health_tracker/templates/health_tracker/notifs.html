@@ -1,5 +1,6 @@
 {% extends "health_tracker/layout.html" %}
 {% load static %}
+{% block title %}Authorization{% endblock %}
 {% block body %}
 {% csrf_token %}
 <div id="current">
@@ -14,7 +15,7 @@
 </div>
 {% if division.lower != "nou"  %}
     <div id="send">
-        <input id="target_user" type="text" placeholder="Enter Wbid here" value="{{default_wbid}}">
+        <input id="target_user" type="text" placeholder="Enter WBID here" value="{{default_wbid}}">
         <button id="send_msg">Ask For Approval</button>
         <script>
 
@@ -34,7 +35,8 @@
                 let whom = $('#target_user').val()
                 if(whom.length == 0)
                 {
-                    alert('Whom to send?')
+                    // alert('Whom to send?')
+                    alert("Enter a patient's WBID!")
                     return
                 }
                 let payload = JSON.stringify({to: whom, as: "{{ doc_id }}", type: "send"})

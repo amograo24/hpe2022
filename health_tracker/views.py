@@ -793,7 +793,7 @@ def notification_page(request):
     Allows MedWorkerRep(s) to send approval requests to Patient(s)
     """
     if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('index'))
+        return HttpResponseRedirect(reverse("login"))
     ctx = {
         "division": request.user.division,
         "default_wbid": request.GET.get('w', ''),
