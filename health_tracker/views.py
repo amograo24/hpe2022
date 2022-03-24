@@ -601,7 +601,7 @@ def visit_qrcode(request, id):
             viewer = MedWorkerRep.objects.get(account=viewer)
             # if viewer in profile.hcw_v.all(): # even if not in, it should show na? basically filtered. # like only for
             # registered doctor it should show all, for doctors who were deleted, only their uploaded files
-            files = Files.objects.filter(uploader=viewer, recipent=profile).order_by('-date')
+            files = Files.objects.filter(uploader=viewer, recipent=profile)
             if viewer_type != 'd/hcw/ms':
                 if not files:
                     if viewer not in profile.hcw_v.all():
