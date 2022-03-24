@@ -15,7 +15,7 @@
                 <img class="login-logo" src="{% static 'health_tracker/uhi.png' %}" onclick="window.location.replace('/')">
                 <h1 class="login-title">Patient Login</h1>
                 {% if message %}
-                    <div class="login-error">Error: {{ message }}</div>
+                    <div class="login-error">{{ message }}</div>
                 {% endif %}
                 <form action="{% url 'login' %}" method="POST">
                     {% csrf_token %}
@@ -29,7 +29,7 @@
                 <img class="login-logo" src="{% static 'health_tracker/uhi.png' %}" onclick="window.location.replace('/')">
                 <h1 class="login-title">Health Worker/Vendor Login</h1>
                 {% if message %}
-                    <div class="login-error">Error: {{ message }}</div>
+                    <div class="login-error">{{ message }}</div>
                 {% endif %}
                 <form action="{% url 'login' %}" method="POST">
                     {% csrf_token %}
