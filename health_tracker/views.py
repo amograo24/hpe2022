@@ -739,13 +739,19 @@ def file_page(request, wbid, name):
 
     if viewer == profile.person:  # if the viewer is the wbid (profile)
         if not os.path.exists(f'media/{wbid}/{name}'):
-            raise Http404(f"'{name}' doesn't exist!")
+            return render(request,"health_tracker/404.html",{
+                "message":f"'{name}' doesn't exist!"
+            })
+            # raise Http404(f"'{name}' doesn't exist!")
     else:
         if viewer.division.lower() in ['d/hcw/ms', 'i/sp', 'msh']:
             vendor = MedWorkerRep.objects.get(account=viewer)
             if vendor in profile.hcw_v.all():
                 if not os.path.exists(f'media/{wbid}/{name}'):
-                    raise Http404(f"'{name}' doesn't exist!")
+                    return render(request,"health_tracker/404.html",{
+                        "message":f"'{name}' doesn't exist!"
+                    })                    
+                    # raise Http404(f"'{name}' doesn't exist!")
                 elif os.path.exists(f'media/{wbid}/{name}'):
                     file = Files.objects.get(file=f'{wbid}/{name}')
                     # if the person who uploaded the file is not the vendor and if the vendor is not a doctor => intruder
@@ -905,13 +911,25 @@ def edit_file(request, wbid, file_name):
     files = Files.objects.filter(uploader=editor, recipent=profile)  # /1/haha, /1/kaka
     if not files:
         return HttpResponseRedirect(reverse("other_profile", args=[wbid]))
-    if not os.path.exists(
-            f'media/{wbid}/{file_name}'):  # basically if the doctor and patient are related, it should tell them that the filename doesn't exist na
-        # if not os.path.exists(f'media/{wbid}/{name}'):
-        raise Http404(f"'{file_name}' doesn't exist!")
+    # if not os.path.exists(
+    #         f'media/{wbid}/{file_name}'):  # basically if the doctor and patient are related, it should tell them that the filename doesn't exist na
+    #     # if not os.path.exists(f'media/{wbid}/{name}'):
+    #     raise Http404(f"'{file_name}' doesn't exist!")
     # if no files, then it redirects. So basically, if files exist, then
-    file = Files.objects.get(file=f'{wbid}/{file_name}', uploader=editor, recipent=profile)
-
+    try:
+        file = Files.objects.get(file=f'{wbid}/{file_name}', uploader=editor, recipent=profile)
+        if not os.path.exists(
+            f'media/{wbid}/{file_name}'):
+            return render(request,"health_tracker/404.html",{
+                "message":f"'{file_name}' doesn't exist!"
+            })
+            # raise Http404(f"'{file_name}' doesn't exist!")
+    except Files.DoesNotExist:
+        return render(request,"health_tracker/404.html",{
+            "message":f"'{file_name}' doesn't exist!"
+        })
+        # raise Http404(f"'{file_name}' doesn't exist!")
+        
     form0 = EditFileForm(initial={'tags': file.tags, 'vendor_name': file.vendor_name, 'file_type': file.file_type})
     if request.method == "POST":
         form = EditFileForm(request.POST)
