@@ -1138,7 +1138,7 @@ def StatesAPI(request):
     if request.method == "POST":
         body = json.loads(request.body)
         return JsonResponse(sm.get_districts(body['sn']), safe=False, content_type="json")
-    return HttpResponse("Only POST method Allowed")
+    return HttpResponse("Only POST method allowed!")
 
 
 # Covid related methods
