@@ -566,7 +566,7 @@ def other_profile(request, id):
         elif profile_type in ['d/hcw/ms', 'i/sp', 'msh']:
             profile = MedWorkerRep.objects.get(account=profile)
             viewer = Patients.objects.get(person=viewer)
-            files = Files.objects.filter(uploader=profile, recipent=viewer)
+            files = Files.objects.filter(uploader=profile, recipent=viewer).order_by('-date')
 
             if not files and profile not in viewer.hcw_v.all():
                 return HttpResponseRedirect(reverse("index"))

@@ -5,7 +5,7 @@
    {% if profile_type == 'nou' %}
       {{profile.full_name}}'s Profile
    {% else %}
-      {{profile.full_com_name}}' Profile</title>
+      {{profile.full_com_name}}'s Profile</title>
    {% endif %}
 {% endblock %}
 {% block styling %}
@@ -51,7 +51,7 @@
                      let token = $("input[name='csrfmiddlewaretoken']").val()
                      let url = "/getQr"
                      let header = {'X-CSRFToken': token}
-                     let request = fetch(url, {method: "POST", headers: header, body: JSON.stringify({uid: "/visit/{{profile.person.username}}"})})
+                     let request = fetch(url, {method: "POST", headers: header, body: JSON.stringify({uid: "http://64.227.173.119:8000/visit/{{profile.person.username}}"})})
                      request.then(resp => resp.blob())
                      .then(set_image)
                      }
@@ -71,7 +71,7 @@
             </div>
             <div class="dashboard__health-container content" style="margin-top: 0;">
                <div>
-                  <p>Last updated by {{health_status.last_updated_by}}</p>
+                  <p>Last updated by {{health_status.last_updated_by.full_com_name}}</p>
                   <p>Last updated on {{health_status.last_updated}}</p>
                </div>
                {% for health_value in health_status.health_status.all %}
@@ -153,7 +153,7 @@
             <h1 class="title">No files to display.</h1>
          {% endif %}
       {% else %}
-         <h1 class="title">Files uploaded by you on {{profile.full_name}}'s profile.</h1>
+         <h1 class="title">Files uploaded by you on {{profile.full_name}}'s profile:</h1>
       {% endif %}
    {% else %}
       <div class="dashboard__patient">
@@ -206,7 +206,7 @@
                      let token = $("input[name='csrfmiddlewaretoken']").val()
                      let url = "/getQr"
                      let header = {'X-CSRFToken': token}
-                     let request = fetch(url, {method: "POST", headers: header, body: JSON.stringify({uid: "/visit/{{profile.account.username}}"})})
+                     let request = fetch(url, {method: "POST", headers: header, body: JSON.stringify({uid: "http://64.227.173.119:8000/visit/{{profile.account.username}}"})})
                      request.then(resp => resp.blob())
                      .then(set_image)
                      }
@@ -215,8 +215,14 @@
             </div>            
          </div>
       </div>
-      {% if profile.address or profile.state or profile.city or profile.pincode %}
+      {% if profile.contact_number or profile.address or profile.state or profile.city or profile.pincode %}
          <div class="dashboard__patient-address">
+            {% if profile.contact_number %}
+               <h5 class="dashboard__patient-header">
+                  Contact Number
+               </h5>
+               <h3 class="dashboard__patient-mainline">{{profile.contact_number}}</h3>
+            {% endif %}
             {% if profile.address %}
                <h5 class="dashboard__patient-header">
                   Address
@@ -243,14 +249,10 @@
             {% endif %}
          </div>   
       {% endif %}
-      {% if profile in viewer.hcw_v.all %}
-         {% if files %}
-            <h1 class="title">All files uploaded by {{profile.full_com_name}} on your profile:</h1>
-         {% else %}
-            <h1 class="title">{{profile.full_com_name}} has not yet uploaded any files on your profile.</h1>
-         {% endif %}
+      {% if files %}
+         <h1 class="title">All files uploaded by {{profile.full_com_name}} on your profile:</h1>
       {% else %}
-         <h1 class="title">Files uploaded by {{profile.full_com_name}} on your profile:</h1>
+         <h1 class="title">{{profile.full_com_name}} has not yet uploaded any files on your profile.</h1>
       {% endif %}
    {% endif %}
    <div id="files_container">
