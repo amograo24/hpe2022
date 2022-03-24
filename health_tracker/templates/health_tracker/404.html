@@ -1,20 +1,11 @@
+{% extends "health_tracker/layout.html" %}
 {% load static %}
-<html>
-    <head>
-        <title>404 - File not found</title> 
-        <link href="{% static 'health_tracker/scss/404.css' %}" rel="stylesheet" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-        <link rel="icon" href="{% static 'health_tracker/imgs/uhi_plus.png' %}"/>
-    </head>
-    <body>
-        <div class="container">
-            <img class="container__img" src="{% static 'health_tracker/imgs/404.png' %}"/>
-            <h1 class="container__title">{{message}}</h1>
-        </div>
-    </body>
-</html>
+{% block title %}404 - File not found{% endblock %} 
+{% block styling %}<link href="{% static 'health_tracker/scss/404.css' %}" rel="stylesheet" />{% endblock %}
+{% block body %}
+    <link rel="icon" href="{% static 'health_tracker/imgs/uhi_plus.png' %}"/>
+    <div class="container">
+        <img class="container__img" src="{% static 'health_tracker/404.png' %}"/>
+        <h1 class="container__title">{{message}}</h1>
+    </div>
+{% endblock %}
