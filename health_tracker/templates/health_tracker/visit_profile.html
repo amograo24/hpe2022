@@ -63,7 +63,7 @@
         </div>
         <!-- <h3>{{vendor.address}}</h3> -->
     </div>
-    {% if vednor.contact_number vendor.address or vendor.state or vendor.city or vendor.pincode %}
+    {% if vendor.contact_number or vendor.address or vendor.state or vendor.city or vendor.pincode %}
         <div class="dashboard__patient-address">
             {% if vendor.contact_number %}
                 <h5 class="dashboard__patient-header">
