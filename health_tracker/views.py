@@ -1125,7 +1125,8 @@ def remove_patient_vendor(request, id):
                 else:
                     return HttpResponseRedirect(reverse("mypatients_customers"))
         else:
-            return HttpResponse("<h1>Error, User couldn't be removed! </h1>")  # or do i redirect
+            # return HttpResponse("<h1>Error, User couldn't be removed! </h1>")  # or do i redirect
+            return HttpResponseRedirect(reverse("index"))
 
 
 def StatesAPI(request):
