@@ -760,7 +760,9 @@ def file_page(request, wbid, name):
             else:
                 if (os.path.exists(f'media/{wbid}/{name}') and Files.objects.get(
                         file=f'{wbid}/{name}').uploader != vendor) or (not os.path.exists(f'media/{wbid}/{name}')):
-                    return HttpResponseRedirect(reverse("index"))
+                    return render(request,"health_tracker/404.html",{
+                        "message":f"'{name}' doesn't exist!"
+                    })  
 
     # check if the file thing is being shown to the correct ppl
     file = open(f'media/{wbid}/{name}', 'rb')
