@@ -15,7 +15,7 @@ urlpatterns = [
     path("health/<str:wbid>", views.health_status_function, name="health"),
 
     # Notifications URLs
-    path("auth_messages", views.notification_page, name="auth_messages"),
+    path("approvals", views.notification_page, name="auth_messages"),
     path("notifications", views.notifications, name="notifications"),
 
     # Files Search URLs
