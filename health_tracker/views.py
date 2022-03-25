@@ -427,11 +427,9 @@ def index(request):
     if request.user.is_authenticated:
         user = User.objects.get(username=request.user)
         user_type = user.division.lower()
-        # image = None
         health_status=None
         if user_type == 'nou':
             user = Patients.objects.get(person=user)
-            # image = return_qr_code(f"/visit/{request.user}")  # DOMAIN NAME TO BE ADDED
             try:
                 health_status=HealthStatus.objects.get(patient=user)
             except HealthStatus.DoesNotExist:
@@ -445,7 +443,6 @@ def index(request):
             "nou": user_type == 'nou',
             "non_nou": user_type in ['d/hcw/ms', 'i/sp', 'msh'],
             "health_status":health_status
-            # "file":'media/7977790201256379/Atomic_Physics.pdf'
         })
     else:
         return render(request, "health_tracker/index.html")
@@ -527,7 +524,6 @@ def other_profile(request, id):
                     return HttpResponseRedirect(reverse("index"))
             elif viewer_type == 'd/hcw/ms':
                 if viewer in profile.hcw_v.all():
-                    # health_status=HealthStatus.objects.get(patient=profile)
                     try:
                         health_status=HealthStatus.objects.get(patient=profile)
                     except HealthStatus.DoesNotExist:
@@ -591,13 +587,8 @@ def visit_qrcode(request, id):
                     else:
                         return HttpResponseRedirect(reverse("index"))
             elif viewer_type == 'd/hcw/ms':
-                # if viewer in profile.hcw_v.all():
-                #     files = Files.objects.filter(recipent=profile).order_by('-date')
                 if viewer not in profile.hcw_v.all() and not files:
-                    # if not files:
-                    # return HttpResponseRedirect(reverse("index"))
                     return HttpResponseRedirect(reverse("auth_messages") + f"?w={profile.person.username}")
-                    # return HttpResponseRedirect(reverse("auth_messages"))
             return HttpResponseRedirect(reverse("other_profile", args=(profile.person.username,)))
         elif profile_type in ['d/hcw/ms', 'i/sp', 'msh']:
             profile = MedWorkerRep.objects.get(account=profile)
@@ -605,7 +596,6 @@ def visit_qrcode(request, id):
             files = Files.objects.filter(uploader=profile, recipent=viewer)
 
             if not files and profile not in viewer.hcw_v.all():
-                # return HttpResponseRedirect(reverse("index"))
                 if profile.public == True:
                     return render(request, "health_tracker/visit_profile.html", {
                         "vendor": profile
@@ -621,7 +611,6 @@ def visit_qrcode(request, id):
 def notifications(request):
     if request.method == "POST":
         if not request.user.is_authenticated:
-            # return HttpResponse("Not Authenticated")
             return HttpResponseRedirect(reverse("login"))
 
         body = json.loads(request.body)
@@ -669,8 +658,6 @@ def delete_file(request, wbid, name):
     user = User.objects.get(username=request.user)
     if user.division.lower() == 'nou':
         return HttpResponseRedirect(reverse("myfiles"))
-    # if not User.objects.filter(username=wbid):
-    #     return HttpResponseRedirect(reverse("index"))
     if not Files.objects.filter(file=f"{wbid}/{name}"):
         return HttpResponseRedirect(reverse("myfiles"))
     else:
@@ -679,14 +666,12 @@ def delete_file(request, wbid, name):
             if request.method == "POST":
                 data = json.loads(request.body)
                 if data['to_delete'] == "yes":
-                    # file.delete()
                     os.remove(f"media/{wbid}/{name}")
                     file.delete()
                     return JsonResponse({'status': 200})
             else:
                 return HttpResponse('<h1>GET method is not permitted!</h1>')
         else:
-            # return JsonResponse({'status':"Forgery"})
             return HttpResponse('<h1>Forgery! You can only delete the files you have uploaded!</h1>')
 
 
@@ -726,7 +711,6 @@ def file_page(request, wbid, name):
             return render(request,"health_tracker/404.html",{
                 "message":f"'{name}' doesn't exist!"
             })
-            # raise Http404(f"'{name}' doesn't exist!")
     else:
         if viewer.division.lower() in ['d/hcw/ms', 'i/sp', 'msh']:
             vendor = MedWorkerRep.objects.get(account=viewer)
@@ -734,8 +718,7 @@ def file_page(request, wbid, name):
                 if not os.path.exists(f'media/{wbid}/{name}'):
                     return render(request,"health_tracker/404.html",{
                         "message":f"'{name}' doesn't exist!"
-                    })                    
-                    # raise Http404(f"'{name}' doesn't exist!")
+                    })
                 elif os.path.exists(f'media/{wbid}/{name}'):
                     file = Files.objects.get(file=f'{wbid}/{name}')
                     # if the person who uploaded the file is not the vendor and if the vendor is not a doctor => intruder
@@ -766,8 +749,6 @@ def get_file(request, wbid, name: str):
             f = open(f"media/{wbid}/{name}", "rb")
             return FileResponse(f)
     return HttpResponse('<h1>GET method not permitted!</h1>')
-    # ctx = {"wbid": wbid, "name": name}
-    # return render(request, 'health_tracker/file_page.html', ctx)
 
 
 def notification_page(request):
@@ -852,8 +833,6 @@ def mypatients_customers(request):
     vendor = MedWorkerRep.objects.get(account=user)
     patients_customers = []
     files = Files.objects.filter(uploader=vendor)
-    # customers=[]    
-    # if venoder.account.division.lower()=='d/hcw/ms':
     for patient in vendor.hcw_v.all():
         patients_customers.append(patient)
     for file in files:
@@ -871,22 +850,15 @@ def edit_file(request, wbid, file_name):
     MedWorkerRep the ability to edit file details such as tags, uploader name, and file type.
     - Only the MedWorkerRep who has uploaded the file has the ability to edit the file details.
     """
-    ##############################################
     if not request.user.is_authenticated:  # if user not authenticated
         return HttpResponseRedirect(reverse("login"))
     editor = User.objects.get(username=request.user)
-    # editor_type=editor.division.lower()
     if editor.division.lower() == 'nou':
         return HttpResponseRedirect(reverse("file_page", args=[wbid, file_name]))  # it will do by itself na?
     if not User.objects.filter(username=wbid):  # if the wbid doesn't exist
-        # if editor_type=='nou':
-        #     return HttpResponseRedirect(reverse("mydoctors_vendors"))
-        # else:
         return HttpResponseRedirect(reverse("mypatients_customers"))
     profile = User.objects.get(username=wbid)
 
-    # if editor.division.lower()=='nou':
-    #     return HttpResponseRedirect(reverse("file_page",args=[wbid,file_name]))
 
     if profile.division.lower() != 'nou':  # if the wbid is not a normal user, ie /hcwvid/file_name
         return HttpResponseRedirect(reverse("index"))
@@ -897,11 +869,6 @@ def edit_file(request, wbid, file_name):
     files = Files.objects.filter(uploader=editor, recipent=profile)  # /1/haha, /1/kaka
     if not files:
         return HttpResponseRedirect(reverse("other_profile", args=[wbid]))
-    # if not os.path.exists(
-    #         f'media/{wbid}/{file_name}'):  # basically if the doctor and patient are related, it should tell them that the filename doesn't exist na
-    #     # if not os.path.exists(f'media/{wbid}/{name}'):
-    #     raise Http404(f"'{file_name}' doesn't exist!")
-    # if no files, then it redirects. So basically, if files exist, then
     try:
         file = Files.objects.get(file=f'{wbid}/{file_name}', uploader=editor, recipent=profile)
         if not os.path.exists(
@@ -909,12 +876,10 @@ def edit_file(request, wbid, file_name):
             return render(request,"health_tracker/404.html",{
                 "message":f"'{file_name}' doesn't exist!"
             })
-            # raise Http404(f"'{file_name}' doesn't exist!")
     except Files.DoesNotExist:
         return render(request,"health_tracker/404.html",{
             "message":f"'{file_name}' doesn't exist!"
         })
-        # raise Http404(f"'{file_name}' doesn't exist!")
         
     form0 = EditFileForm(initial={'tags': file.tags, 'vendor_name': file.vendor_name, 'file_type': file.file_type})
     if request.method == "POST":
@@ -1009,8 +974,6 @@ def go_private(request):
     if user.division.lower() == 'nou':
         return HttpResponseRedirect(reverse("index"))
     vendor = MedWorkerRep.objects.get(account=user)
-    # if vendor.public!=True:
-    #     return HttpResponseRedirect(reverse("index"))
     vendor.public = False
     vendor.save()
     return HttpResponseRedirect(reverse("index"))
@@ -1023,7 +986,6 @@ def search_public_vendors(request):
     if request.user.division.lower()!='nou':
         return HttpResponseRedirect(reverse("index"))
     search_entry = request.GET.get('q', '')
-    # user = User.objects.get(username=request.user)
     public_doctors = []
     public_insurance_service_providers = []
     public_medical_shops_labs = []
@@ -1108,7 +1070,6 @@ def remove_patient_vendor(request, id):
                 else:
                     return HttpResponseRedirect(reverse("mypatients_customers"))
         else:
-            # return HttpResponse("<h1>Error, User couldn't be removed! </h1>")  # or do i redirect
             return HttpResponseRedirect(reverse("index"))
 
 
