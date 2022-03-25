@@ -46,7 +46,6 @@ def search(request):
     if user_type == 'nou':
         user = Patients.objects.get(person=user)
         files = Files.objects.filter(recipent=user)
-        # associated_people=user.hcw_v.all()
     else:
         user = MedWorkerRep.objects.get(account=user)
         files = Files.objects.filter(uploader=user)
@@ -180,28 +179,14 @@ def health_status_function(request, wbid):
             return HttpResponseRedirect(reverse("other_profile",args=(wbid,)))
             # return HttpResponseRedirect(reverse("index"))  # return to patient's thingie
         else:
-            # errors=[error for error in formset.errors if error]
             errors=[[i+1,formset.errors[i]] for i in range(len(formset.errors)) if formset.errors[i]]
-            # errors=[]
-            # for i in range(1,len(formset.errors)+1):
-            #     if formset.errors[i]:
-            #         errors.append([i,formset.errors[i]])
-
-            # errors=[]
-            # for error in formset.errors:
-            #     if i
-            # formset = HealthValueFormset(requestinstance=health_status)
             return render(request, "health_tracker/health_status.html", {
                 "formset": formset,
-                # "wbid": wbid,
                 "patient":patient,
-                # "errors":formset.errors[0]
                 "errors":errors
-                # "message":"The Health Condition Field and the Patient's value Field cannot be empty!"
             })
     return render(request, "health_tracker/health_status.html", {
         "formset": HealthValueFormset(instance=health_status),
-        # "wbid": wbid
         "patient":patient
     })
 
@@ -289,7 +274,7 @@ def upload_file(request):
                         patient.hcw_v.remove(uploader)
                         patient.save()
                 return HttpResponseRedirect(reverse("other_profile",args=(patient.person.username,))) 
-                # return HttpResponseRedirect(reverse("myfiles")) # or do i redirect to other_profile
+
         else:
             return render(request, "health_tracker/file_upload.html", {
                 "message": "You must upload atleast 1 file!",
@@ -384,7 +369,6 @@ def register(request):
             try:
                 # Creating the user here
                 if division.lower() == "nou" or division.lower() == None:
-                    #user = gen_unique_id(email=email, password=password) # TODO: Change done, check if it works
                     aadharid = form.cleaned_data['aadharid']
                     if len(aadharid) != 12 or aadharid.isnumeric() == False:
                         return render(request, "health_tracker/register.html", {
@@ -403,10 +387,8 @@ def register(request):
                     HealthStatus(patient=Patients.objects.get(person=user, aadharid=aadharid)).save()
 
                 elif division.lower() in ['d/hcw/ms', 'i/sp', 'msh']:
-                    # user = get_hcw_vid(email=email, password=password, division=division)
                     reg_no = form.cleaned_data['reg_no']
                     dept = form.cleaned_data['department']
-                    ## new:
                     if division.lower() == 'd/hcw/ms':
                         if dept.strip() == '':
                             return render(request, "health_tracker/register.html", {
