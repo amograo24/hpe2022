@@ -1,10 +1,122 @@
-{% extends "health_tracker/layout.html" %}
 {% load static %}
-{% block title %}404 - File not found{% endblock %} 
-{% block styling %}<link href="{% static 'health_tracker/scss/404.css' %}" rel="stylesheet" />{% endblock %}
-{% block body %}
-    <div class="container">
-        <img class="container__img" src="{% static 'health_tracker/404.png' %}"/>
-        <h1 class="container__title">{{message}}</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <style>
+        .blackwash{
+            transition-duration: 0.5s;
+            background-color: black;
+        }
+        #main{
+            padding-top: 25vh;
+            padding-left: 25vw;
+            width: 70vw;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #texts{
+            margin-bottom: 5%;
+        }
+        h1{
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 3rem;
+        }
+        #a{
+            font-size: 2.5rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        #b{
+            font-size: 3rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        #c{
+            font-size: 2.5rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        h3{
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+        }
+
+        #d {
+            border: 1px solid black;
+            border-radius: 3px;
+            width: 100px;
+            height: 30px;
+            display: block;
+
+            background: linear-gradient(to right, black 50%, white 50%);
+            background-size: 200% 100%;
+            background-position: right bottom;
+            transition: all .5s ease-out;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.5rem;
+        }
+        #d:hover {
+            background-position: left bottom;
+            color: white;
+        }
+        #reply{
+            color: white;
+            position: fixed;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <h1 id="reply"></h1>
+        <h1>
+            <span class="j">404</span>
+            <span class="j">Page</span>
+            <span class="j">Not</span>
+            <span class="j">Found</span> <span id="smile"> :'( </span>
+        </h1>
+        <div id="texts">
+            <span id="a">Are </span>
+            <span id="b">You </span>
+            <span id="c">Lost?</span>
+        </div>
+        <button id="d">Yes</button>
+        <h3>
+            {% if message %}
+            {{ message }}
+            {% else %}
+            I'm sorry that's the only response you get to choose :)
+            {% endif %}
+        </h3>
     </div>
-{% endblock %}
+    <script>
+    function redirect(){
+        window.location.replace("{% url 'index' %}")
+        return true;
+    }
+        function main()
+        {
+            document.getElementById("d").addEventListener("mouseenter", (e)=>
+            {
+                $("body").addClass("blackwash")
+                $("#reply").text("Then lets go back!")
+            })
+            document.getElementById("d").addEventListener("mouseleave", (e)=>
+            {
+                $("body").removeClass("blackwash")
+                $("#reply").text("")
+            })
+            document.getElementById("d").addEventListener("click", (e)=>
+            {
+                redirect()
+            })
+
+        }
+        window.onload = main
+    </script>
+</body>
+</html>

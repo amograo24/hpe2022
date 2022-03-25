@@ -3,6 +3,18 @@
 {% block title %}Authorization{% endblock %}
 {% block body %}
 {% csrf_token %}
+<style>
+    .title {
+          text-align: center;
+          font-family: "IBM Plex Sans";
+          margin-top: 2rem;
+          margin-bottom: 2rem;
+          font-size: 2em;
+    }
+</style>
+<h1 class="title">
+    Approvals
+</h1>
 <div id="current">
     <ul id="current-msg">
 
