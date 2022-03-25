@@ -19,11 +19,11 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
+
 ##################
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('health_tracker.urls')),
-    # static('/static/', )
 ]
 
 handler404 = "health_tracker.views.handle_not_found"

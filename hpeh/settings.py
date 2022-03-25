@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-2*h_)92^m9f#-33t27t+#suq=6(me22d0$gb$p5v#rn-2dubbv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "64.227.173.119", "localhost"]
 
@@ -116,7 +116,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_FILES_DIR = [
-    os.path.join(BASE_DIR, 'doctorFiles/static')
+    os.path.join(BASE_DIR, 'health_tracker/static')
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # media directory in the root directory
