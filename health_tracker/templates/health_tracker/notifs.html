@@ -107,7 +107,7 @@
 
                     if("{{ division.lower }}" != "nou"){
                     var notif_html = `
-                    <li>${row.receiver_name} (${row.receiver}) ${row.content} your authorization request on ${row.doc}</li>`
+                    <li>${row.receiver_name} (${row.sender}) ${row.content} your authorization request on ${row.doc}</li>`
                     }else{
                         var notif_html = `
                     <li>You ${row.content} an authorization request from ${row.sender_name} (${row.sender}) on ${row.doc}</li>`
