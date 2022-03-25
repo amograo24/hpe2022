@@ -783,9 +783,9 @@ def get_file(request, wbid, name: str):
         else:
             f = open(f"media/{wbid}/{name}", "rb")
             return FileResponse(f)
-
-    ctx = {"wbid": wbid, "name": name}
-    return render(request, 'health_tracker/file_page.html', ctx)
+    return HttpResponse('<h1>GET method not permitted!</h1>')
+    # ctx = {"wbid": wbid, "name": name}
+    # return render(request, 'health_tracker/file_page.html', ctx)
 
 
 def notification_page(request):
