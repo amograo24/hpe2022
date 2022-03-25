@@ -25,6 +25,8 @@ urlpatterns = [
     path('', include('health_tracker.urls'))
 ]
 
+handler404 = "health_tracker.views.handle_not_found"
+
 ##################
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 #######################

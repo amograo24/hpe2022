@@ -1184,3 +1184,7 @@ def handle_Qr(request):
         return FileResponse(b)
 
     return HttpResponse("Only POST method allowed!")
+
+
+def handle_not_found(request, exception):
+    return render(request, 'health_tracker/404.html')
