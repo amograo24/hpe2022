@@ -27,6 +27,16 @@
                 <h3 class="dashboard__patient-mainline">
                     {{vendor.reg_no}}
                 </h3>
+                <h5 class="dashboard__patient-header">Account Type</h5>
+                <h3 class="dashboard__patient-mainline">
+                    {% if vendor.account.division.lower == 'd/hcw/ms'  %}
+                        Doctor/Healthcare Worker/Medical Staff
+                    {% elif vendor.account.division.lower == 'i/sp' %}
+                        Insurance/Health Service Provider
+                    {% elif vendor.account.division.lower == 'msh' %}
+                        Medical Shop/Lab
+                    {% endif %}
+                </h3>                   
                 {% if vendor.account.division.lower == 'd/hcw/ms' and vendor.department %}
                     <h5 class="dashboard__patient-header">
                         Department
