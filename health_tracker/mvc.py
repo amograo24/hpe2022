@@ -22,8 +22,8 @@ class NotificationManager:
         if self.sender.username != self.request.user.username:
             return HttpResponse("Cannot self invite!")
 
-        if self.receiver.division in ['D/HCW/MS', 'I/SP', 'MSh']:
-            return HttpResponse("Can send authorization requests to patients only!")
+        # if self.receiver.division in ['D/HCW/MS', 'I/SP', 'MSh']:
+        #     return HttpResponse("Can send authorization requests to patients only!")
 
         if self.sender_mwr in self.receiver_p.hcw_v.all():
             return HttpResponse("User Already Approved!")
