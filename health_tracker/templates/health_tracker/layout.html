@@ -35,11 +35,11 @@
             </div>
             <div class="nav__link-list-div" id="menu">
                 <ul class="nav__link-list">
+                    <li class="nav__link-item"><a class="nav__link" href="{% url 'covid' %}">COVID-19</a></li>
                     {% if not request.user.is_authenticated %}
                         <li class="nav__link-item"><a class="nav__link" href="{% url 'login' %}">Login</a></li>
                         <li class="nav__link-item"><a class="nav__link" href="{% url 'register' %}">Register</a></li>
                     {% else %}
-                        <li class="nav__link-item"><a class="nav__link" href="{% url 'covid' %}">COVID-19</a></li>
                         {% if request.user.division.lower != 'nou' %}
                             <li class="nav__link-item"><a class="nav__link" href="{% url 'upload_file' %}">Upload</a></li>
                             <li class="nav__link-item"><a class="nav__link" href="{% url 'mypatients_customers' %}">{% if request.user.division.lower == 'd/hcw/ms' %} My Patients {% else %} My Customers {% endif %}</a></li>
@@ -48,7 +48,7 @@
                         {% endif %}
                         <li class="nav__link-item"><a class="nav__link" href="{% url 'myfiles' %}">My Files</a></li>
                         <li class="nav__link-item"><a class="nav__link" href="{% url 'auth_messages' %}">Approvals</a></li>
-                        <li class="nav__link-item"><a class="nav__link" href="/logout">Logout</a></li>
+                        <li class="nav__link-item"><a class="nav__link" href="{% url 'logout' %}">Logout</a></li>
                         <li class="nav__link-item">
                             <form class="nav__search-form" action="{% url 'search' %}">
                                 <input type="text" class="nav__search-field" placeholder="Search" name="q">
