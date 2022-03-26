@@ -169,25 +169,24 @@ def health_status_function(request, wbid):
                         'minimum_value'):
                     return render(request, "health_tracker/health_status.html", {
                         "formset": formset,
-                        "patient":patient,
-                        # "wbid": wbid,
+                        "patient": patient,
                         "message": f"The minimum value cannot be greater than the maximum value for '{data.get('health_condition')}'!"
                     })
             formset.save()
             health_status.last_updated_by = updater
             health_status.last_updated = timezone.now()
             health_status.save()
-            return HttpResponseRedirect(reverse("other_profile",args=(wbid,)))
+            return HttpResponseRedirect(reverse("other_profile", args=(wbid,)))
         else:
-            errors=[[i+1,formset.errors[i]] for i in range(len(formset.errors)) if formset.errors[i]]
+            errors = [[i + 1, formset.errors[i]] for i in range(len(formset.errors)) if formset.errors[i]]
             return render(request, "health_tracker/health_status.html", {
                 "formset": formset,
-                "patient":patient,
-                "errors":errors
+                "patient": patient,
+                "errors": errors
             })
     return render(request, "health_tracker/health_status.html", {
         "formset": HealthValueFormset(instance=health_status),
-        "patient":patient
+        "patient": patient
     })
 
 
@@ -214,7 +213,7 @@ def upload_file(request):
         return HttpResponseRedirect(reverse("login"))
     uploader = User.objects.get(username=request.user)
     uploader_type = uploader.division.lower()
-    if uploader_type not in ['d/hcw/ms', 'i/sp', 'msh']: # just do == "nou"?
+    if uploader_type not in ['d/hcw/ms', 'i/sp', 'msh']:  # just do == "nou"?
         return HttpResponseRedirect(reverse("index"))
     if request.method == "POST":
         form = UploadDocForm(request.POST)
@@ -250,7 +249,7 @@ def upload_file(request):
             file_type = form.cleaned_data['file_type']
             tags = form.cleaned_data['tags']
             # if uploader is med shop/insurance and if in the patient's approves list, and the time has exceeded
-            if uploader_type!='d/hcw/ms' and uploader in patient.hcw_v.all() and time_condition:
+            if uploader_type != 'd/hcw/ms' and uploader in patient.hcw_v.all() and time_condition:
                 patient.hcw_v.remove(uploader)
                 patient.save()
                 return render(request, "health_tracker/file_upload.html", {
@@ -271,7 +270,7 @@ def upload_file(request):
                               tags=tags, date=timezone.now()).save()
                         patient.hcw_v.remove(uploader)
                         patient.save()
-                return HttpResponseRedirect(reverse("other_profile",args=(patient.person.username,))) 
+                return HttpResponseRedirect(reverse("other_profile", args=(patient.person.username,)))
 
         else:
             return render(request, "health_tracker/file_upload.html", {
@@ -425,14 +424,14 @@ def index(request):
     if request.user.is_authenticated:
         user = User.objects.get(username=request.user)
         user_type = user.division.lower()
-        health_status=None
+        health_status = None
         if user_type == 'nou':
             user = Patients.objects.get(person=user)
             try:
-                health_status=HealthStatus.objects.get(patient=user)
+                health_status = HealthStatus.objects.get(patient=user)
             except HealthStatus.DoesNotExist:
                 HealthStatus(patient=user).save()
-                health_status=HealthStatus.objects.get(patient=user)
+                health_status = HealthStatus.objects.get(patient=user)
         elif user_type in ['d/hcw/ms', 'i/sp', 'msh']:
             user = MedWorkerRep.objects.get(account=user)
 
@@ -440,7 +439,7 @@ def index(request):
             "user": user,
             "nou": user_type == 'nou',
             "non_nou": user_type in ['d/hcw/ms', 'i/sp', 'msh'],
-            "health_status":health_status
+            "health_status": health_status
         })
     else:
         return render(request, "health_tracker/index.html")
@@ -459,7 +458,7 @@ def myfiles(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     sort_method = request.POST.get('sort') or "def"
-    filter_method = request.POST.get("filter") or "def"        
+    filter_method = request.POST.get("filter") or "def"
     user = User.objects.get(username=request.user)
     files = None
     user_type = user.division.lower()
@@ -511,7 +510,7 @@ def other_profile(request, id):
                 viewer_type in ['d/hcw/ms', 'i/sp', 'msh'] and profile_type in ['d/hcw/ms', 'i/sp', 'msh']):
             return HttpResponseRedirect(reverse("index"))
         if profile_type == 'nou':
-            health_status=None
+            health_status = None
             profile = Patients.objects.get(person=profile)
             viewer = MedWorkerRep.objects.get(account=viewer)
             # if viewer in profile.hcw_v.all(): # even if not in, it should show na? basically filtered. # like only for
@@ -523,10 +522,10 @@ def other_profile(request, id):
             elif viewer_type == 'd/hcw/ms':
                 if viewer in profile.hcw_v.all():
                     try:
-                        health_status=HealthStatus.objects.get(patient=profile)
+                        health_status = HealthStatus.objects.get(patient=profile)
                     except HealthStatus.DoesNotExist:
                         HealthStatus(patient=profile).save()
-                        health_status=HealthStatus.objects.get(patient=profile)
+                        health_status = HealthStatus.objects.get(patient=profile)
                     files = Files.objects.filter(recipent=profile).order_by('-date')
                 else:
                     if not files:
@@ -537,7 +536,7 @@ def other_profile(request, id):
                 "profile_type": profile_type,
                 "profile": profile,
                 "viewer": viewer,
-                "health_status":health_status
+                "health_status": health_status
             })
         elif profile_type in ['d/hcw/ms', 'i/sp', 'msh']:
             profile = MedWorkerRep.objects.get(account=profile)
@@ -645,6 +644,7 @@ def notifications(request):
     else:
         return HttpResponse("GET method not allowed!")
 
+
 def delete_file(request, wbid, name):
     """
     - This function let's a MedWorkerRep delete a file only if the MedWorkerRep has uploaded the file.
@@ -701,21 +701,21 @@ def file_page(request, wbid, name):
 
     # if viewer is basically a normal user and if the viewer is not the profile
     # if viewer.division.lower() not in ['d/hcw/ms', 'i/sp', 'msh'] and viewer != profile.person:
-    if viewer.division.lower()=='nou' and viewer != profile.person:
+    if viewer.division.lower() == 'nou' and viewer != profile.person:
         return HttpResponseRedirect(reverse("index"))
 
     if viewer == profile.person:  # if the viewer is the wbid (profile)
         if not os.path.exists(f'media/{wbid}/{name}'):
-            return render(request,"health_tracker/404.html",{
-                "message":f"'{name}' doesn't exist!"
+            return render(request, "health_tracker/404.html", {
+                "message": f"'{name}' doesn't exist!"
             })
     else:
         if viewer.division.lower() in ['d/hcw/ms', 'i/sp', 'msh']:
             vendor = MedWorkerRep.objects.get(account=viewer)
             if vendor in profile.hcw_v.all():
                 if not os.path.exists(f'media/{wbid}/{name}'):
-                    return render(request,"health_tracker/404.html",{
-                        "message":f"'{name}' doesn't exist!"
+                    return render(request, "health_tracker/404.html", {
+                        "message": f"'{name}' doesn't exist!"
                     })
                 elif os.path.exists(f'media/{wbid}/{name}'):
                     file = Files.objects.get(file=f'{wbid}/{name}')
@@ -725,11 +725,11 @@ def file_page(request, wbid, name):
             else:
                 if (os.path.exists(f'media/{wbid}/{name}') and Files.objects.get(
                         file=f'{wbid}/{name}').uploader != vendor) or (not os.path.exists(f'media/{wbid}/{name}')):
-                    return render(request,"health_tracker/404.html",{
-                        "message":f"'{name}' doesn't exist!"
-                    })  
+                    return render(request, "health_tracker/404.html", {
+                        "message": f"'{name}' doesn't exist!"
+                    })
 
-    # check if the file thing is being shown to the correct ppl
+                    # check if the file thing is being shown to the correct ppl
     file = open(f'media/{wbid}/{name}', 'rb')
     response = FileResponse(file)
     return response
@@ -808,11 +808,11 @@ def mydoctors_vendors(request):
                 medical_shops_labs.append(file.uploader)
 
     return render(request, "health_tracker/mydoctors_vendors.html", {
-        "authorized_doctors": sorted(set(authorized_doctors),key=lambda item:(item.full_com_name,)),
-        "other_doctors": sorted(set(other_doctors),key=lambda item:(item.full_com_name,)),
-        "insurance_service_providers": sorted(set(insurance_service_providers),key=lambda item:(item.full_com_name,)),
-        "medical_shops_labs": sorted(set(medical_shops_labs),key=lambda item:(item.full_com_name,)),
-        "patient":patient
+        "authorized_doctors": sorted(set(authorized_doctors), key=lambda item: (item.full_com_name,)),
+        "other_doctors": sorted(set(other_doctors), key=lambda item: (item.full_com_name,)),
+        "insurance_service_providers": sorted(set(insurance_service_providers), key=lambda item: (item.full_com_name,)),
+        "medical_shops_labs": sorted(set(medical_shops_labs), key=lambda item: (item.full_com_name,)),
+        "patient": patient
     })
 
 
@@ -837,7 +837,7 @@ def mypatients_customers(request):
         if file.recipent not in patients_customers:
             patients_customers.append(file.recipent)
     return render(request, "health_tracker/mypatients_customers.html", {
-        "patients_customers": sorted(set(patients_customers),key=lambda item:(item.full_name,)),
+        "patients_customers": sorted(set(patients_customers), key=lambda item: (item.full_name,)),
         "vendor": vendor
     })
 
@@ -857,7 +857,6 @@ def edit_file(request, wbid, file_name):
         return HttpResponseRedirect(reverse("mypatients_customers"))
     profile = User.objects.get(username=wbid)
 
-
     if profile.division.lower() != 'nou':  # if the wbid is not a normal user, ie /hcwvid/file_name
         return HttpResponseRedirect(reverse("index"))
     profile = Patients.objects.get(person=profile)
@@ -870,29 +869,29 @@ def edit_file(request, wbid, file_name):
     try:
         file = Files.objects.get(file=f'{wbid}/{file_name}', uploader=editor, recipent=profile)
         if not os.path.exists(
-            f'media/{wbid}/{file_name}'):
-            return render(request,"health_tracker/404.html",{
-                "message":f"'{file_name}' doesn't exist!"
+                f'media/{wbid}/{file_name}'):
+            return render(request, "health_tracker/404.html", {
+                "message": f"'{file_name}' doesn't exist!"
             })
     except Files.DoesNotExist:
-        return render(request,"health_tracker/404.html",{
-            "message":f"'{file_name}' doesn't exist!"
+        return render(request, "health_tracker/404.html", {
+            "message": f"'{file_name}' doesn't exist!"
         })
-        
+
     form0 = EditFileForm(initial={'tags': file.tags, 'vendor_name': file.vendor_name, 'file_type': file.file_type})
     if request.method == "POST":
         form = EditFileForm(request.POST)
         if form.is_valid():
-            if file.uploader and editor.account.division.lower()!='d/hcw/ms' and not form.cleaned_data['vendor_name']:
+            if file.uploader and editor.account.division.lower() != 'd/hcw/ms' and not form.cleaned_data['vendor_name']:
                 return render(request, "health_tracker/edit_file.html", {
                     "form": form,
                     "wbid": wbid,
                     "file_name": file_name,
-                    "message":"Name of person uploading document must be entered!",
+                    "message": "Name of person uploading document must be entered!",
                     "editor": editor
                 })
             file.tags = form.cleaned_data['tags']
-            if editor.account.division.lower()!='d/hcw/ms':
+            if editor.account.division.lower() != 'd/hcw/ms':
                 file.vendor_name = form.cleaned_data['vendor_name']
             file.file_type = form.cleaned_data['file_type']
             file.save()
@@ -925,19 +924,21 @@ def go_public(request):
     if user.division.lower() == 'nou':
         return HttpResponseRedirect(reverse("index"))
     vendor = MedWorkerRep.objects.get(account=user)
-    form0 = GoPublicForm(initial={'contact_number':vendor.contact_number,'address': vendor.address, 'pincode': vendor.pincode})
+    form0 = GoPublicForm(
+        initial={'contact_number': vendor.contact_number, 'address': vendor.address, 'pincode': vendor.pincode})
     if request.method == "POST":
 
         form = GoPublicForm(request.POST)
         if form.is_valid():
             if not request.POST.get('district') or not request.POST.get('state'):
-                return render(request,"health_tracker/go_public.html",{
-                    "message":"All fields are required!",
+                return render(request, "health_tracker/go_public.html", {
+                    "message": "All fields are required!",
                     "form": form,
                     "vendor": vendor,
                     "states": sm.get_states()
                 })
-            if request.POST['state'] not in sm.get_states() or request.POST['district'] not in sm.get_districts(request.POST['state']):
+            if request.POST['state'] not in sm.get_states() or request.POST['district'] not in sm.get_districts(
+                    request.POST['state']):
                 return render(request, "health_tracker/go_public.html", {
                     "message": "Invalid State/District",
                     "form": form,
@@ -981,7 +982,7 @@ def search_public_vendors(request):
     """done by kushal sai. Whole function"""
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
-    if request.user.division.lower()!='nou':
+    if request.user.division.lower() != 'nou':
         return HttpResponseRedirect(reverse("index"))
     search_entry = request.GET.get('q', '')
     public_doctors = []
@@ -1012,9 +1013,10 @@ def search_public_vendors(request):
     return render(request, "health_tracker/search_public_vendors.html", {
         "search_entry": search_entry,
         "empty": not public_doctors and not public_insurance_service_providers and not public_medical_shops_labs,
-        "public_doctors": sorted(set(public_doctors),key=lambda item:(item.full_com_name,)),
-        "public_insurance_service_providers": sorted(set(public_insurance_service_providers),key=lambda item:(item.full_com_name,)),
-        "public_medical_shops_labs": sorted(set(public_medical_shops_labs),key=lambda item:(item.full_com_name,))
+        "public_doctors": sorted(set(public_doctors), key=lambda item: (item.full_com_name,)),
+        "public_insurance_service_providers": sorted(set(public_insurance_service_providers),
+                                                     key=lambda item: (item.full_com_name,)),
+        "public_medical_shops_labs": sorted(set(public_medical_shops_labs), key=lambda item: (item.full_com_name,))
     })
 
 
@@ -1087,17 +1089,22 @@ def StatesAPI(request):
 def covid(request):
     return render(request, 'covid/covid_main.html')
 
+
 def covid_hospital_map(request):
     return render(request, 'covid/location_bed_status_map.html')
+
 
 def covid_immunity(request):
     return render(request, 'covid/build_immunity.html')
 
+
 def covid_norms(request):
     return render(request, 'covid/follow_norms.html')
 
+
 def covid_vaccinations(request):
     return render(request, 'covid/vaccination_faq.html')
+
 
 def covid_mythbusters(request):
     return render(request, 'covid/covid_mythbusters.html')
@@ -1117,7 +1124,7 @@ def handle_Qr(request):
         qr.add_data(uid)
         qr.make()
         img = qr.make_image(fill_color="#FFC107", back_color="#141A26").convert('RGB')
-        pos = ((img.size[0] - icon.size[0])//2, (img.size[1] - icon.size[1])//2)
+        pos = ((img.size[0] - icon.size[0]) // 2, (img.size[1] - icon.size[1]) // 2)
         img.paste(icon, pos)
         b = io.BytesIO()
         img.save(b, 'JPEG')

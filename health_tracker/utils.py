@@ -5,6 +5,9 @@ from .models import User
 
 
 def gen_unique_id(email: str, password: str) -> User:
+    """
+    Generates a New unique id and creates a new User Object with the username set to the unique id
+    """
     _len = 16
     digits = "0123456789"
     code = "".join([random.choice(digits) for _ in range(_len)])
@@ -19,6 +22,9 @@ def gen_unique_id(email: str, password: str) -> User:
 
 
 def get_hcw_vid(email: str, password: str, division: str):
+    """
+    Generates a New unique id and creates a new User Object with the username set to the unique id
+    """
     hcw_vid = uuid.uuid4()
     hcw_vid = str(hcw_vid)[:11]
     while User.objects.filter(username=hcw_vid):
@@ -33,6 +39,9 @@ def get_hcw_vid(email: str, password: str, division: str):
 
 
 def is_valid_file(file: str) -> bool:
+    """
+    checks if a file is valid, if not, it will return False
+    """
     approved = ["docx", "pdf", "jpg", "jpeg", "png", "pptx", "ppt", "xlsx", "xls", "txt", "mp4", "avi", "mov", "mp3",
                 "key"]
     file = str(file)
@@ -48,12 +57,18 @@ def is_valid_file(file: str) -> bool:
 
 
 def filter_files(files: list, mode: str) -> list:
+    """
+    filters the file for myfiles view
+    """
     if mode == "def":
         return files
     return [f for f in files if f.file_type == mode]
 
 
 def sort_files(files: list, mode: str) -> list:
+    """
+    sorts the files for the myfiles view
+    """
     if mode == "def":
         return files
 

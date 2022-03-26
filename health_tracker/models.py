@@ -4,7 +4,6 @@ from django.core.validators import MinLengthValidator
 from django.utils import timezone
 
 
-# from .models import Patients
 # Create your models here.
 
 # make a "profile" table?
@@ -101,8 +100,6 @@ class HealthStatus(models.Model):
     last_updated_by = models.ForeignKey(MedWorkerRep, on_delete=models.SET_NULL, null=True, blank=True,
                                         related_name="last_updated_by", verbose_name="Last Updated By")
     last_updated = models.DateTimeField(default=timezone.now)
-
-    # lcb=models.ForeignKey(MedWorkerRep,on_delete=models.CASCADE,related)
 
     def __str__(self):
         return f"{self.patient}"

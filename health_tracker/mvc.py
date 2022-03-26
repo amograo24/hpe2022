@@ -8,6 +8,11 @@ from health_tracker.models import User, MedWorkerRep, Patients, Notification
 
 
 class NotificationManager:
+    """
+    The Go Public Page allows the MedWorkerRep to set their account visibility to public status. This allows them to
+    be visible in the Public vendors section. Non associated patients can acquire the Vendor’s contact details in
+    this manner.
+    """
     notif_object = None
     sender_mwr = None
     receiver_p = None
@@ -21,9 +26,6 @@ class NotificationManager:
 
         if self.sender.username != self.request.user.username:
             return HttpResponse("Cannot self invite!")
-
-        # if self.receiver.division in ['D/HCW/MS', 'I/SP', 'MSh']:
-        #     return HttpResponse("Can send authorization requests to patients only!")
 
         if self.sender_mwr in self.receiver_p.hcw_v.all():
             return HttpResponse("User Already Approved!")
