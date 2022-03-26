@@ -1,3 +1,106 @@
 {% extends "health_tracker/layout.html" %}
 {% block body %}
+
+<h1 class="index__title">UHI - Unified Health Interface</h1>
+<div class="index__container">
+<h2 class="index__subtitle">Project Introduction</h2>
+<h3 class="index__paragraph">UHI serves as a website that aims towards</h3>
+<ul class="index__list">
+    <li>Bettering the health infrastructure by providing a hassle-free procedure to digitally access and share health records</li>
+    <li>Increasing accessibility to information on doctors, insurance companies, medical shops, and labs</li>
+    <li>Providing preventive and precautionary measures, and immunity building tips.</li>
+</ul>
+    <h3 class="index__paragraph">
+        This website provides a Unique <strong>Well-Being ID (WBID) to all patients</strong> and a Unique <strong>Health Care Worker/Vendor ID (HCWV ID) to all the health care workers</strong> such as doctors, medical staff, etc and <strong>vendors</strong> such as insurance companies, medical shops, and labs.
+        Each patient gets a <strong>Health Status Card</strong> that shows a detailed list of visually appealing no-UI sliders that <strong>depict the danger levels of the patient’s several health conditions.</strong>
+        <strong>Doctors/Vendors have to send authorization requests to the patients</strong> through the ‘Approvals’ page in order <strong>to view the patient’s health status</strong> (if doctor) <strong>or upload health and medical records</strong> for the patient.
+        The <strong>search</strong> function conducts a <strong>master search through 7-10 parameters</strong> and provides <strong>a list of documents and linked users</strong> associated with the search query.
+        The <strong>search public feature</strong> searches through several parameters of public doctors and vendors and <strong>provides a list of public doctors, public insurance companies, public medical shops, and public labs.</strong>
+        <strong>File viewing</strong> has been made <strong>very secure</strong> such that <strong>only the file uploader, an authorized doctor, and the patient can view the file</strong>. Any other user who tries to view the file and is not authorized to<strong> view will be shown a 404 page</strong> or will be <strong>redirected</strong> to the home page.
+        There's a <strong>covid-19 specific menu as well that provides information on norms, immunity building tips</strong>, Vaccination FAQs, mythbusters, and <strong>covid-19 hospital map</strong> for Bangalore Residents.
+    </h3>
+</div>
+<div class="index__container">
+    <h2 class="index__subtitle"><strong>Register</strong></h1>
+
+    <h3 class="index__paragraph">While registering on the website, each user has to enter details such as:</h3>
+    <ul class="index__list">
+        <li>Full Name (for doctors and patients) or Company Name (for vendors - insurance companies, medical shops, and labs)</li>
+        <li>Email ID</li>
+        <li>Password and Confirm Password</li>
+        <li>Aadhar ID (for patients)</li>
+        <li>Registration Number/License Number (for doctors/vendors)</li>
+        <li>Department (for doctors)</li>
+    </ul>
+
+    <h3 class="index__paragraph">
+        If the passwords do not match, the user will be shown an error message saying “Passwords must match.”
+        If an account with the Aadhar ID already exists, then the patient will be shown an error message saying “An account with this Aadhar ID already exists!”
+        If a department name is not entered, then the doctor/health care worker will be shown an error message saying “You must enter a department name!”
+        If any other field details have been entered incorrectly, error messages will be displayed accordingly.
+        If the form is valid, then the user is redirected to the dashboard page.
+    </h3>
+
+</div>
+<div class="index__container">
+    <h2 class="index__subtitle">Login</h2>
+    <h3 class="index__paragraph">
+        The login page has a <strong>toggle button that shifts from one form to another</strong> based on who is trying to log in.
+
+        While trying to login on the website, the user will have to enter the WBID (for patient type user) or the HCWV ID (for doctor/vendor type user) and the password.
+
+        If the username and password doesn’t match, the following message will be displayed:
+        “Invalid username and/or password.”
+
+        In case the login form is invalid, error messages will be displayed accordingly.
+
+        Once successfully authenticated, the user will be redirected to the home page.
+    </h3>
+
+</div>
+
+<div class="index__container">
+    <h2 class="index__subtitle">Dashboard/My Profile</h2>
+    <h3 class="index__paragraph">This is the first page that a user encounters when once authenticated to the website. This page may vary based on the user's profile type.</h3>
+    <h2 class="index__subtitle">Patient's Dashboard</h2>
+    <ul class="index__list">
+        <li>There will be a card at the top of the screen with the following details of the patient:
+            <li>Name</li>
+            <li>Email</li>
+            <li>Well-Being ID</li>
+            <li>Aadhar ID</li>
+            <li>QR Code</li>
+        </li>
+        <li>Under the personal details card, <strong>there will be a search bar to search for public doctors or vendors.</strong></li>
+        <li>
+            Under the search bar is the <strong>Health Status Visualization</strong> of the patient. There are various health conditions shown using sliders. The ranges in the slider indicate:
+            <li>The green range in the slider shows the ideal range for any health condition</li>
+            <li>The red range in the slider shows the non-ideal range (it may be less than the ideal range or more than the ideal range)</li>
+            <li>The yellow box contains the patient’s value for any health condition.</li>
+        </li>
+        <li>
+            Under the slider, the patient can see their Health Condition Category. There are 5 Health Condition Categories:
+            <li>Safe</li>
+            <li>Warning</li>
+            <li>Danger</li>
+            <li>Borderline-Safe</li>
+            <li>Borderline-Danger</li>
+        </li>
+        <li>The Health Status card also displays when and by which doctor the card was updated.</li>
+    </ul>
+</div>
+
+<div class="index__container">
+    <h2 class="index__subtitle">Search Public</h2>
+
+    <h3 class="index__paragraph">
+        <strong>The search public feature is for patients who want to look up doctors, insurance companies, medical shops, and labs.</strong> The main purpose of this feature is for patients <strong>to find information about doctors and vendors around them.</strong>
+        The public search input <strong>is on the dashboard page</strong> for the patients.
+        When the patient searches for something, the <strong>search public function goes through several parameters</strong> of public doctors, public insurance companies, public medical shops, and public labs. Parameters such as HCWV ID, doctor/vendor name, department, address, district, state, pin code, registration number/license number, etc.
+        A list of public doctors, a list of public insurance companies, and a list of public medical shops and labs associated with the search query will be provided to the patient.
+        If there are no doctors/vendors associated with the search query, then the following message will be displayed:
+        “No public doctors/insurance representatives/medical shops/labs are associated with <kbd>'<search entry>'</kbd>!”</h3>
+</div>
+
+
 {% endblock %}
