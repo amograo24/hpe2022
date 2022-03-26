@@ -108,11 +108,9 @@
                             alert(`Please fill health condition ${v} first!`)
                             return null;
                         }
-                        // let x = parseInt($("#id_health_status-INITIAL_FORMS").val())
                         console.log(document.querySelector('#id_health_status-TOTAL_FORMS'))
                         $("#id_health_status-TOTAL_FORMS").val(v+1)
                         let submitBtn = document.querySelector('#submit').cloneNode(0)
-                        // $("#id_health_status-INITIAL_FORMS").val(v)
                         for(let ele of $(get_new_elements(v)))
                         {
                             $("#submit").remove()
@@ -130,13 +128,10 @@
 {% block script %}
 <script>
     let health_condition_labels = document.querySelectorAll('label[for$="health_condition"]')
-    // let health_condition_inputs = document.querySelectorAll('input[name$="health_condition"]')
     let health_condition_labels_array=[...health_condition_labels]
     health_condition_labels.forEach(element => {
-        // element.class='health_labels'
         let index = health_condition_labels_array.indexOf(element)+1
         element.innerHTML=`Health Condition ${index}:`
-        // console.log(element)
     })
 </script>
 {% endblock %}

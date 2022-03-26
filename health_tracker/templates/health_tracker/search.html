@@ -4,7 +4,6 @@
 {% block title %}Search Results{% endblock %}
 {% block styling %}<link href="{% static 'health_tracker/scss/search.css' %}" rel="stylesheet">{% endblock %}
 {% block body %}
-    <!-- Check with avaneesh regarding phone view when file previews are shown, like it becomes very cramped. Instead of 3 files in one row, why not one in phone view?-->
     {% if empty %}
         <h3 class="empty">No files or {% if user_type == 'nou' %}doctors/insurance representatives/medical shops/labs{% else %}patients/customers{% endif %} are associated with '{{search_entry}}'!</h3>
     {% else %}
@@ -19,9 +18,9 @@
                   {% csrf_token %}
                   <div class="patient-container__patient-div">
                      {% if user_type == 'nou' %}
-                        <!-- {% if person %} -->
+
                            <a href="{% url 'other_profile' person.account.username %}" class="patient-container__patient-link"><p>{{person.full_com_name}} ({{person.account.username}})</p>{% if user in person.hcw_v.all %}<button type="button" class="delete_patient" data-pos="{{forloop.counter}}"><img src="{% static 'health_tracker/delete.svg' %}" /></button>{% endif %}</a>
-                        <!-- {% endif %} -->
+
                      {% else %}
                            <a href="{% url 'other_profile' person.person.username %}" class="patient-container__patient-link"><p>{{person.full_name}} ({{person.person.username}})</p>{% if user in person.hcw_v.all %}<button type="button" class="delete_patient" data-pos="{{forloop.counter}}"><img src="{% static 'health_tracker/delete.svg' %}" /></button>{% endif %}</a>
                      {% endif %}
@@ -35,10 +34,8 @@
                                  <div class="modal-body">
                                     <p>Are you sure you want to remove {% if user_type == 'nou' %} doctor/vendor {% else %} patient/customer {% endif %}</p>
                                     {% if user_type == 'nou' %}
-                                       <!-- <p class="modal-filename" data-id="{{person.account.username}}">{{person.full_com_name}} ({{person.account.username}})"?</p> -->
                                        <p class="modal-patientname" data-id="{{person.account.username}}">"{{person.full_com_name}} ({{person.account.username}})"</p> <!--show question mark?-->
                                     {% else %}
-                                       <!-- <p class="modal-filename" data-id="{{person.person.username}}">"{{person.full_name}} ({{person.person.username}})"?</p> -->
                                        <p class="modal-patientname" data-id="{{person.person.username}}">"{{person.full_name}} ({{person.person.username}})"</p>
                                     {% endif %}
                                  </div>
@@ -62,7 +59,6 @@
                       {% csrf_token %}
                       <div class="inside_file_card">
                          <a style="text-decoration: none;" href="/media/{{file.file}}">
-                      <!-- <a href="{#% url 'file_page' file.recipent file.file %#}">kk</a> -->
                            {% if not file|stringformat:"s"|endswith:"docx,xls,xlsx,txt,mp4,avi,mov,ppt,pptx,mp3,key" %}
                               <div class="files_container__img-card img_class" id="img{{file.id}}" data-image="{{file.file}}">
                               </div>
@@ -72,8 +68,6 @@
                            {% endif %}
                             <div class="files_container__content">
                                <h5 class="file_name_class" id="file{{file.id}}" data-name={{file.file}}>{{file.file}}</h5>
-                               <!-- <a href="media/{{file.file}}"><h1 class="file_name_class" id="file{{file.id}}" data-name={{file.file}}>{{file.file}}</h1></a> -->
-                               <!-- <h6>Uploaded By: {% if file.uploader %} {{file.uploader.full_com_name}} {% else %} Deleted_User {% endif %}</h6> -->
                                {% if user_type == 'nou' %}
                                  <h6>Uploaded By: {% if file.uploader %} {{file.uploader.full_com_name}} {% else %} Deleted_User {% endif %}</h6>
                                {% else %}
@@ -97,7 +91,7 @@
                                {% endif %}
                             </div> 
                          </a>
-                         {% if file.uploader.account == request.user %} <!--changed to file.uploader == user ?-->
+                         {% if file.uploader.account == request.user %}
                             <div class="action-btns">
                               <button type="button" class="delete_file" data-pos="{{forloop.counter}}">Delete</button>
                               <button type="button" class="edit_file" data-pos="{{forloop.counter}}" onclick="window.location.href='/edit/{{file.file}}'">Edit</button>
@@ -121,7 +115,7 @@
                             </div>
                          {% endif %}                              
                       </div>
-                   <!-- <h1>{{file.tags|slice:"2:"}}</h1> -->
+
                    </div>
                 {% endfor %}
             </div>

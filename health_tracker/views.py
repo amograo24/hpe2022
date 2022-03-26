@@ -22,7 +22,7 @@ import qrcode
 import os
 
 with open("states.pickle", "rb") as fp:
-    STATES = dict(pickle.load(fp))
+    STATES = dict(pickle.load(fp))  # States API for loading states in the go public form
     sm = StateManager(STATES)
 
 
@@ -70,8 +70,11 @@ def search(request):
                     associated_people_list.append(person)
                     break
     for file in files:
-        # check for tags, and the uploader, and vendor name. Ex tags it will show class str even if nothing exists. so do file.tags.strip(" ")
-        # check_list=[str(file.file).lower(),file.recipent.full_name.lower(),file.recipent.person.username.lower(),file.file_type.lower(),"presctiption","schedule/timetable","health report/test report","invoice","operative report","discharge summary","miscellaneous"]
+        # check for tags, and the uploader, and vendor name. Ex tags it will show class str even if nothing exists.
+        # so do file.tags.strip(" ") check_list=[str(file.file).lower(),file.recipent.full_name.lower(),
+        # file.recipent.person.username.lower(),file.file_type.lower(),"presctiption","schedule/timetable",
+        # "health report/test report","invoice","operative report","discharge summary","miscellaneous"]
+
         file_type_choices = [
             ('PRSCN', 'Prescription'),
             ('S/T', 'Schedule/Timetable'),
@@ -130,8 +133,6 @@ def health_status_function(request, wbid):
         profile = User.objects.get(username=wbid)
         profile_type = profile.division.lower()
     except User.DoesNotExist:
-        # message = None
-        # if updater_type == 'd/hcw/ms':
         message = f"Patient with the WBID '{wbid}' doesn't exist! Check your patients' list to update the Health Status Cards of your patients."
         return render(request, "health_tracker/health_status.html", {
             "message": message,
@@ -177,7 +178,6 @@ def health_status_function(request, wbid):
             health_status.last_updated = timezone.now()
             health_status.save()
             return HttpResponseRedirect(reverse("other_profile",args=(wbid,)))
-            # return HttpResponseRedirect(reverse("index"))  # return to patient's thingie
         else:
             errors=[[i+1,formset.errors[i]] for i in range(len(formset.errors)) if formset.errors[i]]
             return render(request, "health_tracker/health_status.html", {
@@ -216,7 +216,6 @@ def upload_file(request):
     uploader_type = uploader.division.lower()
     if uploader_type not in ['d/hcw/ms', 'i/sp', 'msh']: # just do == "nou"?
         return HttpResponseRedirect(reverse("index"))
-    # ctx = {}
     if request.method == "POST":
         form = UploadDocForm(request.POST)
         files = request.FILES.getlist('file_field')
@@ -251,7 +250,6 @@ def upload_file(request):
             file_type = form.cleaned_data['file_type']
             tags = form.cleaned_data['tags']
             # if uploader is med shop/insurance and if in the patient's approves list, and the time has exceeded
-            # if uploader_type in ['i/sp', 'msh'] and uploader in patient.hcw_v.all() and time_condition:
             if uploader_type!='d/hcw/ms' and uploader in patient.hcw_v.all() and time_condition:
                 patient.hcw_v.remove(uploader)
                 patient.save()

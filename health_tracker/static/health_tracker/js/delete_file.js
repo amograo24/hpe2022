@@ -3,7 +3,6 @@ delete_file_btn.forEach(button => {
    button.addEventListener('click', (e) => {
       e.preventDefault();
       let elearray = [...document.querySelectorAll('.delete_file_modal')];
-      // console.log(elearray);
       for(let i = 0; i < elearray.length; i++){
          if(elearray[i].dataset.pos == button.dataset.pos){
             elearray[i].style.display = 'block';
@@ -17,7 +16,6 @@ cancel_file_btn.forEach(button => {
    button.addEventListener('click', (e) => {
       e.preventDefault();
       let elearray = [...document.querySelectorAll('.delete_file_modal')];
-      // console.log(elearray);
       for(let i = 0; i < elearray.length; i++){
          if(elearray[i].dataset.pos == button.dataset.pos){
             elearray[i].style.display = 'none';
@@ -33,7 +31,6 @@ delete_file_main_class.forEach(button => {button.addEventListener('click',event 
    let to_delete="yes"
 
    DeleteFile(id,file_name,to_delete)
-   // console.log(document.querySelector('input[name="csrfmiddlewaretoken"]').value)
 })})
 
 function DeleteFile(id,filename,to_delete) {

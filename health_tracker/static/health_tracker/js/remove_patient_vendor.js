@@ -33,7 +33,6 @@ delete_patient_class.forEach(button => {button.addEventListener('click',event =>
    let to_delete="yes"
 
    DeletePatient(id,patient,to_delete)
-   // console.log(document.querySelector('input[name="csrfmiddlewaretoken"]').value)
 })})
 
 function DeletePatient(id,patient,to_delete) {

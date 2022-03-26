@@ -45,7 +45,6 @@
                         {{vendor.department}}
                     </h3>
                 {% endif %}
-                <!-- <h3 class="dashboard__patient-mainline">Address{{vendor.address}}</h3> -->
             </div>
             <div  id="qrcode-generated">
                 {% csrf_token %}
@@ -71,7 +70,6 @@
                 </script>
             </div>
         </div>
-        <!-- <h3>{{vendor.address}}</h3> -->
     </div>
     {% if vendor.contact_number or vendor.address or vendor.state or vendor.city or vendor.pincode %}
         <div class="dashboard__patient-address">
