@@ -1,106 +1,472 @@
 {% extends "health_tracker/layout.html" %}
+{% load static %}
+{% block styling %}
+    <link href="{% static 'health_tracker/scss/index.css' %}" rel="stylesheet"/>
+{% endblock %}
 {% block body %}
+<div class="index">
+    <div class="index__container-parent">
+        <h1 class="index__title">UHI - Unified Health Interface</h1>
+        <div class="index__container">
+            <h2 class="index__subtitle">Project Introduction</h2>
+            <p class="index__paragraph">UHI serves as a website that aims towards</p>
+            <ul class="index__list">
+                <li>Bettering the health infrastructure by providing a hassle-free procedure to digitally access and share health records</li>
+                <li>Increasing accessibility to information on doctors, insurance companies, medical shops, and labs</li>
+                <li>Providing preventive and precautionary measures, and immunity building tips.</li>
+            </ul>
+            <p class="index__paragraph">
+                This website provides a Unique <strong>Well-Being ID (WBID) to all patients</strong> and a Unique <strong>Health Care Worker/Vendor ID (HCWV ID) to all the health care workers</strong> such as doctors, medical staff, etc and <strong>vendors</strong> such as insurance companies, medical shops, and labs.
+            </p>
+            <p class="index__paragraph">
+                Each patient gets a <strong>Health Status Card</strong> that shows a detailed list of visually appealing no-UI sliders that <strong>depict the danger levels of the patient's several health conditions.</strong>
+            </p>
+            <p class="index__paragraph">
+                <strong>Doctors/Vendors have to send authorization requests to the patients</strong> through the 'Approvals' page in order <strong>to view the patient's health status</strong> (if doctor) <strong>or upload health and medical records</strong> for the patient.
+            </p>
+            <p class="index__paragraph">
+                The <strong>search</strong> function conducts a <strong>master search through 7-10 parameters</strong> and provides <strong>a list of documents and linked users</strong> associated with the search query.
+            </p>
+            <p class="index__paragraph">
+                The <strong>search public feature</strong> searches through several parameters of public doctors and vendors and <strong>provides a list of public doctors, public insurance companies, public medical shops, and public labs.</strong>
+            </p>
+            <p class="index__paragraph">
+                <strong>File viewing</strong> has been made <strong>very secure</strong> such that <strong>only the file uploader, an authorized doctor, and the patient can view the file</strong>. Any other user who tries to view the file and is not authorized to<strong> view will be shown a 404 page</strong> or will be <strong>redirected</strong> to the home page.
+            </p>
+            <p class="index__paragraph">
+                There's a <strong>covid-19 specific menu as well that provides information on norms, immunity building tips</strong>, Vaccination FAQs, mythbusters, and <strong>covid-19 hospital map</strong> for Bangalore Residents.
+            </p>
+        </div>
+    </div>
+    <div class="index__container-parent">
+        <h2 class="index__subtitle">Register</h1>
 
-<h1 class="index__title">UHI - Unified Health Interface</h1>
-<div class="index__container">
-<h2 class="index__subtitle">Project Introduction</h2>
-<h3 class="index__paragraph">UHI serves as a website that aims towards</h3>
-<ul class="index__list">
-    <li>Bettering the health infrastructure by providing a hassle-free procedure to digitally access and share health records</li>
-    <li>Increasing accessibility to information on doctors, insurance companies, medical shops, and labs</li>
-    <li>Providing preventive and precautionary measures, and immunity building tips.</li>
-</ul>
-    <h3 class="index__paragraph">
-        This website provides a Unique <strong>Well-Being ID (WBID) to all patients</strong> and a Unique <strong>Health Care Worker/Vendor ID (HCWV ID) to all the health care workers</strong> such as doctors, medical staff, etc and <strong>vendors</strong> such as insurance companies, medical shops, and labs.
-        Each patient gets a <strong>Health Status Card</strong> that shows a detailed list of visually appealing no-UI sliders that <strong>depict the danger levels of the patient’s several health conditions.</strong>
-        <strong>Doctors/Vendors have to send authorization requests to the patients</strong> through the ‘Approvals’ page in order <strong>to view the patient’s health status</strong> (if doctor) <strong>or upload health and medical records</strong> for the patient.
-        The <strong>search</strong> function conducts a <strong>master search through 7-10 parameters</strong> and provides <strong>a list of documents and linked users</strong> associated with the search query.
-        The <strong>search public feature</strong> searches through several parameters of public doctors and vendors and <strong>provides a list of public doctors, public insurance companies, public medical shops, and public labs.</strong>
-        <strong>File viewing</strong> has been made <strong>very secure</strong> such that <strong>only the file uploader, an authorized doctor, and the patient can view the file</strong>. Any other user who tries to view the file and is not authorized to<strong> view will be shown a 404 page</strong> or will be <strong>redirected</strong> to the home page.
-        There's a <strong>covid-19 specific menu as well that provides information on norms, immunity building tips</strong>, Vaccination FAQs, mythbusters, and <strong>covid-19 hospital map</strong> for Bangalore Residents.
-    </h3>
+        <p class="index__paragraph">While registering on the website, each user has to enter details such as:</p>
+        <ul class="index__list">
+            <li>Full Name (for doctors and patients) or Company Name (for vendors - insurance companies, medical shops, and labs)</li>
+            <li>Email ID</li>
+            <li>Password and Confirm Password</li>
+            <li>Aadhar ID (for patients)</li>
+            <li>Registration Number/License Number (for doctors/vendors)</li>
+            <li>Department (for doctors)</li>
+        </ul>
+
+        <p class="index__paragraph">
+            If the passwords do not match, the user will be shown an error message saying
+        </p> 
+        <kbd>Passwords must match.</kbd>
+        <p class="index__paragraph">
+            If an account with the Aadhar ID already exists, then the patient will be shown an error message saying
+        </p>
+        <kbd>
+            An account with this Aadhar ID already exists!
+        </kbd>
+        <p class="index__paragraph">
+            If a department name is not entered, then the doctor/health care worker will be shown an error message saying 
+        </p>
+        <kbd>
+            You must enter a department name!
+        </kbd>
+        <p class="index__paragraph">
+            If any other field details have been entered incorrectly, error messages will be displayed accordingly.
+            If the form is valid, then the user is redirected to the dashboard page.
+        </p>
+
+    </div>
+    <div class="index__container-parent">
+        <h2 class="index__subtitle">Login</h2>
+        <p class="index__paragraph">
+            The login page has a <strong>toggle button that shifts from one form to another</strong> based on who is trying to log in.
+        </p>
+        <p class="index__paragraph">
+            While trying to login on the website, the user will have to enter the WBID (for patient type user) or the HCWV ID (for doctor/vendor type user) and the password.
+        </p>
+        <p class="index__paragraph">
+            If the username and password doesn't match, the following message will be displayed:
+        </p>
+        <kbd>Invalid username and/or password.</kbd>
+        <p class="index__paragraph">   
+            In case the login form is invalid, error messages will be displayed accordingly.
+        </p>
+        <p class="index__paragraph"> 
+            Once successfully authenticated, the user will be redirected to the home page.
+        </p>
+
+    </div>
+
+    <div class="index__container-parent">
+        <h2 class="index__subtitle">Dashboard/My Profile</h2>
+        <p class="index__paragraph">This is the first page that a user encounters when once authenticated to the website. This page may vary based on the user's profile type.</p>
+        <h5 class="index__subtitle">Patient's Dashboard</h5>
+        <ul class="index__list">
+            <li>There will be a card at the top of the screen with the following details of the patient:
+                <ul class="index__list">
+                    <li>Name</li>
+                    <li>Email</li>
+                    <li>Well-Being ID</li>
+                    <li>Aadhar ID</li>
+                    <li>QR Code</li>
+                </ul>
+            </li>
+            <li>Under the personal details card, <strong>there will be a search bar to search for public doctors or vendors.</strong></li>
+            <li>
+                Under the search bar is the <strong>Health Status Visualization</strong> of the patient. There are various health conditions shown using sliders. The ranges in the slider indicate:
+                <ul class="index__list">
+                    <li>The green range in the slider shows the ideal range for any health condition</li>
+                    <li>The red range in the slider shows the non-ideal range (it may be less than the ideal range or more than the ideal range)</li>
+                    <li>The yellow box contains the patient's value for any health condition.</li>
+                </ul>
+            </li>
+            <li>
+                Under the slider, the patient can see their Health Condition Category. There are 5 Health Condition Categories:
+                <ul class="index__list">
+                    <li>Safe</li>
+                    <li>Warning</li>
+                    <li>Danger</li>
+                    <li>Borderline-Safe</li>
+                    <li>Borderline-Danger</li>
+                </ul>
+            </li>
+            <li>The Health Status card also displays when and by which doctor the card was updated.</li>
+        </ul>
+        <h5 class="index__subtitle">Doctor/Vendor's Dashboard</h5>
+        <ul class="index__list">
+            <li>In the Doctor/Vendor's dashboard there will be a card with the following details about the doctor/vendor:
+                <ul class="index__list">
+                    <li>Company Name (Full Name if the user is a doctor)
+                    <li>Email
+                    <li>Health Care Worker/Vendor ID
+                    <li>Registration no./License no.
+                    <li>Account Type (ie Doctor, Insurance Company, etc)
+                    <li>Department (only if the user is a doctor)
+                    <li>Account Visibility (Public or Private)
+                    <li>QR Code
+                </ul>
+            </li>
+            <li>
+                In the personal details card, there will also be a button that allows the doctor/vendor to 'go public', if the doctor/vendor is already public then it will ask the doctor/vendor to 'go private'.
+            </li>
+            <li>
+                If the doctor/vendor chooses to go public, then the doctor/vendor will be redirected to the 'Go Public' page where the doctor/vendor will be prompted to edit/enter details like address, contact details, etc.
+            </li>
+            <li>
+                If all the details entered in the above step were valid then the doctor/vendor will be able to see another card under the Personal Details Card which contains details about the doctor/vendor's Address and Contact Details. Now the doctor/vendor will appear in Public Search.
+            </li>
+            <li>
+                If the doctor/vendor chose to go private, then the doctor/vendor will be removed from the Public Search.
+            </li>
+        </ul>
+    </div>
+
+    <div class="index__container-parent">
+        <h2 class="index__subtitle">Search Public</h2>
+
+        <p class="index__paragraph">
+            <strong>The search public feature is for patients who want to look up doctors, insurance companies, medical shops, and labs.</strong> The main purpose of this feature is for patients <strong>to find information about doctors and vendors around them.</strong>
+        </p>
+        <p class="index__paragraph">
+            The public search input <strong>is on the dashboard page</strong> for the patients.
+        </p>
+        <p class="index__paragraph">
+            When the patient searches for something, the <strong>search public function goes through several parameters</strong> of public doctors, public insurance companies, public medical shops, and public labs. Parameters such as HCWV ID, doctor/vendor name, department, address, district, state, pin code, registration number/license number, etc.
+        </p>
+        <p class="index__paragraph">
+            A list of public doctors, a list of public insurance companies, and a list of public medical shops and labs associated with the search query will be provided to the patient.
+        </p>
+        <p class="index__paragraph">
+            If there are no doctors/vendors associated with the search query, then the following message will be displayed:
+        </p>
+        <kbd>No public doctors/insurance representatives/medical shops/labs are associated with &lt;search entry&gt;!</kbd>
+    </div>
+
+    <div class="index__container-parent">
+        <h2 class="index__subtitle">Go Public/Go Private</h2>
+
+        <p class="index__paragraph">
+            The 'Go Public' page provides a form for the doctor/vendor who wishes to go public <strong>so that other patients can look up this doctor/vendor for information.</strong> The go public form has the following fields:
+        </p>
+        <ul class="index__list">
+            <li>Contact Number
+            <li>Address
+            <li>State
+            <li>District
+            <li>Pincode
+        </ul>
+        <p class="index__paragraph">
+            If the doctor/vendor already has some of the above details saved, and just wants to edit the details, then the <strong>form will already be pre-filled</strong> with the details for each field. 
+        </p>
+        <p class="index__paragraph">
+            The 'district' select field is dependent on the 'state' select field. <strong>Based on the state selected, the districts get automatically updated.</strong> 
+        </p>
+        <p class="index__paragraph">
+            Upon clicking the 'Go Private' button, the doctor/vendor's account visibility will become private again and now will not be visible in the public search results.
+        </p>
+    </div>
+    <div class="index__container-parent">
+        <h2 class="index__subtitle">Approvals</h2>
+
+        <p class="index__paragraph">
+            The 'Approvals' page shows the user his/her approval messages or authorization requests based on the user type. 
+        </p>
+        <p class="index__paragraph">
+            The approval page will display 2 cards, and an input field (only for doctors/vendors).
+        </p>
+        <p class="index__paragraph">
+            <strong>This whole approval process will take place without having to reload the page.</strong>
+        </p>
+        <h5 class="index__subtitle">
+            Patient's Approval page:
+        </h5>
+        <ul class="index__list">
+            <li>The first card will display unattend authorization requests with an 'Approve' button and a 'Reject' button.
+            <li>The second card displays all the past authorization requests sent to the patient.
+        </ul>
+        <h5 class="index__subtitle">
+            Doctor/Vendor's Approval page:
+        </h5>
+        <ul class="index__list">
+            <li>The first card displays the feedback of the authorization request.
+            <li>The second card displays all the past authorization requests sent from the doctor/vendor.
+            <li>Under the two cards, there exists an input field where the doctor/vendor is supposed to enter the WBID of the patient to whom the doctor/vendor wishes to send an authorization request.
+        </ul>
+        <p class="index__subtitle">Some protocols to remember:</p>
+        <ul class="index__list">
+            <li>Only doctors/vendors can send authorization requests to patients. An authorization request cannot be sent to a doctor/vendor.
+            <li>Only patients get to approve/reject authorization requests.
+            <li>The WBID of the patient must exist in order to have a successful authorization request. If no patient with the WBID exists, an error message is displayed.
+            <li>A doctor/vendor cannot send an authorization request to a patient who already exists in the authorized list of the doctor/vendor.
+            <li>Similarly, if any of the protocols above are violated, appropriate error messages will be shown
+        </ul>
+    </div>
+    <div class="index__container-parent">
+        <p class="index__paragraph">The file upload page allows doctors/vendors to upload files on behalf of the patient.</p>
+        <p class="index__paragraph"><strong>A doctor/vendor needs to request an authorization from the patient, only upon which the doctor/vendor will be permitted to upload documents.</strong></p>
+        <p class="index__paragraph">A doctor needs to ask for permission only once from the patient, and can keep uploading documents till the patient removes the doctor from the authorized list.</p>
+        <p class="index__paragraph"><strong>A vendor however, has to ask for permission every time the vendor wishes to upload files for the patient. If the authorization time exceeds over 5 minutes, then the vendor will not be allowed to upload files and will have to resend the authorization request.</strong> The following message will be displayed:</p>
+        <kbd>Uploading time has exceeded more than 5 minutes! Resend an authorization request to &lt;Patient's Name&gt; &lt;Patient's WBID&gt;!</kbd>
+        <p class="index__paragraph">If a doctor/vendor tries to upload files for a patient who doesn't exist, the following message will be displayed:</p>
+        <kbd>No Patient/Customer with the WBID '&lt;WBID&gt;' exists!</kbd>
+        <p class="index__paragraph">If a doctor/vendor tries to upload files for an unauthorized patient, the following message will be displayed:</p>
+        <kbd>The Patient/Customer with the WBID &lt;Patient's WBID&gt; has not yet authorized you to upload documents to their profile!</kbd>
+        <p class="index__paragraph"><strong>Multiple files can be uploaded, however, each file size cannot exceed more than 50 MB.</strong></p>
+        <p class="index__paragraph">While uploading the file, the following fields will be there in the file upload form:
+        </p>
+        <ul class="index__list">
+            <li>Patient's WBID
+            <li>Name of the person uploading the document (only for vendors)
+            <li>File Field
+            <li>File Type (ie Prescription, Schedule/Time table, Health report/ Test report, Invoice, Operative Report, Discharge summary, Miscellaneous)
+            <li>Tags/Keywords (help for searching)
+        </ul>
+        <p class="index__paragraph">Upon successfully uploading the file, the doctor/vendor will be redirected to the patient's profile.</p>
+    </div>
+    
+    <div class="index__container-parent">
+        <h2 class="index__subtitle">My Files</h2>
+    
+        <p class="index__paragraph">
+            The 'My Files' page provides <strong>all the files that are linked to the user</strong>. A doctor/vendor will be able to see all the files uploaded by that doctor/vendor. Whereas a patient will see all the files in which the patient is a recipient.
+        </p>
+        <p class="index__paragraph">
+            The file card will display:
+        </p>
+        <ul class="index__list">
+            <li>File Preview Image</li>
+            <li>File name</li>
+            <li>File recipient (for doctor/vendor view)</li>
+            <li> File uploader (for patient view)</li>
+            <li>Date and time at which the file was uploaded</li>
+            <li>File Type (ie prescription, invoice, health report, etc)</li>
+            <li>Delete and Edit Buttons (for the file uploader, ie doctor/vendor)</li>
+        </ul>
+        <p class="index__paragraph">
+            The files can also be <strong>sorted alphabetically or by the file type</strong>. They can also be <strong>filtered</strong> by file type (ie prescription, discharge summary, etc). 
+        </p>
+        <p class="index__paragraph">
+            Similar file cards will be viewed on the profile pages of the users.
+        </p>
+        <p class="index__paragraph">
+            On clicking the file card, the user will be able to view or download the file. 
+        </p>
+    </div>
+    <div class="index__container-parent">
+        <h2 class="index__subtitle">File Viewing</h2>
+        <p class="index__paragraph">
+            A file can be <strong>viewed or downloaded</strong> by clicking on the file card.
+        </p>
+        <p class="index__paragraph">
+            <strong>File viewing</strong> has been made <strong>very secure</strong> such that <strong>only the file uploader, an authorized doctor, and the patient can view the file</strong>. Any other user who tries to view the file and is <strong>not authorized to view will be shown a 404 page or</strong> will be <strong>redirected</strong> to the home page.
+        </p>    
+    </div>
+    <div class="index__container-parent">
+        <h2 class="index__subtitle">Edit File</h2>
+        <p class="index__paragraph">
+            The 'Edit File' page provides a form for the file uploader to edit the metadata of the file like tags, file type (ie prescription, invoice, operative summary), and the uploader name (only for vendors).
+        </p>
+        <p class="index__paragraph">
+            <strong>The edit file form's fields will already be pre-filled if data exists for the same.</strong>
+        </p>
+    </div>
+    <div class="index__container-parent">
+        <h2 class="index__subtitle">Delete File</h2> 
+        <p class="index__paragraph">
+            <strong>A file can be deleted only by the file uploader. </strong>
+        </p>
+        <p class="index__paragraph">
+            When the 'delete' button is clicked, <strong>the file uploader is asked once again for confirmation </strong>whether the file uploader wants to delete the file or not.
+        </p>
+        <p class="index__paragraph">
+            If the file uploader presses 'cancel', then the confirmation message is closed. However, if the file uploader clicks on 'delete', the <strong>file will be deleted permanently.</strong>
+        </p>
+    </div>
+    <div class="index__container-parent">
+        <h2 class="index__subtitle">My Doctors/Vendors & Remove Doctor/Vendor</h2>
+        <p class="index__paragraph">
+            The 'My Doctors/Vendors' page <strong>can be viewed only by patients</strong>. This page provides <strong>4 lists of all the doctors/vendors that the doctor/vendor is linked to</strong>. 
+        </p>
+        <ul class="index__list">
+            <li>The first list includes all the doctors that are authorized by the patient.</li>
+            <li>The second list includes all the doctors that are no longer authorized by the patient but have uploaded files where the patient is the recipient.</li>
+            <li>The third list includes all the insurance companies/service providers that have uploaded documents where the patient is the recipient.</li>
+            <li>The fourth list includes all the medical shops and labs that have uploaded documents where the patient is the recipient.</li>
+        </ul>
+        <p class="index__paragraph">
+            <strong>If a doctor/vendor tries to visit this URL, the doctor/vendor will be redirected to the 'My Patients/Customers' page.</strong>
+        </p>
+        <p class="index__paragraph">
+            When the doctor/vendor card is clicked, the doctor/vendor will be redirected to the doctor/vendor's profile.
+        </p>
+        <p class="index__paragraph">
+            The doctor/vendor card also has a <strong>'remove' button</strong> for all the doctors/vendors that are on the list of authorized list of the patient. 
+        </p>
+        <p class="index__paragraph">
+            When clicked, <strong>a modal appears under asking for confirmation </strong>if the patient wants to remove the doctor/vendor. If the 'cancel' button is clicked, then the modal closes. If the 'remove' button is clicked, then the <strong>doctor/vendor is removed from the list of authorized doctors/vendors of the patient</strong>.
+        </p>
+        <p class="index__paragraph">
+            If no patients are linked to the doctor/vendor, the following message will be displayed:
+        </p>
+        <kbd>You have no doctors/vendors!</kbd>
+    </div>
+    <div class="index__container-parent">
+        <h2 class="index__subtitle">My Patients/Customers & Remove Patient/Customer</h2>
+        <p class="index__paragraph">
+            The <strong>'My Patients/Customers' page can be viewed only by doctors/vendors</strong>. This page provides a list of all the patients that the doctor/vendor is linked to. This includes <strong>in the doctor/vendor's authorized list </strong>as well as <strong>patients who are recipients of the files uploaded by the doctor/vendor</strong>.
+        </p>
+        <p class="index__paragraph">
+            If a patient tries to visit this URL, the patient will be redirected to the 'My Doctors/Vendors' page of the patient.
+        </p>
+        <p class="index__paragraph">
+            When the patient card is clicked, the doctor/vendor will be redirected to the patient's profile.
+        </p>
+        <p class="index__paragraph">
+            The patient card also has a <strong>'remove' </strong>button for all the patients that are on the list of authorized patients of the doctor/vendor. 
+        </p>
+        <p class="index__paragraph">
+            When clicked, a <strong>modal appears under asking for confirmation </strong>if the doctor/vendor wants to remove the patient. If the 'cancel' button is clicked, then the modal closes. If the 'remove' button is clicked, then the <strong>patient is removed from the list of authorized patients of the doctor/vendor</strong>.
+        </p>
+        <p class="index__paragraph">
+            If no patients are linked to the doctor/vendor, the following message will be displayed: <kbd>You have no patients/customers!</kbd>
+        </p>
+    </div>
+    <div class="index__container-parent">
+        <h2 class="index__subtitle">Other Profile</h2>
+        <h5 class="index__subtitle">Authorized Doctor viewing Patient's profile</h5>
+        <ul class="index__list">
+            <li><strong>An authorized doctor viewing a patient's profile can view all of the patient's details and can view all of the patient's files.</strong></li>
+            <li>Upon scrolling there is an expandable div to view the Health Status, if the Health Status Card for a patient doesn't exist, then the div can't be expanded and would give the message: <kbd>Health Status does not exist!</kbd></li>
+            <li>Along the div there will be a button to add values in the Health Status as well.</li>
+            <li>If a Health Status Card exists, the div will expand and show the various Health Conditions similar to the dashboard of a patient along with who updated them last and when it was last updated.</li>
+            <li>Along the expandable div there will be a button to edit the Health Status as well.</li>
+            <li>Under the expandable div, the files uploaded about the patient will be visible.</li>
+            <li>If a particular file was uploaded by the Doctor viewing the profile then the doctor will also have an option to delete or edit the file.</li>
+            <li>Upon clicking 'delete', the doctor will be prompted with a modal to delete the particular file. If they click on 'edit', then they will be redirected to the edit page for the file.</li>
+        </ul>
+        <h5 class="index__subtitle">Vendor viewing Patient's profile</h5>
+        <ul class="index__list">
+            <li><strong>A vendor viewing a patient's profile can view all of the details but can only view the files uploaded by the vendor where the patient is the recipient.</strong></li>
+            <li>A vendor does not have access to edit the health status card of the patient.</li>
+            <li>Since all the files visible will be the ones uploaded by the vendor, all the files will have an 'edit' button as well as a 'delete' button.</li>
+            <li>Upon clicking 'delete', the vendor will be prompted with a modal to delete the particular file. If they click on 'edit', then they will be redirected to the edit page for the file.</li>
+        </ul>
+        <h5 class="index__subtitle">Patient viewing Doctor/Vendor's profile</h5>
+        <ul class="index__list">
+            <li><strong>A patient viewing a doctor/vendor's profile can view all of the details, and can view all the files uploaded by the doctor/vendor where the patient is a recipient.</strong></li>
+            <li>The patient will not have access to delete/edit any file since the patient cannot be the file uploader as only doctors/vendors are permitted to upload files on the patient's behalf.</li>
+        </ul>
+    </div>
+    <div class="index__container-parent">
+        <h2 class="index__subtitle">Health Status</h2>
+        <p class="index__paragraph">
+            The health status card of a patient provides a list of visually appealing no-UI sliders that <strong>depict the danger levels of the patient's several health conditions</strong>. 
+        </p>
+        <p class="index__paragraph">
+            The purpose behind the health status card is <strong>for the patient to be aware of the existing health conditions</strong> the patient has and to help patients better understand themselves.
+        </p>
+        <p class="index__paragraph">
+            Using the 'Health Status' page, <strong>a doctor can edit their authorized patient's health status</strong>.
+        </p>
+        <p class="index__paragraph">
+            The fields a doctor needs to fill to add a new Health Condition are:  
+        </p>    
+        <ul class="index__list">
+            <li>Health Condition Name</li>
+            <li>Minimum Ideal Value</li>
+            <li>Maximum Ideal Value</li>
+            <li>Patient's Value for the health condition</li>
+            <li>Health Condition Category (ie safe, warning, danger, borderline, etc)</li>
+        </ul>
+        <p class="index__paragraph">
+            If the doctor wants to add a new field then he/she can do so by clicking the 'Add' button provided under the 'Submit' button. <strong>The 'Add' button has been implemented using JavaScript to add new fields dynamically without needing to refresh the page.</strong>
+        </p>  
+        <p class="index__paragraph">
+            Once the doctor clicks 'Submit', if all the details filled in were valid then they will be redirected to the respective patient's profile where they can see the Health Status Card updated.  
+        </p> 
+        <p class="index__paragraph">
+            If the <strong>ideal minimum value is greater than the ideal maximum value</strong>, then the following message will be displayed: <kbd>The minimum value cannot be greater than the maximum value for '&lt;health condition name>&gt;!</kbd>     
+        </p> 
+        <p class="index__paragraph">
+            If there are any other errors in the filling of the form then the doctor will be notified about the same through an error message at the top of the page.
+        </p>    
+    </div>
+    <div class="index__container-parent">
+        <h2 class="index__subtitle">Visit QR Code</h2>
+        <p class="index__paragraph">
+            <strong>Each user gets a QR Code with a link.</strong>
+        </p>
+        <p class="index__paragraph">
+            Doctors/Vendors on scanning a patient's QR code will be taken to the patient's profile if they are linked, <strong>if not</strong>, then <strong>they'll be redirected to the “approvals” page with the field pre-filled with the patient's WBID to request authorization from the patient.</strong>
+        </p>
+        <p class="index__paragraph">
+            A patient scanning a doctor/vendor's QR code <strong>will be taken to the doctor/vendor's profile if they are linked or if the doctor/vendor is public.</strong> If not, then the patient will be redirected to the home page since the patient is not linked with the doctor/vendor.
+        </p>
+    </div>
+    <div class="index__container-parent">
+        <h2 class="index__subtitle">Search</h2>
+        <p class="index__paragraph">
+            The search input is placed in the navigation bar.
+        </p>
+        <p class="index__paragraph">
+            When a user searches for something, the <strong>search function goes through several parameters</strong>, like the names, IDs, registration numbers, Aadhar IDs, departments of other linked users, and the file name, file uploader's details, file recipient's details, file category, file tags, etc of the linked files, and <strong>then provides a list of related users and files.</strong>
+        </p>
+        <p class="index__paragraph">
+            When a doctor/vendor enters a search query, the user will get a list of related patients/customers and a list of related files associated with the query.
+        </p>
+        <p class="index__paragraph">
+            When a patient enters a search query, the user will get a list of related doctors/vendors and a list of related files associated with the query.
+        </p>
+        <p class="index__paragraph">
+            If there are no related users or files associated with the query, the following message will be displayed:
+        </p>
+        <p class="index__paragraph">For patients/customers:</p>
+        <kbd>No files or doctors/insurance representatives/medical shops/labs are associated with &lt;search entry&gt;!</kbd>
+        <p class="index__paragraph">For doctors/vendors:</p>
+        <kbd>No files or patients/customers are associated with &lt;search entry&gt;!</kbd>
+    </div>
 </div>
-<div class="index__container">
-    <h2 class="index__subtitle"><strong>Register</strong></h1>
-
-    <h3 class="index__paragraph">While registering on the website, each user has to enter details such as:</h3>
-    <ul class="index__list">
-        <li>Full Name (for doctors and patients) or Company Name (for vendors - insurance companies, medical shops, and labs)</li>
-        <li>Email ID</li>
-        <li>Password and Confirm Password</li>
-        <li>Aadhar ID (for patients)</li>
-        <li>Registration Number/License Number (for doctors/vendors)</li>
-        <li>Department (for doctors)</li>
-    </ul>
-
-    <h3 class="index__paragraph">
-        If the passwords do not match, the user will be shown an error message saying “Passwords must match.”
-        If an account with the Aadhar ID already exists, then the patient will be shown an error message saying “An account with this Aadhar ID already exists!”
-        If a department name is not entered, then the doctor/health care worker will be shown an error message saying “You must enter a department name!”
-        If any other field details have been entered incorrectly, error messages will be displayed accordingly.
-        If the form is valid, then the user is redirected to the dashboard page.
-    </h3>
-
-</div>
-<div class="index__container">
-    <h2 class="index__subtitle">Login</h2>
-    <h3 class="index__paragraph">
-        The login page has a <strong>toggle button that shifts from one form to another</strong> based on who is trying to log in.
-
-        While trying to login on the website, the user will have to enter the WBID (for patient type user) or the HCWV ID (for doctor/vendor type user) and the password.
-
-        If the username and password doesn’t match, the following message will be displayed:
-        “Invalid username and/or password.”
-
-        In case the login form is invalid, error messages will be displayed accordingly.
-
-        Once successfully authenticated, the user will be redirected to the home page.
-    </h3>
-
-</div>
-
-<div class="index__container">
-    <h2 class="index__subtitle">Dashboard/My Profile</h2>
-    <h3 class="index__paragraph">This is the first page that a user encounters when once authenticated to the website. This page may vary based on the user's profile type.</h3>
-    <h2 class="index__subtitle">Patient's Dashboard</h2>
-    <ul class="index__list">
-        <li>There will be a card at the top of the screen with the following details of the patient:
-            <li>Name</li>
-            <li>Email</li>
-            <li>Well-Being ID</li>
-            <li>Aadhar ID</li>
-            <li>QR Code</li>
-        </li>
-        <li>Under the personal details card, <strong>there will be a search bar to search for public doctors or vendors.</strong></li>
-        <li>
-            Under the search bar is the <strong>Health Status Visualization</strong> of the patient. There are various health conditions shown using sliders. The ranges in the slider indicate:
-            <li>The green range in the slider shows the ideal range for any health condition</li>
-            <li>The red range in the slider shows the non-ideal range (it may be less than the ideal range or more than the ideal range)</li>
-            <li>The yellow box contains the patient’s value for any health condition.</li>
-        </li>
-        <li>
-            Under the slider, the patient can see their Health Condition Category. There are 5 Health Condition Categories:
-            <li>Safe</li>
-            <li>Warning</li>
-            <li>Danger</li>
-            <li>Borderline-Safe</li>
-            <li>Borderline-Danger</li>
-        </li>
-        <li>The Health Status card also displays when and by which doctor the card was updated.</li>
-    </ul>
-</div>
-
-<div class="index__container">
-    <h2 class="index__subtitle">Search Public</h2>
-
-    <h3 class="index__paragraph">
-        <strong>The search public feature is for patients who want to look up doctors, insurance companies, medical shops, and labs.</strong> The main purpose of this feature is for patients <strong>to find information about doctors and vendors around them.</strong>
-        The public search input <strong>is on the dashboard page</strong> for the patients.
-        When the patient searches for something, the <strong>search public function goes through several parameters</strong> of public doctors, public insurance companies, public medical shops, and public labs. Parameters such as HCWV ID, doctor/vendor name, department, address, district, state, pin code, registration number/license number, etc.
-        A list of public doctors, a list of public insurance companies, and a list of public medical shops and labs associated with the search query will be provided to the patient.
-        If there are no doctors/vendors associated with the search query, then the following message will be displayed:
-        “No public doctors/insurance representatives/medical shops/labs are associated with <kbd>'<search entry>'</kbd>!”</h3>
-</div>
-
-
+{% endblock %}
+{% block script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/TextPlugin.min.js"></script>
+    <script src="{% static 'health_tracker/js/index_anim.js' %}"></script>
 {% endblock %}
