@@ -3,10 +3,12 @@
 {% block styling %}
     <link href="{% static 'health_tracker/scss/index.css' %}" rel="stylesheet"/>
 {% endblock %}
+{% block title %}ReadME{% endblock %}
 {% block body %}
 <div class="index">
     <div class="index__container-parent">
         <h1 class="index__title">UHI - Unified Health Interface</h1>
+        <kbd class="index__subtitle">By Amog Rao, Avaneesh Kumar, Kushal Sai G</kbd>
         <div class="index__container">
             <h2 class="index__subtitle">Project Introduction</h2>
             <p class="index__paragraph">UHI serves as a website that aims towards</p>
@@ -137,7 +139,7 @@
                     <li>Email
                     <li>Health Care Worker/Vendor ID
                     <li>Registration no./License no.
-                    <li>Account Type (ie Doctor, Insurance Company, etc)
+                    <li>Account Type (i.e. Doctor, Insurance Company, etc)
                     <li>Department (only if the user is a doctor)
                     <li>Account Visibility (Public or Private)
                     <li>QR Code
@@ -255,7 +257,7 @@
             <li>Patient's WBID
             <li>Name of the person uploading the document (only for vendors)
             <li>File Field
-            <li>File Type (ie Prescription, Schedule/Time table, Health report/ Test report, Invoice, Operative Report, Discharge summary, Miscellaneous)
+            <li>File Type (i.e. Prescription, Schedule/Time table, Health report/ Test report, Invoice, Operative Report, Discharge summary, Miscellaneous)
             <li>Tags/Keywords (help for searching)
         </ul>
         <p class="index__paragraph">Upon successfully uploading the file, the doctor/vendor will be redirected to the patient's profile.</p>
@@ -276,11 +278,11 @@
             <li>File recipient (for doctor/vendor view)</li>
             <li> File uploader (for patient view)</li>
             <li>Date and time at which the file was uploaded</li>
-            <li>File Type (ie prescription, invoice, health report, etc)</li>
-            <li>Delete and Edit Buttons (for the file uploader, ie doctor/vendor)</li>
+            <li>File Type (i.e. prescription, invoice, health report, etc)</li>
+            <li>Delete and Edit Buttons (for the file uploader, i.e. doctor/vendor)</li>
         </ul>
         <p class="index__paragraph">
-            The files can also be <strong>sorted alphabetically or by the file type</strong>. They can also be <strong>filtered</strong> by file type (ie prescription, discharge summary, etc). 
+            The files can also be <strong>sorted alphabetically or by the file type</strong>. They can also be <strong>filtered</strong> by file type (i.e. prescription, discharge summary, etc). 
         </p>
         <p class="index__paragraph">
             Similar file cards will be viewed on the profile pages of the users.
@@ -301,7 +303,7 @@
     <div class="index__container-parent">
         <h2 class="index__subtitle">Edit File</h2>
         <p class="index__paragraph">
-            The 'Edit File' page provides a form for the file uploader to edit the metadata of the file like tags, file type (ie prescription, invoice, operative summary), and the uploader name (only for vendors).
+            The 'Edit File' page provides a form for the file uploader to edit the metadata of the file like tags, file type (i.e. prescription, invoice, operative summary), and the uploader name (only for vendors).
         </p>
         <p class="index__paragraph">
             <strong>The edit file form's fields will already be pre-filled if data exists for the same.</strong>
@@ -413,7 +415,7 @@
             <li>Minimum Ideal Value</li>
             <li>Maximum Ideal Value</li>
             <li>Patient's Value for the health condition</li>
-            <li>Health Condition Category (ie safe, warning, danger, borderline, etc)</li>
+            <li>Health Condition Category (i.e. safe, warning, danger, borderline, etc)</li>
         </ul>
         <p class="index__paragraph">
             If the doctor wants to add a new field then he/she can do so by clicking the 'Add' button provided under the 'Submit' button. <strong>The 'Add' button has been implemented using JavaScript to add new fields dynamically without needing to refresh the page.</strong>
@@ -422,7 +424,7 @@
             Once the doctor clicks 'Submit', if all the details filled in were valid then they will be redirected to the respective patient's profile where they can see the Health Status Card updated.  
         </p> 
         <p class="index__paragraph">
-            If the <strong>ideal minimum value is greater than the ideal maximum value</strong>, then the following message will be displayed: <kbd>The minimum value cannot be greater than the maximum value for '&lt;health condition name>&gt;!</kbd>     
+            If the <strong>ideal minimum value is greater than the ideal maximum value</strong>, then the following message will be displayed: <kbd>The minimum value cannot be greater than the maximum value for '&lt;health condition name&gt;!</kbd>     
         </p> 
         <p class="index__paragraph">
             If there are any other errors in the filling of the form then the doctor will be notified about the same through an error message at the top of the page.
