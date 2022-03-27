@@ -41,6 +41,28 @@
         </div>
     </div>
     <div class="index__container-parent">
+        <ul class="index__list">
+            <li><a href="#register">Register</a></li>
+            <li><a href="#login">Login</a></li>
+            <li><a href="#dashboard">Dashboard/My Profile</a></li>
+            <li><a href="#search_public">Search Public</a></li>
+            <li><a href="#go_public_go_private">Go Public/Go Private</a></li>
+            <li><a href="#approvals">Approvals</a></li>
+            <li><a href="#file_upload">File Upload</a></li>
+            <li><a href="#myfiles">My Files</a></li>
+            <li><a href="#file_viewing">File Viewing</a></li>
+            <li><a href="#edit_file">Edit File</a></li>
+            <li><a href="#delete_file">Delete File</a></li>
+            <li><a href="#mydoct">My Doctors/Vendors</a></li>
+            <li><a href="#mypatients">My Patients/Customers</a></li>
+            <li><a href="#other_profile">Other Profile</a></li>
+            <li><a href="#health_status">Health Status</a></li>
+            <li><a href="#visit_qr_code">Visit QR Code</a></li>
+            <li><a href="#search">Search</a></li>
+            <li><a href="#covid">Covid-19</a></li>
+        </ul>
+    </div>
+    <div class="index__container-parent" id="register">
         <h2 class="index__subtitle">Register</h1>
 
         <p class="index__paragraph">While registering on the website, each user has to enter details such as:</p>
@@ -75,7 +97,7 @@
         </p>
 
     </div>
-    <div class="index__container-parent">
+    <div class="index__container-parent" id="login">
         <h2 class="index__subtitle">Login</h2>
         <p class="index__paragraph">
             The login page has a <strong>toggle button that shifts from one form to another</strong> based on who is trying to log in.
@@ -96,7 +118,7 @@
 
     </div>
 
-    <div class="index__container-parent">
+    <div class="index__container-parent" id="dashboard">
         <h2 class="index__subtitle">Dashboard/My Profile</h2>
         <p class="index__paragraph">This is the first page that a user encounters when once authenticated to the website. This page may vary based on the user's profile type.</p>
         <h5 class="index__subtitle">Patient's Dashboard</h5>
@@ -160,7 +182,7 @@
         </ul>
     </div>
 
-    <div class="index__container-parent">
+    <div class="index__container-parent" id="search_public">
         <h2 class="index__subtitle">Search Public</h2>
 
         <p class="index__paragraph">
@@ -181,7 +203,7 @@
         <kbd>No public doctors/insurance representatives/medical shops/labs are associated with &lt;search entry&gt;!</kbd>
     </div>
 
-    <div class="index__container-parent">
+    <div class="index__container-parent" id="go_public_go_private">
         <h2 class="index__subtitle">Go Public/Go Private</h2>
 
         <p class="index__paragraph">
@@ -204,7 +226,7 @@
             Upon clicking the 'Go Private' button, the doctor/vendor's account visibility will become private again and now will not be visible in the public search results.
         </p>
     </div>
-    <div class="index__container-parent">
+    <div class="index__container-parent" id="approvals">
         <h2 class="index__subtitle">Approvals</h2>
 
         <p class="index__paragraph">
@@ -240,7 +262,8 @@
             <li>Similarly, if any of the protocols above are violated, appropriate error messages will be shown
         </ul>
     </div>
-    <div class="index__container-parent">
+    <div class="index__container-parent" id="file_upload">
+        <h2 class="index__subtitle">File Upload</h2>
         <p class="index__paragraph">The file upload page allows doctors/vendors to upload files on behalf of the patient.</p>
         <p class="index__paragraph"><strong>A doctor/vendor needs to request an authorization from the patient, only upon which the doctor/vendor will be permitted to upload documents.</strong></p>
         <p class="index__paragraph">A doctor needs to ask for permission only once from the patient, and can keep uploading documents till the patient removes the doctor from the authorized list.</p>
@@ -263,7 +286,7 @@
         <p class="index__paragraph">Upon successfully uploading the file, the doctor/vendor will be redirected to the patient's profile.</p>
     </div>
     
-    <div class="index__container-parent">
+    <div class="index__container-parent" id="myfiles">
         <h2 class="index__subtitle">My Files</h2>
     
         <p class="index__paragraph">
@@ -291,7 +314,7 @@
             On clicking the file card, the user will be able to view or download the file. 
         </p>
     </div>
-    <div class="index__container-parent">
+    <div class="index__container-parent" id="file_viewing">
         <h2 class="index__subtitle">File Viewing</h2>
         <p class="index__paragraph">
             A file can be <strong>viewed or downloaded</strong> by clicking on the file card.
@@ -300,7 +323,7 @@
             <strong>File viewing</strong> has been made <strong>very secure</strong> such that <strong>only the file uploader, an authorized doctor, and the patient can view the file</strong>. Any other user who tries to view the file and is <strong>not authorized to view will be shown a 404 page or</strong> will be <strong>redirected</strong> to the home page.
         </p>    
     </div>
-    <div class="index__container-parent">
+    <div class="index__container-parent" id="edit_file">
         <h2 class="index__subtitle">Edit File</h2>
         <p class="index__paragraph">
             The 'Edit File' page provides a form for the file uploader to edit the metadata of the file like tags, file type (i.e. prescription, invoice, operative summary), and the uploader name (only for vendors).
@@ -309,7 +332,7 @@
             <strong>The edit file form's fields will already be pre-filled if data exists for the same.</strong>
         </p>
     </div>
-    <div class="index__container-parent">
+    <div class="index__container-parent" id="delete_file">
         <h2 class="index__subtitle">Delete File</h2> 
         <p class="index__paragraph">
             <strong>A file can be deleted only by the file uploader. </strong>
@@ -321,7 +344,7 @@
             If the file uploader presses 'cancel', then the confirmation message is closed. However, if the file uploader clicks on 'delete', the <strong>file will be deleted permanently.</strong>
         </p>
     </div>
-    <div class="index__container-parent">
+    <div class="index__container-parent" id="mydoctven">
         <h2 class="index__subtitle">My Doctors/Vendors & Remove Doctor/Vendor</h2>
         <p class="index__paragraph">
             The 'My Doctors/Vendors' page <strong>can be viewed only by patients</strong>. This page provides <strong>4 lists of all the doctors/vendors that the doctor/vendor is linked to</strong>. 
@@ -349,7 +372,7 @@
         </p>
         <kbd>You have no doctors/vendors!</kbd>
     </div>
-    <div class="index__container-parent">
+    <div class="index__container-parent" id="mypatients">
         <h2 class="index__subtitle">My Patients/Customers & Remove Patient/Customer</h2>
         <p class="index__paragraph">
             The <strong>'My Patients/Customers' page can be viewed only by doctors/vendors</strong>. This page provides a list of all the patients that the doctor/vendor is linked to. This includes <strong>in the doctor/vendor's authorized list </strong>as well as <strong>patients who are recipients of the files uploaded by the doctor/vendor</strong>.
@@ -370,7 +393,7 @@
             If no patients are linked to the doctor/vendor, the following message will be displayed: <kbd>You have no patients/customers!</kbd>
         </p>
     </div>
-    <div class="index__container-parent">
+    <div class="index__container-parent" id="other_profile">
         <h2 class="index__subtitle">Other Profile</h2>
         <h5 class="index__subtitle">Authorized Doctor viewing Patient's profile</h5>
         <ul class="index__list">
@@ -396,7 +419,7 @@
             <li>The patient will not have access to delete/edit any file since the patient cannot be the file uploader as only doctors/vendors are permitted to upload files on the patient's behalf.</li>
         </ul>
     </div>
-    <div class="index__container-parent">
+    <div class="index__container-parent" id="health_status">
         <h2 class="index__subtitle">Health Status</h2>
         <p class="index__paragraph">
             The health status card of a patient provides a list of visually appealing no-UI sliders that <strong>depict the danger levels of the patient's several health conditions</strong>. 
@@ -430,7 +453,7 @@
             If there are any other errors in the filling of the form then the doctor will be notified about the same through an error message at the top of the page.
         </p>    
     </div>
-    <div class="index__container-parent">
+    <div class="index__container-parent" id="visit_qr_code">
         <h2 class="index__subtitle">Visit QR Code</h2>
         <p class="index__paragraph">
             <strong>Each user gets a QR Code with a link.</strong>
@@ -442,7 +465,7 @@
             A patient scanning a doctor/vendor's QR code <strong>will be taken to the doctor/vendor's profile if they are linked or if the doctor/vendor is public.</strong> If not, then the patient will be redirected to the home page since the patient is not linked with the doctor/vendor.
         </p>
     </div>
-    <div class="index__container-parent">
+    <div class="index__container-parent" id="search">
         <h2 class="index__subtitle">Search</h2>
         <p class="index__paragraph">
             The search input is placed in the navigation bar.
