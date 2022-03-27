@@ -6,7 +6,6 @@ from django.utils import timezone
 
 # Create your models here.
 
-# make a "profile" table?
 
 
 class User(AbstractUser):
@@ -67,7 +66,7 @@ class Patients(models.Model):
         verbose_name_plural = 'Patients'
 
 
-class Files(models.Model):  # SET('Deleted User')
+class Files(models.Model):  
     file_type_choices = [
         ('PRSCN', 'Prescription'),
         ('S/T', 'Schedule/Timetable'),
@@ -88,7 +87,7 @@ class Files(models.Model):  # SET('Deleted User')
     date = models.DateTimeField(default=timezone.now)
     file_type = models.CharField(default='MSC', max_length=20, choices=file_type_choices, verbose_name="File Type")
 
-    # remarks and type
+
 
     def __str__(self):
         return f"{self.file}"

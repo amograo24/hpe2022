@@ -34,7 +34,7 @@
                                  <div class="modal-body">
                                     <p>Are you sure you want to remove {% if user_type == 'nou' %} doctor/vendor {% else %} patient/customer {% endif %}</p>
                                     {% if user_type == 'nou' %}
-                                       <p class="modal-patientname" data-id="{{person.account.username}}">"{{person.full_com_name}} ({{person.account.username}})"</p> <!--show question mark?-->
+                                       <p class="modal-patientname" data-id="{{person.account.username}}">"{{person.full_com_name}} ({{person.account.username}})"</p> 
                                     {% else %}
                                        <p class="modal-patientname" data-id="{{person.person.username}}">"{{person.full_name}} ({{person.person.username}})"</p>
                                     {% endif %}

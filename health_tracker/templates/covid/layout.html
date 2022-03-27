@@ -39,7 +39,6 @@
                         <li class="nav__link-item"><a class="nav__link" href="{% url 'register' %}">Register</a></li>
                     {% else %}
                         <li class="nav__link-item"><a class="nav__link" href="{% url 'covid' %}">COVID-19</a></li>
-                        <!-- <li class="nav__link-item"><a class="nav__link" href="./gallery.html">Health Status</a></li> -->
                         {% if request.user.division.lower != 'nou' %}
                             <li class="nav__link-item"><a class="nav__link" href="{% url 'upload_file' %}">Upload</a></li>
                             <li class="nav__link-item"><a class="nav__link" href="{% url 'mypatients_customers' %}">{% if request.user.division.lower == 'd/hcw/ms' %} My Patients {% else %} My Customers {% endif %}</a></li>

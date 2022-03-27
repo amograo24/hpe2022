@@ -46,15 +46,12 @@ class EditFileForm(forms.ModelForm):
     class Meta:
         model = Files
         fields = ['tags', 'vendor_name', 'file_type']
-    # file_type = forms.CharField
 
 
 class GoPublicForm(forms.Form):
     contact_number = forms.CharField(max_length=10, label="Contact Number", required=True,
                               widget=forms.TextInput(attrs={"type": "number"}), validators=[MinLengthValidator(10)])    
-    # contact_number = forms.CharField(default=None, max_length=10, validators=[MinLengthValidator(10)],blank=True ,null=True, verbose_name="Contact Number")
     address = forms.CharField(max_length=300, label="Address", required=True)
-    # city = forms.CharField(max_length=30,label="City/Town",required=True)
     pincode = forms.CharField(max_length=6, label="Pincode", required=True,
                               widget=forms.TextInput(attrs={"type": "number"}), validators=[MinLengthValidator(6)])
 
