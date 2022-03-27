@@ -1,6 +1,0 @@
-hr {
-    color: #FFC107;;
-}
-input[id$='minimum_value'], input[id$='maximum_value'], input[id$='patient_value'] {
-    width: 10%;
-}
