@@ -610,6 +610,10 @@ def visit_qrcode(request, id):
 
 
 def notifications(request):
+    """
+    Handles the Notifications api sent throught the fetch request from the notifications page.
+    see mvc.py for more details
+    """
     if request.method == "POST":
         if not request.user.is_authenticated:
             return HttpResponseRedirect(reverse("login"))
@@ -1157,4 +1161,7 @@ def handle_Qr(request):
 
 
 def handle_not_found(request, exception):
+    """
+    renders the 404 page not found when visiting wrong url
+    """
     return render(request, 'health_tracker/404.html')
