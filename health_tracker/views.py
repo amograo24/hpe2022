@@ -410,7 +410,8 @@ def index(request):
     a dashboard for the user providing all details such as Full name, email, etc.
     - If the user is of a Normal User type (ie Patient type) then the Health Status object of
     that user is also sent as context while return rendering the "myprofile.html" page.
-    - If the user is not logged in, then the "index.html" page is return rendered. 
+    - If the user is not logged in, then the "index.html" page is return rendered. The index page as acts a
+    readme for our project. Kindly refer to that as well.
     """
     if request.user.is_authenticated:
         user = User.objects.get(username=request.user)
@@ -547,6 +548,17 @@ def other_profile(request, id):
 
 
 def visit_qrcode(request, id):
+    """
+    - Each user gets a QR Code with a link. 
+
+    - Doctors/Vendors on scanning a patient's QR code will be taken to the patient's profile 
+    if they are linked, if not, then they'll be redirected to the “approvals” page with the 
+    field pre-filled with the patient's WBID to request authorization from the patient.
+
+    - A patient scanning a doctor/vendor's QR code will be taken to the doctor/vendor's profile 
+    if they are linked or if the doctor/vendor is public. If not, then the patient will be redirected 
+    to the home page since the patient is not linked with the doctor/vendor.
+    """
     if request.user.is_authenticated:
         if request.user == id:
             return HttpResponseRedirect(reverse("index"))
@@ -717,6 +729,9 @@ def file_page(request, wbid, name):
 
 
 def get_file(request, wbid, name: str):
+    """
+    - This function helps in providing file previews for the file cards.
+    """
     if request.method == "POST":
         ext = name[name.rfind(".") + 1:]
         if ext == "pdf":
@@ -947,6 +962,9 @@ def go_public(request):
 
 
 def go_private(request):
+    """
+    - This function allows a MedWorkerRep to go private.
+    """
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     user = User.objects.get(username=request.user)
@@ -959,7 +977,22 @@ def go_private(request):
 
 
 def search_public_vendors(request):
-    """done by kushal sai. Whole function"""
+    """
+    - The search public feature is for patients who want to look up doctors, insurance companies, 
+    medical shops, and labs. The main purpose of this feature is for patients to find information 
+    about doctors and vendors around them.
+
+    - The public search input is on the dashboard page for the patients.
+
+    - When the patient searches for something, the search public function goes through several 
+    parameters of public doctors, public insurance companies, public medical shops, and public labs. 
+    Parameters such as HCWV ID, doctor/vendor name, department, address, district, state, pin code, 
+    registration number/license number, etc.
+
+    - A list of public doctors, a list of public insurance companies, and a list of public medical shops 
+    and labs associated with the search query will be provided to the patient.
+
+    """
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     if request.user.division.lower() != 'nou':
