@@ -36,9 +36,9 @@ delete_file_main_class.forEach(button => {button.addEventListener('click',event 
 function DeleteFile(id,filename,to_delete) {
    fetch(`/delete_file/${filename}`,{
       method:"POST",
-      headers:{'X-CSRFToken':document.querySelector('input[name="csrfmiddlewaretoken"]').value }, //csrf token getAttribute('content')
+      headers:{'X-CSRFToken':document.querySelector('input[name="csrfmiddlewaretoken"]').value }, 
       body:JSON.stringify({
-         to_delete:to_delete // who is the logged in dude?
+         to_delete:to_delete 
       })
    })
    .then(response => response.json())

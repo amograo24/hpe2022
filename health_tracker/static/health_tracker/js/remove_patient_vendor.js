@@ -3,7 +3,6 @@ delete_patient_btn.forEach(button => {
    button.addEventListener('click', (e) => {
       e.preventDefault();
       let elearray = [...document.querySelectorAll('.delete_patient_modal')];
-      // console.log(elearray);
       for(let i = 0; i < elearray.length; i++){
          if(elearray[i].dataset.pos == button.dataset.pos){
             elearray[i].style.display = 'block';
@@ -17,7 +16,6 @@ cancel_patient_btn.forEach(button => {
    button.addEventListener('click', (e) => {
       e.preventDefault();
       let elearray = [...document.querySelectorAll('.delete_patient_modal')];
-      // console.log(elearray);
       for(let i = 0; i < elearray.length; i++){
          if(elearray[i].dataset.pos == button.dataset.pos){
             elearray[i].style.display = 'none';
@@ -38,9 +36,9 @@ delete_patient_class.forEach(button => {button.addEventListener('click',event =>
 function DeletePatient(id,patient,to_delete) {
    fetch(`/remove/${patient}`,{
       method:"POST",
-      headers:{'X-CSRFToken':document.querySelector('input[name="csrfmiddlewaretoken"]').value }, //csrf token getAttribute('content')
+      headers:{'X-CSRFToken':document.querySelector('input[name="csrfmiddlewaretoken"]').value }, 
       body:JSON.stringify({
-         to_delete:to_delete // who is the logged in dude?
+         to_delete:to_delete 
       })
    })
    .then(response => response.json())
