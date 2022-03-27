@@ -8,7 +8,7 @@ from django.utils import timezone
 
 
 
-class User(AbstractUser):
+class User(AbstractUser): # A table consisting of all the users
     division_choices = [
         ('D/HCW/MS', 'Doctor/Health Care Worker/Medical Staff'),
         ('I/SP', 'Insurance/Health Service Provider'),
@@ -19,7 +19,7 @@ class User(AbstractUser):
                                 null=True, blank=True)
 
 
-class Notification(models.Model):
+class Notification(models.Model): # A table consisting of all the notifications
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sender", default=None,
                                verbose_name="Sender")
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="receiver", default=None,
@@ -29,7 +29,7 @@ class Notification(models.Model):
     # status field to check whether it is approved or not
 
 
-class MedWorkerRep(models.Model):
+class MedWorkerRep(models.Model): # A table for all doctors/vendors
     full_com_name = models.CharField(default=None, max_length=40, verbose_name="Full Name/Company Name")
     department = models.CharField(default=None, max_length=60, null=True, blank=True)  # only for doctors
     reg_no = models.CharField(default=None, max_length=20, verbose_name="Registration No./License ID")
@@ -50,7 +50,7 @@ class MedWorkerRep(models.Model):
         verbose_name_plural = 'Medical Workers/Insurance Representives/Pharmaceutical Shops'
 
 
-class Patients(models.Model):
+class Patients(models.Model): # A table for all the patients
     full_name = models.CharField(default=None, max_length=40, verbose_name="Full Name")
     person = models.ForeignKey(User, on_delete=models.CASCADE, related_name="person", default=None)
     wbid = models.CharField(default=None, verbose_name="Well-Being ID", max_length=16,
@@ -66,7 +66,7 @@ class Patients(models.Model):
         verbose_name_plural = 'Patients'
 
 
-class Files(models.Model):  
+class Files(models.Model):  # A table storing all the file paths
     file_type_choices = [
         ('PRSCN', 'Prescription'),
         ('S/T', 'Schedule/Timetable'),
@@ -93,7 +93,7 @@ class Files(models.Model):
         return f"{self.file}"
 
 
-class HealthStatus(models.Model):
+class HealthStatus(models.Model): # A table having all the health status of the patients.
     patient = models.ForeignKey(Patients, on_delete=models.CASCADE, related_name="patient", verbose_name="Patient",
                                 default=None)
     last_updated_by = models.ForeignKey(MedWorkerRep, on_delete=models.SET_NULL, null=True, blank=True,
@@ -104,7 +104,7 @@ class HealthStatus(models.Model):
         return f"{self.patient}"
 
 
-class HealthValue(models.Model):
+class HealthValue(models.Model): # A table for all the health conditions of patients
     condition_category_choices = [
         ('', '----'),
         ('SAFE', 'Safe'),
