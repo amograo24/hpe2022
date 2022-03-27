@@ -25,6 +25,8 @@ with open("states.pickle", "rb") as fp:
     STATES = dict(pickle.load(fp))  # States API for loading states in the go public form
     sm = StateManager(STATES)
 
+def about_page(request):
+    return render("health_tracker/index.html")
 
 def search(request):
     """ 
