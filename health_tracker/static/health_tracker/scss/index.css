@@ -12,6 +12,14 @@
   padding-left: 2rem;
   padding-right: 2rem;
 }
+.index__byline {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  text-align: center;
+  margin-bottom: 4rem;
+  color: #FFC107;
+}
 .index__title {
   text-align: center;
   font-size: 2em;
@@ -35,8 +43,30 @@
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
+.index__list a {
+  color: #07ffff;
+  font-size: 1.1em;
+}
+.index__list a:hover {
+  color: #00d3d3;
+}
 .index kbd {
   color: #07ffff;
+}
+.index__scroll {
+  height: calc(100vh - 84px);
+  background-color: #FFC107;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.index__scroll h2 {
+  color: #141A26;
+  font-size: 3em;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 @media screen and (min-width: 768px) {
