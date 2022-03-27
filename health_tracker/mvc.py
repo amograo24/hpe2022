@@ -1,3 +1,4 @@
+import datetime
 import json
 from typing import Union
 
@@ -61,11 +62,12 @@ class NotificationManager:
                 sen = MedWorkerRep.objects.get(account=notification.sender).full_com_name
                 rec = Patients.objects.get(person=self.sender).full_name
             dt=notification.date_of_approval
+
             serialized_data = {
                 'content': notification.content,
                 'sender': notification.sender.username,
                 'receiver': notification.receiver.username,
-                'doc': f"{dt.date()},{dt.hour}:{dt.minute}",
+                'doc': f"{dt.date()},{dt.hour}:{dt.minute}:{dt.second}",
                 "sender_name": sen,
                 "receiver_name": rec
             }
