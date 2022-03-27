@@ -104,6 +104,63 @@
         If no patients are linked to the doctor/vendor, the following message will be displayed: <kbd>You have no patients/customers!</kbd>
     </p>
 </div>
-<div>
-    
+<div class="index__container-parent">
+    <h2 class="index__subtitle">Other Profile</h2>
+    <h5 class="index__subtitle">Authorized Doctor viewing Patient's profile</h5>
+    <ul>
+        <li><strong>An authorized doctor viewing a patient's profile can view all of the patient's details and can view all of the patient's files.</strong></li>
+        <li>Upon scrolling there is an expandable div to view the Health Status, if the Health Status Card for a patient doesn't exist, then the div can't be expanded and would give the message: <kbd>Health Status does not exist!</kbd></li>
+        <li>Along the div there will be a button to add values in the Health Status as well.</li>
+        <li>If a Health Status Card exists, the div will expand and show the various Health Conditions similar to the dashboard of a patient along with who updated them last and when it was last updated.</li>
+        <li>Along the expandable div there will be a button to edit the Health Status as well.</li>
+        <li>Under the expandable div, the files uploaded about the patient will be visible.</li>
+        <li>If a particular file was uploaded by the Doctor viewing the profile then the doctor will also have an option to delete or edit the file.</li>
+        <li>Upon clicking 'delete', the doctor will be prompted with a modal to delete the particular file. If they click on 'edit', then they will be redirected to the edit page for the file.</li>
+    </ul>
+    <h5 class="index__subtitle">Vendor viewing Patient's profile</h5>
+    <ul>
+        <li><strong>A vendor viewing a patient's profile can view all of the details but can only view the files uploaded by the vendor where the patient is the recipient.</strong></li>
+        <li>A vendor does not have access to edit the health status card of the patient.</li>
+        <li>Since all the files visible will be the ones uploaded by the vendor, all the files will have an 'edit' button as well as a 'delete' button.</li>
+        <li>Upon clicking 'delete', the vendor will be prompted with a modal to delete the particular file. If they click on 'edit', then they will be redirected to the edit page for the file.</li>
+    </ul>
+    <h5 class="index__subtitle">Patient viewing Doctor/Vendor's profile</h5>
+    <ul>
+        <li><strong>A patient viewing a doctor/vendor's profile can view all of the details, and can view all the files uploaded by the doctor/vendor where the patient is a recipient.</strong></li>
+        <li>The patient will not have access to delete/edit any file since the patient cannot be the file uploader as only doctors/vendors are permitted to upload files on the patient's behalf.</li>
+    </ul>
+</div>
+<div class="index__container-parent">
+    <h2 class="index__subtitle">Health Status</h2>
+    <p class="index__paragraph">
+        The health status card of a patient provides a list of visually appealing no-UI sliders that <strong>depict the danger levels of the patient's several health conditions</strong>. 
+    </p>
+    <p class="index__paragraph">
+        The purpose behind the health status card is <strong>for the patient to be aware of the existing health conditions</strong> the patient has and to help patients better understand themselves.
+    </p>
+    <p class="index__paragraph">
+        Using the 'Health Status' page, <strong>a doctor can edit their authorized patient's health status</strong>.
+    </p>
+    <p class="index__paragraph">
+        The fields a doctor needs to fill to add a new Health Condition are:  
+    </p>    
+    <ul>
+        <li>Health Condition Name</li>
+        <li>Minimum Ideal Value</li>
+        <li>Maximum Ideal Value</li>
+        <li>Patient's Value for the health condition</li>
+        <li>Health Condition Category (ie safe, warning, danger, borderline, etc)</li>
+    </ul>
+    <p class="index__paragraph">
+        If the doctor wants to add a new field then he/she can do so by clicking the 'Add' button provided under the 'Submit' button. <strong>The 'Add' button has been implemented using JavaScript to add new fields dynamically without needing to refresh the page.</strong>
+    </p>  
+    <p class="index__paragraph">
+        Once the doctor clicks 'Submit', if all the details filled in were valid then they will be redirected to the respective patient's profile where they can see the Health Status Card updated.  
+    </p> 
+    <p class="index__paragraph">
+        If the <strong>ideal minimum value is greater than the ideal maximum value</strong>, then the following message will be displayed: <kbd>The minimum value cannot be greater than the maximum value for '&lt;health condition name>&gt;!</kbd>     
+    </p> 
+    <p class="index__paragraph">
+        If there are any other errors in the filling of the form then the doctor will be notified about the same through an error message at the top of the page.
+    </p>    
 </div>
