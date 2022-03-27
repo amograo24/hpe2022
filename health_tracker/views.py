@@ -29,7 +29,7 @@ def about_page(request):
     """
     - Kindly refer to this to understand the project better.
     """
-    return render("health_tracker/index.html")
+    return render(request,"health_tracker/index.html")
 
 def search(request):
     """ 
