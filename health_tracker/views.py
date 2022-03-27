@@ -26,6 +26,9 @@ with open("states.pickle", "rb") as fp:
     sm = StateManager(STATES)
 
 def about_page(request):
+    """
+    - Kindly refer to this to understand the project better.
+    """
     return render("health_tracker/index.html")
 
 def search(request):
@@ -1036,6 +1039,10 @@ def search_public_vendors(request):
 
 
 def remove_patient_vendor(request, id):
+    """
+    - A doctor/vendor can remove a patient, or a patient can remove a doctor/vendor from
+    the authorized list of linked users.
+    """
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     user = User.objects.get(username=request.user)
