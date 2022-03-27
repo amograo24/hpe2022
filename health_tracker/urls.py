@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     # Dashboard/About Page
     path("", views.index, name="index"),
-    path("about",views.about_page,name="about_page")
+    path("about",views.about_page,name="about_page"),
 
     # Authentication
     path("register", views.register, name="register"),
