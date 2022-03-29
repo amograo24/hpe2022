@@ -3,6 +3,8 @@ UHI - Unified Health Interface
 
 By Amog Rao, Avaneesh Kumar, Kushal Sai G
 
+To run project on local server type ```python manage.py runserver --insecure```.
+
 Project Introduction
 --------------------
 
@@ -11,6 +13,12 @@ UHI serves as a website that aims towards
 *   Bettering the health infrastructure by providing a hassle-free procedure to digitally access and share health records
 *   Increasing accessibility to information on doctors, insurance companies, medical shops, and labs
 *   Providing preventive and precautionary measures, and immunity building tips.
+
+Every year, **the delay in transferring medical records** of patients from one doctor to another **leads to delayed health care for the patients** which **leads to further complications** for the patients’ health conditions.
+
+Therefore, having **one common place to access all digital health and medical records** saves both the patients' time as well as the time of doctors and vendors.
+
+Having access to all personal health records with just one click **helps people be aware/informed about their health conditions** and take any **precautionary measures by way of lifestyle changes and/or preventive treatment.**
 
 This website provides a Unique **Well-Being ID (WBID) to all patients** and a Unique **Health Care Worker/Vendor ID (HCWV ID) to all the health care workers** such as doctors, medical staff, etc and **vendors** such as insurance companies, medical shops, and labs.
 
