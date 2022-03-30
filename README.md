@@ -36,22 +36,22 @@ There's a **covid-19 specific menu as well that provides information on norms, i
 
 *   [Register](#register)
 *   [Login](#login)
-*   [Dashboard/My Profile](#dashboard/my-profile)
+*   [Dashboard/My Profile](#dashboardmy-profile)
 *   [Search Public](#search-public)
-*   [Go Public/Go Private](#go-public-go-private)
+*   [Go Public/Go Private](#go-publicgo-private)
 *   [Approvals](#approvals)
 *   [File Upload](#file-upload)
-*   [My Files](#myfiles)
+*   [My Files](#my-files)
 *   [File Viewing](#file-viewing)
 *   [Edit File](#edit-file)
 *   [Delete File](#delete-file)
-*   [My Doctors/Vendors](#mydoct)
-*   [My Patients/Customers](#mypatients)
+*   [My Doctors/Vendors](#my-doctors-vendors)
+*   [My Patients/Customers](#my-patients-customers)
 *   [Other Profile](#other-profile)
 *   [Health Status](#health-status)
 *   [Visit QR Code](#visit-qr-code)
 *   [Search](#search)
-*   [Covid-19](#covid)
+*   [Covid-19](#covid-19)
 
 Register
 --------
