@@ -41,7 +41,7 @@ prov==2.0.0
 psycopg2-binary==2.9.3
 pydot==1.4.2
 pyee==8.2.2
-PyMuPDF==1.19.5
+PyMuPDF==1.16.14
 pyparsing==3.0.9
 pypng==0.0.21
 pyppeteer==1.0.2
