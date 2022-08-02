@@ -66,3 +66,5 @@ w3lib==1.22.0
 websockets==10.1
 Werkzeug==2.0.3
 zipp==3.7.0
+django-storages
+boto3

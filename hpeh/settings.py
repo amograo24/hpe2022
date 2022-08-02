@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'health_tracker'
+    'health_tracker',
+    # third party
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -123,6 +125,8 @@ USE_TZ = True
 
 print(BASE_DIR)
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+from .cdn.conf import *  # noqa
 
 STATIC_URL = '/static/'
 STATIC_FILES_DIR = [
