@@ -9,6 +9,8 @@ AWS_S3_OBJECT_PARAMETERS = {
     "CacheControl": "max-age=86400"
 }
 
-AWS_LOCATION = "https://uhi.sgp1.digitaloceanspaces.com/"
+AWS_LOCATION = "https://uhi.sgp1.digitaloceanspaces.com"
 
-STATIC_FILES_STORAGE = "hpeh.cdn.backends.StaticRootS3Boto3Storage"
+STATICFILES_STORAGE = "hpeh.cdn.backends.StaticRootS3Boto3Storage"
+
+print(AWS_SECRET_ACCESS_KEY, AWS_SECRET_ACCESS_KEY)
