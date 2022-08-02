@@ -11,4 +11,4 @@ AWS_S3_OBJECT_PARAMETERS = {
 
 AWS_LOCATION = "https://uhi.sgp1.digitaloceanspaces.com/"
 
-STATIC_FILES_STORAGE = "uhi.cdn.backends.StaticRootS3Boto3Storage"
+STATICFILES_STORAGE = "uhi.cdn.backends.StaticRootS3Boto3Storage"
