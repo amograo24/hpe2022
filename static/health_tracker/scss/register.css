@@ -1,0 +1,187 @@
+.empty {
+  color: #FFC107;
+}
+
+a {
+  color: #FFC107;
+}
+a:hover {
+  color: #d39e00;
+}
+
+body {
+  padding-top: 0;
+}
+
+.login-logo {
+  width: 40%;
+  margin-bottom: 1rem;
+}
+.login-logo:hover {
+  cursor: pointer;
+}
+
+.nav {
+  display: none;
+}
+
+form input[type=text], input[type=email], input[type=password], input[type=number] {
+  transition-duration: 1s;
+  display: block;
+  border: none;
+  background-color: none;
+  border-radius: 6px;
+  line-height: 40px;
+  border: 1px solid #ccc;
+  border-bottom: 3px solid #FFC107;
+  min-width: 30vw;
+  padding-left: 8px;
+  font-size: 1em;
+  margin-bottom: 2rem;
+  margin-top: 0.5rem;
+  outline: none;
+}
+
+label {
+  margin-bottom: 4px;
+  max-width: 30vw;
+  color: #FFC107;
+  font-size: 1.2em;
+}
+
+form input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=number]:focus {
+  transition-duration: 1s;
+  border-bottom: 3px solid red;
+  min-width: 30vw;
+}
+
+select {
+  display: block;
+  transition-duration: 1s;
+  border: none;
+  background-color: none;
+  border-radius: 4px;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-bottom: 3px solid #FFC107;
+  width: 30vw;
+  margin-bottom: 2rem;
+  margin-top: 0.5rem;
+  outline: none;
+  margin-bottom: 2rem;
+  margin-top: 0.5rem;
+}
+
+svg {
+  position: fixed;
+  right: 39vw;
+  top: 0px;
+  transform: scaleX(-1);
+}
+
+.color-bg {
+  position: fixed;
+  right: 0px;
+  top: 0px;
+  background-color: #cb9800;
+  width: 40vw;
+  height: 100vh;
+}
+
+body {
+  background-color: #141A26;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+.form-main {
+  width: 50vw;
+  height: 100%;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #141A26;
+}
+
+.title-div {
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #FFC107;
+  margin-bottom: 3rem;
+}
+
+.register-btn {
+  width: 100%;
+  transition: all 0.5s ease-in-out;
+  height: 40px;
+  margin-top: 1rem;
+  outline: none;
+  border: none;
+  background-color: #FFC107;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  color: #141A26;
+  margin-bottom: 2rem;
+  border-radius: 4px;
+}
+
+.register-btn:hover {
+  background-color: #d39e00;
+}
+
+@media screen and (max-width: 992px) {
+  .color-bg {
+    width: 25vw;
+  }
+
+  svg {
+    right: 24vw;
+  }
+}
+@media screen and (max-width: 768px) {
+  svg {
+    visibility: hidden;
+  }
+
+  .color-bg {
+    visibility: hidden;
+  }
+
+  .form-main {
+    width: 100vw;
+  }
+
+  form input[type=text], input[type=email], input[type=password], input[type=number] {
+    min-width: 60vw;
+  }
+
+  select {
+    min-width: 100%;
+  }
+
+  form input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=number]:focus {
+    transition-duration: 1s;
+    border-bottom: 3px solid red;
+    min-width: 60vw;
+  }
+
+  .title-div h1 {
+    font-size: 3em;
+  }
+
+  label {
+    max-width: 60vw;
+  }
+
+  .title-div h2 {
+    font-size: 2em;
+    margin-top: 1rem;
+  }
+}/*# sourceMappingURL=register.css.map */
