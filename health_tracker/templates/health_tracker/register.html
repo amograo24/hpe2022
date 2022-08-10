@@ -32,6 +32,12 @@
 {% endblock %}
 
 {% block script %}
-<script src="{% static 'health_tracker/js/register/main.js' %}"></script>
+<script>
+        $(document).ready(() => {
+        particlesJS.load('particles-js', '{% static "health_tracker/particles.json" %}', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    })
+</script>
 <script src="{% static 'health_tracker/js/register/register.js' %}"></script>
 {% endblock script %}
