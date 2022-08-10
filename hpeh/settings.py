@@ -123,7 +123,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 print(BASE_DIR)
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = BASE_DIR / "staticfiles-cdn"
+
 
 from .cdn.conf import *  # noqa
 
