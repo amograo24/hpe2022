@@ -62,7 +62,8 @@
                     let token = $("input[name='csrfmiddlewaretoken']").val()
                     let url = "/getQr"
                     let header = {'X-CSRFToken': token}
-                    let request = fetch(url, {method: "POST", headers: header, body: JSON.stringify({uid: "http://64.227.173.119:8000/visit/{{ vendor.account.username }}"})})
+                    let temp = `https://${window.location.host}/`
+                    let request = fetch(url, {method: "POST", headers: header, body: JSON.stringify({uid: temp + "visit/{{ vendor.account.username }}"})})
                     request.then(resp => resp.blob())
                     .then(set_image)
                     }
