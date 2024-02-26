@@ -5,6 +5,8 @@ By Amog Rao, Avaneesh Kumar, Kushal Sai G
 
 To run project on local server type ```python manage.py runserver --insecure```.
 
+Gallery: https://drive.google.com/drive/folders/1HMRrbRc8xZdhksSnjYYivIq7CDDFl4yj?usp=sharing
+
 Project Introduction
 --------------------
 
