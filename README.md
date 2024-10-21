@@ -3,6 +3,8 @@ UHI - Unified Health Interface
 
 By Amog Rao, Avaneesh Kumar, Kushal Sai G
 
+**First Runner-Up Project for Hewlett Packard Enterprise CodeWars Hackathon 2022, India Edition.**
+
 To run project on local server type ```python manage.py runserver --insecure```.
 
 Gallery: https://drive.google.com/drive/folders/1HMRrbRc8xZdhksSnjYYivIq7CDDFl4yj?usp=sharing
